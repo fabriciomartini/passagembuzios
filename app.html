@@ -56,7 +56,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
 <div class="mob" data-sol="{{ solAttr }}" data-screen-label="Campo · Acesso" lang="pt-BR" style="min-height:100vh;font-family:var(--font-body);display:flex;flex-direction:column;background:var(--color-bg)">
   <div style="background:var(--color-accent-900);color:var(--color-on-dark);padding:28px 20px 22px">
     <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase">Petrobras · Operação offshore</div>
-    <div style="font-family:var(--font-heading);font-size:76px;line-height:0.88;margin-top:10px">P-83</div>
+    <div style="font-family:var(--font-heading);font-size:76px;line-height:0.88;margin-top:10px;margin-left:-0.05em">Búzios</div>
     <div style="font-family:var(--font-heading);font-size:22px;line-height:1.1;margin-top:8px">Passagem de serviço · Campo</div>
   </div>
   <form onSubmit="{{ onLogin }}" style="padding:20px;display:flex;flex-direction:column;gap:16px">
@@ -78,15 +78,15 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
 <sc-if value="{{ desk }}" hint-placeholder-val="{{ true }}">
 <div style="min-height:100vh;font-family:var(--font-body);display:grid;grid-template-columns:minmax(0,1.15fr) minmax(380px,0.85fr);align-items:stretch">
   <div style="position:relative;overflow:hidden;background:var(--color-neutral-900);display:flex;flex-direction:column;justify-content:space-between;padding:var(--space-8);min-height:520px">
-    <video ref="{{ videoRef }}" poster="assets/p83-noite.jpg" preload="auto" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(0.55) contrast(1.05) brightness(0.62)"></video>
+    <video ref="{{ videoRef }}" preload="auto" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(0.55) contrast(1.05) brightness(0.62)"></video>
     <div style="position:absolute;inset:0;background:linear-gradient(180deg, color-mix(in srgb, var(--color-accent-900) 72%, transparent) 0%, color-mix(in srgb, var(--color-accent-900) 45%, transparent) 45%, color-mix(in srgb, var(--color-accent-900) 82%, transparent) 100%)"></div>
     <div style="position:relative;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-bg)">Petrobras · Operação offshore</div>
     <div style="position:relative">
-      <div style="font-family:var(--font-heading);font-size:clamp(64px,10vw,150px);line-height:0.84;letter-spacing:-0.02em;color:var(--color-bg)">P-83</div>
+      <div style="font-family:var(--font-heading);font-size:clamp(64px,10vw,150px);line-height:0.84;letter-spacing:-0.02em;margin-left:-0.055em;color:var(--color-bg)">Búzios</div>
       <div style="font-family:var(--font-heading);font-size:clamp(22px,2.6vw,36px);line-height:1.05;margin-top:var(--space-3);color:var(--color-bg)">Passagem de serviço</div>
     </div>
     <div style="position:relative;display:flex;gap:var(--space-6);flex-wrap:wrap;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-bg)">
-      <span>Búzios</span><span>FPSO Petrobras 83</span><span>PE-3BUZ-00130 v02.01</span>
+      <span>Búzios</span><span>PE-3BUZ-00130 v02.01</span>
     </div>
   </div>
   <div style="display:flex;align-items:center;justify-content:center;padding:var(--space-8);border-left:1px solid var(--color-divider)">
@@ -116,6 +116,21 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
 </div>
 </sc-if>
 </sc-if>
+<sc-if value="{{ escolherUn }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Escolha da unidade" lang="pt-BR" style="min-height:100vh;font-family:var(--font-body);display:flex;align-items:center;justify-content:center;padding:var(--space-6);background:var(--color-bg)">
+  <div class="blueprint" style="width:100%;max-width:600px;padding:var(--space-6)"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+    <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent)">Búzios · {{ usuarioLabel }}</div>
+    <h4 style="margin:6px 0 var(--space-2)">Escolha a unidade</h4>
+    <p style="margin:0 0 var(--space-6);font-size:13.5px;line-height:1.5;color:color-mix(in srgb, var(--color-text) 62%, transparent);text-wrap:pretty">Você tem acesso a mais de um FPSO. Serão exibidas e editáveis apenas as passagens da unidade escolhida — é possível trocar depois pelo cabeçalho.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:var(--space-3)">
+      <sc-for list="{{ unOpcoes }}" as="o" hint-placeholder-count="3">
+        <button type="button" class="btn btn-secondary" onClick="{{ o.go }}" style="min-height:72px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;padding:var(--space-3)"><span style="font-family:var(--font-heading);font-size:28px;line-height:1">{{ o.un }}</span><span style="font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">{{ o.tag }}</span></button>
+      </sc-for>
+    </div>
+    <div style="margin-top:var(--space-6);display:flex;justify-content:flex-end"><button type="button" class="btn btn-ghost" onClick="{{ onLogout }}" style="min-height:44px;border-color:var(--color-divider)">Sair</button></div>
+  </div>
+</div>
+</sc-if>
 <sc-if value="{{ logado }}" hint-placeholder-val="{{ false }}">
 <div class="app-shell" lang="pt-BR" style="min-height:100vh;font-family:var(--font-body)">
   <sc-if value="{{ desk }}" hint-placeholder-val="{{ true }}">
@@ -126,7 +141,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
         <span style="display:block;width:100%;height:100%;background-image:url('assets/p83-helideck-dia.jpg');background-size:cover;background-position:center"></span>
       </span>
       <div style="display:flex;flex-direction:column;min-width:0;flex:1">
-        <span style="font-family:var(--font-heading);font-size:19px;line-height:1.1;letter-spacing:-0.01em;white-space:nowrap">{{ unidade }} — Passagem de serviço</span>
+        <span style="font-family:var(--font-heading);font-size:19px;line-height:1.1;letter-spacing:-0.01em;white-space:nowrap">Búzios — Passagem de serviço</span>
         <span style="font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">PE-3BUZ-00130 v02.01 · registro oficial e validação no APLAT (3.3.1.m)</span>
       </div>
       <div class="seg" style="flex:none">
@@ -145,8 +160,10 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
       </div>
       <div style="flex:none;display:flex;align-items:center;gap:var(--space-3);padding-left:var(--space-4);border-left:1px solid var(--color-divider)">
         <span title="{{ usuarioLabel }}" style="font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:210px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">{{ usuarioLabel }}</span>
+        <span class="tag tag-outline" title="Unidade ativa" style="font-size:11px;flex:none;font-family:var(--font-heading);letter-spacing:0.04em">{{ unAtual }}</span>
         <sc-if value="{{ naoOperador }}" hint-placeholder-val="{{ false }}"><span class="tag tag-accent" style="font-size:10.5px;flex:none">{{ papelLabel }}</span></sc-if>
         <button type="button" class="btn btn-ghost" onClick="{{ abrirFeedback }}" title="Feedback e sugestões sobre o sistema" aria-label="Feedback e sugestões" style="font-size:12px;padding:2px 8px;border-color:var(--color-divider);display:inline-flex;align-items:center;gap:6px;white-space:nowrap"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v6"></path><path d="M9 10h6"></path><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Feedback</span></button>
+        <sc-if value="{{ multiUn }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ trocarUn }}" title="Trocar a unidade ativa" style="font-size:12px;padding:2px 8px;border-color:var(--color-divider);white-space:nowrap">Trocar unidade</button></sc-if>
         <button type="button" class="btn btn-ghost" onClick="{{ onLogout }}" title="Encerrar a sessão neste dispositivo" style="font-size:12px;padding:2px 8px;border-color:var(--color-divider);white-space:nowrap">Sair</button>
       </div>
     </div>
@@ -498,24 +515,28 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
           <div><h3 style="margin:0">Usuários</h3><p style="margin:2px 0 0;font-size:13px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">{{ adm.usuariosResumo }}. Usuários com histórico não são apagados — são desativados.</p></div>
           <button type="button" class="btn btn-primary" onClick="{{ adm.novoUsuario }}">＋ Novo usuário</button>
         </div>
-        <div class="field" style="max-width:420px"><label>Buscar</label><input class="input" value="{{ adm.buscaUsr }}" onChange="{{ adm.setBuscaUsr }}" placeholder="Chave, nome, função ou papel"></div>
+        <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;align-items:flex-end">
+          <div class="field" style="flex:1;min-width:240px;max-width:420px"><label>Buscar</label><input class="input" value="{{ adm.buscaUsr }}" onChange="{{ adm.setBuscaUsr }}" placeholder="Chave, nome, função, papel ou unidade"></div>
+          <sc-if value="{{ adm.podeFiltrarUn }}" hint-placeholder-val="{{ false }}"><div class="field" style="width:200px"><label>Unidade</label><select class="input" value="{{ adm.filtroUn }}" onChange="{{ adm.setFiltroUn }}">{{ adm.filtroUnEl }}</select></div></sc-if>
+        </div>
         <div style="overflow-x:auto">
           <table class="table" style="width:100%">
-            <thead><tr><th>Chave</th><th>Nome</th><th>Função</th><th>Acesso</th><th>Papel</th><th>Situação</th><th>Passagens</th><th style="text-align:right">Ações</th></tr></thead>
+            <thead><tr><th>Chave</th><th>Nome</th><th>Unidade</th><th>Função</th><th>Acesso</th><th>Papel</th><th>Situação</th><th>Passagens</th><th style="text-align:right">Ações</th></tr></thead>
             <tbody>
               <sc-for list="{{ adm.usuarios }}" as="u" hint-placeholder-count="4">
                 <tr>
                   <td style="font-family:var(--font-heading);font-size:15px;letter-spacing:0.06em">{{ u.u }}</td>
                   <td>{{ u.n }}</td>
+                  <td style="font-size:12.5px;white-space:nowrap"><span style="font-family:var(--font-heading);font-size:15px">{{ u.unLabel }}</span><div style="font-size:11px;color:color-mix(in srgb, var(--color-text) 55%, transparent)">{{ u.unExtra }}</div></td>
                   <td style="font-size:12.5px">{{ u.f }}</td>
                   <td style="font-size:12.5px">{{ u.acessoLabel }}</td>
                   <td style="font-size:12.5px">{{ u.papel }}</td>
                   <td><span class="tag {{ u.tagClass }}" style="font-size:10.5px">{{ u.statusLabel }}</span><div style="font-size:11px;margin-top:3px;color:color-mix(in srgb, var(--color-text) 55%, transparent)">{{ u.acesso }} {{ u.dispositivo }}</div></td>
                   <td style="text-align:center">{{ u.emPassagens }}</td>
                   <td style="text-align:right;white-space:nowrap"><span style="display:inline-flex;gap:4px">
-                    <button type="button" class="btn btn-secondary" onClick="{{ u.editar }}" style="font-size:12.5px;padding:0 10px;min-height:32px">Editar</button>
+                    <sc-if value="{{ u.podeEditar }}" hint-placeholder-val="{{ true }}"><button type="button" class="btn btn-secondary" onClick="{{ u.editar }}" style="font-size:12.5px;padding:0 10px;min-height:32px">Editar</button></sc-if>
                     <sc-if value="{{ u.podeKick }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ u.kick }}" title="Encerrar a sessão deste usuário" style="font-size:12.5px;padding:0 10px;min-height:32px;border-color:var(--color-divider)">Encerrar sessão</button></sc-if>
-                    <sc-if value="{{ u.ehAdmin }}" hint-placeholder-val="{{ true }}"><button type="button" class="btn btn-ghost" onClick="{{ u.toggle }}" style="font-size:12.5px;padding:0 10px;min-height:32px;border-color:var(--color-divider)">{{ u.toggleLabel }}</button></sc-if>
+                    <sc-if value="{{ u.podeToggle }}" hint-placeholder-val="{{ true }}"><button type="button" class="btn btn-ghost" onClick="{{ u.toggle }}" style="font-size:12.5px;padding:0 10px;min-height:32px;border-color:var(--color-divider)">{{ u.toggleLabel }}</button></sc-if>
                   </span></td>
                 </tr>
               </sc-for>
@@ -748,10 +769,21 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
           <div class="field"><label>Função / gerência</label><input class="input" value="{{ adm.uf.f }}" onChange="{{ adm.ufSetF }}" placeholder="ex.: GEPLAT, ENG PROCESSAMENTO"></div>
           <div class="field"><label>Papel</label><select class="input" value="{{ adm.uf.papel }}" onChange="{{ adm.ufSetPapel }}" disabled="{{ adm.ufEhAdmin }}">{{ adm.papeisEl }}</select></div>
         </div>
+        <div style="display:grid;grid-template-columns:190px minmax(0,1fr);gap:var(--space-3);margin-top:var(--space-3);align-items:start">
+          <div class="field"><label>Lotação</label><select class="input" value="{{ adm.ufUnVal }}" onChange="{{ adm.ufSetUn }}" disabled="{{ adm.ufUnBloq }}">{{ adm.unidadesEl }}</select></div>
+          <sc-if value="{{ adm.ufPodeExtras }}" hint-placeholder-val="{{ false }}">
+            <div class="field"><label>Acesso adicional (edição em outras unidades)</label>
+              <div style="display:flex;flex-wrap:wrap;gap:6px var(--space-3);padding-top:6px">
+                <sc-for list="{{ adm.ufExtras }}" as="x" hint-placeholder-count="0"><label class="radio" style="gap:6px"><input type="checkbox" checked="{{ x.on }}" onChange="{{ x.toggle }}"><span class="dot" style="border-radius:0"></span><span style="font-size:13px;font-family:var(--font-heading)">{{ x.un }}</span></label></sc-for>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+        <div style="font-size:12px;margin-top:4px;color:color-mix(in srgb, var(--color-text) 58%, transparent);text-wrap:pretty">{{ adm.ufUnNota }}</div>
         <div class="field" style="margin-top:var(--space-3)"><label>Acesso às passagens</label><select class="input" value="{{ adm.uf.acesso }}" onChange="{{ adm.ufSetAcesso }}">{{ adm.acessosEl }}</select><div style="font-size:12px;margin-top:4px;color:color-mix(in srgb, var(--color-text) 58%, transparent)">Operador: Controle, Óleo, Gás e Água · SUPROD: + passagens do SUPROD · COPROD e GEPLAT: + passagens do COPROD. Editar continua exigindo vínculo à equipe.</div></div>
         <div class="field" style="margin-top:var(--space-3)"><label>{{ adm.ufSenhaLabel }}</label><input class="input" type="text" autoComplete="off" value="{{ adm.uf.senha }}" onChange="{{ adm.ufSetSenha }}" placeholder="mínimo 4 caracteres"></div>
         <label class="radio" style="gap:10px;margin-top:var(--space-3)"><input type="checkbox" checked="{{ adm.uf.trocar }}" onChange="{{ adm.ufSetTrocar }}"><span class="dot" style="border-radius:0"></span><span style="font-size:13px">Pedir troca de senha no próximo acesso</span></label>
-        <p style="margin:var(--space-3) 0 0;font-size:12px;line-height:1.5;color:color-mix(in srgb, var(--color-text) 58%, transparent);text-wrap:pretty">Operador: preenche e valida passagens. Supervisor: lê tudo e pode reabrir passagens. Auditor: só leitura e log. Administrador: acesso total à administração, sem preencher passagens. Renomear a chave atualiza o histórico das passagens.</p>
+        <p style="margin:var(--space-3) 0 0;font-size:12px;line-height:1.5;color:color-mix(in srgb, var(--color-text) 58%, transparent);text-wrap:pretty">Operador: preenche e valida passagens. Supervisor: lê tudo e pode reabrir passagens. Auditor: só leitura e log. Administrador local: administra a própria unidade (usuários, parâmetros, passagens), sem preencher passagens. ADM do sistema: todas as unidades e acessos entre unidades. Renomear a chave atualiza o histórico das passagens.</p>
         <sc-if value="{{ adm.uf.erro }}" hint-placeholder-val="{{ false }}"><div style="margin-top:var(--space-3);border:1px solid var(--color-accent-700);padding:var(--space-3);font-size:13px">{{ adm.uf.erro }}</div></sc-if>
         <div class="dialog-actions" style="display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)"><button class="btn btn-secondary" type="button" onClick="{{ adm.ufCancelar }}">Cancelar</button><button class="btn btn-primary" type="button" onClick="{{ adm.ufSalvar }}" disabled="{{ adm.ufBloqueado }}">Salvar</button></div>
       </div>
@@ -2249,7 +2281,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
   </article>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;unidade&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;FPSO P-83&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;mostrarDicas&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;coordenacao&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;PROD&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Numeração&quot;},&quot;coordenacaoNome&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Coordenação de Produção&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Numeração&quot;},&quot;horaTrocaTurno&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:6,&quot;min&quot;:0,&quot;max&quot;:23,&quot;unit&quot;:&quot;h&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Períodos&quot;},&quot;diaTrocaTurma&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:1,&quot;options&quot;:[0,1,2,3,4,5,6],&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Períodos&quot;},&quot;modoInterface&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;desktop&quot;,&quot;mobile&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;'auto' | 'desktop' | 'mobile'&quot;,&quot;section&quot;:&quot;Interface&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;mostrarDicas&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;coordenacao&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;PROD&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Numeração&quot;},&quot;coordenacaoNome&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Coordenação de Produção&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Numeração&quot;},&quot;horaTrocaTurno&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:6,&quot;min&quot;:0,&quot;max&quot;:23,&quot;unit&quot;:&quot;h&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Períodos&quot;},&quot;diaTrocaTurma&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:1,&quot;options&quot;:[0,1,2,3,4,5,6],&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Períodos&quot;},&quot;modoInterface&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;desktop&quot;,&quot;mobile&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;'auto' | 'desktop' | 'mobile'&quot;,&quot;section&quot;:&quot;Interface&quot;}}">
 class Component extends DCLogic {
   state = { savedAt: '', preview: false, showIssues: false, dict: null, dictMsg: '', tick: 0, clearStep: 0, clearWord: '',
     send: null, sendPhase: 'idle', onePath: '', aplatUrl: '', oneLog: null, aplatLog: null,
@@ -2261,10 +2293,17 @@ class Component extends DCLogic {
 
   GRUPOS = ['Grupo 1', 'Grupo 2', 'Grupo 3', 'Grupo 4', 'Grupo 5', 'Não aplicável'];
 
-  ARQ = 'bz-arquivo-v1';
+  UNIDADES = ['P-74', 'P-75', 'P-76', 'P-77', 'P-78', 'P-79', 'P-80', 'P-82', 'P-83'];
+  // P-80 e P-83 são gêmeas: mesmos TAGs e listas de referência.
+  UN_REF = { 'P-80': 'P-83' };
+  unSlug(u) { return String(u || '').replace(/[^A-Z0-9]/gi, '').toUpperCase(); }
+  un() { var eu = this.state && this.state.user; return (eu && eu.un) || 'P-83'; }
+  // Dados da P-83 mantêm as chaves originais; demais unidades recebem prefixo próprio (bz-P80-…).
+  nsk(base, u) { u = u || this.un(); return u === 'P-83' ? 'bz-' + base : 'bz-' + this.unSlug(u) + '-' + base; }
+  get ARQ() { return this.nsk('arquivo-v1'); }
 
   SESSION = 'bz-sessao-v1';
-  // Cadastro-semente: planilha "chaves P-83" (função, matrícula, nome, chave) + acesso derivado da função.
+  // Cadastro-semente (lotação P-83): planilha "chaves P-83" (função, matrícula, nome, chave) + acesso derivado da função.
   USERS_SEED = [
     { u: 'JMU9', n: 'Marcelo Lemos Soares', f: 'GEOP', m: '1381373', a: 'geplat' },
     { u: 'BH1E', n: 'Breno Martins dos Santos', f: 'GEPLAT', m: '2511551', a: 'geplat' },
@@ -2387,7 +2426,7 @@ class Component extends DCLogic {
     { u: 'GG20', n: 'Naerta Eliza Dias Creton Damasceno', f: 'TÉCNICO DE SUPRIMENTO', m: '4614800', a: 'operador' },
     { u: 'U4IC', n: 'Camila Viana Frasao Beiral', f: 'COPROD', m: '2424664', a: 'coprod' },
     { u: 'CX1A', n: 'Fabio Feo Junqueira Cardoso', f: 'COPROD', m: '9631940', a: 'coprod' },
-    { u: 'URPQ', n: 'Fabricio da Graça Martini Quintas', f: 'COPROD', m: '9643323', a: 'coprod' },
+    { u: 'URPQ', n: 'Fabricio da Graça Martini Quintas', f: 'COPROD', m: '9643323', a: 'coprod', t: 1 },
     { u: 'BHQ1', n: 'Vinicius Tarouquella da Silva Rocha', f: 'COPROD', m: '2494771', a: 'coprod' },
     { u: 'M37R', n: 'Bruno de Oliveira Samel Moraes', f: 'SUPROD', m: '2407108', a: 'suprod' },
     { u: 'NA1Y', n: 'Hygor Augusto Lorencini', f: 'SUPROD', m: '9904877', a: 'suprod' },
@@ -2398,10 +2437,10 @@ class Component extends DCLogic {
     { u: 'XBWR', n: 'Carlos Edson Lima', f: 'TÉC. OPERAÇÃO', m: '9906717', a: 'operador' },
     { u: 'DAJF', n: 'Carlos Gustavo Bessa de Mello Vianna', f: 'TÉC. OPERAÇÃO', m: '9684700', a: 'operador' },
     { u: 'NS1R', n: 'Flavio Faria de Oliveira', f: 'TÉC. OPERAÇÃO', m: '9780827', a: 'operador' },
-    { u: 'F8CK', n: 'Gabriel Junca e Meireles', f: 'TÉC. OPERAÇÃO', m: '9842662', a: 'operador' },
+    { u: 'F8CK', n: 'Gabriel Junca e Meireles', f: 'TÉC. OPERAÇÃO', m: '9842662', a: 'operador', t: 1 },
     { u: 'BE94', n: 'Leonardo Lopes Bezerra', f: 'TÉC. OPERAÇÃO', m: '9876340', a: 'operador' },
     { u: 'RV0N', n: 'Livio Rodrigues Rocha', f: 'TÉC. OPERAÇÃO', m: '9719010', a: 'operador' },
-    { u: 'URSS', n: 'Rafael Matias de Barros', f: 'TÉC. OPERAÇÃO', m: '9660922', a: 'operador' },
+    { u: 'URSS', n: 'Rafael Matias de Barros', f: 'TÉC. OPERAÇÃO', m: '9660922', a: 'operador', t: 1 },
     { u: 'LPZH', n: 'Sidne Pena Magalhães', f: 'TÉC. OPERAÇÃO', m: '9815205', a: 'operador' },
     { u: 'FN2K', n: 'Andressa Aparecida Ribeiro Sanches', f: 'TÉC. OPERAÇÃO', m: '4612822', a: 'operador' },
     { u: 'FW0R', n: 'Douglas Arthur Coutinho Ribeiro', f: 'TÉC. OPERAÇÃO', m: '4612868', a: 'operador' },
@@ -2451,8 +2490,8 @@ class Component extends DCLogic {
     { u: 'URYS', n: 'Welington da Silva Araujo', f: 'TÉC. OPERAÇÃO', m: '9681002', a: 'operador' }
   ];
 
-  KEY = 'bz-passagem-v2';
-  PREV = 'bz-prev-pendencias-v2';
+  get KEY() { return this.nsk('passagem-v2'); }
+  get PREV() { return this.nsk('prev-pendencias-v2'); }
   CATEGORIAS = ['Operação', 'Manutenção', 'Segurança / SMS', 'Meio ambiente', 'Automação e telecom',
     'Logística e movimentação de carga', 'Suprimentos e materiais', 'Embarcações e apoio marítimo',
     'Efetivo e recursos humanos', 'Comunicação da gerência', 'Simulados e treinamentos', 'Outros'];
@@ -3024,7 +3063,7 @@ class Component extends DCLogic {
     var self = this, sim = this.revisaoSimulada(texto);
     var api = (typeof window !== 'undefined' && window.claude && typeof window.claude.complete === 'function') ? window.claude : null;
     if (!api) return new Promise(function (res) { setTimeout(function () { res(sim); }, 700); });
-    var sistema = 'Você é o revisor de texto do Chat Petrobras para passagens de serviço de operação offshore (FPSO P-83, procedimento PE-3BUZ-00130). '
+    var sistema = 'Você é o revisor de texto do Chat Petrobras para passagens de serviço de operação offshore (' + this.unidade() + ', campo de Búzios, procedimento PE-3BUZ-00130). '
       + 'Reescreva a nota do operador como texto final para UM campo do relatório: português técnico, impessoal, objetivo, frases curtas, voz factual; padrão IOGP 456 (shift handover). '
       + 'Formato: texto corrido em 1 a 3 frases (até ~450 caracteres), sem títulos, sem markdown, sem listas, sem cabeçalho de relatório e sem repetir o nome do campo. '
       + 'Preserve exatamente TAGs, números, unidades, horários, nomes e siglas; não invente fatos nem acrescente suposições; remova linguagem incerta ("acho", "parece") mantendo só o fato observado. '
@@ -3100,7 +3139,7 @@ class Component extends DCLogic {
     var sess = null;
     try { sess = JSON.parse(window.localStorage.getItem(this.SESSION) || 'null'); } catch (e) { sess = null; }
     var reg = sess && sess.user ? this.usuarios().filter(function (x) { return x.u === sess.user && x.ativo !== false; })[0] : null;
-    if (reg) this.state.user = { nome: reg.n, funcao: reg.f, user: reg.u, papel: reg.papel || 'operador', acesso: reg.acesso || 'operador', desde: sess.desde };
+    if (reg) { var unsReg = this.unidadesDe(reg); this.state.user = { nome: reg.n, funcao: reg.f, user: reg.u, papel: reg.papel || 'operador', acesso: reg.acesso || 'operador', un: sess.un && unsReg.indexOf(sess.un) >= 0 ? sess.un : (unsReg.length === 1 ? unsReg[0] : ''), desde: sess.desde }; this.aplicarRefs(); }
     else if (sess) { try { window.localStorage.removeItem(this.SESSION); } catch (e) { /* ignora */ } }
     this.migrarLegado();
     this.limparEmitidasAntigas();
@@ -3128,9 +3167,10 @@ class Component extends DCLogic {
     try { arq = JSON.parse(window.localStorage.getItem(this.ARQ) || '[]'); } catch (e) { arq = []; }
     if (Array.isArray(arq) && arq.length) this.setState({ arquivo: arq.filter(function (a) { return a && a.store && a.header; }) });
     // Em campo, retoma automaticamente a passagem em que o operador estava (evita reabrir pelo Início a cada desbloqueio do aparelho).
+    if (this.state.user && !this.state.user.un) { this.setState({ user: this.state.user }); return; }
     var retomar = null;
     if (this.state.mob && this.state.user) {
-      var ult = this.lsGet('bz-ultima-v1', '');
+      var ult = this.lsGet(this.ULTIMA, '');
       var uid = this.state.user.user;
       retomar = this.recarregarAbertas().filter(function (d) { return d.id === ult && d.status !== 'emitida' && (d.equipe || []).some(function (mm) { return mm.u === uid; }); })[0] || null;
     }
@@ -3151,17 +3191,18 @@ class Component extends DCLogic {
   }
 
   // ---------- passagens abertas, período vigente e numeração ----------
-  // Número: PS-<COORD>-<TN|TM>-<POSTO>-<AAAA>-<NNNN>
+  // Número: PS-<UNIDADE>-<COORD>-<TN|TM>-<POSTO>-<AAAA>-<NNNN>
   //  PS = passagem de serviço · COORD = coordenação emissora · TN turno / TM turma
   //  POSTO = CTR/OLE/GAS/AGU · AAAA = ano do início do período · NNNN = sequencial anual da série.
   //  Atribuído uma única vez na criação; nunca reutilizado, mesmo se a passagem for cancelada.
-  ABERTAS = 'bz-abertas-v1';
-  SEQ = 'bz-seq-v1';
+  get ABERTAS() { return this.nsk('abertas-v1'); }
+  get SEQ() { return this.nsk('seq-v1'); }
+  get ULTIMA() { return this.nsk('ultima-v1'); }
   POSTOS_MENU = ['Controle', 'Óleo', 'Gás', 'Água'];
   POSTO_COD = { 'Controle': 'CTR', 'Óleo': 'OLE', 'Gás': 'GAS', 'Água': 'AGU', 'SUPROD': 'SUP', 'COPROD': 'COP' };
   placeholderDoc() { return { header: this.headerVazio(), Turno: {}, Turma: {}, equipe: [], log: [], _placeholder: true }; }
   coord() { return String(this.param('coordenacao', this.props.coordenacao || 'PROD')).toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6) || 'PROD'; }
-  unidade() { return String(this.param('unidade', this.props.unidade || 'FPSO P-83')); }
+  unidade() { return String(this.param('unidade', 'FPSO ' + this.un())); }
   horaTroca() { var h = Number(this.param('horaTroca', this.props.horaTrocaTurno)); return isNaN(h) ? 6 : Math.max(0, Math.min(23, Math.floor(h))); }
   diaTroca() { var d = Number(this.param('diaTroca', this.props.diaTrocaTurma)); return isNaN(d) ? 1 : Math.max(0, Math.min(6, Math.floor(d))); }
   pad(n, w) { return String(n).padStart(w || 2, '0'); }
@@ -3199,7 +3240,7 @@ class Component extends DCLogic {
   gravarAbertas(l) { try { window.localStorage.setItem(this.ABERTAS, JSON.stringify(l)); return true; } catch (e) { return false; } }
   abertas() { if (!this._abertas) this._abertas = this.lerAbertas(); return this._abertas; }
   recarregarAbertas() { this._abertas = this.lerAbertas(); return this._abertas; }
-  serie(tipo, posto, ano) { return this.coord() + '-' + (tipo === 'Turma' ? 'TM' : 'TN') + '-' + (this.POSTO_COD[posto] || 'GEN') + '-' + ano; }
+  serie(tipo, posto, ano) { return this.unSlug(this.un()) + '-' + this.coord() + '-' + (tipo === 'Turma' ? 'TM' : 'TN') + '-' + (this.POSTO_COD[posto] || 'GEN') + '-' + ano; }
   lerSeq() { try { return JSON.parse(window.localStorage.getItem(this.SEQ) || '{}') || {}; } catch (e) { return {}; } }
   proximoSeq(serie) { return (Number(this.lerSeq()[serie]) || 0) + 1; }
   consumirSeq(serie) {
@@ -3266,7 +3307,7 @@ class Component extends DCLogic {
       if (!this.gravarAbertas(this.abertas())) this.flash('Espaço local esgotado — a passagem foi criada só nesta sessão. Exclua passagens antigas do arquivo.');
       this.doc = doc;
       this.ensure();
-      this.lsSet('bz-ultima-v1', doc.id);
+      this.lsSet(this.ULTIMA, doc.id);
       this.logs().push({ em: c.em, u: c.u, n: c.n, acao: 'Iniciou a passagem ' + cod, det: (tipo === 'Turma' ? 'Turma · ' : 'Turno · ') + posto + ' · ' + p.nome });
       this.vincular(this.regDe(eu), '');
       this.setState({ view: 'form', iniciar: null, iniciando: false, preview: false, showIssues: false, dbuf: {}, vendo: null, mv: 'pass', mStack: [] });
@@ -3286,7 +3327,7 @@ class Component extends DCLogic {
     if (!d) { this.flash('Esta passagem não está mais aberta.'); this.forceUpdate(); return; }
     this.doc = d;
     this.ensure();
-    this.lsSet('bz-ultima-v1', d.id);
+    this.lsSet(this.ULTIMA, d.id);
     var eu = this.state.user;
     if (vincularMe && eu && !this.euMembro()) this.vincular(this.regDe(eu), '');
     this.setState({ view: 'form', preview: false, showIssues: false, dbuf: {}, vendo: null, iniciar: null, iniciando: false, mv: 'pass', mStack: [] });
@@ -3386,7 +3427,7 @@ class Component extends DCLogic {
     } };
   }
 
-  VIDEOS = ['assets/p83-login.mp4', 'assets/p83-login-2.mp4', 'assets/p83-login-3.mp4'];
+  VIDEOS = ['assets/p83-login.webm', 'assets/p83-login-2.webm', 'assets/p83-login-3.webm'];
 
   // No arquivo único offline os vídeos são embutidos e expostos em window.__resources.
   videos() {
@@ -3410,31 +3451,46 @@ class Component extends DCLogic {
     el.setAttribute('muted', '');
     el.setAttribute('playsinline', '');
     el.loop = false;
+    // Dois players sobrepostos: o próximo vídeo fica pré-carregado e entra em fusão
+    // antes do fim do atual — sem quadro vazio entre um vídeo e outro.
+    var b = el.cloneNode(false);
+    b.removeAttribute('src');
+    b.muted = true; b.defaultMuted = true; b.playsInline = true; b.loop = false;
+    el.parentNode.insertBefore(b, el.nextSibling);
+    [el, b].forEach(function (v) { v.style.transition = 'opacity 0.9s ease'; });
+    el.style.opacity = '1'; b.style.opacity = '0'; el.style.zIndex = '1'; b.style.zIndex = '0';
+    // Gradiente e textos ficam acima dos dois players.
+    for (var sib = b.nextElementSibling; sib; sib = sib.nextElementSibling) sib.style.zIndex = '2';
     this.fila = [];
-    var proximo = function () {
+    var ultimo = '';
+    var sorteia = function () {
       if (!self.fila.length) {
         var baralho = self.videos().slice();
-        for (var i = baralho.length - 1; i > 0; i--) {
-          var j = Math.floor(Math.random() * (i + 1));
-          var t = baralho[i]; baralho[i] = baralho[j]; baralho[j] = t;
-        }
-        if (el.dataset.ultimo && baralho[0] === el.dataset.ultimo && baralho.length > 1) {
-          baralho.push(baralho.shift());
-        }
+        for (var i = baralho.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = baralho[i]; baralho[i] = baralho[j]; baralho[j] = t; }
+        if (baralho[0] === ultimo && baralho.length > 1) baralho.push(baralho.shift());
         self.fila = baralho;
       }
-      if (self.trocando) return;
-      self.trocando = true;
-      var src = self.fila.shift();
-      el.dataset.ultimo = src;
-      el.src = src;
-      el.load();
-      var p = el.play();
-      if (p && p.catch) p.catch(function () { /* autoplay negado — fica no poster */ });
-      setTimeout(function () { self.trocando = false; }, 600);
+      ultimo = self.fila.shift();
+      return ultimo;
     };
-    el.addEventListener('ended', proximo);
-    proximo();
+    var ativo = el, espera = b, trocando = false;
+    var prepara = function (v) { v.src = sorteia(); v.load(); };
+    var troca = function () {
+      if (trocando) return; trocando = true;
+      var entra = espera, sai = ativo;
+      var p = entra.play(); if (p && p.catch) p.catch(function () { /* autoplay negado */ });
+      // Só o vídeo que entra faz a fusão, por cima; o que sai segue opaco por baixo.
+      entra.style.zIndex = '1'; sai.style.zIndex = '0'; entra.style.opacity = '1';
+      ativo = entra; espera = sai;
+      setTimeout(function () { sai.style.transition = 'none'; sai.style.opacity = '0'; void sai.offsetWidth; sai.style.transition = 'opacity 0.9s ease'; try { sai.pause(); } catch (e) { /* ignora */ } prepara(sai); trocando = false; }, 1000);
+    };
+    [el, b].forEach(function (v) {
+      v.addEventListener('timeupdate', function () { if (v === ativo && v.duration && v.duration - v.currentTime < 1) troca(); });
+      v.addEventListener('ended', function () { if (v === ativo) troca(); });
+    });
+    prepara(el);
+    var p0 = el.play(); if (p0 && p0.catch) p0.catch(function () { /* autoplay negado */ });
+    prepara(b);
   }
 
   // ---------- equipe, autoria e registro de ações ----------
@@ -3642,11 +3698,10 @@ class Component extends DCLogic {
     var found = this.usuarios().filter(function (x) { return x.u === u; })[0];
     if (!found || p !== String(found.senha == null ? '1234' : found.senha)) { this.setState({ loginErro: 'Chave ou senha inválidos.', loginPass: '' }); return; }
     if (found.ativo === false) { this.setState({ loginErro: 'Chave desativada — procure o administrador do sistema.', loginPass: '' }); return; }
-    var papel = found.papel || 'operador';
-    var manut = this.param('manutencao', null);
-    if (papel === 'operador' && manut && manut.ativo) { this.setState({ loginErro: 'Sistema em manutenção: ' + (manut.msg || 'tente novamente mais tarde.'), loginPass: '' }); return; }
+    var papel = found.papel || 'operador', unsL = this.unidadesDe(found);
+    if (!unsL.length) { this.setState({ loginErro: 'Chave sem unidade de lotação — procure o administrador do sistema.', loginPass: '' }); return; }
     if (papel !== 'operador' && this.state.mob) { this.setState({ loginErro: 'A área administrativa só está disponível nos computadores do escritório.', loginPass: '' }); return; }
-    var sess = { nome: found.n, funcao: found.f, user: found.u, papel: papel, acesso: found.acesso || 'operador', desde: new Date().toISOString() };
+    var sess = { nome: found.n, funcao: found.f, user: found.u, papel: papel, acesso: found.acesso || 'operador', un: unsL.length === 1 ? unsL[0] : '', desde: new Date().toISOString() };
     if (this.state.loginKeep) {
       try { window.localStorage.setItem(this.SESSION, JSON.stringify(sess)); } catch (err) { /* ignora */ }
     }
@@ -3654,11 +3709,35 @@ class Component extends DCLogic {
     if (found.trocar) setTimeout(function () { self2.flash('Sua senha é provisória — solicite ao administrador a definição da senha definitiva.'); }, 600);
     var self2 = this;
     this.doc = null;
-    this.recarregarAbertas();
     this.state.user = sess;
     this.tocarSessao();
-    if (papel !== 'operador') { this.syslog('acesso', 'Entrou na administração', papel); this.purgarLixeira(); this.setState({ user: sess, loginPass: '', loginErro: '', view: 'admin', aTab: 'painel', preview: false, vendo: null }); this.verificarIntegridade(); return; }
-    this.setState({ user: sess, loginPass: '', loginErro: '', view: 'menu', preview: false, vendo: null });
+    if (!sess.un) { this.setState({ user: sess, loginPass: '', loginErro: '', view: 'menu', preview: false, vendo: null }); return; }
+    this.entrarUnidade(sess.un);
+  }
+
+  // Ativa a unidade: recarrega passagens, arquivo, parâmetros e listas da unidade escolhida.
+  entrarUnidade(un) {
+    var eu = this.state.user; if (!eu) return;
+    var reg = this.usuarios().filter(function (x) { return x.u === eu.user; })[0];
+    if (!reg || !this.atuaEm(reg, un)) { this.flash('Sem acesso à ' + un + '.'); return; }
+    var sess = Object.assign({}, eu, { un: un });
+    this.state.user = sess;
+    try { if (window.localStorage.getItem(this.SESSION)) window.localStorage.setItem(this.SESSION, JSON.stringify(sess)); } catch (e) { /* ignora */ }
+    this.doc = null; this._abertas = null; this._param = null; this.aplicarRefs();
+    var arq = this.lsGet(this.ARQ, []); arq = Array.isArray(arq) ? arq.filter(function (a) { return a && a.store && a.header; }) : [];
+    this.recarregarAbertas(); this.migrarLegado(); this.limparEmitidasAntigas();
+    var base = { user: sess, arquivo: arq, loginPass: '', loginErro: '', preview: false, vendo: null, send: null, iniciar: null, iniciando: false, mv: 'inicio', mStack: [], aUsrForm: null, aDlg: null };
+    if ((sess.papel || 'operador') !== 'operador') { this.syslog('acesso', 'Entrou na administração · ' + un, this.papelLabel(sess.papel)); this.purgarLixeira(); this.setState(Object.assign(base, { view: 'admin', aTab: 'painel' })); this.verificarIntegridade(); return; }
+    this.setState(Object.assign(base, { view: 'menu' }));
+    window.scrollTo({ top: 0 });
+  }
+  trocarUnidade() {
+    var eu = this.state.user; if (!eu) return;
+    if (this.doc && !this.doc._placeholder && this.podeEditar && this.podeEditar()) { try { this.save(true); } catch (e) { /* ignora */ } }
+    var sess = Object.assign({}, eu, { un: '' });
+    this.doc = null; this.state.user = sess;
+    try { if (window.localStorage.getItem(this.SESSION)) window.localStorage.setItem(this.SESSION, JSON.stringify(sess)); } catch (e) { /* ignora */ }
+    this.setState({ user: sess, view: 'menu', preview: false, vendo: null, aUsrForm: null, aDlg: null });
   }
 
   logout() {
@@ -3677,7 +3756,7 @@ class Component extends DCLogic {
   tipo() { return (this.doc && this.doc.header.tipo) || 'Turno'; }
 
   headerVazio() {
-    return { tipo: 'Turno', posto: '', turma: '', de: [], para: [], local: 'P-83', inicio: '', fim: '' };
+    return { tipo: 'Turno', posto: '', turma: '', de: [], para: [], local: this.un(), inicio: '', fim: '' };
   }
 
   listaPessoas(v) {
@@ -3693,12 +3772,12 @@ class Component extends DCLogic {
     };
     h.de = limpa(h.de);
     h.para = limpa(h.para);
-    if (!h.local || h.local === 'CCR') h.local = 'P-83';
+    if (!h.local || h.local === 'CCR') h.local = this.un();
     // Um só modelo: tipo/posto do documento e do cabeçalho nunca divergem.
     if (this.doc.tipo) h.tipo = this.doc.tipo; else if (h.tipo) this.doc.tipo = h.tipo;
     if (h.posto) this.doc.posto = h.posto; else if (this.doc.posto) h.posto = this.doc.posto;
     this._schemaPosto = h.posto;
-    if (this.doc.id && !this.doc.coord) this.doc.coord = (String(this.doc.serie || '').split('-')[0]) || this.coord();
+    if (this.doc.id && !this.doc.coord) { var sp = String(this.doc.serie || '').split('-'); this.doc.coord = (/^P\d+$/.test(sp[0]) ? sp[1] : sp[0]) || this.coord(); }
     var tipo = this.tipo();
     var store = this.doc[tipo] || (this.doc[tipo] = {});
     var self = this;
@@ -3895,7 +3974,7 @@ class Component extends DCLogic {
   }
 
   // ---------- alerta para os demais postos ----------
-  ALERTAS = 'bz-alertas-v1';
+  get ALERTAS() { return this.nsk('alertas-v1'); }
   NIVEIS = [
     { k: 'Informativo', rel: 'Informativo', peso: 400, desc: 'Para conhecimento dos demais postos. Nenhuma ação esperada.' },
     { k: 'Atenção', rel: 'Acompanhar', peso: 500, desc: 'Situação a acompanhar — pode exigir observação ou ajuste de rotina nos demais postos.' },
@@ -4046,7 +4125,7 @@ class Component extends DCLogic {
     this.setState({ aFbSel: null, aFbEdit: null }); this.forceUpdate();
   }
   // ---------- reportar ao SUPROD / COPROD ----------
-  REPORTES = 'bz-reportes-v1';
+  get REPORTES() { return this.nsk('reportes-v1'); }
   destinoReporte() {
     var posto = this.doc.header.posto, tipo = this.tipo();
     if (this.POSTOS_MENU.indexOf(posto) >= 0) return { posto: 'SUPROD', tipo: tipo, periodoKey: this.doc.periodoKey };
@@ -4812,10 +4891,17 @@ class Component extends DCLogic {
   renderVals() {
     var self = this;
     var loginVals = {
-      deslogado: !this.state.user, logado: !!this.state.user,
+      deslogado: !this.state.user, logado: !!this.state.user && !!this.state.user.un, escolherUn: !!this.state.user && !this.state.user.un,
+      unOpcoes: (function () {
+        var eu = self.state.user; if (!eu || eu.un) return [];
+        var reg = self.usuarios().filter(function (x) { return x.u === eu.user; })[0]; if (!reg) return [];
+        var adm = (reg.papel || 'operador') === 'admin';
+        return self.unidadesDe(reg).map(function (u) { return { un: u, tag: adm ? 'Administração' : (u === (reg.un || 'P-83') ? 'Lotação' : 'Acesso adicional'), go: function () { self.entrarUnidade(u); } }; });
+      })(),
+      multiUn: this.multiUn(), trocarUn: function () { self.trocarUnidade(); }, unAtual: this.state.user ? (this.state.user.un || '') : '',
       loginUser: this.state.loginUser, loginPass: this.state.loginPass,
       loginKeep: this.state.loginKeep, loginErro: this.state.loginErro,
-      efetivoLabel: this.USERS.length + ' chaves cadastradas',
+      efetivoLabel: this.usuarios().filter(function (x) { return x.ativo !== false && (x.papel || 'operador') === 'operador'; }).length + ' chaves cadastradas no campo de Búzios',
       setLoginUser: function (e) { self.setState({ loginUser: e.target.value.toUpperCase(), loginErro: '' }); },
       setLoginPass: function (e) { self.setState({ loginPass: e.target.value, loginErro: '' }); },
       setLoginKeep: function (e) { self.setState({ loginKeep: e.target.checked }); },
@@ -5818,7 +5904,7 @@ class Component extends DCLogic {
   marcaFoto(ctx, w, h) {
     var d = this.doc || {}, hd = d.header || {}, eu = this.state.user;
     var p = function (x) { return String(x).padStart(2, '0'); }, dt = new Date();
-    var txt = (d.codigo || 'P-83') + ' · ' + (hd.posto || '—') + ' · ' + p(dt.getDate()) + '/' + p(dt.getMonth() + 1) + '/' + dt.getFullYear() + ' ' + p(dt.getHours()) + ':' + p(dt.getMinutes()) + (eu ? ' · ' + eu.user : '');
+    var txt = (d.codigo || this.un()) + ' · ' + (hd.posto || '—') + ' · ' + p(dt.getDate()) + '/' + p(dt.getMonth() + 1) + '/' + dt.getFullYear() + ' ' + p(dt.getHours()) + ':' + p(dt.getMinutes()) + (eu ? ' · ' + eu.user : '');
     var fs = Math.max(18, Math.round(Math.min(w, h) * 0.028)), pad = Math.round(fs * 0.5);
     ctx.font = '600 ' + fs + 'px "Barlow Condensed", "Arial Narrow", Arial, sans-serif';
     var tw = ctx.measureText(txt).width;
@@ -6413,27 +6499,42 @@ class Component extends DCLogic {
   }
 
   // ================= ADMINISTRAÇÃO E MANUTENÇÃO =================
-  USR = 'bz-usuarios-v1'; SYSLOG = 'bz-syslog-v1'; LIX = 'bz-lixeira-v1'; PARAM = 'bz-param-v1'; REF = 'bz-ref-v1'; SESS_ATIVAS = 'bz-sessoes-v1'; KICK = 'bz-kick-v1';
-  PAPEIS = { admin: 'Administrador', supervisor: 'Supervisor', auditor: 'Auditor', operador: 'Operador' };
+  USR = 'bz-usuarios-v1'; SYSLOG = 'bz-syslog-v1'; SESS_ATIVAS = 'bz-sessoes-v1'; KICK = 'bz-kick-v1';
+  get LIX() { return this.nsk('lixeira-v1'); }
+  get PARAM() { return this.nsk('param-v1'); }
+  get REF() { var u = this.un(); return this.nsk('ref-v1', this.UN_REF[u] || u); }
+  PAPEIS = { admin: 'ADM do sistema', admlocal: 'Administrador local', supervisor: 'Supervisor', auditor: 'Auditor', operador: 'Operador' };
+  // Unidades em que o usuário pode atuar: lotação + acessos adicionais concedidos pelo ADM do sistema.
+  unidadesDe(x) {
+    if (!x) return [];
+    if ((x.papel || 'operador') === 'admin') return this.UNIDADES.slice();
+    var l = [x.un || 'P-83'].concat(x.uns || []), self = this;
+    return this.UNIDADES.filter(function (u) { return l.indexOf(u) >= 0; });
+  }
+  atuaEm(x, u) { return this.unidadesDe(x).indexOf(u || this.un()) >= 0; }
+  multiUn() { var eu = this.state.user; if (!eu) return false; var reg = this.usuarios().filter(function (x) { return x.u === eu.user; })[0]; return this.unidadesDe(reg).length > 1; }
   papelLabel(p) { return this.PAPEIS[p] || 'Operador'; }
   usuarios() {
     if (!this._usr) {
       var l = this.lsGet(this.USR, null), agora = new Date().toISOString();
       if (!Array.isArray(l) || !l.length) {
-        l = this.USERS_SEED.map(function (x) { return { u: x.u, n: x.n, f: x.f, m: x.m || '', acesso: x.a || 'operador', papel: 'operador', senha: '1234', ativo: true, criadoEm: agora }; });
-        l.unshift({ u: 'ADMIN', n: 'Administrador do sistema', f: 'ADMINISTRAÇÃO', papel: 'admin', acesso: 'geplat', senha: 'admin1234', ativo: true, criadoEm: agora });
+        var outras = this.UNIDADES.filter(function (u) { return u !== 'P-83'; });
+        l = this.USERS_SEED.map(function (x) { return { u: x.u, n: x.n, f: x.f, m: x.m || '', un: 'P-83', uns: x.t ? outras.slice() : [], acesso: x.a || 'operador', papel: 'operador', senha: '1234', ativo: true, criadoEm: agora }; });
+        l.unshift({ u: 'ADMIN', n: 'Administrador do sistema', f: 'ADMINISTRAÇÃO', un: '', uns: [], papel: 'admin', acesso: 'geplat', senha: 'admin1234', ativo: true, criadoEm: agora });
         this.lsSet(this.USR, l);
       } else {
         // Sincroniza com a planilha de chaves: acrescenta chaves novas e preenche função/acesso de quem ainda não tem.
-        var porU = {}; l.forEach(function (x) { porU[x.u] = x; }); var mudou = false;
+        var porU = {}; l.forEach(function (x) { porU[x.u] = x; }); var mudou = false, outrasU = this.UNIDADES.filter(function (u) { return u !== 'P-83'; });
         this.USERS_SEED.forEach(function (x) {
           var e = porU[x.u];
-          if (!e) { l.push({ u: x.u, n: x.n, f: x.f, m: x.m || '', acesso: x.a || 'operador', papel: 'operador', senha: '1234', ativo: true, criadoEm: agora }); mudou = true; return; }
+          if (!e) { l.push({ u: x.u, n: x.n, f: x.f, m: x.m || '', un: 'P-83', uns: x.t ? outrasU.slice() : [], acesso: x.a || 'operador', papel: 'operador', senha: '1234', ativo: true, criadoEm: agora }); mudou = true; return; }
           if (!e.acesso) { e.acesso = x.a || 'operador'; mudou = true; }
+          // Chaves com acesso a todas as unidades do campo (t: 1).
+          if (x.t) { if (!Array.isArray(e.uns)) e.uns = []; outrasU.forEach(function (u) { if (u !== (e.un || 'P-83') && e.uns.indexOf(u) < 0) { e.uns.push(u); mudou = true; } }); }
           if (!e.m && x.m) { e.m = x.m; mudou = true; }
           if (e.f !== x.f && (!e.f || /^(GEOP|GEPLAT|ENG|GEST)/.test(e.f) === false && e.acesso === (x.a || 'operador'))) { /* mantém edição local */ }
         });
-        l.forEach(function (e) { if (!e.acesso) { e.acesso = e.papel === 'admin' ? 'geplat' : 'operador'; mudou = true; } });
+        l.forEach(function (e) { if (!e.acesso) { e.acesso = e.papel === 'admin' ? 'geplat' : 'operador'; mudou = true; } if (e.un === undefined) { e.un = e.papel === 'admin' ? '' : 'P-83'; mudou = true; } if (!Array.isArray(e.uns)) { e.uns = []; mudou = true; } });
         if (mudou) this.lsSet(this.USR, l);
       }
       this._usr = l;
@@ -6441,7 +6542,7 @@ class Component extends DCLogic {
     return this._usr;
   }
   gravarUsuarios() { this.lsSet(this.USR, this.usuarios()); }
-  get USERS() { return this.usuarios().filter(function (x) { return x.ativo !== false && (x.papel || 'operador') === 'operador'; }); }
+  get USERS() { var self = this, u = this.un(); return this.usuarios().filter(function (x) { return x.ativo !== false && (x.papel || 'operador') === 'operador' && self.atuaEm(x, u); }); }
   // ---- postos de gestão e privilégios de acesso por função ----
   POSTOS_GESTAO = ['SUPROD', 'COPROD'];
   ACESSOS = { operador: 'Operador', suprod: 'SUPROD', coprod: 'COPROD', geplat: 'GEPLAT' };
@@ -6454,17 +6555,17 @@ class Component extends DCLogic {
     return base;
   }
   permitePosto(posto) { return this.postosPermitidos().indexOf(posto) >= 0; }
-  usuariosPorAcesso(a) { return this.usuarios().filter(function (x) { return x.ativo !== false && (x.papel || 'operador') === 'operador' && (x.acesso || 'operador') === a; }); }
+  usuariosPorAcesso(a) { var self = this, u = this.un(); return this.usuarios().filter(function (x) { return x.ativo !== false && (x.papel || 'operador') === 'operador' && (x.acesso || 'operador') === a && self.atuaEm(x, u); }); }
   papel() { return this.state.user ? (this.state.user.papel || 'operador') : ''; }
   ehOperador() { return !this.state.user || this.papel() === 'operador'; }
   permite(acao) {
-    var mapa = { usuarios: ['admin'], reabrir: ['admin', 'supervisor'], excluir: ['admin'], parametros: ['admin'], referencias: ['admin'], manutencao: ['admin'], exemplos: ['admin'], log: ['admin', 'supervisor', 'auditor'], passagens: ['admin', 'supervisor', 'auditor'], feedback: ['admin', 'supervisor', 'auditor'], feedbackAvaliar: ['admin', 'supervisor'], feedbackExcluir: ['admin'], uso: ['admin', 'supervisor', 'auditor'], sessoes: ['admin'], restaurar: ['admin'] };
+    var mapa = { usuarios: ['admin', 'admlocal'], reabrir: ['admin', 'admlocal', 'supervisor'], excluir: ['admin', 'admlocal'], parametros: ['admin', 'admlocal'], referencias: ['admin', 'admlocal'], manutencao: ['admin', 'admlocal'], exemplos: ['admin', 'admlocal'], log: ['admin', 'admlocal', 'supervisor', 'auditor'], passagens: ['admin', 'admlocal', 'supervisor', 'auditor'], feedback: ['admin', 'admlocal', 'supervisor', 'auditor'], feedbackAvaliar: ['admin', 'admlocal', 'supervisor'], feedbackExcluir: ['admin'], uso: ['admin', 'admlocal', 'supervisor', 'auditor'], sessoes: ['admin', 'admlocal'], restaurar: ['admin'], multiunidade: ['admin'] };
     return (mapa[acao] || []).indexOf(this.papel()) >= 0;
   }
   syslog(tipo, resumo, det) {
     var l = this.lsGet(this.SYSLOG, []), c = this.carimbo();
     if (!Array.isArray(l)) l = [];
-    l.unshift({ id: 'l' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), em: c.em, u: c.u || 'SISTEMA', n: c.n || 'Sistema', tipo: tipo, resumo: resumo, det: det || '' });
+    l.unshift({ id: 'l' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), em: c.em, u: c.u || 'SISTEMA', n: c.n || 'Sistema', un: this.state.user ? (this.state.user.un || '') : '', tipo: tipo, resumo: resumo, det: det || '' });
     if (l.length > 3000) l.length = 3000;
     this.lsSet(this.SYSLOG, l);
   }
@@ -6611,17 +6712,23 @@ class Component extends DCLogic {
     if (!/^[A-Z0-9]{4}$/.test(u)) return 'A chave deve ter exatamente 4 letras ou números.';
     if (n.length < 3) return 'Informe o nome completo.';
     var lista = this.usuarios(), existente = lista.filter(function (x) { return x.u === u; })[0];
+    var ehAdmSis = this.papel() === 'admin', unAtual = this.un(), self = this;
+    if (!ehAdmSis && papel === 'admin') return 'Somente o ADM do sistema pode conceder o papel de ADM do sistema.';
+    var lot = papel === 'admin' ? '' : (ehAdmSis ? (f.un || '') : unAtual);
+    if (papel !== 'admin' && this.UNIDADES.indexOf(lot) < 0) return 'Informe a unidade de lotação.';
+    var extras = papel === 'admin' ? [] : (Array.isArray(f.uns) ? f.uns : []).filter(function (x) { return x !== lot && self.UNIDADES.indexOf(x) >= 0; });
     if (f.novo) {
       if (existente) return 'Já existe um usuário com a chave ' + u + '.';
       var senha = String(f.senha || '');
       if (senha.length < 4) return 'A senha inicial precisa de ao menos 4 caracteres.';
-      lista.push({ u: u, n: n, f: fu, papel: papel, acesso: f.acesso || 'operador', senha: senha, ativo: true, criadoEm: new Date().toISOString(), trocar: !!f.trocar });
+      lista.push({ u: u, n: n, f: fu, un: lot, uns: ehAdmSis ? extras : [], papel: papel, acesso: f.acesso || 'operador', senha: senha, ativo: true, criadoEm: new Date().toISOString(), trocar: !!f.trocar });
       this.gravarUsuarios();
-      this.syslog('usuario', 'Criou o usuário ' + u + ' — ' + n, this.papelLabel(papel) + (fu ? ' · ' + fu : ''));
+      this.syslog('usuario', 'Criou o usuário ' + u + ' — ' + n, this.papelLabel(papel) + (lot ? ' · lotação ' + lot : '') + (fu ? ' · ' + fu : ''));
       return '';
     }
     var alvo = lista.filter(function (x) { return x.u === f.uOriginal; })[0];
     if (!alvo) return 'Usuário não encontrado.';
+    if (!ehAdmSis && ((alvo.papel || 'operador') === 'admin' || (alvo.un || 'P-83') !== unAtual)) return 'Este usuário é lotado em outra unidade — só o ADM do sistema pode alterá-lo.';
     if (u !== f.uOriginal && existente) return 'Já existe um usuário com a chave ' + u + '.';
     if (alvo.u === 'ADMIN' && papel !== 'admin') return 'A chave ADMIN precisa manter o papel de administrador.';
     var mud = [];
@@ -6631,7 +6738,10 @@ class Component extends DCLogic {
     if (alvo.u !== u) { mud.push('chave: ' + alvo.u + ' → ' + u); this.renomearChave(alvo.u, u, alvo.n, n); }
     else if (alvo.n !== n) this.renomearChave(alvo.u, u, alvo.n, n);
     if ((alvo.acesso || 'operador') !== (f.acesso || 'operador')) mud.push('acesso: ' + (this.ACESSOS[alvo.acesso] || 'Operador') + ' → ' + (this.ACESSOS[f.acesso] || 'Operador'));
-    alvo.u = u; alvo.n = n; alvo.f = fu; alvo.papel = papel; alvo.acesso = f.acesso || 'operador';
+    if ((alvo.un || '') !== lot) mud.push('lotação: ' + (alvo.un || '—') + ' → ' + (lot || 'todas'));
+    var extAnt = (alvo.uns || []).join(', '), extNov = (ehAdmSis ? extras : (alvo.uns || [])).join(', ');
+    if (extAnt !== extNov) mud.push('acesso adicional: ' + (extAnt || '—') + ' → ' + (extNov || '—'));
+    alvo.u = u; alvo.n = n; alvo.f = fu; alvo.papel = papel; alvo.acesso = f.acesso || 'operador'; alvo.un = lot; if (ehAdmSis) alvo.uns = extras;
     if (f.senha) { if (String(f.senha).length < 4) return 'A nova senha precisa de ao menos 4 caracteres.'; alvo.senha = String(f.senha); alvo.trocar = !!f.trocar; mud.push('senha redefinida'); }
     this.gravarUsuarios();
     if (mud.length) this.syslog('usuario', 'Editou o usuário ' + u, mud.join('; '));
@@ -6656,6 +6766,7 @@ class Component extends DCLogic {
   toggleAtivo(u) {
     if (!this.permite('usuarios')) return;
     var x = this.usuarios().filter(function (y) { return y.u === u; })[0]; if (!x || x.u === 'ADMIN') return;
+    if (this.papel() !== 'admin' && ((x.papel || 'operador') === 'admin' || (x.un || 'P-83') !== this.un())) { this.flash('Usuário lotado em outra unidade.'); return; }
     x.ativo = x.ativo === false;
     this.gravarUsuarios();
     this.syslog('usuario', (x.ativo ? 'Reativou' : 'Desativou') + ' o usuário ' + u + ' — ' + x.n, '');
@@ -6876,7 +6987,7 @@ class Component extends DCLogic {
     var carimbo = function (frac) { var m = pick(eq); return { u: m.u, n: m.n, em: iso(tIni + Math.floor((fim.getTime() - tIni) * frac)) }; };
     var s = this.serie(tipo, posto, per.ano), n = (Number(seq[s]) || 0) + 1; seq[s] = n;
     var codigo = this.codigo(s, n);
-    var header = { tipo: tipo, posto: posto, turma: turma, de: eq.map(function (m) { return m.n; }), para: prox, local: 'P-83', inicio: isoL(tIni), fim: isoL(fim.getTime()) };
+    var header = { tipo: tipo, posto: posto, turma: turma, de: eq.map(function (m) { return m.n; }), para: prox, local: this.un(), inicio: isoL(tIni), fim: isoL(fim.getTime()) };
     this.doc = { header: header, Turno: {}, Turma: {}, equipe: [], log: [] };
     var secs = this.schema(tipo), store = {};
     var row = function (p, vals, ok) { var cols = p.cols || [{}]; var r = { c: cols.map(function (c, ci) { return vals[ci] == null ? '' : String(vals[ci]); }), img: null, imgs: [], rid: self.novoRid(), autor: carimbo(0.3 + rnd(60) / 100) }; if (ok) r.ok = true; return r; };
@@ -7011,13 +7122,15 @@ class Component extends DCLogic {
       { k: 'manutencao', l: 'Manutenção', ok: this.permite('manutencao') }, { k: 'exemplos', l: 'Exemplos', ok: this.permite('exemplos') }
     ].filter(function (a) { return a.ok; });
     if (!abas.some(function (a) { return a.k === tab; })) tab = 'painel';
-    var adm = { ativo: true, papel: this.papelLabel(papel), usuario: eu.nome + ' · ' + eu.user, tab: tab,
+    var adm = { ativo: true, papel: this.papelLabel(papel) + ' · ' + this.un(), usuario: eu.nome + ' · ' + eu.user, tab: tab,
       abas: abas.map(function (a) { return { label: a.l, ativa: a.k === tab, bg: a.k === tab ? 'var(--color-accent-200)' : 'transparent', border: a.k === tab ? 'var(--color-accent-700)' : 'transparent', go: function () { self.setState({ aTab: a.k, aDlg: null, aUsrForm: null }); window.scrollTo({ top: 0 }); } }; }),
       isPainel: tab === 'painel', isPassagens: tab === 'passagens', isUsuarios: tab === 'usuarios', isLog: tab === 'log', isFeedback: tab === 'feedback', isParametros: tab === 'parametros', isReferencias: tab === 'referencias', isManutencao: tab === 'manutencao', isExemplos: tab === 'exemplos',
       podeReabrir: this.permite('reabrir'), podeExcluir: this.permite('excluir'), podeUsuarios: this.permite('usuarios'), podeSessoes: this.permite('sessoes'), podeRestaurar: this.permite('restaurar'), sair: function () { self.logout(); } };
     var todas = this.todasPassagens(), uso = this.relatorioUso(), integ = st.aInteg || { alertas: [], orfas: null, em: '' };
-    var syslog = this.lsGet(this.SYSLOG, []) || [];
-    var usuarios = this.usuarios(), sess = this.lsGet(this.SESS_ATIVAS, {}) || {}, agora = Date.now();
+    var syslog = this.lsGet(this.SYSLOG, []) || [], unAtual = this.un();
+    if (papel !== 'admin') syslog = syslog.filter(function (x) { return x.un === unAtual; });
+    var ehAdmSis = papel === 'admin', unAdm = this.un();
+    var usuarios = this.usuarios().filter(function (x) { return ehAdmSis || ((x.papel || 'operador') !== 'admin' && self.atuaEm(x, unAdm)); }), sess = this.lsGet(this.SESS_ATIVAS, {}) || {}, agora = Date.now();
     var ativos = Object.keys(sess).filter(function (u) { return agora - new Date(sess[u].ultimo).getTime() < 10 * 60000; });
 
     // Painel
@@ -7085,22 +7198,32 @@ class Component extends DCLogic {
     // Usuários
     var fu = (st.aBuscaUsr || '').trim().toLowerCase();
     adm.buscaUsr = st.aBuscaUsr || ''; adm.setBuscaUsr = function (e) { self.setState({ aBuscaUsr: e.target.value }); };
-    adm.usuarios = usuarios.filter(function (x) { return !fu || (x.u + ' ' + x.n + ' ' + (x.f || '') + ' ' + self.papelLabel(x.papel)).toLowerCase().indexOf(fu) >= 0; }).map(function (x) {
+    var fUn = st.aUnUsr || '';
+    adm.filtroUnEl = this.optionsEl([{ v: '', l: 'Todas as unidades' }].concat(this.UNIDADES.map(function (u) { return { v: u, l: u }; }))); adm.filtroUn = fUn; adm.setFiltroUn = function (e) { self.setState({ aUnUsr: e.target.value }); }; adm.podeFiltrarUn = ehAdmSis;
+    adm.usuarios = usuarios.filter(function (x) { return (!fUn || self.atuaEm(x, fUn)) && (!fu || (x.u + ' ' + x.n + ' ' + (x.f || '') + ' ' + self.papelLabel(x.papel) + ' ' + (x.un || '')).toLowerCase().indexOf(fu) >= 0); }).map(function (x) {
+      var lotX = (x.papel || 'operador') === 'admin' ? '' : (x.un || 'P-83'), podeEd = ehAdmSis || lotX === unAdm;
       var on = ativos.indexOf(x.u) >= 0, ss = sess[x.u];
-      return { u: x.u, n: x.n, f: x.f || '—', papel: self.papelLabel(x.papel), acessoLabel: (x.papel || 'operador') === 'operador' ? (self.ACESSOS[x.acesso] || 'Operador') : 'Tudo (leitura)', ativo: x.ativo !== false, statusLabel: x.ativo === false ? 'Desativado' : (on ? 'Conectado' : 'Ativo'), tagClass: x.ativo === false ? 'tag-neutral' : (on ? 'tag-accent' : 'tag-outline'),
+      return { u: x.u, n: x.n, f: x.f || '—', papel: self.papelLabel(x.papel), unLabel: lotX || 'Todas', unExtra: (x.uns || []).length ? '+ ' + x.uns.join(', ') : '', podeEditar: podeEd, podeToggle: podeEd && x.u !== 'ADMIN', acessoLabel: (x.papel || 'operador') === 'operador' ? (self.ACESSOS[x.acesso] || 'Operador') : 'Tudo (leitura)', ativo: x.ativo !== false, statusLabel: x.ativo === false ? 'Desativado' : (on ? 'Conectado' : 'Ativo'), tagClass: x.ativo === false ? 'tag-neutral' : (on ? 'tag-accent' : 'tag-outline'),
         acesso: x.ultimoAcesso ? 'último acesso ' + self.fmtHoraISO(x.ultimoAcesso, true) : 'nunca acessou', dispositivo: ss ? (ss.mob ? 'campo (móvel)' : 'escritório') : '', emPassagens: self.usoEmPassagens(x.u),
-        editar: function () { self.setState({ aUsrForm: { novo: false, uOriginal: x.u, u: x.u, n: x.n, f: x.f || '', papel: x.papel || 'operador', acesso: x.acesso || 'operador', senha: '', trocar: false, erro: '' } }); },
+        editar: function () { if (!podeEd) return; self.setState({ aUsrForm: { novo: false, uOriginal: x.u, u: x.u, n: x.n, f: x.f || '', papel: x.papel || 'operador', acesso: x.acesso || 'operador', un: lotX, uns: (x.uns || []).slice(), senha: '', trocar: false, erro: '' } }); },
         toggle: function () { if (window.confirm((x.ativo === false ? 'Reativar ' : 'Desativar ') + x.u + ' — ' + x.n + '?' + (x.ativo === false ? '' : ' A sessão dele será encerrada e ele não conseguirá entrar. O histórico permanece.'))) self.toggleAtivo(x.u); }, toggleLabel: x.ativo === false ? 'Reativar' : 'Desativar', ehAdmin: x.u === 'ADMIN',
         podeKick: on && self.permite('sessoes') && x.u !== eu.user, kick: function () { if (window.confirm('Encerrar a sessão de ' + x.u + ' agora?')) self.forcarSaida(x.u); } };
     });
-    adm.usuariosResumo = usuarios.length + ' cadastrados · ' + usuarios.filter(function (x) { return x.ativo !== false; }).length + ' ativos · ' + ativos.length + ' conectado(s)';
-    adm.novoUsuario = function () { self.setState({ aUsrForm: { novo: true, u: '', n: '', f: '', papel: 'operador', acesso: 'operador', senha: '', trocar: true, erro: '' } }); };
+    adm.usuariosResumo = (ehAdmSis ? 'Campo de Búzios · ' : unAdm + ' · ') + usuarios.length + ' cadastrados · ' + usuarios.filter(function (x) { return x.ativo !== false; }).length + ' ativos · ' + ativos.length + ' conectado(s)';
+    adm.novoUsuario = function () { self.setState({ aUsrForm: { novo: true, u: '', n: '', f: '', papel: 'operador', acesso: 'operador', un: unAdm, uns: [], senha: '', trocar: true, erro: '' } }); };
     var uf = st.aUsrForm;
     adm.showUsrForm = !!uf; adm.uf = uf || { u: '', n: '', f: '', papel: 'operador', senha: '', trocar: false, erro: '', novo: false };
     adm.ufTitulo = uf ? (uf.novo ? 'Novo usuário' : 'Editar ' + uf.uOriginal) : ''; adm.ufSenhaLabel = uf && uf.novo ? 'Senha inicial' : 'Nova senha (deixe em branco para manter)';
     var setUf = function (k, tr) { return function (e) { var v = e.target.type === 'checkbox' ? e.target.checked : e.target.value; if (tr) v = tr(v); self.setState({ aUsrForm: Object.assign({}, self.state.aUsrForm, { [k]: v, erro: '' }) }); }; };
     adm.ufSetU = setUf('u', function (v) { return String(v).toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 4); }); adm.ufSetN = setUf('n'); adm.ufSetF = setUf('f'); adm.ufSetPapel = setUf('papel'); adm.ufSetAcesso = setUf('acesso'); adm.acessosEl = this.optionsEl(Object.keys(this.ACESSOS).map(function (k) { return { v: k, l: self.ACESSOS[k] }; })); adm.ufSetSenha = setUf('senha'); adm.ufSetTrocar = setUf('trocar');
-    adm.papeis = Object.keys(this.PAPEIS).map(function (k) { return { k: k, l: self.PAPEIS[k] }; });
+    adm.papeis = Object.keys(this.PAPEIS).filter(function (k) { return ehAdmSis || k !== 'admin'; }).map(function (k) { return { k: k, l: self.PAPEIS[k] }; });
+    var ufAdm = !!uf && uf.papel === 'admin';
+    adm.ufSetUn = setUf('un'); adm.ufUnBloq = !ehAdmSis || ufAdm;
+    adm.unidadesEl = this.optionsEl((ufAdm ? [{ v: '', l: 'Todas (ADM do sistema)' }] : []).concat(this.UNIDADES.map(function (u) { return { v: u, l: u }; })));
+    adm.ufUnVal = ufAdm ? '' : (uf ? uf.un || unAdm : '');
+    adm.ufPodeExtras = ehAdmSis && !!uf && !ufAdm;
+    adm.ufExtras = !uf ? [] : this.UNIDADES.filter(function (u) { return u !== (uf.un || unAdm); }).map(function (u) { var on = (uf.uns || []).indexOf(u) >= 0; return { un: u, on: on, toggle: function () { var cur = (self.state.aUsrForm.uns || []).slice(), i = cur.indexOf(u); if (i >= 0) cur.splice(i, 1); else cur.push(u); self.setState({ aUsrForm: Object.assign({}, self.state.aUsrForm, { uns: cur, erro: '' }) }); } }; });
+    adm.ufUnNota = ehAdmSis ? 'Lotação define a unidade em que o usuário edita passagens. Acesso adicional libera a edição em outras unidades.' : 'Usuários criados aqui ficam lotados na ' + unAdm + '. Acesso a outras unidades só pode ser concedido pelo ADM do sistema.';
     adm.papeisEl = this.optionsEl(adm.papeis.map(function (p) { return { v: p.k, l: p.l }; }));
     adm.ufCancelar = function () { self.setState({ aUsrForm: null }); };
     adm.ufSalvar = function () { var erro = self.salvarUsuario(self.state.aUsrForm); if (erro) self.setState({ aUsrForm: Object.assign({}, self.state.aUsrForm, { erro: erro }) }); else { self.setState({ aUsrForm: null }); self.flash('Usuário salvo.'); } };
