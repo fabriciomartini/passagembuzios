@@ -140,11 +140,11 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
         <i class="corner tl"></i><i class="corner br"></i>
         <span style="display:block;width:100%;height:100%;background-image:url('assets/p83-helideck-dia.jpg');background-size:cover;background-position:center"></span>
       </span>
-      <div style="display:flex;flex-direction:column;min-width:0;flex:1">
+      <div style="display:flex;flex-direction:column;min-width:230px;flex:1 1 230px">
         <span style="font-family:var(--font-heading);font-size:19px;line-height:1.1;letter-spacing:-0.01em;white-space:nowrap">Búzios — Passagem de serviço</span>
         <span style="font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">PE-3BUZ-00130 v02.01 · registro oficial e validação no APLAT (3.3.1.m)</span>
       </div>
-      <div class="seg" style="flex:none">
+      <div class="seg" style="flex:none;white-space:nowrap">
         <sc-if value="{{ naoOperador }}" hint-placeholder-val="{{ false }}">
           <label class="seg-opt"><input type="radio" name="view" checked="{{ viewAdmin }}" onChange="{{ goAdmin }}"><span>Administração</span></label>
         </sc-if>
@@ -513,7 +513,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
       <sc-if value="{{ adm.isUsuarios }}" hint-placeholder-val="{{ false }}">
         <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:var(--space-4);flex-wrap:wrap">
           <div><h3 style="margin:0">Usuários</h3><p style="margin:2px 0 0;font-size:13px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">{{ adm.usuariosResumo }}. Usuários com histórico não são apagados — são desativados.</p></div>
-          <button type="button" class="btn btn-primary" onClick="{{ adm.novoUsuario }}">＋ Novo usuário</button>
+          <button type="button" class="btn btn-primary" onClick="{{ adm.novoUsuario }}" style="white-space:nowrap">＋ Novo usuário</button>
         </div>
         <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;align-items:flex-end">
           <div class="field" style="flex:1;min-width:240px;max-width:420px"><label>Buscar</label><input class="input" value="{{ adm.buscaUsr }}" onChange="{{ adm.setBuscaUsr }}" placeholder="Chave, nome, função, papel ou unidade"></div>
@@ -1815,6 +1815,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
       <button type="button" class="btn btn-secondary" onClick="{{ m.goArquivo }}" style="min-height:52px;justify-content:center">Arquivo de passagens emitidas</button>
       <button type="button" class="btn btn-secondary" onClick="{{ abrirFeedback }}" style="min-height:52px;justify-content:center;gap:8px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v6"></path><path d="M9 10h6"></path><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>Feedback e sugestões</button>
       <button type="button" class="btn btn-secondary" onClick="{{ m.irDesktop }}" style="min-height:52px;justify-content:center">Abrir a interface de escritório</button>
+      <sc-if value="{{ multiUn }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-secondary" onClick="{{ trocarUn }}" style="min-height:52px;width:100%;justify-content:center">Trocar unidade · {{ unAtual }}</button></sc-if>
       <button type="button" class="btn btn-ghost" onClick="{{ m.sair }}" style="min-height:52px;justify-content:center;border-color:var(--color-divider)">Sair</button>
     </div>
     </sc-if>
@@ -3726,6 +3727,18 @@ class Component extends DCLogic {
     this.doc = null; this._abertas = null; this._param = null; this.aplicarRefs();
     var arq = this.lsGet(this.ARQ, []); arq = Array.isArray(arq) ? arq.filter(function (a) { return a && a.store && a.header; }) : [];
     this.recarregarAbertas(); this.migrarLegado(); this.limparEmitidasAntigas();
+    // Demonstração: na primeira entrada em cada unidade, gera o conjunto de exemplos.
+    // O armazenamento do navegador (~5 MB) comporta os exemplos de uma unidade por vez:
+    // ao entrar numa unidade, os exemplos automáticos das demais são descartados (dados reais ficam).
+    var selfU = this;
+    this.UNIDADES.forEach(function (u2) {
+      if (u2 === un || !selfU.lsGet(selfU.nsk('demo-seed-v1', u2), '')) return;
+      var ka = selfU.nsk('arquivo-v1', u2), kb = selfU.nsk('abertas-v1', u2);
+      var la = selfU.lsGet(ka, []); if (Array.isArray(la)) selfU.lsSet(ka, la.filter(function (a) { return !a.exemplo; }));
+      var lb = selfU.lsGet(kb, []); if (Array.isArray(lb)) selfU.lsSet(kb, lb.filter(function (d) { return !d.exemplo; }));
+      try { window.localStorage.removeItem(selfU.nsk('demo-seed-v1', u2)); } catch (e) { /* ignora */ }
+    });
+    if (!this.lsGet(this.nsk('demo-seed-v1'), '')) { this.state.arquivo = arq; if (this.gerarExemplos(true)) { arq = this.state.arquivo; this.recarregarAbertas(); } this.lsSet(this.nsk('demo-seed-v1'), new Date().toISOString()); }
     var base = { user: sess, arquivo: arq, loginPass: '', loginErro: '', preview: false, vendo: null, send: null, iniciar: null, iniciando: false, mv: 'inicio', mStack: [], aUsrForm: null, aDlg: null };
     if ((sess.papel || 'operador') !== 'operador') { this.syslog('acesso', 'Entrou na administração · ' + un, this.papelLabel(sess.papel)); this.purgarLixeira(); this.setState(Object.assign(base, { view: 'admin', aTab: 'painel' })); this.verificarIntegridade(); return; }
     this.setState(Object.assign(base, { view: 'menu' }));
@@ -4101,7 +4114,7 @@ class Component extends DCLogic {
   enviarFeedback() {
     var fb = this.state.fb; if (!this.fbValido(fb)) return;
     var c = this.carimbo(), l = this.feedbacks();
-    var item = { id: 'f' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), em: c.em, u: c.u, n: c.n, papel: this.papel(), posto: fb.ctx.posto || '', tipo: fb.tipo, texto: String(fb.texto).trim(), impacto: fb.impacto || '', contato: !!fb.contato,
+    var item = { id: 'f' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), em: c.em, u: c.u, n: c.n, papel: this.papel(), un: this.un(), posto: fb.ctx.posto || '', tipo: fb.tipo, texto: String(fb.texto).trim(), impacto: fb.impacto || '', contato: !!fb.contato,
       anexos: (fb.anexos || []).map(function (a) { return { src: a.src, mid: a.mid }; }), ctx: fb.ctx, status: 'novo', parecer: '', avaliadoPor: '', avaliadoEm: '' };
     l.unshift(item); if (l.length > 500) l.length = 500;
     if (!this.lsSet(this.FEEDBACK, l)) { item.anexos = item.anexos.map(function (a) { return { mid: a.mid }; }); this.lsSet(this.FEEDBACK, l); }
@@ -6514,6 +6527,11 @@ class Component extends DCLogic {
   atuaEm(x, u) { return this.unidadesDe(x).indexOf(u || this.un()) >= 0; }
   multiUn() { var eu = this.state.user; if (!eu) return false; var reg = this.usuarios().filter(function (x) { return x.u === eu.user; })[0]; return this.unidadesDe(reg).length > 1; }
   papelLabel(p) { return this.PAPEIS[p] || 'Operador'; }
+  // Administradores locais de demonstração (um por unidade gêmea).
+  DEMO_ADM = [
+    { u: 'ADM83', n: 'Administrador local P-83', f: 'ADMINISTRAÇÃO', un: 'P-83', papel: 'admlocal', senha: 'adm1234' },
+    { u: 'ADM80', n: 'Administrador local P-80', f: 'ADMINISTRAÇÃO', un: 'P-80', papel: 'admlocal', senha: 'adm1234' }
+  ];
   usuarios() {
     if (!this._usr) {
       var l = this.lsGet(this.USR, null), agora = new Date().toISOString();
@@ -6521,6 +6539,7 @@ class Component extends DCLogic {
         var outras = this.UNIDADES.filter(function (u) { return u !== 'P-83'; });
         l = this.USERS_SEED.map(function (x) { return { u: x.u, n: x.n, f: x.f, m: x.m || '', un: 'P-83', uns: x.t ? outras.slice() : [], acesso: x.a || 'operador', papel: 'operador', senha: '1234', ativo: true, criadoEm: agora }; });
         l.unshift({ u: 'ADMIN', n: 'Administrador do sistema', f: 'ADMINISTRAÇÃO', un: '', uns: [], papel: 'admin', acesso: 'geplat', senha: 'admin1234', ativo: true, criadoEm: agora });
+        this.DEMO_ADM.forEach(function (x) { l.splice(1, 0, Object.assign({ uns: [], acesso: 'geplat', ativo: true, criadoEm: agora }, x)); });
         this.lsSet(this.USR, l);
       } else {
         // Sincroniza com a planilha de chaves: acrescenta chaves novas e preenche função/acesso de quem ainda não tem.
@@ -6535,6 +6554,7 @@ class Component extends DCLogic {
           if (e.f !== x.f && (!e.f || /^(GEOP|GEPLAT|ENG|GEST)/.test(e.f) === false && e.acesso === (x.a || 'operador'))) { /* mantém edição local */ }
         });
         l.forEach(function (e) { if (!e.acesso) { e.acesso = e.papel === 'admin' ? 'geplat' : 'operador'; mudou = true; } if (e.un === undefined) { e.un = e.papel === 'admin' ? '' : 'P-83'; mudou = true; } if (!Array.isArray(e.uns)) { e.uns = []; mudou = true; } });
+        this.DEMO_ADM.forEach(function (x) { if (!porU[x.u]) { l.push(Object.assign({ uns: [], acesso: 'geplat', ativo: true, criadoEm: agora }, x)); mudou = true; } });
         if (mudou) this.lsSet(this.USR, l);
       }
       this._usr = l;
@@ -6593,7 +6613,7 @@ class Component extends DCLogic {
   tocarSessao() {
     var eu = this.state.user; if (!eu) return;
     var s = this.lsGet(this.SESS_ATIVAS, {}) || {};
-    s[eu.user] = { n: eu.nome, papel: eu.papel || 'operador', desde: eu.desde, ultimo: new Date().toISOString(), mob: !!this.state.mob, ua: String(navigator.userAgent || '').replace(/^Mozilla\/5\.0\s*/, '').slice(0, 70) };
+    s[eu.user] = { n: eu.nome, papel: eu.papel || 'operador', un: eu.un || '', desde: eu.desde, ultimo: new Date().toISOString(), mob: !!this.state.mob, ua: String(navigator.userAgent || '').replace(/^Mozilla\/5\.0\s*/, '').slice(0, 70) };
     this.lsSet(this.SESS_ATIVAS, s);
   }
   checarKick() {
@@ -6639,7 +6659,7 @@ class Component extends DCLogic {
       var tipo = a.tipo, ini = a.header.inicio ? new Date(a.header.inicio) : new Date();
       var per = this.periodoAtual(tipo, new Date(ini.getTime() + 3600000));
       var partes = String(a.codigo || '').split('-'), seq = Number(partes[partes.length - 1]) || 0, serie = partes.slice(1, -1).join('-');
-      d = { id: a.codigo || a.id, codigo: a.codigo || a.id, serie: serie, seq: seq, tipo: tipo, posto: a.header.posto, coord: partes[1] || this.coord(), periodoKey: per.key, periodoNome: per.nome,
+      d = { id: a.codigo || a.id, codigo: a.codigo || a.id, serie: serie, seq: seq, tipo: tipo, posto: a.header.posto, coord: (/^P\d+$/.test(partes[1] || '') ? partes[2] : partes[1]) || this.coord(), periodoKey: per.key, periodoNome: per.nome,
         criadoEm: (a.log && a.log[0] && a.log[0].em) || a.emitido, criadoPorU: (a.equipe && a.equipe[0] && a.equipe[0].u) || '', criadoPorN: (a.equipe && a.equipe[0] && a.equipe[0].n) || a.porUsuario || '',
         atualizadoEm: c.em, status: 'aberta', header: JSON.parse(JSON.stringify(a.header)), Turno: {}, Turma: {}, equipe: JSON.parse(JSON.stringify(a.equipe || [])), log: JSON.parse(JSON.stringify(a.log || [])), exemplo: !!a.exemplo };
       d[tipo] = JSON.parse(JSON.stringify(a.store || {}));
@@ -6905,38 +6925,40 @@ class Component extends DCLogic {
     this.verificarIntegridade();
   }
   // ---- passagens de exemplo ----
-  gerarExemplos() {
-    if (!this.permite('exemplos')) return;
+  gerarExemplos(auto) {
+    if (!auto && !this.permite('exemplos')) return;
     var self = this;
     this.removerExemplos(true);
     var self0 = this, opsOper = this.USERS.filter(function (x) { return (x.acesso || 'operador') === 'operador' && /OPERA|GEOP|ENG/i.test(x.f || '') ; });
     if (opsOper.length < 3) opsOper = this.USERS.filter(function (x) { return (x.acesso || 'operador') === 'operador'; });
     var opsPor = function (posto) { if (posto === 'SUPROD') { var l1 = self0.usuariosPorAcesso('suprod'); return l1.length ? l1 : opsOper; } if (posto === 'COPROD') { var l2 = self0.usuariosPorAcesso('coprod'); return l2.length ? l2 : opsOper; } return opsOper; };
+    if (opsOper.length < 3) opsOper = this.USERS.slice();
     var ops = opsOper;
-    if (ops.length < 3) { this.flash('Cadastre ao menos 3 operadores para gerar exemplos.'); return; }
+    if (ops.length < 3) { if (auto) return false; this.flash('Cadastre ao menos 3 operadores para gerar exemplos.'); return; }
     var hoje = new Date(); hoje.setHours(this.horaTroca(), 0, 0, 0); if (hoje.getTime() > Date.now()) hoje = new Date(hoje.getTime() - 86400000);
     var seq = this.lerSeq(), novos = [], prevDoc = this.doc, total = 0;
     try {
     var ordem = this.POSTOS_MENU.filter(function (p) { return p !== 'Controle'; }).concat(this.POSTOS_MENU.indexOf('Controle') >= 0 ? ['Controle'] : []).concat(['SUPROD']);
     var ordemTurma = ordem.concat(['COPROD']);
     var pends = {}, fontes = {};
-    for (var k = 6; k >= 1; k--) {
+    var nTurnos = auto ? 3 : 6, nTurmas = auto ? 1 : 3;
+    for (var k = nTurnos; k >= 1; k--) {
       var per = self.turnoDe(new Date(hoje.getTime() - k * 12 * 3600000 + 3600000));
       fontes = {};
       ordem.forEach(function (posto) {
         var pi = Math.max(0, self.POSTOS_MENU.indexOf(posto)) + (posto === 'SUPROD' ? 4 : 0);
-        var r = self.exemploDoc('Turno', posto, per, pi, 6 - k, opsPor(posto), seq, pends[posto] || [], fontes); pends[posto] = r.pend; fontes[posto] = r.doc; novos.push(r.doc); total++;
+        var r = self.exemploDoc('Turno', posto, per, pi, nTurnos - k, opsPor(posto), seq, pends[posto] || [], fontes); pends[posto] = r.pend; fontes[posto] = r.doc; novos.push(r.doc); total++;
       });
-      if (k === 3) self.exemploAlerta(fontes, 'Turno');
+      if (k === Math.min(3, nTurnos)) self.exemploAlerta(fontes, 'Turno');
     }
-    for (var w = 3; w >= 1; w--) {
+    for (var w = nTurmas; w >= 1; w--) {
       var per2 = self.semanaDe(new Date(hoje.getTime() - w * 7 * 86400000 + 3600000));
       fontes = {};
       ordemTurma.forEach(function (posto) {
         var pi = Math.max(0, self.POSTOS_MENU.indexOf(posto)) + (posto === 'SUPROD' ? 4 : posto === 'COPROD' ? 5 : 0);
-        var r2 = self.exemploDoc('Turma', posto, per2, pi, 3 - w, opsPor(posto), seq, pends[posto] || [], fontes); fontes[posto] = r2.doc; novos.push(r2.doc); total++;
+        var r2 = self.exemploDoc('Turma', posto, per2, pi, nTurmas - w, opsPor(posto), seq, pends[posto] || [], fontes); fontes[posto] = r2.doc; novos.push(r2.doc); total++;
       });
-      if (w === 2) self.exemploAlerta(fontes, 'Turma');
+      if (w === Math.min(2, nTurmas)) self.exemploAlerta(fontes, 'Turma');
     }
     } catch (e) { this.doc = prevDoc; this.flash('Falha ao gerar exemplos: ' + (e && e.message)); return; }
     this.doc = prevDoc;
@@ -6946,8 +6968,9 @@ class Component extends DCLogic {
     if (!this.persistArquivo(lista)) { this.flash('Espaço local insuficiente para gravar os exemplos.'); return; }
     this.setState({ arquivo: lista });
     this.syslog('exemplos', 'Gerou ' + total + ' passagens de exemplo (' + this.POSTOS_MENU.length + ' postos × 6 turnos + 3 turmas)', 'Marcadas como exemplo; removíveis em um clique.');
-    this.flash(total + ' passagens de exemplo geradas.');
-    this.verificarIntegridade();
+    this.flash(auto ? 'Demonstração: ' + total + ' passagens de exemplo criadas na ' + this.un() + '.' : total + ' passagens de exemplo geradas.');
+    if (!auto) this.verificarIntegridade();
+    return true;
   }
   removerExemplos(silencioso) {
     var self = this, lista = this.state.arquivo.filter(function (a) { return !a.exemplo; }), n = this.state.arquivo.length - lista.length;
@@ -7115,7 +7138,7 @@ class Component extends DCLogic {
     var self = this, st = this.state, eu = st.user;
     if (!eu || this.ehOperador()) return { adm: { ativo: false } };
     var papel = this.papel(), tab = st.aTab || 'painel';
-    var fbsAll = this.feedbacks(), fbNovosN = fbsAll.filter(function (x) { return x.status === 'novo'; }).length;
+    var unFb = this.un(), fbsAll = this.feedbacks().filter(function (x) { return papel === 'admin' || (x.un || 'P-83') === unFb; }), fbNovosN = fbsAll.filter(function (x) { return x.status === 'novo'; }).length;
     var abas = [
       { k: 'painel', l: 'Painel', ok: true }, { k: 'passagens', l: 'Passagens', ok: this.permite('passagens') }, { k: 'usuarios', l: 'Usuários', ok: this.permite('usuarios') },
       { k: 'log', l: 'Log do sistema', ok: this.permite('log') }, { k: 'feedback', l: 'Feedback' + (fbNovosN ? ' · ' + fbNovosN : ''), ok: this.permite('feedback') }, { k: 'parametros', l: 'Parâmetros', ok: this.permite('parametros') }, { k: 'referencias', l: 'Referências', ok: this.permite('referencias') },
@@ -7130,7 +7153,7 @@ class Component extends DCLogic {
     var syslog = this.lsGet(this.SYSLOG, []) || [], unAtual = this.un();
     if (papel !== 'admin') syslog = syslog.filter(function (x) { return x.un === unAtual; });
     var ehAdmSis = papel === 'admin', unAdm = this.un();
-    var usuarios = this.usuarios().filter(function (x) { return ehAdmSis || ((x.papel || 'operador') !== 'admin' && self.atuaEm(x, unAdm)); }), sess = this.lsGet(this.SESS_ATIVAS, {}) || {}, agora = Date.now();
+    var usuarios = this.usuarios().filter(function (x) { return ehAdmSis || ((x.papel || 'operador') !== 'admin' && self.atuaEm(x, unAdm)); }), sess = (function (s0) { if (ehAdmSis) return s0; var r = {}; Object.keys(s0).forEach(function (k) { if ((s0[k].un || 'P-83') === unAdm) r[k] = s0[k]; }); return r; })(this.lsGet(this.SESS_ATIVAS, {}) || {}), agora = Date.now();
     var ativos = Object.keys(sess).filter(function (u) { return agora - new Date(sess[u].ultimo).getTime() < 10 * 60000; });
 
     // Painel

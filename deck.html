@@ -10,7 +10,7 @@
 <!-- @template name="Deck" description="A twenty-one-slide presentation starter: cover, contents, dividers, columns, quadrants, a data table, SVG charts and timeline, bleed imagery, a quote and a close, on the theme's tokens" -->
 <helmet>
 <link rel="stylesheet" href="ds/industry/styles.css" />
-<title>Passagem de serviço P-83 — avaliação técnica</title>
+<title>Búzios · Passagem de serviço — avaliação técnica</title>
 <script src="./ds-base.js"></script>
 <script src="./image-slot.js"></script>
 <style>
@@ -34,7 +34,7 @@ deck-stage {
   --type-small: 28px;
   --type-kicker: 24px;
   --pad-x: 120px; /* round 2 (Barron): equal field margins — 120 on all four sides */
-  --page-foot-note: "FPSO P-83 · Passagem de serviço · Avaliação técnica"; /* the deck-wide imprint text (page furniture; see the PAGE FURNITURE note below) */
+  --page-foot-note: "Campo de Búzios · Passagem de serviço · Avaliação técnica"; /* the deck-wide imprint text (page furniture; see the PAGE FURNITURE note below) */
   --pad-top: 96px;
   --pad-bottom: 120px;
   --baseline: 48px; /* grid unit — one default-text line: the 34px Barlow body at its ~1.41
@@ -650,10 +650,10 @@ deck-stage[data-baselines] .slide::after {
 <x-import component-from-global-scope="deck-stage" from="./deck-stage.js" width="1920" height="1080" hint-size="100%,100%">
 
   <section class="slide cover on-photo" data-label="Capa" data-screen-label="01" data-speaker-notes="Abertura: este material é o dossiê técnico da ferramenta. Ele deve permitir ao avaliador ler, entender e navegar pelo sistema sozinho.">
-    <figure class="photo-ground duotone" aria-hidden="true"><video data-clips="assets/p83-login.webm, assets/p83-login-2.webm, assets/p83-login-3.webm" muted playsinline autoplay preload="auto" poster="assets/p83-noite.jpg"></video></figure>
+    <figure class="photo-ground duotone" aria-hidden="true"><video data-clips="assets/p83-login.webm, assets/p83-login-2.webm, assets/p83-login-3.webm" muted playsinline autoplay preload="auto"></video></figure>
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
-    <div class="kicker k-right"><span>Avaliação técnica · FPSO P-83</span></div>
-    <div class="rise"><h1 class="display">P-83</h1><p class="cover-sub cover-sub-a text-muted">Sistema de passagem de serviço</p><p class="cover-sub cover-sub-b text-muted">Dossiê técnico do protótipo: contexto, arquitetura, cada funcionalidade em detalhe e os caminhos de continuidade — aplicativo independente ou integração ao APLAT.</p></div>
+    <div class="kicker k-right"><span>Avaliação técnica · Campo de Búzios</span></div>
+    <div class="rise"><h1 class="display">Búzios</h1><p class="cover-sub cover-sub-a text-muted">Sistema de passagem de serviço</p><p class="cover-sub cover-sub-b text-muted">Dossiê técnico do protótipo para os nove FPSOs do campo: contexto, arquitetura multiunidade, cada funcionalidade em detalhe e os caminhos de continuidade — aplicativo independente ou integração ao APLAT.</p></div>
     <div class="pin-bottom meta"><span>Desenvolvimento: Fabricio Martini · Bruno Samel</span><span>·</span><span>Corpo técnico avaliador</span><span>·</span><span>Setembro de 2026</span></div>
   </section>
 
@@ -727,9 +727,9 @@ deck-stage[data-baselines] .slide::after {
     <div class="kicker"><span>01 · Contexto e motivação</span></div>
     <h2 class="slide-title">O que existe hoje</h2>
     <div class="cols cols-3 rise">
-      <div><h3>Versão 0 — prova de conceito</h3><p>Formulário web único com os blocos do procedimento, herança de pendências e relatório em PDF. Congelada para referência.</p></div>
-      <div><h3>Versão atual — escritório</h3><p>Múltiplos postos e períodos, equipe e autoria, alertas e reportes entre postos, arquivo, administração completa e feedback.</p></div>
-      <div><h3>Versão atual — campo</h3><p>A mesma aplicação em modo celular: passagem por blocos, fotos e vídeos, notas de voz, anotação sobre foto, leitura de TAG e ronda.</p></div>
+      <div><h3>Versão P-83 — origem</h3><p>O protótipo nasceu na P-83 e segue publicado como referência, congelado. A versão Búzios parte dele e estende a todas as unidades do campo.</p></div>
+      <div><h3>Versão Búzios — escritório</h3><p>Nove FPSOs com dados separados, lotação por unidade, múltiplos postos e períodos, equipe e autoria, alertas e reportes entre postos, arquivo, administração completa e feedback.</p></div>
+      <div><h3>Versão Búzios — campo</h3><p>A mesma aplicação em modo celular: passagem por blocos, fotos e vídeos, notas de voz, anotação sobre foto, leitura de TAG e ronda.</p></div>
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
@@ -755,21 +755,21 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Chaves de dados I" data-screen-label="10" data-speaker-notes="Todas as chaves têm o prefixo p83- e um sufixo de versão; o backup copia todas exceto a sessão.">
+  <section class="slide content" data-label="Chaves de dados I" data-screen-label="10" data-speaker-notes="Todas as chaves têm o prefixo bz- e um sufixo de versão; dados de passagem das unidades além da P-83 levam também a unidade (bz-P80-arquivo-v1). O backup copia todas exceto a sessão.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>02 · Arquitetura e fundamentos</span></div>
     <h2 class="slide-title">Onde cada coisa é guardada (1/2)</h2>
     <table class="table rise dense">
       <thead><tr><th class="w3">Chave</th><th>Conteúdo</th></tr></thead>
       <tbody>
-        <tr><td class="key">p83-passagem-v2</td><td>Rascunho da passagem aberta neste dispositivo (documento completo)</td></tr>
-        <tr><td class="key">p83-abertas-v1</td><td>Passagens abertas por posto, tipo e período</td></tr>
-        <tr><td class="key">p83-seq-v1</td><td>Contador sequencial por série de numeração</td></tr>
-        <tr><td class="key">p83-arquivo-v1</td><td>Passagens emitidas (snapshot com relatório, equipe e miniaturas)</td></tr>
-        <tr><td class="key">p83-prev-pendencias-v2</td><td>Pendências do período anterior oferecidas à herança</td></tr>
-        <tr><td class="key">p83-alertas-v1</td><td>Fila de alertas aos demais postos, consumida ao abrir a passagem</td></tr>
-        <tr><td class="key">p83-reportes-v1</td><td>Fila de reportes ao SUPROD / COPROD</td></tr>
-        <tr><td class="key">p83-feedback-v1</td><td>Feedback e sugestões dos usuários (até 500 itens)</td></tr>
+        <tr><td class="key">bz-passagem-v2</td><td>Rascunho da passagem aberta neste dispositivo (documento completo)</td></tr>
+        <tr><td class="key">bz-abertas-v1</td><td>Passagens abertas por posto, tipo e período</td></tr>
+        <tr><td class="key">bz-seq-v1</td><td>Contador sequencial por série de numeração</td></tr>
+        <tr><td class="key">bz-arquivo-v1</td><td>Passagens emitidas (snapshot com relatório, equipe e miniaturas)</td></tr>
+        <tr><td class="key">bz-prev-pendencias-v2</td><td>Pendências do período anterior oferecidas à herança</td></tr>
+        <tr><td class="key">bz-alertas-v1</td><td>Fila de alertas aos demais postos, consumida ao abrir a passagem</td></tr>
+        <tr><td class="key">bz-reportes-v1</td><td>Fila de reportes ao SUPROD / COPROD</td></tr>
+        <tr><td class="key">bz-feedback-v1</td><td>Feedback e sugestões dos usuários (até 500 itens)</td></tr>
       </tbody>
     </table>
     <div class="page-foot" aria-hidden="true"></div>
@@ -782,14 +782,14 @@ deck-stage[data-baselines] .slide::after {
     <table class="table rise dense">
       <thead><tr><th class="w3">Chave</th><th>Conteúdo</th></tr></thead>
       <tbody>
-        <tr><td class="key">p83-usuarios-v1</td><td>Cadastro de chaves: nome, função, papel, acesso, senha, ativo</td></tr>
-        <tr><td class="key">p83-sessao-v1</td><td>Sessão lembrada (“manter conectado”) — única chave fora do backup</td></tr>
-        <tr><td class="key">p83-sessoes-v1 · p83-kick-v1</td><td>Sessões ativas com sinal de vida; ordens de encerramento remoto</td></tr>
-        <tr><td class="key">p83-syslog-v1</td><td>Log do sistema (até 3 000 eventos), por tipo</td></tr>
-        <tr><td class="key">p83-lixeira-v1</td><td>Passagens excluídas, restauráveis pelo administrador</td></tr>
-        <tr><td class="key">p83-param-v1</td><td>Unidade, coordenação, hora/dia de troca, aviso, manutenção</td></tr>
-        <tr><td class="key">p83-ref-v1</td><td>Listas de referência: postos, sistemas por posto, poços, categorias</td></tr>
-        <tr><td class="key">p83-sol/haptics/wake/ptt-v1</td><td>Preferências de campo: solar, vibração, tela acesa, push-to-talk</td></tr>
+        <tr><td class="key">bz-usuarios-v1</td><td>Cadastro de chaves do campo: nome, função, lotação, acesso adicional, papel, senha, ativo</td></tr>
+        <tr><td class="key">bz-sessao-v1</td><td>Sessão lembrada (“manter conectado”) — única chave fora do backup</td></tr>
+        <tr><td class="key">bz-sessoes-v1 · bz-kick-v1</td><td>Sessões ativas com sinal de vida; ordens de encerramento remoto</td></tr>
+        <tr><td class="key">bz-syslog-v1</td><td>Log do sistema (até 3 000 eventos), por tipo</td></tr>
+        <tr><td class="key">bz-lixeira-v1</td><td>Passagens excluídas, restauráveis pelo administrador</td></tr>
+        <tr><td class="key">bz-param-v1 (por unidade)</td><td>Coordenação, hora/dia de troca, aviso, manutenção</td></tr>
+        <tr><td class="key">bz-ref-v1 (por unidade)</td><td>Listas de referência: postos, sistemas por posto, poços — P-80 usa as da P-83</td></tr>
+        <tr><td class="key">bz-sol/haptics/wake/ptt-v1</td><td>Preferências de campo: solar, vibração, tela acesa, push-to-talk</td></tr>
       </tbody>
     </table>
     <div class="page-foot" aria-hidden="true"></div>
@@ -811,7 +811,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="kicker"><span>02 · Arquitetura e fundamentos</span></div>
     <h2 class="slide-title">Código, série e período vigente</h2>
     <ul class="bullets rise tight">
-      <li>Código <strong>PS-PROD-TN-CTR-2026-0001</strong>: coordenação, TN (turno) ou TM (turma), posto (CTR, OLE, GAS, AGU), ano e sequência de quatro dígitos por série.</li>
+      <li>Código <strong>PS-P80-PROD-TN-CTR-2026-0001</strong>: unidade, coordenação, TN (turno) ou TM (turma), posto (CTR, OLE, GAS, AGU), ano e sequência de quatro dígitos — cada unidade tem sua própria sequência.</li>
       <li>Turno de 12 h com hora de troca parametrizável (padrão 06:00): período D ou N; turma semanal com dia de troca parametrizável.</li>
       <li>Uma passagem aberta por posto, tipo e período — o Início oferece abrir a existente ou criar a do período vigente.</li>
       <li>A sequência só é consumida na criação; “corrigir sequências” na Manutenção realinha o contador ao maior número já emitido.</li>
@@ -819,29 +819,82 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Perfis e permissões" data-screen-label="14" data-speaker-notes="Papel define a administração; acesso define quais postos aparecem no Início para o operador. Papéis de gestão só entram pelo escritório.">
+  <section class="slide content" data-label="Perfis e permissões" data-screen-label="14" data-speaker-notes="Papel define a administração; acesso define quais postos aparecem no Início; lotação define a unidade. O administrador local só alcança usuários e dados da própria unidade.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>02 · Arquitetura e fundamentos</span></div>
     <h2 class="slide-title">Quem pode o quê</h2>
     <table class="table rise dense">
-      <thead><tr><th class="w3">Ação</th><th class="w1">Administrador</th><th class="w1">Supervisor</th><th class="w1">Auditor</th><th>Operador</th></tr></thead>
+      <thead><tr><th class="w3">Ação</th><th class="w1">ADM do sistema</th><th class="w1">Admin local</th><th class="w1">Supervisor</th><th class="w1">Auditor</th><th>Operador</th></tr></thead>
       <tbody>
-        <tr><td class="key">Preencher e emitir a passagem dos postos do seu acesso</td><td>—</td><td>—</td><td>—</td><td>Sim</td></tr>
-        <tr><td class="key">Ler passagens, log, feedback e relatório de uso</td><td>Sim</td><td>Sim</td><td>Sim</td><td>—</td></tr>
-        <tr><td class="key">Reabrir passagem emitida · avaliar feedback</td><td>Sim</td><td>Sim</td><td>—</td><td>—</td></tr>
-        <tr><td class="key">Usuários, parâmetros, referências, manutenção</td><td>Sim</td><td>—</td><td>—</td><td>—</td></tr>
-        <tr><td class="key">Excluir, restaurar, encerrar sessões, exemplos</td><td>Sim</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr><td class="key">Preencher e emitir a passagem nas unidades em que atua</td><td>—</td><td>—</td><td>—</td><td>—</td><td>Sim</td></tr>
+        <tr><td class="key">Ler passagens, log, feedback e uso da unidade</td><td>Todas</td><td>Sim</td><td>Sim</td><td>Sim</td><td>—</td></tr>
+        <tr><td class="key">Reabrir passagem emitida · avaliar feedback</td><td>Sim</td><td>Sim</td><td>Sim</td><td>—</td><td>—</td></tr>
+        <tr><td class="key">Usuários lotados, parâmetros, referências, manutenção</td><td>Todas</td><td>Sim</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr><td class="key">Lotação e acesso adicional entre unidades · restaurar backup</td><td>Sim</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
       </tbody>
     </table>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Sessão e segurança" data-screen-label="15" data-speaker-notes="Senhas em texto no navegador são aceitáveis no protótipo, não em produção — item explícito da parte 4.">
+  <section class="slide content" data-label="Nove unidades" data-screen-label="15" data-speaker-notes="A mesma aplicação atende o campo inteiro; o que separa as unidades é a lotação do usuário e o espaço de dados de cada FPSO.">
+    <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+    <div class="kicker"><span>02 · Arquitetura e fundamentos</span></div>
+    <h2 class="slide-title">Nove FPSOs, uma aplicação</h2>
+    <div class="cols cols-3 rise">
+      <div><h3>As unidades</h3><p>P-74, P-75, P-76, P-77, P-78, P-79, P-80, P-82 e P-83. A unidade ativa aparece no cabeçalho, no código e no relatório de cada passagem.</p></div>
+      <div><h3>Dados separados</h3><p>Passagens, arquivo, numeração, alertas, reportes, lixeira, parâmetros e listas ficam no espaço da unidade. Quem não atua na unidade não vê as passagens dela.</p></div>
+      <div><h3>Unidades gêmeas</h3><p>P-80 e P-83 compartilham TAGs e sistemas: a P-80 lê as listas de referência da P-83. As demais usam a lista da P-83 provisoriamente, em cópia própria.</p></div>
+    </div>
+    <div class="page-foot" aria-hidden="true"></div>
+  </section>
+
+  <section class="slide content" data-label="Lotação e acesso" data-screen-label="16" data-speaker-notes="Regra central da versão Búzios: ninguém edita passagens de uma unidade em que não esteja lotado, salvo acesso concedido pelo ADM do sistema.">
+    <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+    <div class="kicker"><span>02 · Arquitetura e fundamentos</span></div>
+    <h2 class="slide-title">Lotação, acesso adicional e troca de unidade</h2>
+    <div class="spec rise">
+      <div><h3>O que faz</h3><p>Cada chave é lotada em uma unidade. O ADM do sistema pode conceder acesso adicional a outras unidades, para quem cobre mais de um FPSO.</p></div>
+      <div><h3>Como acionar</h3><p>Quem atua em uma só unidade entra direto nela. Quem tem acesso a mais de uma escolhe o FPSO após o login e troca pelo cabeçalho — no escritório e no celular.</p></div>
+      <div><h3>Regras e validações</h3><p>Chave sem lotação não entra. O administrador local cadastra só na própria unidade e não concede acesso a outras; lotação e acesso adicional são do ADM do sistema.</p></div>
+      <div><h3>Onde fica registrado</h3><p>bz-usuarios-v1 (lotação e acessos adicionais); cada mudança vai ao log do sistema com a unidade de origem.</p></div>
+    </div>
+    <div class="page-foot" aria-hidden="true"></div>
+  </section>
+
+  <section class="slide split" data-label="Tela · Escolha da unidade" data-screen-label="17" data-speaker-notes="Tela exibida só para quem tem acesso a mais de uma unidade.">
+    <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+    <div class="split-copy">
+      <div class="kicker"><span>02 · Arquitetura e fundamentos</span></div>
+      <h2 class="slide-title">Escolha da unidade</h2>
+      <p class="note text-muted">Após o login, quem tem acesso a mais de um FPSO escolhe a unidade de trabalho. Lotação e acessos adicionais aparecem marcados em cada opção.</p>
+    </div>
+    <figure class="split-figure shot blueprint rise">
+      <image-slot id="shot-unidade" shape="rect" fit="contain" src="screenshots/deck/08-unidade.jpg" placeholder="Print: escolha da unidade após o login" role="img" aria-label="Print: escolha da unidade após o login"></image-slot>
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+    </figure>
+    <div class="page-foot" aria-hidden="true"></div>
+  </section>
+
+  <section class="slide split" data-label="Tela · Usuários por unidade" data-screen-label="18" data-speaker-notes="Visão do administrador local da P-80: só vê quem atua na P-80.">
+    <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+    <div class="split-copy">
+      <div class="kicker"><span>02 · Arquitetura e fundamentos</span></div>
+      <h2 class="slide-title">Usuários por unidade</h2>
+      <p class="note text-muted">A coluna Unidade mostra a lotação e os acessos adicionais. O administrador local vê só quem atua na sua unidade; o ADM do sistema filtra o campo inteiro por FPSO.</p>
+    </div>
+    <figure class="split-figure shot blueprint rise">
+      <image-slot id="shot-usuarios" shape="rect" fit="contain" src="screenshots/deck/07-usuarios.jpg" placeholder="Print: Administração → Usuários com a coluna Unidade" role="img" aria-label="Print: Administração → Usuários com a coluna Unidade"></image-slot>
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+    </figure>
+    <div class="page-foot" aria-hidden="true"></div>
+  </section>
+
+  <section class="slide content" data-label="Sessão e segurança" data-screen-label="19" data-speaker-notes="Senhas em texto no navegador são aceitáveis no protótipo, não em produção — item explícito da parte 4.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>02 · Arquitetura e fundamentos</span></div>
     <h2 class="slide-title">Sessão, bloqueios e rastreio</h2>
     <ul class="bullets rise tight">
-      <li>Login por chave (4 caracteres) e senha; cadastro semeado com a planilha de chaves, senha provisória e aviso de troca. Administrador semeado: ADMIN.</li>
+      <li>Login por chave (4 caracteres) e senha; cadastro semeado com a planilha de chaves, senha provisória e aviso de troca. Administradores semeados: ADMIN (sistema), ADM83 e ADM80 (locais).</li>
       <li>“Manter conectado” grava a sessão; cada sessão envia sinal de vida e pode ser encerrada remotamente pelo administrador (kick).</li>
       <li>Modo manutenção bloqueia operadores na entrada; chaves desativadas não entram; papéis administrativos não entram pelo celular.</li>
       <li>Marca-d’água com a chave do usuário sobre o formulário; toda ação relevante vai ao log do sistema com autor e hora.</li>
@@ -849,7 +902,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Escritório e campo" data-screen-label="16" data-speaker-notes="Mesmo documento, mesmas regras: o que se preenche no campo aparece no escritório ao abrir a mesma passagem.">
+  <section class="slide content" data-label="Escritório e campo" data-screen-label="20" data-speaker-notes="Mesmo documento, mesmas regras: o que se preenche no campo aparece no escritório ao abrir a mesma passagem.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>02 · Arquitetura e fundamentos</span></div>
     <h2 class="slide-title">Duas interfaces, um código</h2>
@@ -860,7 +913,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Requisitos e limites" data-screen-label="17" data-speaker-notes="Ser transparente aqui evita que o avaliador descubra os limites sozinho.">
+  <section class="slide content" data-label="Requisitos e limites" data-screen-label="21" data-speaker-notes="Ser transparente aqui evita que o avaliador descubra os limites sozinho.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>02 · Arquitetura e fundamentos</span></div>
     <h2 class="slide-title">O que é preciso e o que ainda não faz</h2>
@@ -873,7 +926,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide divider on-photo" data-label="03 Funcionalidades em detalhe" data-screen-label="18" data-speaker-notes="Uma folha por recurso. Se o avaliador quiser navegar ao vivo, cada folha diz como acionar.">
+  <section class="slide divider on-photo" data-label="03 Funcionalidades em detalhe" data-screen-label="22" data-speaker-notes="Uma folha por recurso. Se o avaliador quiser navegar ao vivo, cada folha diz como acionar.">
     <figure class="photo-ground duotone" aria-hidden="true"><img src="assets/p83-noite.jpg" alt=""></figure>
     <i class="page-corner tl"></i><i class="page-corner tr"></i><i class="page-corner bl"></i><i class="page-corner br"></i>
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
@@ -881,7 +934,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide split" data-label="Tela · Início" data-screen-label="19" data-speaker-notes="Print a capturar: Início no escritório com ao menos uma passagem aberta.">
+  <section class="slide split" data-label="Tela · Início" data-screen-label="23" data-speaker-notes="Print a capturar: Início no escritório com ao menos uma passagem aberta.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>03 · Funcionalidades</span></div>
@@ -895,7 +948,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Início e passagens abertas" data-screen-label="20" data-speaker-notes="Mostrar o contador de blocos completos e o carimbo de quem está vinculado.">
+  <section class="slide content" data-label="Início e passagens abertas" data-screen-label="24" data-speaker-notes="Mostrar o contador de blocos completos e o carimbo de quem está vinculado.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Criar, abrir e acompanhar passagens</h2>
@@ -903,12 +956,12 @@ deck-stage[data-baselines] .slide::after {
       <div><h3>O que faz</h3><p>Lista as passagens abertas por posto e período vigente, com progresso por bloco, equipe vinculada e alertas recebidos; permite criar a do período atual ou retomar a existente.</p></div>
       <div><h3>Como acionar</h3><p>Após o login, escolher o posto e o tipo (Turno ou Turma). Botão “Nova passagem” cria com o próximo código da série; “Abrir” retoma a existente.</p></div>
       <div><h3>Regras e validações</h3><p>Só postos do acesso do usuário; uma passagem por posto, tipo e período; emitidas saem do Início 24 h após o fim do período; o rascunho é gravado a cada alteração.</p></div>
-      <div><h3>Onde fica registrado</h3><p>p83-abertas-v1 e p83-passagem-v2; a criação consome a sequência (p83-seq-v1) e registra a ação no diário da passagem.</p></div>
+      <div><h3>Onde fica registrado</h3><p>bz-abertas-v1 e bz-passagem-v2; a criação consome a sequência (bz-seq-v1) e registra a ação no diário da passagem.</p></div>
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Estrutura do formulário" data-screen-label="21" data-speaker-notes="A ordem e os títulos seguem o PE-3BUZ-00130; a passagem de Turma troca o texto dos blocos para a leitura de escala.">
+  <section class="slide content" data-label="Estrutura do formulário" data-screen-label="25" data-speaker-notes="A ordem e os títulos seguem o PE-3BUZ-00130; a passagem de Turma troca o texto dos blocos para a leitura de escala.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Os blocos do procedimento, em tela</h2>
@@ -930,7 +983,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide split" data-label="Tela · Formulário" data-screen-label="22" data-speaker-notes="Print a capturar: formulário com o bloco Disponibilidade aberto e um item Inoperante detalhado.">
+  <section class="slide split" data-label="Tela · Formulário" data-screen-label="26" data-speaker-notes="Print a capturar: formulário com o bloco Disponibilidade aberto e um item Inoperante detalhado.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>03 · Funcionalidades</span></div>
@@ -944,7 +997,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Campos e validações" data-screen-label="23" data-speaker-notes="Demonstrar a lista de pendências ao tentar emitir com um bloco incompleto.">
+  <section class="slide content" data-label="Campos e validações" data-screen-label="27" data-speaker-notes="Demonstrar a lista de pendências ao tentar emitir com um bloco incompleto.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Campos, listas e validações</h2>
@@ -957,7 +1010,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Equipe e autoria" data-screen-label="24" data-speaker-notes="A rastreabilidade linha a linha é a resposta ao “quem escreveu isto?”.">
+  <section class="slide content" data-label="Equipe e autoria" data-screen-label="28" data-speaker-notes="A rastreabilidade linha a linha é a resposta ao “quem escreveu isto?”.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Equipe, vínculo e diário de edições</h2>
@@ -970,7 +1023,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Herança automática" data-screen-label="25" data-speaker-notes="É o recurso que elimina a recópia manual.">
+  <section class="slide content" data-label="Herança automática" data-screen-label="29" data-speaker-notes="É o recurso que elimina a recópia manual.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Herança entre períodos e postos</h2>
@@ -978,12 +1031,12 @@ deck-stage[data-baselines] .slide::after {
       <div><h3>O que faz</h3><p>Linhas não resolvidas do período anterior são oferecidas à nova passagem; os postos recebem da sala de controle sistemas e detalhamentos herdados, com origem indicada.</p></div>
       <div><h3>Como acionar</h3><p>“Importar da passagem anterior” em cada bloco; a herança da sala de controle é automática ao abrir a passagem e pode ser sobrescrita ou ter a sobrescrita removida.</p></div>
       <div><h3>Regras e validações</h3><p>Linha herdada preserva a origem (código e posto de origem); sobrescrever cria cópia local e mantém a herdada visível; itens fixos por posto são sincronizados com a lista de referência.</p></div>
-      <div><h3>Onde fica registrado</h3><p>Origem gravada na linha; pendências do período anterior em p83-prev-pendencias-v2; snapshot de pendências ao emitir.</p></div>
+      <div><h3>Onde fica registrado</h3><p>Origem gravada na linha; pendências do período anterior em bz-prev-pendencias-v2; snapshot de pendências ao emitir.</p></div>
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Registros complementares e conclusão" data-screen-label="26" data-speaker-notes="Ponto sensível na avaliação: mostrar que texto livre continua possível, mas estruturado.">
+  <section class="slide content" data-label="Registros complementares e conclusão" data-screen-label="30" data-speaker-notes="Ponto sensível na avaliação: mostrar que texto livre continua possível, mas estruturado.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Registros complementares e conclusão</h2>
@@ -996,7 +1049,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide split" data-label="Tela · Alerta" data-screen-label="27" data-speaker-notes="Print a capturar: diálogo de alerta com nível Atenção selecionado.">
+  <section class="slide split" data-label="Tela · Alerta" data-screen-label="31" data-speaker-notes="Print a capturar: diálogo de alerta com nível Atenção selecionado.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>03 · Funcionalidades</span></div>
@@ -1010,7 +1063,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Alerta aos demais postos" data-screen-label="28" data-speaker-notes="Os níveis foram acrescentados para evitar que tudo chegue como crítico.">
+  <section class="slide content" data-label="Alerta aos demais postos" data-screen-label="32" data-speaker-notes="Os níveis foram acrescentados para evitar que tudo chegue como crítico.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Alerta aos demais postos</h2>
@@ -1018,12 +1071,12 @@ deck-stage[data-baselines] .slide::after {
       <div><h3>O que faz</h3><p>Envia uma linha da passagem aos outros postos do mesmo período com nível de criticidade: Informativo, Atenção ou Crítico. Chega como registro complementar marcado com a origem e a relevância.</p></div>
       <div><h3>Como acionar</h3><p>Ícone de megafone na linha (tabela, registros complementares ou Campo · Item) → revisar assunto, categoria, nível e destinos → “Enviar alerta”. Reenvio disponível após alteração da linha.</p></div>
       <div><h3>Regras e validações</h3><p>Nível define a relevância (Informativo → Informativo; Atenção → Acompanhar; Crítico → Requer ação). Destinos são os postos operacionais exceto o próprio; o destino consome a fila ao abrir a passagem do período.</p></div>
-      <div><h3>Onde fica registrado</h3><p>Fila em p83-alertas-v1; a linha de origem guarda “alertado” (hora, destinos, nível); log do sistema tipo “Alertas entre postos”; contador de alertas recebidos no cabeçalho.</p></div>
+      <div><h3>Onde fica registrado</h3><p>Fila em bz-alertas-v1; a linha de origem guarda “alertado” (hora, destinos, nível); log do sistema tipo “Alertas entre postos”; contador de alertas recebidos no cabeçalho.</p></div>
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Reportar ao SUPROD / COPROD" data-screen-label="29" data-speaker-notes="Junto com os alertas, forma a cadeia posto → supervisão → coordenação.">
+  <section class="slide content" data-label="Reportar ao SUPROD / COPROD" data-screen-label="33" data-speaker-notes="Junto com os alertas, forma a cadeia posto → supervisão → coordenação.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Reportar à supervisão</h2>
@@ -1031,12 +1084,12 @@ deck-stage[data-baselines] .slide::after {
       <div><h3>O que faz</h3><p>Encaminha uma linha à passagem do SUPROD (a partir dos postos operacionais) ou do COPROD (a partir do SUPROD, na passagem de Turma da semana), preservando a origem.</p></div>
       <div><h3>Como acionar</h3><p>Ação “Reportar” na linha → confirmar destino e texto → enviar. O destino recebe ao abrir a passagem do período correspondente.</p></div>
       <div><h3>Regras e validações</h3><p>Destino é calculado pelo posto: postos → SUPROD (mesmo período); SUPROD → COPROD (Turma da semana). Linha reportada mostra “Reportado de …” e não pode ser reportada duas vezes sem alteração.</p></div>
-      <div><h3>Onde fica registrado</h3><p>Fila em p83-reportes-v1; marca “reportado” na linha de origem; ação no diário da passagem.</p></div>
+      <div><h3>Onde fica registrado</h3><p>Fila em bz-reportes-v1; marca “reportado” na linha de origem; ação no diário da passagem.</p></div>
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Revisão assistida" data-screen-label="30" data-speaker-notes="Dizer explicitamente: “simulada”. A integração real depende de decisão sobre o Chat Petrobras.">
+  <section class="slide content" data-label="Revisão assistida" data-screen-label="34" data-speaker-notes="Dizer explicitamente: “simulada”. A integração real depende de decisão sobre o Chat Petrobras.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Revisão assistida de texto (ilustrativa)</h2>
@@ -1049,7 +1102,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Ditado e ajuda" data-screen-label="31" data-speaker-notes="Recurso de conveniência — não é requisito do procedimento.">
+  <section class="slide content" data-label="Ditado e ajuda" data-screen-label="35" data-speaker-notes="Recurso de conveniência — não é requisito do procedimento.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Ditado por voz e ajuda contextual</h2>
@@ -1062,7 +1115,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide split" data-label="Tela · Campo" data-screen-label="32" data-speaker-notes="Print a capturar: tela Campo · Item em um celular ou com ?modo=mobile.">
+  <section class="slide split" data-label="Tela · Campo" data-screen-label="36" data-speaker-notes="Print a capturar: tela Campo · Item em um celular ou com ?modo=mobile.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>03 · Funcionalidades</span></div>
@@ -1076,7 +1129,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Fotos e vídeos" data-screen-label="33" data-speaker-notes="Explicar a separação miniatura × plena: mantém o rascunho leve e o backup pequeno.">
+  <section class="slide content" data-label="Fotos e vídeos" data-screen-label="37" data-speaker-notes="Explicar a separação miniatura × plena: mantém o rascunho leve e o backup pequeno.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Fotos e vídeos</h2>
@@ -1084,12 +1137,12 @@ deck-stage[data-baselines] .slide::after {
       <div><h3>O que faz</h3><p>Anexa fotos e vídeos curtos a uma linha ou registro. A foto recebe carimbo (código, posto, hora) e a miniatura fica no rascunho; a resolução plena vai ao IndexedDB.</p></div>
       <div><h3>Como acionar</h3><p>Campo · Item → “Foto” ou “Vídeo” (câmera traseira) ou escolher da galeria; no escritório, “Anexar imagem” nos registros complementares.</p></div>
       <div><h3>Regras e validações</h3><p>Até 6 imagens por registro; redimensionamento automático; vídeos processados em miniatura de capa; remoção apaga também a mídia plena.</p></div>
-      <div><h3>Onde fica registrado</h3><p>Miniaturas dentro do documento e do arquivo; mídia plena em IndexedDB (p83-midia); “mídias órfãs” podem ser limpas na Manutenção.</p></div>
+      <div><h3>Onde fica registrado</h3><p>Miniaturas dentro do documento e do arquivo; mídia plena em IndexedDB (bz-midia); “mídias órfãs” podem ser limpas na Manutenção.</p></div>
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Anotação sobre a foto" data-screen-label="34" data-speaker-notes="Pequeno recurso, muito pedido pelos operadores.">
+  <section class="slide content" data-label="Anotação sobre a foto" data-screen-label="38" data-speaker-notes="Pequeno recurso, muito pedido pelos operadores.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Anotar sobre a foto</h2>
@@ -1102,7 +1155,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Notas de campo" data-screen-label="35" data-speaker-notes="Fluxo “capturar agora, estruturar depois”.">
+  <section class="slide content" data-label="Notas de campo" data-screen-label="39" data-speaker-notes="Fluxo “capturar agora, estruturar depois”.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Notas de campo e nota de áudio</h2>
@@ -1115,7 +1168,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="TAG e ronda" data-screen-label="36" data-speaker-notes="Depende da lista de equipamentos por posto estar completa (ver Referências).">
+  <section class="slide content" data-label="TAG e ronda" data-screen-label="40" data-speaker-notes="Depende da lista de equipamentos por posto estar completa (ver Referências).">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Leitura de TAG e ronda por área</h2>
@@ -1128,7 +1181,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Ajustes de campo" data-screen-label="37" data-speaker-notes="Não afetam o documento; só a ergonomia.">
+  <section class="slide content" data-label="Ajustes de campo" data-screen-label="41" data-speaker-notes="Não afetam o documento; só a ergonomia.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Ajustes do modo campo</h2>
@@ -1136,12 +1189,12 @@ deck-stage[data-baselines] .slide::after {
       <div><h3>O que faz</h3><p>Preferências para uso a bordo: modo solar (alto contraste), vibração de confirmação, tela acesa durante a passagem e push-to-talk para ditado.</p></div>
       <div><h3>Como acionar</h3><p>Campo · Mais → interruptores; o modo solar também pelo ícone no topo. “Abrir no escritório” força a interface de mesa.</p></div>
       <div><h3>Regras e validações</h3><p>Tela acesa depende de Wake Lock e é solta ao sair; preferências são por dispositivo, não por usuário.</p></div>
-      <div><h3>Onde fica registrado</h3><p>p83-sol-v1, p83-haptics-v1, p83-wake-v1, p83-ptt-v1.</p></div>
+      <div><h3>Onde fica registrado</h3><p>bz-sol-v1, bz-haptics-v1, bz-wake-v1, bz-ptt-v1.</p></div>
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide split" data-label="Tela · Relatório" data-screen-label="38" data-speaker-notes="Print a capturar: PDF gerado ou a pré-visualização oficial.">
+  <section class="slide split" data-label="Tela · Relatório" data-screen-label="42" data-speaker-notes="Print a capturar: PDF gerado ou a pré-visualização oficial.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>03 · Funcionalidades</span></div>
@@ -1155,7 +1208,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Relatório e emissão" data-screen-label="39" data-speaker-notes="O PDF é o documento de trabalho; o APLAT segue como registro oficial.">
+  <section class="slide content" data-label="Relatório e emissão" data-screen-label="43" data-speaker-notes="O PDF é o documento de trabalho; o APLAT segue como registro oficial.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Relatório, emissão e protocolo</h2>
@@ -1163,12 +1216,12 @@ deck-stage[data-baselines] .slide::after {
       <div><h3>O que faz</h3><p>Gera o relatório da passagem em PDF (impressão do navegador) ou em texto para o OneNote, com protocolo de emissão, e arquiva um snapshot da passagem.</p></div>
       <div><h3>Como acionar</h3><p>“Pré-visualizar” a qualquer momento; “Emitir” → conferir pendências → confirmar → PDF (para registro no APLAT) ou TXT (OneNote).</p></div>
       <div><h3>Regras e validações</h3><p>Emissão bloqueada com pendências ou sem declarações; protocolo ON-/PDF-aaaammdd-hhmmss; após emitir, a passagem fica somente leitura (reabertura só por supervisor/administrador).</p></div>
-      <div><h3>Onde fica registrado</h3><p>Snapshot em p83-arquivo-v1 (relatório, equipe, miniaturas, pendências); status “emitida” em p83-abertas-v1; ação no diário.</p></div>
+      <div><h3>Onde fica registrado</h3><p>Snapshot em bz-arquivo-v1 (relatório, equipe, miniaturas, pendências); status “emitida” em bz-abertas-v1; ação no diário.</p></div>
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Arquivo e histórico" data-screen-label="40" data-speaker-notes="Base para a rastreabilidade histórica pedida no contexto.">
+  <section class="slide content" data-label="Arquivo e histórico" data-screen-label="44" data-speaker-notes="Base para a rastreabilidade histórica pedida no contexto.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Arquivo e histórico</h2>
@@ -1176,12 +1229,12 @@ deck-stage[data-baselines] .slide::after {
       <div><h3>O que faz</h3><p>Consulta às passagens emitidas por posto e período, com leitura do relatório, equipe, pendências e importação de linhas da anterior para a passagem atual.</p></div>
       <div><h3>Como acionar</h3><p>“Histórico” no Início (escritório) ou Campo · Arquivo; abrir uma passagem em leitura; “Importar da anterior” dentro de um bloco.</p></div>
       <div><h3>Regras e validações</h3><p>Somente leitura; reabrir exige papel de gestão e fica no log; emitidas antigas saem do Início mas permanecem no arquivo.</p></div>
-      <div><h3>Onde fica registrado</h3><p>p83-arquivo-v1; relatório de uso (Administração) é calculado a partir dele.</p></div>
+      <div><h3>Onde fica registrado</h3><p>bz-arquivo-v1; relatório de uso (Administração) é calculado a partir dele.</p></div>
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide split" data-label="Tela · Feedback" data-screen-label="41" data-speaker-notes="Print a capturar: diálogo de feedback preenchido, no escritório ou no campo.">
+  <section class="slide split" data-label="Tela · Feedback" data-screen-label="45" data-speaker-notes="Print a capturar: diálogo de feedback preenchido, no escritório ou no campo.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>03 · Funcionalidades</span></div>
@@ -1195,7 +1248,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Feedback e sugestões" data-screen-label="42" data-speaker-notes="Fecha o ciclo com os usuários durante o piloto.">
+  <section class="slide content" data-label="Feedback e sugestões" data-screen-label="46" data-speaker-notes="Fecha o ciclo com os usuários durante o piloto.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Feedback e sugestões dos usuários</h2>
@@ -1203,12 +1256,12 @@ deck-stage[data-baselines] .slide::after {
       <div><h3>O que faz</h3><p>Canal para impressões, problemas e sugestões sobre o sistema, com anexos de tela; o administrador lê, julga a pertinência e registra parecer e status.</p></div>
       <div><h3>Como acionar</h3><p>Botão “Feedback” no cabeçalho (escritório), ícone no topo de todas as telas do campo ou Campo · Mais; Administração → aba Feedback para triagem.</p></div>
       <div><h3>Regras e validações</h3><p>Tipo e relato (mín. 20 caracteres) obrigatórios; até 4 imagens; rascunho preservado ao fechar; status novo → em análise → aceito / não pertinente / concluído.</p></div>
-      <div><h3>Onde fica registrado</h3><p>p83-feedback-v1 (até 500); anexos em IndexedDB; envio e avaliação no log do sistema (tipo “Feedback”); exportação em CSV.</p></div>
+      <div><h3>Onde fica registrado</h3><p>bz-feedback-v1 (até 500); anexos em IndexedDB; envio e avaliação no log do sistema (tipo “Feedback”); exportação em CSV.</p></div>
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide split" data-label="Tela · Administração" data-screen-label="43" data-speaker-notes="Print a capturar: Painel da Administração com cartões de contagem.">
+  <section class="slide split" data-label="Tela · Administração" data-screen-label="47" data-speaker-notes="Print a capturar: Painel da Administração com cartões de contagem.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>03 · Funcionalidades</span></div>
@@ -1222,7 +1275,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Admin · Painel e Usuários" data-screen-label="44" data-speaker-notes="O cadastro é sincronizado com a planilha de chaves a cada carga.">
+  <section class="slide content" data-label="Admin · Painel e Usuários" data-screen-label="48" data-speaker-notes="O cadastro é sincronizado com a planilha de chaves a cada carga.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Administração · Painel e Usuários</h2>
@@ -1230,12 +1283,12 @@ deck-stage[data-baselines] .slide::after {
       <div><h3>O que faz</h3><p>Painel resume passagens abertas e emitidas, usuários, sessões ativas, feedbacks novos e alertas de integridade. Usuários cadastra chaves com papel, acesso, função e matrícula.</p></div>
       <div><h3>Como acionar</h3><p>Login com papel administrativo → “Administração”. Usuários: “Novo usuário”, editar, ativar/desativar, redefinir senha, renomear chave, forçar saída da sessão.</p></div>
       <div><h3>Regras e validações</h3><p>Chave de 4 caracteres alfanuméricos única; senha provisória marca “trocar”; não se desativa a própria chave; forçar saída grava ordem de kick lida pela sessão alvo.</p></div>
-      <div><h3>Onde fica registrado</h3><p>p83-usuarios-v1, p83-sessoes-v1, p83-kick-v1; log tipos “Usuários”, “Sessões”, “Acesso”.</p></div>
+      <div><h3>Onde fica registrado</h3><p>bz-usuarios-v1, bz-sessoes-v1, bz-kick-v1; log tipos “Usuários”, “Sessões”, “Acesso”.</p></div>
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Admin · Passagens e Log" data-screen-label="45" data-speaker-notes="Nada se apaga sem passar pela lixeira e pelo log.">
+  <section class="slide content" data-label="Admin · Passagens e Log" data-screen-label="49" data-speaker-notes="Nada se apaga sem passar pela lixeira e pelo log.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Administração · Passagens, lixeira e log</h2>
@@ -1243,12 +1296,12 @@ deck-stage[data-baselines] .slide::after {
       <div><h3>O que faz</h3><p>Passagens lista abertas e emitidas de todos os postos com leitura, reabertura e exclusão para a lixeira (restaurar ou esvaziar). O log registra cada evento administrativo e operacional relevante.</p></div>
       <div><h3>Como acionar</h3><p>Aba Passagens: filtros por posto, tipo, status e busca; ações na linha. Aba Log: filtro por tipo, período e busca; exportação.</p></div>
       <div><h3>Regras e validações</h3><p>Reabrir exige motivo e volta a passagem para “aberta”; excluir move para a lixeira com as mídias; esvaziar apaga mídias definitivamente; o log guarda até 3 000 eventos.</p></div>
-      <div><h3>Onde fica registrado</h3><p>p83-lixeira-v1, p83-syslog-v1; tipos: acesso, usuários, reabertura, exclusão, lixeira, parâmetros, referências, backup, manutenção, exemplos, sessões, avisos, alertas, feedback.</p></div>
+      <div><h3>Onde fica registrado</h3><p>bz-lixeira-v1, bz-syslog-v1; tipos: acesso, usuários, reabertura, exclusão, lixeira, parâmetros, referências, backup, manutenção, exemplos, sessões, avisos, alertas, feedback.</p></div>
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Admin · Parâmetros e Referências" data-screen-label="46" data-speaker-notes="As listas de referência são o que a operação precisa conferir antes do piloto.">
+  <section class="slide content" data-label="Admin · Parâmetros e Referências" data-screen-label="50" data-speaker-notes="As listas de referência são o que a operação precisa conferir antes do piloto.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Administração · Parâmetros, avisos e referências</h2>
@@ -1256,25 +1309,25 @@ deck-stage[data-baselines] .slide::after {
       <div><h3>O que faz</h3><p>Parâmetros: unidade, coordenação (prefixo do código), hora de troca do turno, dia de troca da turma, aviso aos usuários e modo manutenção. Referências: as listas que alimentam o formulário.</p></div>
       <div><h3>Como acionar</h3><p>Aba Parâmetros: editar e “Salvar”; aviso com texto e validade. Aba Referências: um item por linha para postos, sistemas por posto, poços e categorias; “Restaurar padrão”.</p></div>
       <div><h3>Regras e validações</h3><p>Mudar coordenação afeta só códigos novos; modo manutenção bloqueia operadores, não gestores; referências vazias caem no padrão embutido (catálogo de equipamentos por SOP).</p></div>
-      <div><h3>Onde fica registrado</h3><p>p83-param-v1, p83-ref-v1; log tipos “Parâmetros”, “Avisos”, “Referências”.</p></div>
+      <div><h3>Onde fica registrado</h3><p>bz-param-v1, bz-ref-v1; log tipos “Parâmetros”, “Avisos”, “Referências”.</p></div>
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Admin · Manutenção e Exemplos" data-screen-label="47" data-speaker-notes="Para a avaliação: gerar exemplos, navegar, remover — sem sujar dados reais.">
+  <section class="slide content" data-label="Admin · Manutenção e Exemplos" data-screen-label="51" data-speaker-notes="Para a avaliação: gerar exemplos, navegar, remover — sem sujar dados reais.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Administração · Manutenção, backup e exemplos</h2>
     <div class="spec rise">
       <div><h3>O que faz</h3><p>Integridade (passagens sem equipe, vencidas, mídias órfãs, rascunhos vazios), correção de sequências, relatório de uso e backup/restauração em JSON. Exemplos criam e removem dados de demonstração.</p></div>
       <div><h3>Como acionar</h3><p>Aba Manutenção: cartões de verificação e ações; “Exportar backup”, “Restaurar” (arquivo .json). Aba Exemplos: “Gerar” / “Remover exemplos”.</p></div>
-      <div><h3>Regras e validações</h3><p>Backup inclui todas as chaves p83- exceto a sessão; restauração substitui os dados atuais após confirmação; exemplos são marcados e removíveis sem afetar dados reais.</p></div>
+      <div><h3>Regras e validações</h3><p>Backup inclui todas as chaves bz- exceto a sessão; restauração substitui os dados atuais após confirmação; exemplos são marcados e removíveis sem afetar dados reais.</p></div>
       <div><h3>Onde fica registrado</h3><p>Log tipos “Manutenção”, “Backup”, “Exemplos”; o backup traz formato, versão, autor e unidade.</p></div>
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide divider on-photo" data-label="04 Caminhos de continuidade" data-screen-label="48" data-speaker-notes="Dois caminhos honestos. O protótipo já entrega valor em ambos; a diferença é onde o registro oficial vive.">
+  <section class="slide divider on-photo" data-label="04 Caminhos de continuidade" data-screen-label="52" data-speaker-notes="Dois caminhos honestos. O protótipo já entrega valor em ambos; a diferença é onde o registro oficial vive.">
     <figure class="photo-ground duotone" aria-hidden="true"><img src="assets/p83-topo.jpg" alt=""></figure>
     <i class="page-corner tl"></i><i class="page-corner tr"></i><i class="page-corner bl"></i><i class="page-corner br"></i>
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
@@ -1282,7 +1335,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Opção A" data-screen-label="49" data-speaker-notes="O que falta é infraestrutura, não funcionalidade: o modelo de dados e as regras já estão prontos.">
+  <section class="slide content" data-label="Opção A" data-screen-label="53" data-speaker-notes="O que falta é infraestrutura, não funcionalidade: o modelo de dados e as regras já estão prontos.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>04 · Caminhos de continuidade</span></div>
     <h2 class="slide-title">A · Aplicativo independente</h2>
@@ -1295,7 +1348,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Opção B" data-screen-label="50" data-speaker-notes="Requer alinhamento com o time do APLAT sobre API e formato; o protótipo já guarda o endpoint como parâmetro de envio.">
+  <section class="slide content" data-label="Opção B" data-screen-label="54" data-speaker-notes="Requer alinhamento com o time do APLAT sobre API e formato; o protótipo já guarda o endpoint como parâmetro de envio.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>04 · Caminhos de continuidade</span></div>
     <h2 class="slide-title">B · Integração ao APLAT</h2>
@@ -1308,7 +1361,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Comparativo" data-screen-label="51" data-speaker-notes="Não há resposta única; a tabela é para a decisão do corpo técnico.">
+  <section class="slide content" data-label="Comparativo" data-screen-label="55" data-speaker-notes="Não há resposta única; a tabela é para a decisão do corpo técnico.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>04 · Caminhos de continuidade</span></div>
     <h2 class="slide-title">A × B, lado a lado</h2>
@@ -1325,7 +1378,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Piloto sugerido" data-screen-label="52" data-speaker-notes="Roteiro de piloto que serve aos dois caminhos.">
+  <section class="slide content" data-label="Piloto sugerido" data-screen-label="56" data-speaker-notes="Roteiro de piloto que serve aos dois caminhos.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>04 · Caminhos de continuidade</span></div>
     <h2 class="slide-title">Piloto sugerido, comum às duas opções</h2>
@@ -1339,15 +1392,15 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide cover on-photo" data-label="Decisão" data-screen-label="53" data-speaker-notes="Pedido concreto ao corpo técnico: avaliar o protótipo com o roteiro do anexo e recomendar o caminho.">
+  <section class="slide cover on-photo" data-label="Decisão" data-screen-label="57" data-speaker-notes="Pedido concreto ao corpo técnico: avaliar o protótipo com o roteiro do anexo e recomendar o caminho.">
     <figure class="photo-ground duotone" aria-hidden="true"><img src="assets/p83-noite.jpg" alt=""></figure>
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
-    <div class="kicker k-right"><span>Avaliação técnica · FPSO P-83</span></div>
+    <div class="kicker k-right"><span>Avaliação técnica · Campo de Búzios</span></div>
     <div class="rise"><h2 class="display">A ou B</h2><p class="cover-sub text-muted">O pedido: avaliar o protótipo com o roteiro guiado do anexo, apontar lacunas e recomendar o caminho — aplicativo independente ou integração ao APLAT.</p></div>
     <div class="pin-bottom meta"><span>Protótipo em avaliação · Fabricio Martini · Bruno Samel</span></div>
   </section>
 
-  <section class="slide divider on-photo" data-label="A Anexos" data-screen-label="54" data-speaker-notes="Glossário, mapa de navegação e roteiro guiado para o avaliador percorrer tudo sozinho.">
+  <section class="slide divider on-photo" data-label="A Anexos" data-screen-label="58" data-speaker-notes="Glossário, mapa de navegação e roteiro guiado para o avaliador percorrer tudo sozinho.">
     <figure class="photo-ground duotone" aria-hidden="true"><img src="assets/p83-helideck-dia.jpg" alt=""></figure>
     <i class="page-corner tl"></i><i class="page-corner tr"></i><i class="page-corner bl"></i><i class="page-corner br"></i>
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
@@ -1355,7 +1408,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Glossário" data-screen-label="55" data-speaker-notes="Consulta rápida para quem não é da operação.">
+  <section class="slide content" data-label="Glossário" data-screen-label="59" data-speaker-notes="Consulta rápida para quem não é da operação.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>Anexos</span></div>
     <h2 class="slide-title">Glossário</h2>
@@ -1377,7 +1430,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Mapa de navegação" data-screen-label="56" data-speaker-notes="Cada seta é um toque ou clique; nenhuma tela exige mais que dois níveis para voltar ao Início.">
+  <section class="slide content" data-label="Mapa de navegação" data-screen-label="60" data-speaker-notes="Cada seta é um toque ou clique; nenhuma tela exige mais que dois níveis para voltar ao Início.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>Anexos</span></div>
     <h2 class="slide-title">Mapa de navegação</h2>
@@ -1388,23 +1441,23 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-label="Roteiro de teste" data-screen-label="57" data-speaker-notes="Dez passos cobrem todos os recursos; ao final, remover os exemplos.">
+  <section class="slide content" data-label="Roteiro de teste" data-screen-label="61" data-speaker-notes="Dez passos cobrem os recursos e as regras multiunidade; para recomeçar, use “Limpar dados da demonstração” na página de entrada.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>Anexos</span></div>
     <h2 class="slide-title">Roteiro guiado de avaliação</h2>
     <table class="table rise dense">
       <thead><tr><th class="w1">Passo</th><th class="w3">O que fazer</th><th>O que observar</th></tr></thead>
       <tbody>
-        <tr><td class="key">1</td><td>Entrar como ADMIN → Exemplos → “Gerar exemplos”</td><td>Dados de demonstração em todos os postos</td></tr>
-        <tr><td class="key">2</td><td>Sair; entrar com uma chave de operador</td><td>Aviso de senha provisória; Início só com postos do acesso</td></tr>
-        <tr><td class="key">3</td><td>Criar a passagem de Turno do posto Óleo</td><td>Código PS-…-TN-OLE-…; herança do Controle no bloco 5</td></tr>
-        <tr><td class="key">4</td><td>Vincular-se; preencher blocos 0–2; tentar emitir</td><td>Lista de pendências leva ao campo faltante</td></tr>
-        <tr><td class="key">5</td><td>Alertar uma linha aos demais postos (nível Atenção)</td><td>Em Gás: registro “Alerta atenção recebido de Óleo”</td></tr>
-        <tr><td class="key">6</td><td>Reportar uma linha ao SUPROD</td><td>Em SUPROD: linha “Reportado de Óleo”</td></tr>
-        <tr><td class="key">7</td><td>Abrir ?modo=mobile: foto, anotar, áudio, ronda</td><td>Miniatura no item; nota pendente em Campo · Notas</td></tr>
-        <tr><td class="key">8</td><td>Declarar conclusão; emitir em PDF</td><td>Protocolo; somente leitura; snapshot no Histórico</td></tr>
-        <tr><td class="key">9</td><td>Enviar um feedback com print</td><td>ADMIN → Feedback: triagem, parecer, CSV</td></tr>
-        <tr><td class="key">10</td><td>ADMIN → Passagens, Log, Manutenção (backup)</td><td>Cada ação no log; “Remover exemplos” ao final</td></tr>
+        <tr><td class="key">1</td><td>Entrar como URPQ (multiunidade) e escolher a P-80</td><td>Exemplos criados na primeira entrada; P-80 no cabeçalho</td></tr>
+        <tr><td class="key">2</td><td>Criar a passagem de Turno do posto Óleo</td><td>Código PS-P80-…-TN-OLE-…; herança do Controle no bloco 5</td></tr>
+        <tr><td class="key">3</td><td>Vincular-se; preencher blocos 0–2; tentar emitir</td><td>Lista de pendências leva ao campo faltante</td></tr>
+        <tr><td class="key">4</td><td>Alertar uma linha aos demais postos; reportar ao SUPROD</td><td>Em Gás: alerta recebido de Óleo; em SUPROD: “Reportado de Óleo”</td></tr>
+        <tr><td class="key">5</td><td>Trocar unidade pelo cabeçalho → P-76</td><td>Passagens da P-80 não aparecem; numeração própria da P-76</td></tr>
+        <tr><td class="key">6</td><td>Abrir no celular: foto, anotar, áudio, ronda, trocar unidade</td><td>Miniatura no item; nota pendente em Campo · Notas</td></tr>
+        <tr><td class="key">7</td><td>Declarar conclusão; emitir em PDF</td><td>Protocolo; somente leitura; snapshot no Arquivo</td></tr>
+        <tr><td class="key">8</td><td>Entrar como RTWC (operador P-83)</td><td>Entra direto na P-83, sem escolha de unidade</td></tr>
+        <tr><td class="key">9</td><td>Entrar como ADM80 (admin local)</td><td>Usuários, log e feedback só da P-80</td></tr>
+        <tr><td class="key">10</td><td>Entrar como ADMIN: dar acesso adicional a uma chave</td><td>Coluna Unidade; filtro por FPSO; mudança no log</td></tr>
       </tbody>
     </table>
     <div class="page-foot" aria-hidden="true"></div>

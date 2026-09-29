@@ -1,18 +1,19 @@
-# Passagem de serviço — versão Búzios
+# Passagem de serviço — versão Búzios (demonstração)
 
-Conteúdo estático: `index.html` (página de entrada), `app.html` (aplicativo), `deck.html` (apresentação) e seus recursos.
+Conteúdo estático: `index.html` (página de entrada com chaves de teste), `app.html` (aplicativo), `deck.html` (apresentação) e seus recursos.
 
 ## Publicar no GitHub Pages
-1. Envie TODOS os arquivos desta pasta para a raiz do repositório `fabriciomartini/passagembuzios` (branch `main`), inclusive as pastas `ds`, `assets` (com os 3 vídeos .webm) e `screenshots`.
+1. Envie TODOS os arquivos desta pasta para a raiz do repositório `fabriciomartini/passagembuzios` (branch `main`), inclusive `.nojekyll` e as pastas `ds`, `assets` (com os 3 vídeos .webm) e `screenshots`.
 2. No GitHub: Settings → Pages → Source: *Deploy from a branch* → Branch `main` / `/(root)` → Save.
 3. Em ~1 min o site estará em https://fabriciomartini.github.io/passagembuzios/
 
-## Ligar ao Wix (fabriciomartini.com/passagemdeservico)
-1. No editor Wix, crie a página **passagemdeservico** e defina o slug `/passagemdeservico`.
-2. Adicionar → Incorporar código → **Incorporar um site** (iframe) → URL: https://fabriciomartini.github.io/passagembuzios/ ; ajuste a altura (~720 px) e largura total.
-3. Página → Permissões → **Protegida por senha**; envie a senha aos testadores.
-4. Publique o site Wix. Os botões abrem app e apresentação em nova aba (fora do iframe), então câmera, microfone e tela cheia funcionam normalmente.
+## Chaves de teste
+- Operador P-83: RTWC / 1234 · SUPROD P-83: M37R / 1234
+- Multiunidade (todas as unidades): URPQ, F8CK, URSS / 1234
+- Administrador local: ADM80 (P-80), ADM83 (P-83) / adm1234
+- ADM do sistema: ADMIN / admin1234
 
 ## Observações
-- Cada testador vê apenas os dados do próprio navegador; no primeiro acesso são criados dados de exemplo.
-- Administrador semeado: ADMIN / admin1234 — troque a senha em Administração → Usuários antes de divulgar.
+- Cada testador vê apenas os dados do próprio navegador.
+- Na primeira entrada em cada unidade são criadas passagens de exemplo; para caber no armazenamento do navegador, os exemplos automáticos de outras unidades são descartados ao trocar de unidade (dados reais permanecem).
+- "Limpar dados da demonstração" (página de entrada) apaga só os dados `bz-` deste navegador.
