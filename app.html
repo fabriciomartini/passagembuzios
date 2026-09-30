@@ -3129,8 +3129,21 @@ class Component extends DCLogic {
   }
 
   // ---------- dados ----------
+  nuvemIniciar() {
+    var self = this;
+    var carregar = window.bzNuvem ? Promise.resolve() : new Promise(function (res) { var s = document.createElement('script'); s.src = './nuvem.js'; s.onload = res; s.onerror = res; document.head.appendChild(s); });
+    return carregar.then(function () { if (!window.bzNuvem) return; window.bzNuvem.aoMudar(function (ks) { self.nuvemAtualizou(ks); }); return window.bzNuvem.pronto; });
+  }
+  nuvemAtualizou() {
+    this._usr = null; this._param = null; this._abertas = null;
+    try { this.aplicarRefs(); } catch (e) { /* ignora */ }
+    var arq = this.lsGet(this.ARQ, []); arq = Array.isArray(arq) ? arq.filter(function (a) { return a && a.store && a.header; }) : [];
+    this.setState({ arquivo: arq, tick: (this.state.tick || 0) + 1 });
+  }
+
   componentDidMount() {
     var self = this;
+    if (!this._nuvemOk) { this._nuvemOk = true; this.nuvemIniciar().then(function () { self.componentDidMount(); }, function () { self.componentDidMount(); }); return; }
     this.montarTooltip();
     this._medir = function () { self.medirHeader(); var mb = self.detectarMob(); if (mb !== self.state.mob) self.setState({ mob: mb }); };
     this._onKey = function (e) { self.onKeyGlobal(e); };

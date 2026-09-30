@@ -17,3 +17,7 @@ Conteúdo estático: `index.html` (página de entrada com chaves de teste), `app
 - Cada testador vê apenas os dados do próprio navegador.
 - Na primeira entrada em cada unidade são criadas passagens de exemplo; para caber no armazenamento do navegador, os exemplos automáticos de outras unidades são descartados ao trocar de unidade (dados reais permanecem).
 - "Limpar dados da demonstração" (página de entrada) apaga só os dados `bz-` deste navegador.
+
+
+## Base de dados compartilhada (Supabase)
+`nuvem.js` sincroniza os dados (usuários, passagens, arquivo, parâmetros) com o Supabase: carga completa ao abrir, envio ~1 s após cada alteração, atualização a cada 8 s e fila local quando offline. Preferências de tela e a sessão continuam locais. Criar a tabela uma única vez executando `supabase-buzios.sql` no SQL Editor do projeto.
