@@ -7339,7 +7339,11 @@ class Component extends DCLogic {
     this.lsSet(this.SEQ, seq);
     novos.sort(function (a, b) { return a.header.inicio > b.header.inicio ? -1 : 1; });
     var lista = novos.concat(this.state.arquivo.filter(function (a) { return !a.exemplo; }));
-    if (!this.persistArquivo(lista)) { this.flash('Espaço local insuficiente para gravar os exemplos.'); return; }
+    // Limite de ~5 MB por site no navegador: se não couber tudo, grava os exemplos mais recentes que couberem.
+    var resto = this.state.arquivo.filter(function (a) { return !a.exemplo; }), cabem = novos.length;
+    while (cabem > 0 && !this.persistArquivo(novos.slice(0, cabem).concat(resto))) cabem = Math.max(0, cabem - 4);
+    if (!cabem) { this.flash('Espaço local insuficiente para gravar os exemplos — exclua passagens antigas do arquivo ou esvazie a lixeira.'); return; }
+    if (cabem < novos.length) { total = cabem; lista = novos.slice(0, cabem).concat(resto); this.flash('Espaço do navegador limitado: ' + cabem + ' de ' + novos.length + ' passagens de exemplo gravadas (as mais recentes).'); }
     this.setState({ arquivo: lista });
     this.syslog('exemplos', 'Gerou ' + total + ' passagens de exemplo (' + this.POSTOS_MENU.length + ' postos × 6 turnos + 3 turmas)', 'Marcadas como exemplo; removíveis em um clique.');
     this.flash(auto ? 'Demonstração: ' + total + ' passagens de exemplo criadas na ' + this.un() + '.' : total + ' passagens de exemplo geradas.');

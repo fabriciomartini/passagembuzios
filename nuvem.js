@@ -10,6 +10,7 @@
   function lsGet(k) { try { return ls.getItem(k); } catch (e) { return null; } }
   function put(k, v) { aplicando = true; try { v === null ? rawDel.call(ls, k) : rawSet.call(ls, k, v); } catch (e) { /* cheio */ } aplicando = false; }
   var CID = lsGet('bzn-cid') || (Math.random().toString(36).slice(2) + Date.now().toString(36)); put('bzn-cid', CID);
+  try { for (var z = ls.length - 1; z >= 0; z--) { var kz = ls.key(z); if (kz && kz.indexOf('bzn-base:') === 0) { var kb = kz.slice(9), fq = {}; try { fq = JSON.parse(lsGet('bzn-fila') || '{}') || {}; } catch (e) {} if (!(kb in fq) || (lsGet(kz) || '').length >= 120000) rawDel.call(ls, kz); } } } catch (e) { /* ignora */ }
   var fila = {}; try { fila = JSON.parse(lsGet('bzn-fila') || '{}') || {}; } catch (e) { fila = {}; }
   var base = {}, cursor = '', timer = null, enviando = false, ouvintes = [], estado = 'conectando', erro = '';
   function comp(k) { return typeof k === 'string' && k.indexOf('bz-') === 0 && !LOCAL.test(k); }
@@ -71,7 +72,7 @@
   // ---- intercepta gravações locais ----
   function marcar(k) {
     if (aplicando || !comp(k)) return;
-    if (!fila[k]) { fila[k] = 0; if (base[k] !== undefined) put('bzn-base:' + k, base[k] === null ? '\u0000' : base[k]); }
+    if (!fila[k]) { fila[k] = 0; if (base[k] !== undefined && (base[k] === null || base[k].length < 120000)) put('bzn-base:' + k, base[k] === null ? '\u0000' : base[k]); }
     fila[k]++; salvarFila(); status('pendente'); agendar();
   }
   P.setItem = function (k, v) { rawSet.call(this, k, v); if (this === ls) marcar(k); };
