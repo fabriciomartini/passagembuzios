@@ -30,3 +30,5 @@ Conteúdo estático: `index.html` (página de entrada com chaves de teste), `app
 - Controle Embarcação e Convés: passagem separada ou única.
 - Admin → Perfis e postos: criação de perfis adicionais (fiscais, MIED, EEE).
 - Cadastro de 183 usuários da P-83 (senha de teste 1234).
+- Embarcação: formulário da produção sem poços; TLT só turma (Anexo A-1).
+- Deck técnico atualizado (67 slides): estrutura, regras de acesso, modelos, envio à turma, turno sem ocorrências, passagem única e perfis.
