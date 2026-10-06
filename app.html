@@ -239,7 +239,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
       </div>
       <div class="blueprint" style="padding:var(--space-4)">
         <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-        <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent)">Operador conectado</div>
+        <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent)">Usuário conectado</div>
         <div style="font-family:var(--font-heading);font-size:22px;line-height:1.1;margin-top:8px;text-wrap:pretty">{{ menu.userNome }}</div>
         <div style="font-size:12.5px;margin-top:6px;color:color-mix(in srgb, var(--color-text) 65%, transparent)">{{ menu.userFuncao }}</div>
       </div>
@@ -256,13 +256,14 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
           <span style="display:inline-flex;align-items:center;gap:6px"><span class="tag tag-outline" style="font-size:10.5px">Livre</span> ninguém iniciou</span>
         </div>
       </div>
+      <sc-if value="{{ menu.semPostos }}" hint-placeholder-val="{{ false }}"><div class="blueprint" style="padding:var(--space-4);font-size:13.5px;line-height:1.5"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>Seu cadastro não está lotado em um posto com passagem de serviço. Procure o administrador local da unidade.</div></sc-if>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:var(--space-4)">
         <sc-for list="{{ menu.postos }}" as="p" hint-placeholder-count="4">
           <div class="blueprint" style="padding:0;display:flex;flex-direction:column">
             <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
             <div style="padding:var(--space-4) var(--space-4) var(--space-3);border-bottom:1px solid var(--color-divider);display:flex;align-items:baseline;justify-content:space-between;gap:var(--space-3)">
-              <span style="font-family:var(--font-heading);font-size:26px;line-height:1">{{ p.nome }}</span>
-              <span style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent)">Posto {{ p.cod }}</span>
+              <span style="font-family:var(--font-heading);font-size:26px;line-height:1;min-width:0;overflow-wrap:anywhere">{{ p.nome }}</span>
+              <span style="flex:none;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent)">{{ p.selo }}</span>
             </div>
             <sc-if value="{{ p.gestao }}" hint-placeholder-val="{{ false }}"><div style="padding:6px var(--space-4);font-size:12px;line-height:1.4;color:color-mix(in srgb, var(--color-text) 60%, transparent);border-bottom:1px solid var(--color-divider)">{{ p.descricao }}</div></sc-if>
             <sc-for list="{{ p.lanes }}" as="l" hint-placeholder-count="2">
@@ -287,6 +288,12 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                 </sc-if>
                 <div style="display:flex;gap:var(--space-2);flex-wrap:wrap;margin-top:auto">
                   <button type="button" class="btn {{ l.btnClass }}" onClick="{{ l.acao }}" style="white-space:nowrap;min-height:44px">{{ l.acaoLabel }}</button>
+                  <sc-if value="{{ l.temSemOcorr }}" hint-placeholder-val="{{ false }}">
+                    <button type="button" class="btn btn-secondary" onClick="{{ l.semOcorr }}" title="Declara, em um clique, que o turno transcorreu sem evento ou ocorrência que justifique a passagem de serviço" style="white-space:nowrap;min-height:44px">Turno sem ocorrências</button>
+                  </sc-if>
+                  <sc-if value="{{ l.temDesfazer }}" hint-placeholder-val="{{ false }}">
+                    <button type="button" class="btn btn-ghost" onClick="{{ l.desfazer }}" style="border-color:var(--color-divider);white-space:nowrap;min-height:44px">Desfazer declaração</button>
+                  </sc-if>
                   <sc-if value="{{ l.temConsultar }}" hint-placeholder-val="{{ false }}">
                     <button type="button" class="btn btn-ghost" onClick="{{ l.consultar }}" title="Abrir para leitura sem se vincular à equipe" style="border-color:var(--color-divider);white-space:nowrap;min-height:44px">Apenas consultar</button>
                   </sc-if>
@@ -686,6 +693,47 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
         </sc-if>
       </sc-if>
 
+      <sc-if value="{{ adm.isPerfis }}" hint-placeholder-val="{{ false }}">
+        <div><h3 style="margin:0">Perfis e postos de trabalho</h3><p style="margin:2px 0 0;font-size:13px;line-height:1.5;color:color-mix(in srgb, var(--color-text) 60%, transparent);text-wrap:pretty;max-width:100ch">{{ adm.perfisResumo }}. Estrutura de coordenações e postos da unidade conforme o PE-3BUZ-00130. Os postos padrão são fixos; crie perfis para outras equipes embarcadas que fazem passagem de serviço — fiscais, técnicos de gerências de apoio (MIED, EEE) e similares — e depois lote os usuários no novo posto em Usuários.</p></div>
+        <div class="blueprint" style="padding:var(--space-4);overflow-x:auto"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <table class="table" style="width:100%">
+            <thead><tr><th>Coordenação</th><th>Posto</th><th>Código</th><th>Nível</th><th>Subordinado a</th><th>Modelo</th><th>Passagens</th><th style="text-align:center">Lotados</th><th></th></tr></thead>
+            <tbody>
+              <sc-for list="{{ adm.perfis }}" as="x" hint-placeholder-count="8">
+                <tr>
+                  <td style="font-size:12.5px">{{ x.coord }}</td>
+                  <td style="font-family:var(--font-heading);font-size:16px">{{ x.p }}</td>
+                  <td style="font-size:12.5px;letter-spacing:0.06em">{{ x.cod }}</td>
+                  <td style="font-size:12.5px">{{ x.nivel }}</td>
+                  <td style="font-size:12.5px">{{ x.sup }}</td>
+                  <td style="font-size:12.5px">{{ x.modelo }}</td>
+                  <td style="font-size:12.5px">{{ x.tipos }}</td>
+                  <td style="text-align:center">{{ x.n }}</td>
+                  <td style="text-align:right;white-space:nowrap"><sc-if value="{{ x.custom }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ x.remover }}" style="height:30px;padding:0 10px;font-size:12px;border-color:var(--color-divider)">Remover</button></sc-if><sc-if value="{{ x.padrao }}" hint-placeholder-val="{{ true }}"><span class="tag tag-neutral" style="font-size:10.5px">Padrão</span></sc-if></td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+        <div class="blueprint" style="padding:var(--space-6);display:flex;flex-direction:column;gap:var(--space-4)"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <h4 style="margin:0">Novo perfil na unidade</h4>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-3)">
+            <div class="field"><label>Nome do posto / perfil</label><input class="input" value="{{ adm.pf.p }}" onChange="{{ adm.pfSet.p }}" placeholder="ex.: Fiscal MIED"></div>
+            <div class="field"><label>Código (3 caracteres)</label><input class="input" value="{{ adm.pf.cod }}" onChange="{{ adm.pfSet.cod }}" placeholder="ex.: FMI"></div>
+            <div class="field"><label>Coordenação</label><select class="input" value="{{ adm.pf.coord }}" onChange="{{ adm.pfSet.coord }}">{{ adm.pfCoordsEl }}</select></div>
+            <div class="field"><label>Nível</label><select class="input" value="{{ adm.pf.nivel }}" onChange="{{ adm.pfSet.nivel }}">{{ adm.pfNiveisEl }}</select></div>
+            <div class="field"><label>Subordinado a</label><select class="input" value="{{ adm.pf.sup }}" onChange="{{ adm.pfSet.sup }}" disabled="{{ adm.pfSupBloq }}">{{ adm.pfSupEl }}</select></div>
+            <div class="field"><label>Modelo de passagem</label><select class="input" value="{{ adm.pf.modelo }}" onChange="{{ adm.pfSet.modelo }}">{{ adm.pfModelosEl }}</select></div>
+            <div class="field"><label>Passagens</label><select class="input" value="{{ adm.pf.tipos }}" onChange="{{ adm.pfSet.tipos }}">{{ adm.pfTiposEl }}</select></div>
+            <div class="field"><label>Descrição (opcional)</label><input class="input" value="{{ adm.pf.desc }}" onChange="{{ adm.pfSet.desc }}" placeholder="ex.: Fiscalização de contrato MIED"></div>
+          </div>
+          <label class="radio" style="gap:10px"><input type="checkbox" checked="{{ adm.pf.facultativo }}" onChange="{{ adm.pfSet.facultativo }}"><span class="dot" style="border-radius:0"></span><span style="font-size:13px">Passagem de turno facultativa — permite declarar “turno sem ocorrências” com um clique</span></label>
+          <p style="margin:0;font-size:12.5px;line-height:1.5;color:color-mix(in srgb, var(--color-text) 62%, transparent);text-wrap:pretty">{{ adm.pfRegra }}</p>
+          <sc-if value="{{ adm.pf.erro }}" hint-placeholder-val="{{ false }}"><div style="border:1px solid var(--color-accent-700);padding:var(--space-3);font-size:13px">{{ adm.pf.erro }}</div></sc-if>
+          <div style="display:flex;justify-content:flex-end"><button type="button" class="btn btn-primary" onClick="{{ adm.pfCriar }}">Criar perfil</button></div>
+        </div>
+      </sc-if>
+
       <sc-if value="{{ adm.isReferencias }}" hint-placeholder-val="{{ false }}">
         <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:var(--space-4);flex-wrap:wrap">
           <div><h3 style="margin:0">Listas de referência</h3><p style="margin:2px 0 0;font-size:13px;color:color-mix(in srgb, var(--color-text) 60%, transparent);text-wrap:pretty">Um item por linha. Estas listas alimentam os postos do Início, os sistemas de cada posto, os poços e as categorias dos registros complementares.</p></div>
@@ -792,7 +840,11 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
           </sc-if>
         </div>
         <div style="font-size:12px;margin-top:4px;color:color-mix(in srgb, var(--color-text) 58%, transparent);text-wrap:pretty">{{ adm.ufUnNota }}</div>
-        <div class="field" style="margin-top:var(--space-3)"><label>Acesso às passagens</label><select class="input" value="{{ adm.uf.acesso }}" onChange="{{ adm.ufSetAcesso }}">{{ adm.acessosEl }}</select><div style="font-size:12px;margin-top:4px;color:color-mix(in srgb, var(--color-text) 58%, transparent)">Operador: Controle, Óleo, Gás e Água · SUPROD: + passagens do SUPROD · COPROD e GEPLAT: + passagens do COPROD. Editar continua exigindo vínculo à equipe.</div></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--space-3);margin-top:var(--space-3)">
+          <div class="field"><label>Acesso às passagens</label><select class="input" value="{{ adm.uf.acesso }}" onChange="{{ adm.ufSetAcesso }}">{{ adm.acessosEl }}</select></div>
+          <div class="field"><label>Posto de lotação</label><select class="input" value="{{ adm.uf.posto }}" onChange="{{ adm.ufSetPosto }}" disabled="{{ adm.ufPostoBloq }}">{{ adm.postosLotEl }}</select></div>
+        </div>
+        <div style="font-size:12px;margin-top:4px;line-height:1.5;color:color-mix(in srgb, var(--color-text) 58%, transparent);text-wrap:pretty">Pelo posto: aplica a regra do nível do posto — GEPLAT acessa tudo e elabora só turma entre GEPLATs; coordenação acessa supervisores e executantes da própria coordenação; supervisão acessa os executantes subordinados; executante acessa o próprio posto (operadores da produção revezam entre Controle, Óleo, Gás e Água). GEOP lê e edita todas, sem elaborar. Engenheiro de base consulta supervisores e executantes. Editar continua exigindo vínculo à equipe.</div>
         <div class="field" style="margin-top:var(--space-3)"><label>{{ adm.ufSenhaLabel }}</label><input class="input" type="text" autoComplete="off" value="{{ adm.uf.senha }}" onChange="{{ adm.ufSetSenha }}" placeholder="mínimo 4 caracteres"></div>
         <label class="radio" style="gap:10px;margin-top:var(--space-3)"><input type="checkbox" checked="{{ adm.uf.trocar }}" onChange="{{ adm.ufSetTrocar }}"><span class="dot" style="border-radius:0"></span><span style="font-size:13px">Pedir troca de senha no próximo acesso</span></label>
         <p style="margin:var(--space-3) 0 0;font-size:12px;line-height:1.5;color:color-mix(in srgb, var(--color-text) 58%, transparent);text-wrap:pretty">Operador: preenche e valida passagens. Supervisor: lê tudo e pode reabrir passagens. Auditor: só leitura e log. Administrador local: administra a própria unidade (usuários, parâmetros, passagens), sem preencher passagens. ADM do sistema: todas as unidades e acessos entre unidades. Renomear a chave atualiza o histórico das passagens.</p>
@@ -1127,6 +1179,8 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                                     <span class="tag tag-outline" style="font-size:10px;height:28px;display:inline-flex;align-items:center">{{ r.reportadoLabel }}</span>
                                     <sc-if value="{{ r.reportDesatualizado }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ r.reenviarRep }}" title="O item mudou depois do reporte — reenviar" style="height:28px;padding:0 8px;font-size:11px;border-color:var(--color-divider)">Reenviar</button></sc-if>
                                   </sc-if>
+                                  <sc-if value="{{ r.podeTurma }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ r.enviarTurma }}" title="Enviar este item para a passagem de turma do posto — reaproveita o registro na consolidação semanal" style="height:28px;padding:0 8px;font-size:11px;gap:4px;border-color:var(--color-divider);white-space:nowrap"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"></path></svg>Turma</button></sc-if>
+                                  <sc-if value="{{ r.paraTurma }}" hint-placeholder-val="{{ false }}"><span class="tag tag-outline" style="font-size:10px;height:28px;display:inline-flex;align-items:center;white-space:nowrap">{{ r.paraTurmaLabel }}</span><sc-if value="{{ r.turmaDesatualizado }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ r.reenviarTurma }}" title="O item mudou depois do envio — reenviar para a turma" style="height:28px;padding:0 8px;font-size:11px;border-color:var(--color-divider)">Reenviar</button></sc-if></sc-if>
                                   <sc-if value="{{ r.temOrigem }}" hint-placeholder-val="{{ false }}"><span class="tag tag-accent" title="{{ r.origemLabel }}" style="font-size:10px;height:28px;display:inline-flex;align-items:center;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.origemLabel }}</span></sc-if>
                                   <sc-if value="{{ r.podeAlertar }}" hint-placeholder-val="{{ false }}">
                                     <button type="button" class="btn btn-ghost" onClick="{{ r.alertar }}" title="Alertar todos os postos — envia este item para os registros complementares das demais passagens do período" style="width:28px;height:28px;padding:0;border-color:var(--color-accent-700);color:var(--color-accent-700)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg></button>
@@ -1187,6 +1241,8 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                             <sc-if value="{{ n.alertado }}" hint-placeholder-val="{{ false }}"><span class="tag tag-accent" style="font-size:10px">{{ n.alertadoLabel }}</span></sc-if>
                             <sc-if value="{{ n.reportado }}" hint-placeholder-val="{{ false }}"><span class="tag tag-outline" style="font-size:10px">{{ n.reportadoLabel }}</span></sc-if>
                             <sc-if value="{{ n.podeReportar }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ n.reportar }}" style="height:28px;padding:0 10px;font-size:12px;border-color:var(--color-divider);gap:6px;white-space:nowrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"></path></svg>{{ n.reportarLabel }}</button></sc-if>
+                            <sc-if value="{{ n.podeTurma }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ n.enviarTurma }}" title="Enviar este registro para a passagem de turma do posto" style="height:28px;padding:0 10px;font-size:12px;border-color:var(--color-divider);gap:6px;white-space:nowrap"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"></path></svg>Enviar para a turma</button></sc-if>
+                            <sc-if value="{{ n.paraTurma }}" hint-placeholder-val="{{ false }}"><span class="tag tag-outline" style="font-size:10px">{{ n.paraTurmaLabel }}</span></sc-if>
                             <sc-if value="{{ n.podeAlertar }}" hint-placeholder-val="{{ false }}">
                               <button type="button" class="btn btn-ghost" onClick="{{ n.alertar }}" title="Alertar todos os postos" style="height:28px;padding:0 10px;font-size:12px;border-color:var(--color-accent-700);color:var(--color-accent-700);gap:6px;white-space:nowrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>Alertar postos</button>
                             </sc-if>
@@ -1442,6 +1498,8 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
               </sc-if>
               <div style="font-size:13px;line-height:1.4;color:color-mix(in srgb, var(--color-text) 65%, transparent);text-wrap:pretty">{{ l.info }}</div>
               <button type="button" class="btn {{ l.btnClass }}" onClick="{{ l.acao }}" style="min-height:56px;justify-content:center">{{ l.acaoLabel }}</button>
+              <sc-if value="{{ l.temSemOcorr }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-secondary" onClick="{{ l.semOcorr }}" style="min-height:56px;justify-content:center">Turno sem ocorrências</button></sc-if>
+              <sc-if value="{{ l.temDesfazer }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ l.desfazer }}" style="min-height:48px;justify-content:center;border-color:var(--color-divider)">Desfazer declaração</button></sc-if>
             </div>
           </sc-for>
         </div>
@@ -1629,6 +1687,8 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
         <sc-if value="{{ m.l.podeConcluir }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-primary" onClick="{{ m.l.concluir }}" style="min-height:60px;justify-content:center;font-size:17px">✓ Concluir item</button></sc-if>
         <button type="button" class="btn btn-secondary" onClick="{{ m.l.nota }}" style="min-height:52px;justify-content:center">Nota rápida para este item</button>
         <sc-if value="{{ m.l.podeReportar }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-secondary" onClick="{{ m.l.reportar }}" style="min-height:52px;justify-content:center;gap:8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"></path></svg>{{ m.l.reportarLabel }}</button></sc-if>
+        <sc-if value="{{ m.l.podeTurma }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-secondary" onClick="{{ m.l.enviarTurma }}" style="min-height:52px;justify-content:center;gap:8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"></path></svg>Enviar para a passagem de turma</button></sc-if>
+        <sc-if value="{{ m.l.paraTurma }}" hint-placeholder-val="{{ false }}"><div style="text-align:center;font-size:13px;color:color-mix(in srgb, var(--color-text) 62%, transparent)">{{ m.l.paraTurmaLabel }}</div></sc-if>
         <sc-if value="{{ m.l.reportado }}" hint-placeholder-val="{{ false }}"><div style="text-align:center;font-size:13px;color:color-mix(in srgb, var(--color-text) 62%, transparent)">{{ m.l.reportadoLabel }}</div></sc-if>
         <sc-if value="{{ m.l.podeAlertar }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-secondary" onClick="{{ m.l.alertar }}" style="min-height:52px;justify-content:center;border-color:var(--color-accent-700);color:var(--color-accent-700);gap:8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>Alertar todos os postos</button></sc-if>
         <sc-if value="{{ m.l.alertado }}" hint-placeholder-val="{{ false }}"><div style="text-align:center;font-size:13px;color:var(--color-accent-700)">{{ m.l.alertadoLabel }}</div></sc-if>
@@ -1935,6 +1995,16 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
         <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
         <div class="dialog-title" style="font-family:var(--font-heading);font-size:22px;line-height:1.1">Iniciar passagem de {{ ini.tipoLabel }} — {{ ini.posto }}</div>
         <div class="dialog-body" style="font-size:14px;line-height:1.5;margin-top:var(--space-3);text-wrap:pretty">Será criado um documento numerado para este posto e período, e você será vinculado à equipe como presença autodeclarada. Os demais operadores do posto verão a passagem na tela de início e poderão entrar nela ao longo do período.</div>
+        <sc-if value="{{ ini.podeUnir }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:var(--space-4)">
+            <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 58%, transparent)">Forma de elaboração</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-2);margin-top:6px">
+              <button type="button" class="btn {{ ini.sepClass }}" onClick="{{ ini.setSeparada }}" style="min-height:52px;justify-content:center;white-space:normal;text-align:center">Uma passagem para cada posto · só {{ ini.postoBase }}</button>
+              <button type="button" class="btn {{ ini.uniClass }}" onClick="{{ ini.setUnica }}" style="min-height:52px;justify-content:center;white-space:normal;text-align:center">Passagem única · {{ ini.postoBase }} + {{ ini.outro }}</button>
+            </div>
+            <div style="font-size:12.5px;line-height:1.45;margin-top:6px;color:color-mix(in srgb, var(--color-text) 62%, transparent);text-wrap:pretty">{{ ini.unirNota }}</div>
+          </div>
+        </sc-if>
         <div style="display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px var(--space-4);margin-top:var(--space-4);font-size:13px;border:1px solid var(--color-divider);padding:var(--space-3) var(--space-4)">
           <span style="color:color-mix(in srgb, var(--color-text) 58%, transparent)">Número</span><span style="font-family:var(--font-heading);font-size:17px;letter-spacing:0.04em">{{ ini.codigo }}</span>
           <span style="color:color-mix(in srgb, var(--color-text) 58%, transparent)">Período</span><span>{{ ini.periodo }}</span>
@@ -2153,7 +2223,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
     <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #1d1f20;padding-bottom:10px">
       <div>
         <div style="font-family:var(--font-heading);font-size:22px;line-height:1.05">Passagem de serviço — {{ rep.tipoTitle }}</div>
-        <div style="font-size:10.5px;color:#4b4d4e">{{ unidade }} · PE-3BUZ-00130 v02.01 · registro de trabalho; validação no APLAT (item 3.3.1.m)</div>
+        <div style="font-size:10.5px;color:#4b4d4e">{{ unidade }} · PE-3BUZ-00130 v02.01{{ rep.anexo }} · registro de trabalho; validação no APLAT (item 3.3.1.m)</div>
       </div>
       <div style="text-align:right;font-size:10.5px;color:#4b4d4e">Nº do documento<br><span style="font-family:var(--font-heading);font-size:13px;letter-spacing:0.04em;color:#1d1f20">{{ rep.codigo }}</span><br>Emitido em<br><span style="font-size:12px;color:#1d1f20">{{ rep.emitido }}</span><br>Gerado por<br><span style="font-size:12px;color:#1d1f20">{{ rep.emitidoPor }}</span></div>
     </div>
@@ -2319,192 +2389,194 @@ class Component extends DCLogic {
   get ARQ() { return this.nsk('arquivo-v1'); }
 
   SESSION = 'bz-sessao-v1';
-  // Cadastro-semente (lotação P-83): planilha "chaves P-83" (função, matrícula, nome, chave) + acesso derivado da função.
+  // Cadastro-semente (lotação P-83): planilha "Equipe P83" — função, matrícula, nome, chave; acesso e posto derivados da função.
   USERS_SEED = [
-    { u: 'JMU9', n: 'Marcelo Lemos Soares', f: 'GEOP', m: '1381373', a: 'geplat' },
-    { u: 'BH1E', n: 'Breno Martins dos Santos', f: 'GEPLAT', m: '2511551', a: 'geplat' },
-    { u: 'FMB1', n: 'Cláudio Oliveira da Costa', f: 'GEPLAT', m: '1354567', a: 'geplat' },
-    { u: 'CXLT', n: 'Guilherme Schmidt', f: 'GEPLAT', m: '9627279', a: 'geplat' },
-    { u: 'U3PE', n: 'Bernardo Rocha Bordeira', f: 'ENG ELETRICISTA', m: '9927344', a: 'operador' },
-    { u: 'U3PX', n: 'Douglas Jardim da Silva', f: 'ENG MECANICO', m: '9924747', a: 'operador' },
-    { u: 'BETN', n: 'Lucas Freire Pacheco', f: 'ENG PETRÓLEO', m: '9886879', a: 'operador' },
-    { u: 'B5QM', n: 'Nayara Eloy Granato Costa', f: 'ENG PROCESSAMENTO', m: '2403970', a: 'operador' },
-    { u: 'DVNZ', n: 'Julia Boechat Celani Zwirman', f: 'ENG PROCESSAMENTO', m: '4604628', a: 'operador' },
-    { u: 'FETX', n: 'Raphael Vasquez Fernandes', f: 'ENG PETRÓLEO', m: '4609094', a: 'operador' },
-    { u: 'URGU', n: 'Rodrigo da Cunha Mangelli', f: 'ENG PETRÓLEO', m: '9609483', a: 'operador' },
-    { u: 'AJP2', n: 'Daiane Gomes Mota', f: 'GESTÃO', m: '', a: 'operador' },
-    { u: 'D2HS', n: 'Gilcilene Bastos', f: 'GESTÃO', m: '', a: 'operador' },
-    { u: 'EK5H', n: 'Filipe Nascimento Belmont', f: 'COEMB', m: '9739609', a: 'operador' },
-    { u: 'UPDJ', n: 'Leandro de Avelar Ramalho', f: 'COEMB', m: '9766347', a: 'operador' },
-    { u: 'U4XE', n: 'Rodrigo Cardoso Hespanhol', f: 'COEMB', m: '2477958', a: 'operador' },
-    { u: 'YMOF', n: 'Wilson Esguersoni Martins', f: 'COEMB', m: '8554212', a: 'operador' },
-    { u: 'DXWY', n: 'Gabriel Alberto Roppa', f: 'COEMB', m: '4604917', a: 'operador' },
-    { u: 'B1S8', n: 'Daniel Pinheiro Teixeira', f: 'SUEMB', m: '2501268', a: 'operador' },
-    { u: 'YRAJ', n: 'Fabio da Silva Sales', f: 'SUEMB', m: '9612727', a: 'operador' },
-    { u: 'MCD1', n: 'Rodrigo da SIlva Cariello', f: 'SUEMB', m: '2530805', a: 'operador' },
-    { u: 'LNIG', n: 'Sergio Eduardo Pinho Barra', f: 'SUEMB', m: '1391354', a: 'operador' },
-    { u: 'NS0U', n: 'André Facadio Santos', f: 'SUEMB', m: '9783762', a: 'operador' },
-    { u: 'NSY3', n: 'Afrânio Silva do Nascimento', f: 'TÉC. ESTABILIDADE', m: '9769000', a: 'operador' },
-    { u: 'BTKP', n: 'Alexandre da Silva Fagundes', f: 'TÉC. ESTABILIDADE', m: '2549290', a: 'operador' },
-    { u: 'FWDE', n: 'Alexandre Vitor Santos Mascarenhas', f: 'TÉC. ESTABILIDADE', m: '4612373', a: 'operador' },
-    { u: 'B1WH', n: 'Caio Silva Mello', f: 'TÉC. ESTABILIDADE', m: '2503919', a: 'operador' },
-    { u: 'F8TR', n: 'Diogo Santos Silva Da Costa', f: 'TÉC. ESTABILIDADE', m: '4607960', a: 'operador' },
-    { u: 'XDZY', n: 'Felipe Duarte Ferreira', f: 'TÉC. ESTABILIDADE', m: '9730154', a: 'operador' },
-    { u: 'U36Q', n: 'Gabriel Duarte Pinheiro', f: 'TÉC. ESTABILIDADE', m: '9905630', a: 'operador' },
-    { u: 'G7KE', n: 'Igor Ribeiro da Silva Bonilha', f: 'TÉC. ESTABILIDADE', m: '4613449', a: 'operador' },
-    { u: 'NA2O', n: 'Marcelo Evangelista Costa', f: 'TÉC. ESTABILIDADE', m: '9905524', a: 'operador' },
-    { u: 'K5KA', n: 'Marcos Antônio Borges de Moraes', f: 'TÉC. ESTABILIDADE', m: '2484060', a: 'operador' },
-    { u: 'NS27', n: 'Paula Neves Testi', f: 'TÉC. ESTABILIDADE', m: '9782083', a: 'operador' },
-    { u: 'N7G5', n: 'Rafael Sedov de Souza Chaves', f: 'TÉC. ESTABILIDADE', m: '2456822', a: 'operador' },
-    { u: 'F955', n: 'Stefan Pereira da Silva', f: 'TÉC. ESTABILIDADE', m: '4608144', a: 'operador' },
-    { u: 'F941', n: 'Thiago Henrique Garutti', f: 'TÉC. ESTABILIDADE', m: '4608161', a: 'operador' },
-    { u: 'NSZD', n: 'Vonibaldo Marino Bremenkamp', f: 'TÉC. ESTABILIDADE', m: '9768734', a: 'operador' },
-    { u: 'FW8J', n: 'Alayna Marcia Garcia Conceiçao', f: 'TLT', m: '4612133', a: 'operador' },
-    { u: 'SDX7', n: 'Diego Santos de Oliveira', f: 'TLT', m: '9851671', a: 'operador' },
-    { u: 'GFOS', n: 'Fábio Costa Daflon', f: 'TLT', m: '4614158', a: 'operador' },
-    { u: 'AT7D', n: 'Gustavo Henrique de Oliveira Miranda', f: 'TLT', m: '2499232', a: 'operador' },
-    { u: 'NSYD', n: 'Eduardo Silvério Alves', f: 'COMAN', m: '9769282', a: 'operador' },
-    { u: 'TFBN', n: 'Mauro Streisky', f: 'COMAN', m: '9908225', a: 'operador' },
-    { u: 'U4OB', n: 'Ronaldo Finkler', f: 'COMAN', m: '2427421', a: 'operador' },
-    { u: 'XD6O', n: 'Leandro Cordeiro Antunes', f: 'COMAN', m: '9767958', a: 'operador' },
-    { u: 'WVY4', n: 'Alexandre Januário Santos', f: 'SUEIN', m: '9825284', a: 'operador' },
-    { u: 'FRCF', n: 'Anderson Marcos Basílio', f: 'SUEIN', m: '9611976', a: 'operador' },
-    { u: 'RWEU', n: 'Gutemberg Saraiva de Araújo', f: 'SUEIN', m: '1389008', a: 'operador' },
-    { u: 'YT3I', n: 'Marco Nunes Hoffmann', f: 'SUEIN', m: '9861314', a: 'operador' },
-    { u: 'NVBN', n: 'Rafael dos Santos Lima Hohl', f: 'SUEIN', m: '9611859', a: 'operador' },
-    { u: 'RLG3', n: 'Alexandre Muniz da Silva Silveira', f: 'TM ELÉTRICA', m: '9611061', a: 'operador' },
-    { u: 'MGKJ', n: 'André Neves Calasans', f: 'TM ELÉTRICA', m: '9730001', a: 'operador' },
-    { u: 'E8FU', n: 'Carlos Alberto da Rocha Oliveira Filho', f: 'TM ELÉTRICA', m: '2469829', a: 'operador' },
-    { u: 'MAEV', n: 'Eduardo Oliveira de Almeida', f: 'TM ELÉTRICA', m: '9769269', a: 'operador' },
-    { u: 'NVR7', n: 'Eriton de Oliveira Santos', f: 'TM ELÉTRICA', m: '9827517', a: 'operador' },
-    { u: 'F9SG', n: 'Gabriel Giacomini Moura', f: 'TM ELÉTRICA', m: '4608457', a: 'operador' },
-    { u: 'F8ML', n: 'Izabela Cristina de Souza Carvalho', f: 'TM ELÉTRICA', m: '2448729', a: 'operador' },
-    { u: 'URJ1', n: 'Julio Cesar Assis de Souza', f: 'TM ELÉTRICA', m: '9618399', a: 'operador' },
-    { u: 'RT3W', n: 'Leonardo Garcia Higino', f: 'TM ELÉTRICA', m: '9618467', a: 'operador' },
-    { u: 'NSXY', n: 'Leonardo José Rossi de Oliveira', f: 'TM ELÉTRICA', m: '9769429', a: 'operador' },
-    { u: 'L1MJ', n: 'Marcelo José Nogueira', f: 'TM ELÉTRICA', m: '2439905', a: 'operador' },
-    { u: 'WUYB', n: 'Marcelo Ribeiro Dias (Bahia)', f: 'TM ELÉTRICA', m: '9679160', a: 'operador' },
-    { u: 'S229', n: 'Márcio de Queiroz Santa Marta', f: 'TM ELÉTRICA', m: '2421674', a: 'operador' },
-    { u: 'RHGI', n: 'Rafael Aguiar Chaves', f: 'TM ELÉTRICA', m: '9729641', a: 'operador' },
-    { u: 'MOP3', n: 'Renato Henriques de Oliveira (Renatinho)', f: 'TM ELÉTRICA', m: '9729616', a: 'operador' },
-    { u: 'GFM3', n: 'Vladimir César Caminha Junior', f: 'TM ELÉTRICA', m: '4614411', a: 'operador' },
-    { u: 'GFAA', n: 'João Vitor Vieira dos Santos', f: 'TM ELÉTRICA', m: '4614336', a: 'operador' },
-    { u: 'GFCS', n: 'Wesley da Cunha Carvalho', f: 'TM ELÉTRICA', m: '4614330', a: 'operador' },
-    { u: 'N5VI', n: 'Adriano Lúcio de Lima', f: 'TM INSTRUMENTAÇÃO', m: '2441138', a: 'operador' },
-    { u: 'URFA', n: 'Carlos Alexandre Gomes Barroso', f: 'TM INSTRUMENTAÇÃO', m: '01388560', a: 'operador' },
-    { u: 'LPLK', n: 'Erike Vasconcelos Ramos Mota', f: 'TM INSTRUMENTAÇÃO', m: '9767530', a: 'operador' },
-    { u: 'PDSO', n: 'Gleucima da Costa', f: 'TM INSTRUMENTAÇÃO', m: '9673862', a: 'operador' },
-    { u: 'RLJS', n: 'Jailson da Silva Machado', f: 'TM INSTRUMENTAÇÃO', m: '9650690', a: 'operador' },
-    { u: 'EKID', n: 'Jorge Luiz Gomes Júnior', f: 'TM INSTRUMENTAÇÃO', m: '0222665', a: 'operador' },
-    { u: 'FW6C', n: 'José Carlos Mendonça Santana', f: 'TM INSTRUMENTAÇÃO', m: '4612318', a: 'operador' },
-    { u: 'YRO5', n: 'Jovani Monteiro do Carmo', f: 'TM INSTRUMENTAÇÃO', m: '9642627', a: 'operador' },
-    { u: 'LMIN', n: 'Marcelo dos Santos Silva (Marrento)', f: 'TM INSTRUMENTAÇÃO', m: '1384406', a: 'operador' },
-    { u: 'B2NK', n: 'Marcus Vinicius Garcia Martins Junior', f: 'TM INSTRUMENTAÇÃO', m: '2505427', a: 'operador' },
-    { u: 'FW9S', n: 'Pedro Henrique Marques dos Santos', f: 'TM INSTRUMENTAÇÃO', m: '4612195', a: 'operador' },
-    { u: 'WU3X', n: 'Renato César dos Reis Filho', f: 'TM INSTRUMENTAÇÃO', m: '9691124', a: 'operador' },
-    { u: 'PD0U', n: 'Rodrigo Pinheiro Alves', f: 'TM INSTRUMENTAÇÃO', m: '9685086', a: 'operador' },
-    { u: 'WV48', n: 'Rômulo de Oliveira Santana', f: 'TM INSTRUMENTAÇÃO', m: '9927196', a: 'operador' },
-    { u: 'KEFZ', n: 'Wendson Correia Santos', f: 'TM INSTRUMENTAÇÃO', m: '1879833', a: 'operador' },
-    { u: 'B25O', n: 'Yuri Santos De Barros', f: 'TM INSTRUMENTAÇÃO', m: '2529333', a: 'operador' },
-    { u: 'NVMJ', n: 'Adamson Campos Silva', f: 'TM AUTOMAÇÃO', m: '9815703', a: 'operador' },
-    { u: 'GMBD', n: 'Alberto Alvares Cabral', f: 'TM AUTOMAÇÃO', m: '1387470', a: 'operador' },
-    { u: 'URFB', n: 'Carlos Eduardo de Macena Tinoco', f: 'TM AUTOMAÇÃO', m: '1388571', a: 'operador' },
-    { u: 'KAZZ', n: 'Josevaldo dos Santos Feitoza', f: 'TM AUTOMAÇÃO', m: '1872752', a: 'operador' },
-    { u: 'FMKI', n: 'Sérgio Ferreira Pinto (Serginho)', f: 'TM AUTOMAÇÃO', m: '1333511', a: 'operador' },
-    { u: 'SLDR', n: 'Alano Fiuza de Santana', f: 'SUMEC', m: '9770312', a: 'operador' },
-    { u: 'NSAZ', n: 'Eduardo Jacob de Santana', f: 'SUMEC', m: '9612696', a: 'operador' },
-    { u: 'FRD9', n: 'Fábio Fernandes Ferreira', f: 'SUMEC', m: '9618627', a: 'operador' },
-    { u: 'MG0B', n: 'Jorge Antonio Ferreira de Siqueira', f: 'SUMEC', m: '9820196', a: 'operador' },
-    { u: 'WV8P', n: 'Mateus Rodrigues Souza de Azevedo', f: 'SUMEC', m: '2433913', a: 'operador' },
-    { u: 'E112', n: 'Alan Romnei de Andrade Resende', f: 'TM MECÂNICA', m: '9857245', a: 'operador' },
-    { u: 'WMFR', n: 'Anderson Barbosa de Paula', f: 'TM MECÂNICA', m: '1369507', a: 'operador' },
-    { u: 'GF4B', n: 'Arley Farias da Silva', f: 'TM MECÂNICA', m: '4614630', a: 'operador' },
-    { u: 'URYV', n: 'André Luiz de Souza', f: 'TM MECÂNICA', m: '9681500', a: 'operador' },
-    { u: 'ASDU', n: 'Carlos Eduardo Latance', f: 'TM MECÂNICA', m: '9652055', a: 'operador' },
-    { u: 'PL7B', n: 'Celso Ricardo dos Santos', f: 'TM MECÂNICA', m: '2476612', a: 'operador' },
-    { u: 'URP3', n: 'Claudio Adriano da Cunha', f: 'TM MECÂNICA', m: '9644749', a: 'operador' },
-    { u: 'GFPN', n: 'Dijon Soares da Silva', f: 'TM MECÂNICA', m: '4614512', a: 'operador' },
-    { u: 'URNN', n: 'Eliaro Beltrame Pereira', f: 'TM MECÂNICA', m: '9634130', a: 'operador' },
-    { u: 'GFDQ', n: 'Everton Messias Antenor', f: 'TM MECÂNICA', m: '4614625', a: 'operador' },
-    { u: 'PDBP', n: 'Felipe Gonelli Fernandes', f: 'TM MECÂNICA', m: '9612790', a: 'operador' },
-    { u: 'PDEK', n: 'Flávio Renato Gerloff de Queiroz', f: 'TM MECÂNICA', m: '9612360', a: 'operador' },
-    { u: 'FN3R', n: 'Irvin Weslley Oliveira de Barros', f: 'TM MECÂNICA', m: '4612096', a: 'operador' },
-    { u: 'URUG', n: 'Ivan de Medeiros Aguiar', f: 'TM MECÂNICA', m: '9661967', a: 'operador' },
-    { u: 'WV8V', n: 'João Paulo da Silva Figueiredo', f: 'TM MECÂNICA', m: '2434055', a: 'operador' },
-    { u: 'KE6R', n: 'Jonatan Ilídio da Silva', f: 'TM MECÂNICA', m: '2458540', a: 'operador' },
-    { u: 'FVU9', n: 'Leandro Peterson Bento', f: 'TM MECÂNICA', m: '4612125', a: 'operador' },
-    { u: 'MCW5', n: 'Leonardo Gaiao Brault de Miranda', f: 'TM MECÂNICA', m: '2462540', a: 'operador' },
-    { u: 'YR1R', n: 'Luiz Fabiano de Souza Oliveira', f: 'TM MECÂNICA', m: '9688574', a: 'operador' },
-    { u: 'XDDH', n: 'Lusimar Barros Gomes Junior', f: 'TM MECÂNICA', m: '9618990', a: 'operador' },
-    { u: 'A1QB', n: 'Maximina Giron', f: 'TM MECÂNICA', m: '2438435', a: 'operador' },
-    { u: 'URVX', n: 'Rafael Rodrigues Cardoso', f: 'TM MECÂNICA', m: '9663150', a: 'operador' },
-    { u: 'GGA5', n: 'Wanderson Duraes Fialho', f: 'TM MECÂNICA', m: '4615025', a: 'operador' },
-    { u: 'GG20', n: 'Naerta Eliza Dias Creton Damasceno', f: 'TÉCNICO DE SUPRIMENTO', m: '4614800', a: 'operador' },
-    { u: 'U4IC', n: 'Camila Viana Frasao Beiral', f: 'COPROD', m: '2424664', a: 'coprod' },
-    { u: 'CX1A', n: 'Fabio Feo Junqueira Cardoso', f: 'COPROD', m: '9631940', a: 'coprod' },
-    { u: 'URPQ', n: 'Fabricio da Graça Martini Quintas', f: 'COPROD', m: '9643323', a: 'coprod', t: 1 },
-    { u: 'BHQ1', n: 'Vinicius Tarouquella da Silva Rocha', f: 'COPROD', m: '2494771', a: 'coprod' },
-    { u: 'M37R', n: 'Bruno de Oliveira Samel Moraes', f: 'SUPROD', m: '2407108', a: 'suprod' },
-    { u: 'NA1Y', n: 'Hygor Augusto Lorencini', f: 'SUPROD', m: '9904877', a: 'suprod' },
-    { u: 'FRA2', n: 'Jefferson Fraga de Jesus', f: 'SUPROD', m: '9610586', a: 'suprod' },
-    { u: 'KB1O', n: 'Marcell Mendes Santos Silva', f: 'SUPROD', m: '9908876', a: 'suprod' },
-    { u: 'UREQ', n: 'Paulo Cesar de Castilha', f: 'SUPROD', m: '0909346', a: 'suprod' },
-    { u: 'RTWC', n: 'Adriana Pereira Silva', f: 'TÉC. OPERAÇÃO', m: '9610758', a: 'operador' },
-    { u: 'XBWR', n: 'Carlos Edson Lima', f: 'TÉC. OPERAÇÃO', m: '9906717', a: 'operador' },
-    { u: 'DAJF', n: 'Carlos Gustavo Bessa de Mello Vianna', f: 'TÉC. OPERAÇÃO', m: '9684700', a: 'operador' },
-    { u: 'NS1R', n: 'Flavio Faria de Oliveira', f: 'TÉC. OPERAÇÃO', m: '9780827', a: 'operador' },
-    { u: 'F8CK', n: 'Gabriel Junca e Meireles', f: 'TÉC. OPERAÇÃO', m: '9842662', a: 'operador', t: 1 },
-    { u: 'BE94', n: 'Leonardo Lopes Bezerra', f: 'TÉC. OPERAÇÃO', m: '9876340', a: 'operador' },
-    { u: 'RV0N', n: 'Livio Rodrigues Rocha', f: 'TÉC. OPERAÇÃO', m: '9719010', a: 'operador' },
-    { u: 'URSS', n: 'Rafael Matias de Barros', f: 'TÉC. OPERAÇÃO', m: '9660922', a: 'operador', t: 1 },
-    { u: 'LPZH', n: 'Sidne Pena Magalhães', f: 'TÉC. OPERAÇÃO', m: '9815205', a: 'operador' },
-    { u: 'FN2K', n: 'Andressa Aparecida Ribeiro Sanches', f: 'TÉC. OPERAÇÃO', m: '4612822', a: 'operador' },
-    { u: 'FW0R', n: 'Douglas Arthur Coutinho Ribeiro', f: 'TÉC. OPERAÇÃO', m: '4612868', a: 'operador' },
-    { u: 'WS3M', n: 'Edcarlos Freire dos Santos', f: 'TÉC. OPERAÇÃO', m: '9775553', a: 'operador' },
-    { u: 'NS1H', n: 'Estevao Nogueira da Silva Amaro', f: 'TÉC. OPERAÇÃO', m: '9782280', a: 'operador' },
-    { u: 'WXVG', n: 'Fernando Brandao de Sousa', f: 'TÉC. OPERAÇÃO', m: '334362', a: 'operador' },
-    { u: 'M37H', n: 'Francisco José Rangel Ribeiro', f: 'TÉC. OPERAÇÃO', m: '2406820', a: 'operador' },
-    { u: 'F08F', n: 'Gabriel Calixto Maciel', f: 'TÉC. OPERAÇÃO', m: '4612316', a: 'operador' },
-    { u: 'FW1V', n: 'Gustavo Donadia Nascimento', f: 'TÉC. OPERAÇÃO', m: '4612363', a: 'operador' },
-    { u: 'DAJU', n: 'Herbert de Jesus Mattos da Costa', f: 'TÉC. OPERAÇÃO', m: '9684342', a: 'operador' },
-    { u: 'FW4D', n: 'Lara Soares Monte', f: 'TÉC. OPERAÇÃO', m: '4612718', a: 'operador' },
-    { u: 'WU9W', n: 'Luis Eduardo dos Santos Mota', f: 'TÉC. OPERAÇÃO', m: '9720462', a: 'operador' },
-    { u: 'RTNM', n: 'Marcio Andre Alves de Menezes', f: 'TÉC. OPERAÇÃO', m: '1391305', a: 'operador' },
-    { u: 'NA2L', n: 'Marcos Antônio Sobreira Júnior', f: 'TÉC. OPERAÇÃO', m: '9906902', a: 'operador' },
-    { u: 'FVV9', n: 'Marcos Ribeiro Costa', f: 'TÉC. OPERAÇÃO', m: '4612310', a: 'operador' },
-    { u: 'M37Q', n: 'Paulo Armindo Manhaes Junior', f: 'TÉC. OPERAÇÃO', m: '2406984', a: 'operador' },
-    { u: 'FVZ9', n: 'Thiago da Cunha Rocha Devesa de Miranda', f: 'TÉC. OPERAÇÃO', m: '4612689', a: 'operador' },
-    { u: 'S7AK', n: 'Aurelio Ferreira de Melo', f: 'TÉC. OPERAÇÃO', m: '9920110', a: 'operador' },
-    { u: 'FWEC', n: 'Breno Oliveira De Sousa Ramos', f: 'TÉC. OPERAÇÃO', m: '4612565', a: 'operador' },
-    { u: 'CNWT', n: 'Bruno Duarte Moreira', f: 'TÉC. OPERAÇÃO', m: '9647280', a: 'operador' },
-    { u: 'FVXU', n: 'Christian Costa Paes', f: 'TÉC. OPERAÇÃO', m: '4612780', a: 'operador' },
-    { u: 'FWAZ', n: 'Daniele Da Silva Pereira', f: 'TÉC. OPERAÇÃO', m: '4612227', a: 'operador' },
-    { u: 'FW8D', n: 'Fabricio Leonardo Delamare', f: 'TÉC. OPERAÇÃO', m: '4612534', a: 'operador' },
-    { u: 'FW0F', n: 'Igor Foti De Andrade', f: 'TÉC. OPERAÇÃO', m: '4612690', a: 'operador' },
-    { u: 'WTK2', n: 'Júlio Anderson de Santana Peralva', f: 'TÉC. OPERAÇÃO', m: '9859080', a: 'operador' },
-    { u: 'NSYK', n: 'Leandro Matias de Assis', f: 'TÉC. OPERAÇÃO', m: '9769990', a: 'operador' },
-    { u: 'M37Z', n: 'Marcio de Barros Rodrigues Albino', f: 'TÉC. OPERAÇÃO', m: '2407956', a: 'operador' },
-    { u: 'RMNF', n: 'Marcos Estevao Chagas', f: 'TÉC. OPERAÇÃO', m: '1382474', a: 'operador' },
-    { u: 'FW1B', n: 'Marcus Vinicius De Souza Muniz Dos Santos', f: 'TÉC. OPERAÇÃO', m: '4612367', a: 'operador' },
-    { u: 'FVUJ', n: 'Mariana Camacho Lima', f: 'TÉC. OPERAÇÃO', m: '4612501', a: 'operador' },
-    { u: 'URI2', n: 'Paulo Cesar Cardoso', f: 'TÉC. OPERAÇÃO', m: '9611990', a: 'operador' },
-    { u: 'NVPM', n: 'Welington Nalon Itaborahy', f: 'TÉC. OPERAÇÃO', m: '9814386', a: 'operador' },
-    { u: 'FW5G', n: 'Alexandre de Araujo Godoy', f: 'TÉC. OPERAÇÃO', m: '4612877', a: 'operador' },
-    { u: 'DAGD', n: 'Fabio da Silva Martins', f: 'TÉC. OPERAÇÃO', m: '9683892', a: 'operador' },
-    { u: 'FWDG', n: 'Fabio Henrique da Costa', f: 'TÉC. OPERAÇÃO', m: '4612716', a: 'operador' },
-    { u: 'AS4D', n: 'Felipe Borges Muller', f: 'TÉC. OPERAÇÃO', m: '9838323', a: 'operador' },
-    { u: 'B0X1', n: 'Felipe Silva Gratival', f: 'TÉC. OPERAÇÃO', m: '2529308', a: 'operador' },
-    { u: 'AS4K', n: 'George Lenfers', f: 'TÉC. OPERAÇÃO', m: '9836852', a: 'operador' },
-    { u: 'FW4S', n: 'Izabella Rose Silva', f: 'TÉC. OPERAÇÃO', m: '4612858', a: 'operador' },
-    { u: 'ATJC', n: 'Jacqueline Lins de Souza Orico', f: 'TÉC. OPERAÇÃO', m: '2550539', a: 'operador' },
-    { u: 'XDNB', n: 'João Carlos Fernandes Gonçalves', f: 'TÉC. OPERAÇÃO', m: '9642676', a: 'operador' },
-    { u: 'URON', n: 'José Barbosa Júnior', f: 'TÉC. OPERAÇÃO', m: '9642295', a: 'operador' },
-    { u: 'FW7G', n: 'Manuel Nascimento Fernandes Neto', f: 'TÉC. OPERAÇÃO', m: '4612551', a: 'operador' },
-    { u: 'FRF2', n: 'Rogério Luiz de Matos Rocha', f: 'TÉC. OPERAÇÃO', m: '9642707', a: 'operador' },
-    { u: 'FVY9', n: 'Tiago Heliodoro Fonseca', f: 'TÉC. OPERAÇÃO', m: '4612616', a: 'operador' },
-    { u: 'FWIK', n: 'Vagner Santos de Jesus', f: 'TÉC. OPERAÇÃO', m: '4612863', a: 'operador' },
-    { u: 'URYS', n: 'Welington da Silva Araujo', f: 'TÉC. OPERAÇÃO', m: '9681002', a: 'operador' }
+    { u: 'JMU9', n: 'Marcelo Lemos Soares', f: 'GEOP', m: '1381373', a: 'geop', p: '' },
+    { u: 'BH1E', n: 'Breno Martins dos Santos', f: 'GEPLAT', m: '2511551', a: 'posto', p: 'GEPLAT' },
+    { u: 'FMB1', n: 'Cláudio Oliveira da Costa', f: 'GEPLAT', m: '1354567', a: 'posto', p: 'GEPLAT' },
+    { u: 'CXLT', n: 'Guilherme Schmidt', f: 'GEPLAT', m: '9627279', a: 'posto', p: 'GEPLAT' },
+    { u: 'U3PE', n: 'Bernardo Rocha Bordeira', f: 'ENG ELETRICISTA', m: '9927344', a: 'eng', p: '' },
+    { u: 'U3PX', n: 'Douglas Jardim da Silva', f: 'ENG MECANICO', m: '9924747', a: 'eng', p: '' },
+    { u: 'BETN', n: 'Lucas Freire Pacheco', f: 'ENG PETRÓLEO', m: '9886879', a: 'eng', p: '' },
+    { u: 'B5QM', n: 'Nayara Eloy Granato Costa', f: 'ENG PROCESSAMENTO', m: '2403970', a: 'eng', p: '' },
+    { u: 'DVNZ', n: 'Julia Boechat Celani Zwirman', f: 'ENG PROCESSAMENTO', m: '4604628', a: 'eng', p: '' },
+    { u: 'FETX', n: 'Raphael Vasquez Fernandes', f: 'ENG PETRÓLEO', m: '4609094', a: 'eng', p: '' },
+    { u: 'URGU', n: 'Rodrigo da Cunha Mangelli', f: 'ENG PETRÓLEO', m: '9609483', a: 'eng', p: '' },
+    { u: 'AJP2', n: 'Daiane Gomes Mota', f: 'GESTÃO', m: '', a: 'apoio', p: '' },
+    { u: 'D2HS', n: 'Gilcilene Bastos', f: 'GESTÃO', m: '', a: 'apoio', p: '' },
+    { u: 'EK5H', n: 'Filipe Nascimento Belmont', f: 'COEMB', m: '9739609', a: 'posto', p: 'COEMB' },
+    { u: 'UPDJ', n: 'Leandro de Avelar Ramalho', f: 'COEMB', m: '9766347', a: 'posto', p: 'COEMB' },
+    { u: 'U4XE', n: 'Rodrigo Cardoso Hespanhol', f: 'COEMB', m: '2477958', a: 'posto', p: 'COEMB' },
+    { u: 'YMOF', n: 'Wilson Esguersoni Martins', f: 'COEMB', m: '8554212', a: 'posto', p: 'COEMB' },
+    { u: 'DXWY', n: 'Gabriel Alberto Roppa', f: 'COEMB', m: '4604917', a: 'posto', p: 'COEMB' },
+    { u: 'B1S8', n: 'Daniel Pinheiro Teixeira', f: 'SUEMB', m: '2501268', a: 'posto', p: 'SUEMB' },
+    { u: 'YRAJ', n: 'Fabio da Silva Sales', f: 'SUEMB', m: '9612727', a: 'posto', p: 'SUEMB' },
+    { u: 'MCD1', n: 'Rodrigo da Silva Cariello', f: 'SUEMB', m: '2530805', a: 'posto', p: 'SUEMB' },
+    { u: 'LNIG', n: 'Sergio Eduardo Pinho Barra', f: 'SUEMB', m: '1391354', a: 'posto', p: 'SUEMB' },
+    { u: 'NS0U', n: 'André Facadio Santos', f: 'SUEMB', m: '9783762', a: 'posto', p: 'SUEMB' },
+    { u: 'NSY3', n: 'Afrânio Silva do Nascimento', f: 'TÉC. ESTABILIDADE', m: '9769000', a: 'posto', p: 'Controle Embarcação' },
+    { u: 'BTKP', n: 'Alexandre da Silva Fagundes', f: 'TÉC. ESTABILIDADE', m: '2549290', a: 'posto', p: 'Controle Embarcação' },
+    { u: 'FWDE', n: 'Alexandre Vitor Santos Mascarenhas', f: 'TÉC. ESTABILIDADE', m: '4612373', a: 'posto', p: 'Controle Embarcação' },
+    { u: 'B1WH', n: 'Caio Silva Mello', f: 'TÉC. ESTABILIDADE', m: '2503919', a: 'posto', p: 'Controle Embarcação' },
+    { u: 'F8TR', n: 'Diogo Santos Silva Da Costa', f: 'TÉC. ESTABILIDADE', m: '4607960', a: 'posto', p: 'Controle Embarcação' },
+    { u: 'XDZY', n: 'Felipe Duarte Ferreira', f: 'TÉC. ESTABILIDADE', m: '9730154', a: 'posto', p: 'Controle Embarcação' },
+    { u: 'U36Q', n: 'Gabriel Duarte Pinheiro', f: 'TÉC. ESTABILIDADE', m: '9905630', a: 'posto', p: 'Controle Embarcação' },
+    { u: 'G7KE', n: 'Igor Ribeiro da Silva Bonilha', f: 'TÉC. ESTABILIDADE', m: '4613449', a: 'posto', p: 'Controle Embarcação' },
+    { u: 'NA2O', n: 'Marcelo Evangelista Costa', f: 'TÉC. ESTABILIDADE', m: '9905524', a: 'posto', p: 'Controle Embarcação' },
+    { u: 'K5KA', n: 'Marcos Antônio Borges de Moraes', f: 'TÉC. ESTABILIDADE', m: '2484060', a: 'posto', p: 'Controle Embarcação' },
+    { u: 'NS27', n: 'Paula Neves Testi', f: 'TÉC. ESTABILIDADE', m: '9782083', a: 'posto', p: 'Controle Embarcação' },
+    { u: 'N7G5', n: 'Rafael Sedov de Souza Chaves', f: 'TÉC. ESTABILIDADE', m: '2456822', a: 'posto', p: 'Controle Embarcação' },
+    { u: 'F955', n: 'Stefan Pereira da Silva', f: 'TÉC. ESTABILIDADE', m: '4608144', a: 'posto', p: 'Controle Embarcação' },
+    { u: 'F941', n: 'Thiago Henrique Garutti', f: 'TÉC. ESTABILIDADE', m: '4608161', a: 'posto', p: 'Controle Embarcação' },
+    { u: 'NSZD', n: 'Vonibaldo Marino Bremenkamp', f: 'TÉC. ESTABILIDADE', m: '9768734', a: 'posto', p: 'Controle Embarcação' },
+    { u: 'FW8J', n: 'Alayna Marcia Garcia Conceiçao', f: 'TLT', m: '4612133', a: 'posto', p: 'TLT' },
+    { u: 'SDX7', n: 'Diego Santos de Oliveira', f: 'TLT', m: '9851671', a: 'posto', p: 'TLT' },
+    { u: 'GFOS', n: 'Fábio Costa Daflon', f: 'TLT', m: '4614158', a: 'posto', p: 'TLT' },
+    { u: 'AT7D', n: 'Gustavo Henrique de Oliveira Miranda', f: 'TLT', m: '2499232', a: 'posto', p: 'TLT' },
+    { u: 'NSYD', n: 'Eduardo Silvério Alves', f: 'COMAN', m: '9769282', a: 'posto', p: 'COMAN' },
+    { u: 'TFBN', n: 'Mauro Streisky', f: 'COMAN', m: '9908225', a: 'posto', p: 'COMAN' },
+    { u: 'U4OB', n: 'Ronaldo Finkler', f: 'COMAN', m: '2427421', a: 'posto', p: 'COMAN' },
+    { u: 'XD6O', n: 'Leandro Cordeiro Antunes', f: 'COMAN', m: '9767958', a: 'posto', p: 'COMAN' },
+    { u: 'WVY4', n: 'Alexandre Januário Santos', f: 'SUEIN', m: '9825284', a: 'posto', p: 'SUEIN' },
+    { u: 'FRCF', n: 'Anderson Marcos Basílio', f: 'SUEIN', m: '9611976', a: 'posto', p: 'SUEIN' },
+    { u: 'RWEU', n: 'Gutemberg Saraiva de Araújo', f: 'SUEIN', m: '1389008', a: 'posto', p: 'SUEIN' },
+    { u: 'YT3I', n: 'Marco Nunes Hoffmann', f: 'SUEIN', m: '9861314', a: 'posto', p: 'SUEIN' },
+    { u: 'NVBN', n: 'Rafael dos Santos Lima Hohl', f: 'SUEIN', m: '9611859', a: 'posto', p: 'SUEIN' },
+    { u: 'RLG3', n: 'Alexandre Muniz da Silva Silveira', f: 'TM ELÉTRICA', m: '9611061', a: 'posto', p: 'Manutenção Elétrica' },
+    { u: 'MGKJ', n: 'André Neves Calasans', f: 'TM ELÉTRICA', m: '9730001', a: 'posto', p: 'Manutenção Elétrica' },
+    { u: 'E8FU', n: 'Carlos Alberto da Rocha Oliveira Filho', f: 'TM ELÉTRICA', m: '2469829', a: 'posto', p: 'Manutenção Elétrica' },
+    { u: 'MAEV', n: 'Eduardo Oliveira de Almeida', f: 'TM ELÉTRICA', m: '9769269', a: 'posto', p: 'Manutenção Elétrica' },
+    { u: 'NVR7', n: 'Eriton de Oliveira Santos', f: 'TM ELÉTRICA', m: '9827517', a: 'posto', p: 'Manutenção Elétrica' },
+    { u: 'F9SG', n: 'Gabriel Giacomini Moura', f: 'TM ELÉTRICA', m: '4608457', a: 'posto', p: 'Manutenção Elétrica' },
+    { u: 'F8ML', n: 'Izabela Cristina de Souza Carvalho', f: 'TM ELÉTRICA', m: '2448729', a: 'posto', p: 'Manutenção Elétrica' },
+    { u: 'URJ1', n: 'Julio Cesar Assis de Souza', f: 'TM ELÉTRICA', m: '9618399', a: 'posto', p: 'Manutenção Elétrica' },
+    { u: 'RT3W', n: 'Leonardo Garcia Higino', f: 'TM ELÉTRICA', m: '9618467', a: 'posto', p: 'Manutenção Elétrica' },
+    { u: 'NSXY', n: 'Leonardo José Rossi de Oliveira', f: 'TM ELÉTRICA', m: '9769429', a: 'posto', p: 'Manutenção Elétrica' },
+    { u: 'L1MJ', n: 'Marcelo José Nogueira', f: 'TM ELÉTRICA', m: '2439905', a: 'posto', p: 'Manutenção Elétrica' },
+    { u: 'WUYB', n: 'Marcelo Ribeiro Dias (Bahia)', f: 'TM ELÉTRICA', m: '9679160', a: 'posto', p: 'Manutenção Elétrica' },
+    { u: 'S229', n: 'Márcio de Queiroz Santa Marta', f: 'TM ELÉTRICA', m: '2421674', a: 'posto', p: 'Manutenção Elétrica' },
+    { u: 'RHGI', n: 'Rafael Aguiar Chaves', f: 'TM ELÉTRICA', m: '9729641', a: 'posto', p: 'Manutenção Elétrica' },
+    { u: 'MOP3', n: 'Renato Henriques de Oliveira (Renatinho)', f: 'TM ELÉTRICA', m: '9729616', a: 'posto', p: 'Manutenção Elétrica' },
+    { u: 'GFM3', n: 'Vladimir César Caminha Junior', f: 'TM ELÉTRICA', m: '4614411', a: 'posto', p: 'Manutenção Elétrica' },
+    { u: 'GFAA', n: 'João Vitor Vieira dos Santos', f: 'TM ELÉTRICA', m: '', a: 'posto', p: 'Manutenção Elétrica' },
+    { u: 'GFCS', n: 'Wesley da Cunha Carvalho', f: 'TM ELÉTRICA', m: '4614330', a: 'posto', p: 'Manutenção Elétrica' },
+    { u: 'N5VI', n: 'Adriano Lúcio de Lima', f: 'TM INSTRUMENTAÇÃO', m: '2441138', a: 'posto', p: 'Manutenção Instrumentação' },
+    { u: 'URFA', n: 'Carlos Alexandre Gomes Barroso', f: 'TM INSTRUMENTAÇÃO', m: '01388560', a: 'posto', p: 'Manutenção Instrumentação' },
+    { u: 'LPLK', n: 'Erike Vasconcelos Ramos Mota', f: 'TM INSTRUMENTAÇÃO', m: '9767530', a: 'posto', p: 'Manutenção Instrumentação' },
+    { u: 'PDSO', n: 'Gleucima da Costa', f: 'TM INSTRUMENTAÇÃO', m: '9673862', a: 'posto', p: 'Manutenção Instrumentação' },
+    { u: 'RLJS', n: 'Jailson da Silva Machado', f: 'TM INSTRUMENTAÇÃO', m: '9650690', a: 'posto', p: 'Manutenção Instrumentação' },
+    { u: 'EKID', n: 'Jorge Luiz Gomes Júnior', f: 'TM INSTRUMENTAÇÃO', m: '0222665', a: 'posto', p: 'Manutenção Instrumentação' },
+    { u: 'FW6C', n: 'Jose Carlos Mendonça Santana', f: 'TM INSTRUMENTAÇÃO', m: '4612318', a: 'posto', p: 'Manutenção Instrumentação' },
+    { u: 'YRO5', n: 'Jovani Monteiro do Carmo', f: 'TM INSTRUMENTAÇÃO', m: '9642627', a: 'posto', p: 'Manutenção Instrumentação' },
+    { u: 'LMIN', n: 'Marcelo dos Santos Silva (Marrento)', f: 'TM INSTRUMENTAÇÃO', m: '1384406', a: 'posto', p: 'Manutenção Instrumentação' },
+    { u: 'B2NK', n: 'Marcus Vinicius Garcia Martins Junior', f: 'TM INSTRUMENTAÇÃO', m: '2505427', a: 'posto', p: 'Manutenção Instrumentação' },
+    { u: 'FW9S', n: 'Pedro Henrique Marques dos Santos', f: 'TM INSTRUMENTAÇÃO', m: '4612195', a: 'posto', p: 'Manutenção Instrumentação' },
+    { u: 'WU3X', n: 'Renato César dos Reis Filho', f: 'TM INSTRUMENTAÇÃO', m: '9691124', a: 'posto', p: 'Manutenção Instrumentação' },
+    { u: 'PD0U', n: 'Rodrigo Pinheiro Alves', f: 'TM INSTRUMENTAÇÃO', m: '9685086', a: 'posto', p: 'Manutenção Instrumentação' },
+    { u: 'WV48', n: 'Rômulo de Oliveira Santana', f: 'TM INSTRUMENTAÇÃO', m: '9927196', a: 'posto', p: 'Manutenção Instrumentação' },
+    { u: 'KEFZ', n: 'Wendson Correia Santos', f: 'TM INSTRUMENTAÇÃO', m: '1879833', a: 'posto', p: 'Manutenção Instrumentação' },
+    { u: 'B25O', n: 'Yuri Santos De Barros', f: 'TM INSTRUMENTAÇÃO', m: '2529333', a: 'posto', p: 'Manutenção Instrumentação' },
+    { u: 'NVMJ', n: 'Adamson Campos Silva', f: 'TM AUTOMAÇÃO', m: '9815703', a: 'posto', p: 'Manutenção Automação' },
+    { u: 'GMBD', n: 'Alberto Alvares Cabral', f: 'TM AUTOMAÇÃO', m: '1387470', a: 'posto', p: 'Manutenção Automação' },
+    { u: 'URFB', n: 'Carlos Eduardo de Macena Tinoco', f: 'TM AUTOMAÇÃO', m: '1388571', a: 'posto', p: 'Manutenção Automação' },
+    { u: 'KAZZ', n: 'Josevaldo dos Santos Feitoza', f: 'TM AUTOMAÇÃO', m: '1872752', a: 'posto', p: 'Manutenção Automação' },
+    { u: 'FMKI', n: 'Sérgio Ferreira Pinto (Serginho)', f: 'TM AUTOMAÇÃO', m: '1333511', a: 'posto', p: 'Manutenção Automação' },
+    { u: 'SLDR', n: 'Alano Fiuza de Santana', f: 'SUMEC', m: '9770312', a: 'posto', p: 'SUMEC' },
+    { u: 'NSAZ', n: 'Eduardo Jacob de Santana', f: 'SUMEC', m: '9612696', a: 'posto', p: 'SUMEC' },
+    { u: 'FRD9', n: 'Fábio Fernandes Ferreira', f: 'SUMEC', m: '9618627', a: 'posto', p: 'SUMEC' },
+    { u: 'MG0B', n: 'Jorge Antonio Ferreira de Siqueira', f: 'SUMEC', m: '9820196', a: 'posto', p: 'SUMEC' },
+    { u: 'WV8P', n: 'Mateus Rodrigues Souza de Azevedo', f: 'SUMEC', m: '2433913', a: 'posto', p: 'SUMEC' },
+    { u: 'E112', n: 'Alan Romnei de Andrade Resende', f: 'TM MECÂNICA', m: '9857245', a: 'posto', p: 'Manutenção Mecânica' },
+    { u: 'WMFR', n: 'Anderson Barbosa de Paula', f: 'TM MECÂNICA', m: '1369507', a: 'posto', p: 'Manutenção Mecânica' },
+    { u: 'GF4B', n: 'Arley Farias da Silva', f: 'TM MECÂNICA', m: '4614630', a: 'posto', p: 'Manutenção Mecânica' },
+    { u: 'URYV', n: 'André Luiz de Souza', f: 'TM MECÂNICA', m: '9681500', a: 'posto', p: 'Manutenção Mecânica' },
+    { u: 'ASDU', n: 'Carlos Eduardo Latance', f: 'TM MECÂNICA', m: '9652055', a: 'posto', p: 'Manutenção Mecânica' },
+    { u: 'PL7B', n: 'Celso Ricardo dos Santos', f: 'TM MECÂNICA', m: '2476612', a: 'posto', p: 'Manutenção Mecânica' },
+    { u: 'URP3', n: 'Claudio Adriano da Cunha', f: 'TM MECÂNICA', m: '9644749', a: 'posto', p: 'Manutenção Mecânica' },
+    { u: 'GFPN', n: 'Dijon Soares da Silva', f: 'TM MECÂNICA', m: '4614512', a: 'posto', p: 'Manutenção Mecânica' },
+    { u: 'URNN', n: 'Eliaro Beltrame Pereira', f: 'TM MECÂNICA', m: '9634130', a: 'posto', p: 'Manutenção Mecânica' },
+    { u: 'GFDQ', n: 'Everton Messias Antenor', f: 'TM MECÂNICA', m: '4614625', a: 'posto', p: 'Manutenção Mecânica' },
+    { u: 'PDBP', n: 'Felipe Gonelli Fernandes', f: 'TM MECÂNICA', m: '9612790', a: 'posto', p: 'Manutenção Mecânica' },
+    { u: 'PDEK', n: 'Flávio Renato Gerloff de Queiroz', f: 'TM MECÂNICA', m: '9612360', a: 'posto', p: 'Manutenção Mecânica' },
+    { u: 'FN3R', n: 'Irvin Weslley Oliveira de Barros', f: 'TM MECÂNICA', m: '4612096', a: 'posto', p: 'Manutenção Mecânica' },
+    { u: 'URUG', n: 'Ivan de Medeiros Aguiar', f: 'TM MECÂNICA', m: '9661967', a: 'posto', p: 'Manutenção Mecânica' },
+    { u: 'WV8V', n: 'João Paulo da Silva Figueiredo', f: 'TM MECÂNICA', m: '2434055', a: 'posto', p: 'Manutenção Mecânica' },
+    { u: 'KE6R', n: 'Jonatan Ilídio da Silva', f: 'TM MECÂNICA', m: '2458540', a: 'posto', p: 'Manutenção Mecânica' },
+    { u: 'FVU9', n: 'Leandro Peterson Bento', f: 'TM MECÂNICA', m: '4612125', a: 'posto', p: 'Manutenção Mecânica' },
+    { u: 'MCW5', n: 'Leonardo Gaiao Brault de Miranda', f: 'TM MECÂNICA', m: '2462540', a: 'posto', p: 'Manutenção Mecânica' },
+    { u: 'YR1R', n: 'Luiz Fabiano de Souza Oliveira', f: 'TM MECÂNICA', m: '9688574', a: 'posto', p: 'Manutenção Mecânica' },
+    { u: 'XDDH', n: 'Lusimar Barros Gomes Junior', f: 'TM MECÂNICA', m: '9618990', a: 'posto', p: 'Manutenção Mecânica' },
+    { u: 'A1QB', n: 'Maximina Giron', f: 'TM MECÂNICA', m: '2438435', a: 'posto', p: 'Manutenção Mecânica' },
+    { u: 'URVX', n: 'Rafael Rodrigues Cardoso', f: 'TM MECÂNICA', m: '9663150', a: 'posto', p: 'Manutenção Mecânica' },
+    { u: 'GGA5', n: 'Wanderson Duraes Fialho', f: 'TM MECÂNICA', m: '4615025', a: 'posto', p: 'Manutenção Mecânica' },
+    { u: 'GG20', n: 'Naerta Eliza Dias Creton Damasceno', f: 'TÉCNICO DE SUPRIMENTO', m: '4614800', a: 'apoio', p: '' },
+    { u: 'U4IC', n: 'Camila Viana Frasao Beiral', f: 'COPROD', m: '2424664', a: 'posto', p: 'COPROD' },
+    { u: 'CX1A', n: 'Fabio Feo Junqueira Cardoso', f: 'COPROD', m: '9631940', a: 'posto', p: 'COPROD' },
+    { u: 'URPQ', n: 'Fabricio da Graça Martini Quintas', f: 'COPROD', m: '9643323', a: 'posto', p: 'COPROD', t: 1 },
+    { u: 'BHQ1', n: 'Vinicius Tarouquella da Silva Rocha', f: 'COPROD', m: '2494771', a: 'posto', p: 'COPROD' },
+    { u: 'M37R', n: 'Bruno de Oliveira Samel Moraes', f: 'SUPROD', m: '2407108', a: 'posto', p: 'SUPROD' },
+    { u: 'NA1Y', n: 'Hygor Augusto Lorencini', f: 'SUPROD', m: '9904877', a: 'posto', p: 'SUPROD' },
+    { u: 'FRA2', n: 'Jefferson Fraga de Jesus', f: 'SUPROD', m: '9610586', a: 'posto', p: 'SUPROD' },
+    { u: 'KB1O', n: 'Marcell Mendes Santos Silva', f: 'SUPROD', m: '9908876', a: 'posto', p: 'SUPROD' },
+    { u: 'UREQ', n: 'Paulo Cesar de Castilha', f: 'SUPROD', m: '0909346', a: 'posto', p: 'SUPROD' },
+    { u: 'RTWC', n: 'Adriana Pereira Silva', f: 'TÉC. OPERAÇÃO', m: '9610758', a: 'posto', p: 'Controle' },
+    { u: 'XBWR', n: 'Carlos Edson Lima', f: 'TÉC. OPERAÇÃO', m: '9906717', a: 'posto', p: 'Controle' },
+    { u: 'DAJF', n: 'Carlos Gustavo Bessa de Mello Vianna', f: 'TÉC. OPERAÇÃO', m: '9684700', a: 'posto', p: 'Controle' },
+    { u: 'NS1R', n: 'Flavio Faria de Oliveira', f: 'TÉC. OPERAÇÃO', m: '9780827', a: 'posto', p: 'Controle' },
+    { u: 'F8CK', n: 'Gabriel Junca e Meireles', f: 'TÉC. OPERAÇÃO', m: '9842662', a: 'posto', p: 'Controle', t: 1 },
+    { u: 'BE94', n: 'Leonardo Lopes Bezerra', f: 'TÉC. OPERAÇÃO', m: '9876340', a: 'posto', p: 'Controle' },
+    { u: 'RV0N', n: 'Livio Rodrigues Rocha', f: 'TÉC. OPERAÇÃO', m: '9719010', a: 'posto', p: 'Controle' },
+    { u: 'URSS', n: 'Rafael Matias de Barros', f: 'TÉC. OPERAÇÃO', m: '9660922', a: 'posto', p: 'Controle', t: 1 },
+    { u: 'LPZH', n: 'Sidne Pena Magalhães', f: 'TÉC. OPERAÇÃO', m: '9815205', a: 'posto', p: 'Controle' },
+    { u: 'FN2K', n: 'Andressa Aparecida Ribeiro Sanches', f: 'TÉC. OPERAÇÃO', m: '4612822', a: 'posto', p: 'Óleo' },
+    { u: 'FW0R', n: 'Douglas Arthur Coutinho Ribeiro', f: 'TÉC. OPERAÇÃO', m: '4612868', a: 'posto', p: 'Óleo' },
+    { u: 'WS3M', n: 'Edcarlos Freire dos Santos', f: 'TÉC. OPERAÇÃO', m: '9775553', a: 'posto', p: 'Óleo' },
+    { u: 'NS1H', n: 'Estevao Nogueira da Silva Amaro', f: 'TÉC. OPERAÇÃO', m: '9782280', a: 'posto', p: 'Óleo' },
+    { u: 'WXVG', n: 'Fernando Brandao de Sousa', f: 'TÉC. OPERAÇÃO', m: '334362', a: 'posto', p: 'Óleo' },
+    { u: 'M37H', n: 'Francisco José Rangel Ribeiro', f: 'TÉC. OPERAÇÃO', m: '2406820', a: 'posto', p: 'Óleo' },
+    { u: 'F08F', n: 'Gabriel Calixto Maciel', f: 'TÉC. OPERAÇÃO', m: '4612316', a: 'posto', p: 'Óleo' },
+    { u: 'FW1V', n: 'Gustavo Donadia Nascimento', f: 'TÉC. OPERAÇÃO', m: '4612363', a: 'posto', p: 'Óleo' },
+    { u: 'DAJU', n: 'Herbert de Jesus Mattos da Costa', f: 'TÉC. OPERAÇÃO', m: '9684342', a: 'posto', p: 'Óleo' },
+    { u: 'FW4D', n: 'Lara Soares Monte', f: 'TÉC. OPERAÇÃO', m: '4612718', a: 'posto', p: 'Óleo' },
+    { u: 'WU9W', n: 'Luis Eduardo dos Santos Mota', f: 'TÉC. OPERAÇÃO', m: '9720462', a: 'posto', p: 'Óleo' },
+    { u: 'RTNM', n: 'Marcio Andre Alves de Menezes', f: 'TÉC. OPERAÇÃO', m: '1391305', a: 'posto', p: 'Óleo' },
+    { u: 'NA2L', n: 'Marcos Antônio Sobreira Júnior', f: 'TÉC. OPERAÇÃO', m: '9906902', a: 'posto', p: 'Óleo' },
+    { u: 'FVV9', n: 'Marcos Ribeiro Costa', f: 'TÉC. OPERAÇÃO', m: '4612310', a: 'posto', p: 'Óleo' },
+    { u: 'M37Q', n: 'Paulo Armindo Manhaes Junior', f: 'TÉC. OPERAÇÃO', m: '2406984', a: 'posto', p: 'Óleo' },
+    { u: 'FVZ9', n: 'Thiago da Cunha Rocha Devesa de Miranda', f: 'TÉC. OPERAÇÃO', m: '4612689', a: 'posto', p: 'Óleo' },
+    { u: 'S7AK', n: 'Aurelio Ferreira de Melo', f: 'TÉC. OPERAÇÃO', m: '9920110', a: 'posto', p: 'Gás' },
+    { u: 'FWEC', n: 'Breno Oliveira De Sousa Ramos', f: 'TÉC. OPERAÇÃO', m: '4612565', a: 'posto', p: 'Gás' },
+    { u: 'CNWT', n: 'Bruno Duarte Moreira', f: 'TÉC. OPERAÇÃO', m: '9647280', a: 'posto', p: 'Gás' },
+    { u: 'FVXU', n: 'Christian Costa Paes', f: 'TÉC. OPERAÇÃO', m: '4612780', a: 'posto', p: 'Gás' },
+    { u: 'FWAZ', n: 'Daniele Da Silva Pereira', f: 'TÉC. OPERAÇÃO', m: '4612227', a: 'posto', p: 'Gás' },
+    { u: 'FW8D', n: 'Fabricio Leonardo Delamare', f: 'TÉC. OPERAÇÃO', m: '4612534', a: 'posto', p: 'Gás' },
+    { u: 'FW0F', n: 'Igor Foti De Andrade', f: 'TÉC. OPERAÇÃO', m: '4612690', a: 'posto', p: 'Gás' },
+    { u: 'WTK2', n: 'Júlio Anderson de Santana Peralva', f: 'TÉC. OPERAÇÃO', m: '9859080', a: 'posto', p: 'Gás' },
+    { u: 'NSYK', n: 'Leandro Matias de Assis', f: 'TÉC. OPERAÇÃO', m: '9769990', a: 'posto', p: 'Gás' },
+    { u: 'M37Z', n: 'Marcio de Barros Rodrigues Albino', f: 'TÉC. OPERAÇÃO', m: '2407956', a: 'posto', p: 'Gás' },
+    { u: 'RMNF', n: 'Marcos Estevao Chagas', f: 'TÉC. OPERAÇÃO', m: '1382474', a: 'posto', p: 'Gás' },
+    { u: 'FW1B', n: 'Marcus Vinicius De Souza Muniz Dos Santos', f: 'TÉC. OPERAÇÃO', m: '4612367', a: 'posto', p: 'Gás' },
+    { u: 'FVUJ', n: 'Mariana Camacho Lima', f: 'TÉC. OPERAÇÃO', m: '4612501', a: 'posto', p: 'Gás' },
+    { u: 'URI2', n: 'Paulo Cesar Cardoso', f: 'TÉC. OPERAÇÃO', m: '9611990', a: 'posto', p: 'Gás' },
+    { u: 'NVPM', n: 'Welington Nalon Itaborahy', f: 'TÉC. OPERAÇÃO', m: '9814386', a: 'posto', p: 'Gás' },
+    { u: 'FW5G', n: 'Alexandre de Araujo Godoy', f: 'TÉC. OPERAÇÃO', m: '4612877', a: 'posto', p: 'Água' },
+    { u: 'DAGD', n: 'Fabio da Silva Martins', f: 'TÉC. OPERAÇÃO', m: '9683892', a: 'posto', p: 'Água' },
+    { u: 'FWDG', n: 'Fabio Henrique da Costa', f: 'TÉC. OPERAÇÃO', m: '4612716', a: 'posto', p: 'Água' },
+    { u: 'AS4D', n: 'Felipe Borges Muller', f: 'TÉC. OPERAÇÃO', m: '9838323', a: 'posto', p: 'Água' },
+    { u: 'B0X1', n: 'Felipe Silva Gratival', f: 'TÉC. OPERAÇÃO', m: '2529308', a: 'posto', p: 'Água' },
+    { u: 'AS4K', n: 'George Lenfers', f: 'TÉC. OPERAÇÃO', m: '9836852', a: 'posto', p: 'Água' },
+    { u: 'FW4S', n: 'Izabella Rose Silva', f: 'TÉC. OPERAÇÃO', m: '4612858', a: 'posto', p: 'Água' },
+    { u: 'ATJC', n: 'Jacqueline Lins de Souza Orico', f: 'TÉC. OPERAÇÃO', m: '2550539', a: 'posto', p: 'Água' },
+    { u: 'XDNB', n: 'João Carlos Fernandes Gonçalves', f: 'TÉC. OPERAÇÃO', m: '9642676', a: 'posto', p: 'Água' },
+    { u: 'URON', n: 'José Barbosa Júnior', f: 'TÉC. OPERAÇÃO', m: '9642295', a: 'posto', p: 'Água' },
+    { u: 'FW7G', n: 'Manuel Nascimento Fernandes Neto', f: 'TÉC. OPERAÇÃO', m: '4612551', a: 'posto', p: 'Água' },
+    { u: 'FRF2', n: 'Rogério Luiz de Matos Rocha', f: 'TÉC. OPERAÇÃO', m: '9642707', a: 'posto', p: 'Água' },
+    { u: 'FVY9', n: 'Tiago Heliodoro Fonseca', f: 'TÉC. OPERAÇÃO', m: '4612616', a: 'posto', p: 'Água' },
+    { u: 'FWIK', n: 'Vagner Santos de Jesus', f: 'TÉC. OPERAÇÃO', m: '4612863', a: 'posto', p: 'Água' },
+    { u: 'URYS', n: 'Welington da Silva Araujo', f: 'TÉC. OPERAÇÃO', m: '9681002', a: 'posto', p: 'Água' }
   ];
+  USERS_REMOVIDOS = [];
+
 
   get KEY() { return this.nsk('passagem-v2'); }
   get PREV() { return this.nsk('prev-pendencias-v2'); }
@@ -2685,7 +2757,6 @@ class Component extends DCLogic {
     'Poço de injeção WAG e produção satélite "S"', 'Poço de injeção WAG e produção satélite "T"',
     'Poço de injeção WAG e produção satélite "U"'
   ];
-  POSTOS = ['Controle', 'Óleo', 'Gás', 'Água', 'SUPROD', 'COPROD'];
   ST_SIST = ['Operacional', 'Stand-by', 'Inoperante', 'Manutenção', 'Limitado', 'Em comissionamento', 'Não comissionado', 'N/A'];
   ST_POCO = ['Aberto', 'Fechado', 'Restringido', 'Intervenção', 'Em processo de pull in', 'Não interligado'];
   ALINH = ['Trem A', 'Trem B', 'Separador de Testes', 'Bifurcado A+B', 'Bifurcado A+T', 'Bifurcado B+T', 'Bifurcado A+B+T'];
@@ -2990,9 +3061,73 @@ class Component extends DCLogic {
       }]
     };
 
+    // ---- blocos dos modelos do PE-3BUZ-00130 (Anexo A-1 · Geplat/Coordenador/Fiscal; Anexo C-1 · Mantenedor) ----
+    var CLASS = ['Acidente de processo', 'Acidente ocupacional', 'Incidente de alto potencial', 'Princípio de incêndio', 'Outra anomalia relevante'];
+    var degA1 = Object.assign({}, degrad, { title: turma ? 'Degradação de equipamentos de segurança ainda em aberto' : 'Degradação dos principais equipamentos de segurança', hint: 'Anexo A-1, item 1 — descreva o evento, as ações corretivas e/ou contingenciais e os registros nos sistemas de gestão Petrobras.' });
+    var eventos = { num: '0', key: 'eventos', title: 'Eventos administrativos, vistorias e auditorias',
+      hint: 'Anexo A-1, item 2 — ocorridos na jornada e previstos para ' + Prox + '. Inclua o plano de ação para eventuais não conformidades.',
+      clearLabel: 'Nenhum evento no período ou previsto',
+      panels: [t('p', [
+        c('Evento', 'text', { w: '20%', req: true }),
+        c('Tipo', 'select', { options: ['Administrativo', 'Vistoria', 'Auditoria interna', 'Auditoria externa'], w: '150px', req: true }),
+        c('Situação', 'select', { options: ['Ocorrido', 'Em andamento', 'Previsto'], w: '130px', req: true }),
+        c('Data', 'date', { w: '128px' }),
+        c('Plano de ação para não conformidades', 'area')
+      ])] };
+    var anomA1 = { num: '0', key: 'anomalias', title: 'Anomalias relevantes',
+      hint: 'Anexo A-1, item 3 — acidentes de processo e ocupacionais, incidentes de alto potencial e princípios de incêndio. Registre a abrangência e o registro no sistema de gestão Petrobras.',
+      clearLabel: 'Nenhuma anomalia relevante no período',
+      panels: [t('p', [
+        c('Anomalia', 'area', { w: '26%', req: true }),
+        c('Classificação', 'select', { options: CLASS, w: '190px', req: true }),
+        c('Abrangência', 'area', { req: true }),
+        c('Registro no sistema de gestão', 'text', { w: '15%', req: true })
+      ], { evidence: true })] };
+    var anomC1 = { num: '0', key: 'anomalias', title: 'Anomalias relevantes no período',
+      hint: 'Anexo C-1, item 1 — descreva as medidas adotadas: comunicação à liderança, nota de manutenção, sinalização, isolamento de área, recomendações da análise de risco e manobras alternativas.',
+      clearLabel: 'Nenhuma anomalia relevante no período',
+      panels: [t('p', [
+        c('Local / TAG', 'text', { list: 'dl-sist', w: '15%', req: true }),
+        c('Classificação', 'select', { options: CLASS, w: '190px', req: true }),
+        c('Descrição da anomalia', 'area', { req: true }),
+        c('Medidas adotadas', 'area', { req: true }),
+        c('Nota / registro', 'text', { w: '12%' })
+      ], { evidence: true })] };
+    var manut = { num: '0', key: 'manutencoes', title: turma ? 'Manutenções não concluídas que seguem para a próxima escala' : 'Manutenções iniciadas e não concluídas',
+      hint: 'Anexo C-1, item 2 — manutenções críticas em andamento ou previstas. Cite recomendações críticas e pontos de verificação.',
+      clearLabel: 'Nenhuma manutenção pendente de conclusão',
+      panels: [t('p', [
+        c('Equipamento / TAG', 'text', { list: 'dl-sist', w: '16%', req: true }),
+        c('Ordem / nota', 'text', { w: '110px' }),
+        c('Situação', 'select', { options: ['Em andamento', 'Interrompida', 'Prevista'], w: '130px', req: true }),
+        c('Serviço e etapa atual', 'area', { req: true }),
+        c('Recomendações críticas e pontos de verificação', 'area', { req: true }),
+        c('PT nº', 'text', { w: '90px' })
+      ], { evidence: true })] };
+    var gmC1 = Object.assign({}, gm, { hint: 'Anexo C-1, item 3 — mudanças temporárias realizadas e/ou desfeitas e manobras alternativas de operação ocorridas ou em andamento. Informe o número da GM quando existente.' });
+    var dispA1 = { num: '0', key: 'dispa1', title: turma ? 'Sistemas e equipamentos com disponibilidade alterada na escala' : 'Alteração de disponibilidade dos principais sistemas e equipamentos',
+      hint: 'Anexo A-1, item 6 — operacional, inoperante ou em manutenção. Ex.: compressores de gás, bomba de injeção de água, turbogerador, bomba de offloading, HPU, guindaste.',
+      clearLabel: 'Sem alteração de disponibilidade no período',
+      panels: [t('alt', [
+        c('Sistema / equipamento', 'text', { list: 'dl-sist', w: '20%', req: true }),
+        c('Disponibilidade', 'select', { options: ['Operacional', 'Inoperante', 'Em manutenção', 'Limitado'], w: '150px', req: true }),
+        c('Desde', 'datetime', { w: '150px' }),
+        c('Motivo e medidas', 'area', { req: true }),
+        c('Previsão de retorno', 'datetime', { w: '150px' })
+      ])] };
+    var panoA = { num: '1', key: 'panorama', title: 'Panorama consolidado da escala',
+      hint: 'Consolidação dos fatos relevantes da escala — não é somatório das passagens de turno. Use “Enviar para a turma” nas passagens de turno para trazer itens prontos. Até 8 linhas.',
+      panels: [{ pid: 'p', kind: 'text', req: 'any', placeholder: 'Principais eventos, mudanças de cenário e o que a próxima turma encontra ao assumir.' }] };
+    var modelo = this.postoInfo(posto).modelo, pre = turma ? [atencao, panoA] : [atencao];
+    if (posto && modelo === 'A1') return this.renumera(pre.concat([degA1, eventos, anomA1, opcrit, gm, dispA1, compl]));
+    if (modelo === 'C1') return this.renumera(pre.concat([anomC1, manut, gmC1, compl]));
+    if (modelo === 'SUPMAN') return this.renumera(pre.concat([anomC1, manut, gmC1, dispA1, compl]));
+    // Embarcação: mesmo formulário da produção, sem o bloco de poços; equipamentos configurados depois.
+    var emb = this.ehEmb(posto), semProd = function (l) { return emb ? l.filter(function (s) { return s.key !== 'pocos'; }) : l; };
+
     if (ehGestao) { disp.panels = disp.panels.filter(function (p) { return p.herdado || p.herdadoDet; }); disp.hint = 'Sistemas dos quatro postos de operação herdados automaticamente das passagens de cada posto (validadas ou em elaboração).'; }
     var base = ehGestao ? [composicao, coprodBloco, atencao] : [atencao];
-    if (!turma) return this.renumera(base.concat([degrad, opcrit, gm, estado, pocos, meio, integ, pts, compl, disp]));
+    if (!turma) return this.renumera(semProd(base.concat([degrad, opcrit, gm, estado, pocos, meio, integ, pts, compl, disp])));
 
     var panorama = {
       num: '1', key: 'panorama', title: 'Panorama consolidado da escala',
@@ -3002,7 +3137,7 @@ class Component extends DCLogic {
         placeholder: 'Desempenho do período, principais eventos, mudanças de cenário e o que a próxima turma encontra ao assumir.'
       }]
     };
-    return this.renumera(base.concat([panorama, degrad, opcrit, gm, estado, pocos, meio, integ, compl, disp]));
+    return this.renumera(semProd(base.concat([panorama, degrad].concat(ehCoprod ? [eventos, anomA1] : []).concat([opcrit, gm, estado, pocos, meio, integ, compl, disp]))));
   }
 
   // Monta a composição hierárquica a partir das equipes vinculadas às passagens do período.
@@ -3253,7 +3388,8 @@ class Component extends DCLogic {
   get SEQ() { return this.nsk('seq-v1'); }
   get ULTIMA() { return this.nsk('ultima-v1'); }
   POSTOS_MENU = ['Controle', 'Óleo', 'Gás', 'Água'];
-  POSTO_COD = { 'Controle': 'CTR', 'Óleo': 'OLE', 'Gás': 'GAS', 'Água': 'AGU', 'SUPROD': 'SUP', 'COPROD': 'COP' };
+  get POSTO_COD() { var m = {}; this.estrutura().forEach(function (x) { m[x.p] = x.cod; }); return m; }
+  get POSTOS() { return this.estrutura().map(function (x) { return x.p; }); }
   placeholderDoc() { return { header: this.headerVazio(), Turno: {}, Turma: {}, equipe: [], log: [], _placeholder: true }; }
   coord() { return String(this.param('coordenacao', this.props.coordenacao || 'PROD')).toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6) || 'PROD'; }
   unidade() { return String(this.param('unidade', 'FPSO ' + this.un())); }
@@ -3294,7 +3430,7 @@ class Component extends DCLogic {
   gravarAbertas(l) { try { window.localStorage.setItem(this.ABERTAS, JSON.stringify(l)); return true; } catch (e) { return false; } }
   abertas() { if (!this._abertas) this._abertas = this.lerAbertas(); return this._abertas; }
   recarregarAbertas() { this._abertas = this.lerAbertas(); return this._abertas; }
-  serie(tipo, posto, ano) { return this.unSlug(this.un()) + '-' + this.coord() + '-' + (tipo === 'Turma' ? 'TM' : 'TN') + '-' + (this.POSTO_COD[posto] || 'GEN') + '-' + ano; }
+  serie(tipo, posto, ano) { return this.unSlug(this.un()) + '-' + this.coordDe(posto) + '-' + (tipo === 'Turma' ? 'TM' : 'TN') + '-' + (this.POSTO_COD[posto] || 'GEN') + '-' + ano; }
   lerSeq() { try { return JSON.parse(window.localStorage.getItem(this.SEQ) || '{}') || {}; } catch (e) { return {}; } }
   proximoSeq(serie) { return (Number(this.lerSeq()[serie]) || 0) + 1; }
   consumirSeq(serie) {
@@ -3330,7 +3466,7 @@ class Component extends DCLogic {
   }
   criarPassagem(tipo, posto, keyEsperada) {
     var eu = this.state.user; if (!eu) return null;
-    if (!this.permitePosto(posto)) { this.flash('Seu acesso não permite iniciar passagens do posto ' + posto + '.'); return null; }
+    if (!this.podeElaborar(posto, tipo)) { this.flash('Seu perfil não elabora passagens de ' + (tipo === 'Turma' ? 'turma' : 'turno') + ' do posto ' + posto + '.'); return null; }
     if (this._criando) return null;
     this._criando = true;
     this.setState({ iniciando: true });
@@ -3344,7 +3480,12 @@ class Component extends DCLogic {
       }
       // Bloqueio antes de consumir número: relê o armazenamento e procura passagem ativa do mesmo tipo/posto/período.
       this.sincronizarDoc();
-      var existente = this.buscarAberta(tipo, posto, p.key);
+      var existente = this.buscarAberta(tipo, posto, p.key), infoC = this.postoInfo(posto);
+      if (!existente && infoC.unir) existente = this.buscarAberta(tipo, infoC.unir, p.key);
+      if (!existente && infoC.une) {
+        var ind = infoC.une.map(function (x) { return self.buscarAberta(tipo, x, p.key); }).filter(Boolean)[0];
+        if (ind) { this.flash('Já existe passagem separada de ' + ind.header.posto + ' neste período (' + ind.codigo + ') — a passagem única não pode ser criada; elabore a do outro posto separadamente.'); this.setState({ iniciar: null, iniciando: false }); return null; }
+      }
       if (existente) {
         this.flash('Já existe uma passagem de ' + (tipo === 'Turma' ? 'turma' : 'turno') + ' aberta para ' + posto + ' neste período (' + existente.codigo + ') — você entrou nela.');
         this.setState({ iniciar: null, iniciando: false });
@@ -3355,7 +3496,7 @@ class Component extends DCLogic {
       var h = this.headerVazio();
       h.tipo = tipo; h.posto = posto; h.inicio = this.isoLocal(p.inicio); h.fim = this.isoLocal(p.fim);
       var c = this.carimbo();
-      var doc = { id: cod, codigo: cod, serie: s, seq: n, tipo: tipo, posto: posto, coord: this.coord(), periodoKey: p.key, periodoNome: p.nome,
+      var doc = { id: cod, codigo: cod, serie: s, seq: n, tipo: tipo, posto: posto, coord: this.coordDe(posto), periodoKey: p.key, periodoNome: p.nome,
         criadoEm: c.em, criadoPorU: c.u, criadoPorN: c.n, atualizadoEm: c.em, status: 'aberta', header: h, Turno: {}, Turma: {}, equipe: [], log: [] };
       this.abertas().unshift(doc);
       if (!this.gravarAbertas(this.abertas())) this.flash('Espaço local esgotado — a passagem foi criada só nesta sessão. Exclua passagens antigas do arquivo.');
@@ -3379,6 +3520,7 @@ class Component extends DCLogic {
     var d = l.filter(function (x) { return x.id === id; })[0];
     if (d && !this.permitePosto(d.header.posto)) { this.flash('Seu acesso não permite abrir passagens do posto ' + d.header.posto + '.'); return; }
     if (!d) { this.flash('Esta passagem não está mais aberta.'); this.forceUpdate(); return; }
+    if (vincularMe && this.acesso() === 'eng') vincularMe = false;
     this.doc = d;
     this.ensure();
     this.lsSet(this.ULTIMA, d.id);
@@ -3413,7 +3555,7 @@ class Component extends DCLogic {
     if (!h.inicio) h.inicio = this.isoLocal(p.inicio);
     if (!h.fim) h.fim = this.isoLocal(p.fim);
     var eu = this.state.user;
-    var doc = Object.assign({ Turno: {}, Turma: {}, equipe: [], log: [] }, leg, { id: this.codigo(s, n), codigo: this.codigo(s, n), serie: s, seq: n, tipo: tipo, posto: posto, coord: this.coord(), periodoKey: p.key, periodoNome: p.nome,
+    var doc = Object.assign({ Turno: {}, Turma: {}, equipe: [], log: [] }, leg, { id: this.codigo(s, n), codigo: this.codigo(s, n), serie: s, seq: n, tipo: tipo, posto: posto, coord: this.coordDe(posto), periodoKey: p.key, periodoNome: p.nome,
       criadoEm: agora, criadoPorU: eu ? eu.user : '', criadoPorN: eu ? eu.nome : 'Rascunho anterior', atualizadoEm: agora, status: 'aberta' });
     doc.log.push({ em: agora, u: eu ? eu.user : '', n: eu ? eu.nome : 'Sistema', acao: 'Rascunho anterior migrado para ' + doc.codigo, det: (tipo === 'Turma' ? 'Turma · ' : 'Turno · ') + posto + ' · ' + p.nome });
     this.abertas().unshift(doc);
@@ -3458,10 +3600,39 @@ class Component extends DCLogic {
         acao: function () { self.abrirPassagem(d.id, !membro && !emitida); },
         temConsultar: !membro && !emitida, consultar: function () { self.abrirPassagem(d.id, false); } };
     };
-    var postos = this.postosPermitidos().map(function (p) {
-      var gestao = self.ehGestao(p), lanes = [lane('Turno', p, turno), lane('Turma', p, semana)];
-      if (p === 'COPROD') { lanes[0].rotulo = 'Turno · ' + turno.nome + ' · opcional'; lanes[0].opcional = true; lanes = [lanes[1], lanes[0]]; }
-      return { nome: p, cod: self.POSTO_COD[p], lanes: lanes, gestao: gestao, descricao: p === 'SUPROD' ? 'Supervisor de produção — líder do grupo do turno' : p === 'COPROD' ? 'Coordenador de produção — passagem semanal obrigatória; turno opcional' : '' };
+    var meuP = this.meuPosto(), acs = this.acesso();
+    var lista = this.postosAcesso().filter(function (p) { return !self.postoInfo(p).oculto; }).sort(function (a, b) { return (b === meuP ? 1 : 0) - (a === meuP ? 1 : 0); });
+    var postos = lista.map(function (p) {
+      var info = self.postoInfo(p), tipos = info.tipos || ['Turno', 'Turma'];
+      var lanes = tipos.map(function (tp) {
+        var perL = tp === 'Turma' ? semana : turno, ln = lane(tp, p, perL);
+        if (info.unir && ln.livre) {
+          var outroU = (self.postoInfo(info.unir).une || []).filter(function (x) { return x !== p; })[0] || '';
+          if (self.buscarAberta(tp, info.unir, perL.key)) { ln = lane(tp, info.unir, perL); ln.rotulo += ' · única com ' + outroU; }
+          else if (self.podeElaborar(p, tp)) ln.acao = function () { self.setState({ iniciar: { tipo: tp, posto: p, key: perL.key, unir: info.unir, unico: false }, iniciando: false }); };
+        }
+        if (ln.livre && !self.podeElaborar(p, tp)) {
+          ln.btnClass = 'btn-ghost'; ln.acaoLabel = 'Aguardando início pelo posto';
+          ln.info = acs === 'geop' ? 'O GEOP não elabora passagens — quando o posto iniciar, você pode entrar para ler ou editar.' : acs === 'eng' ? 'Acesso de consulta — disponível quando o posto iniciar a passagem.' : 'Seu perfil não elabora esta passagem.';
+          ln.acao = function () { self.flash(ln.info); };
+        }
+        if (ln.aberta && acs === 'eng') { ln.acaoLabel = 'Consultar'; ln.btnClass = 'btn-secondary'; ln.acao = ln.consultar; ln.temConsultar = false; }
+        if (tp === 'Turno' && info.facultativo) {
+          ln.rotulo += ' · facultativa';
+          var dec = self.semOcorrDe(p, turno.key);
+          if (ln.livre && dec) {
+            ln.status = 'Sem ocorrências'; ln.tagClass = 'tag-neutral';
+            ln.info = 'Turno declarado sem eventos que justifiquem passagem de serviço — ' + self.nomeCurto(dec.n) + ' (' + dec.u + ') às ' + self.fmtHoraISO(dec.em).slice(-5) + '.';
+            if (self.podeElaborar(p, 'Turno')) { ln.acaoLabel = 'Elaborar passagem mesmo assim'; ln.btnClass = 'btn-ghost'; }
+            ln.temDesfazer = !!eu && dec.u === eu.user; ln.desfazer = function () { self.desfazerSemOcorr(p, turno.key); };
+          }
+          ln.temSemOcorr = ln.livre && !dec && self.podeElaborar(p, 'Turno');
+          ln.semOcorr = function () { self.declararSemOcorr(p, turno); };
+        }
+        return ln;
+      });
+      var desc = (p === meuP ? 'Seu posto de lotação · ' : '') + (info.desc || self.NIVEIS_ORG[info.nivel] || '') + (info.facultativo ? ' · passagem de turno facultativa' : '');
+      return { nome: p, cod: info.cod, selo: (self.COORDS_CURTO[info.coord] || info.coord) + ' · ' + info.cod, lanes: lanes, gestao: !!desc, descricao: desc };
     });
     var pendentes = l.filter(function (d) { return d.status !== 'emitida' && d.periodoKey !== keysAtuais[d.tipo] && self.permitePosto(d.header.posto) && !(d.header.posto === 'COPROD' && d.tipo === 'Turno'); }).map(function (d) {
       return { codigo: d.codigo, tipoLabel: d.tipo === 'Turma' ? 'Semanal' : 'Turno', posto: d.header.posto || '—', periodo: self.fmtDT(d.header.inicio) + ' → ' + self.fmtDT(d.header.fim),
@@ -3475,8 +3646,8 @@ class Component extends DCLogic {
       hoje: dias[now.getDay()] + ', ' + this.pad(now.getDate()) + '/' + this.pad(now.getMonth() + 1) + '/' + now.getFullYear(),
       turnoNome: turno.nome, turnoPeriodo: this.fmtPeriodo(turno), turnoResta: 'Troca de turno em ' + restaH + ' h ' + this.pad(restaM) + ' min',
       semanaNome: semana.nome, semanaPeriodo: this.fmtPeriodo(semana),
-      userNome: eu.nome, userFuncao: (eu.funcao || '—') + ' · chave ' + eu.user,
-      postos: postos, temPendentes: pendentes.length > 0, pendentes: pendentes,
+      userNome: eu.nome, userFuncao: (eu.funcao || '—') + ' · chave ' + eu.user + (this.meuPosto() ? ' · posto ' + this.meuPosto() : (this.ACESSO_CURTO[this.acesso()] ? ' · ' + this.ACESSO_CURTO[this.acesso()] : '')),
+      postos: postos, semPostos: !postos.length, temPendentes: pendentes.length > 0, pendentes: pendentes,
       arquivoResumo: arq.length ? arq.length + (arq.length === 1 ? ' passagem emitida' : ' passagens emitidas') + (ult ? ' · última: ' + (ult.codigo || ult.header.posto || '') + ' em ' + this.fmtHoraISO(ult.emitido, true) : '') + '. Busca por número, posto, TAG ou texto.' : 'Nenhuma passagem emitida ainda. As passagens entram no arquivo ao gerar o PDF ou enviar para OneNote e APLAT.'
     } };
   }
@@ -3881,6 +4052,7 @@ class Component extends DCLogic {
   princPosto() {
     var p = (this.doc && this.doc.header && this.doc.header.posto) || '';
     if (this.ehGestao(p)) return [];
+    if (this.ehEmb(p)) return (this.SIST_POSTO[p] || []).slice();
     var l = this.SIST_POSTO[p];
     return l && l.length ? l.slice() : this.PRINC;
   }
@@ -4064,7 +4236,8 @@ class Component extends DCLogic {
     });
     if (p.kind === 'notes') { primeiro = r.c[1] || primeiro; acao = r.c[3] || acao; }
     var cat = /degrada|integridade|seguran/i.test(s.key + s.title) ? 'Segurança / SMS' : /ambiente/i.test(s.key) ? 'Meio ambiente' : (p.kind === 'notes' && r.c[0]) ? r.c[0] : 'Operação';
-    var destinos = this.POSTOS_MENU.filter(function (x) { return x !== self.doc.header.posto; });
+    var infoA = this.postoInfo(this.doc.header.posto), destinos = this.estrutura().filter(function (x) { return x.coord === infoA.coord && x.nivel === 'exec' && x.p !== self.doc.header.posto; }).map(function (x) { return x.p; });
+    if (!destinos.length) destinos = this.POSTOS_MENU.filter(function (x) { return x !== self.doc.header.posto; });
     var nivel = (r.alertado && r.alertado.nivel) || 'Atenção';
     this.setState({ alerta: { sid: sid, pid: pid, rid: rid, categoria: cat, assunto: '[' + this.doc.header.posto + ' · ' + s.title + '] ' + (primeiro || 'Registro'), descricao: partes.join('\n'), acao: acao, ref: this.doc.codigo || '', nivel: nivel, relevancia: this.nivelInfo(nivel).rel, destinos: destinos, reenvio: !!r.alertado } });
   }
@@ -4120,7 +4293,7 @@ class Component extends DCLogic {
     return out;
   }
 
-  origemLabel(o) { return (o.tipo === 'reporte' ? 'Reportado de ' : this.nivelTxt(o) + ' recebido de ') + o.posto + ' · ' + o.codigo + ' · ' + this.fmtHoraISO(o.em) + (o.obs ? ' · ' + o.obs : ''); }
+  origemLabel(o) { if (o.tipo === 'reporte' && o.modo === 'turma') return 'Trazido da passagem de turno · ' + o.codigo + ' · ' + this.fmtHoraISO(o.em) + (o.obs ? ' · ' + o.obs : ''); return (o.tipo === 'reporte' ? 'Reportado de ' : this.nivelTxt(o) + ' recebido de ') + o.posto + ' · ' + o.codigo + ' · ' + this.fmtHoraISO(o.em) + (o.obs ? ' · ' + o.obs : ''); }
   // ---------- feedback e sugestões dos usuários ----------
   FEEDBACK = 'bz-feedback-v1';
   FB_TIPOS = ['Problema', 'Sugestão', 'Elogio', 'Dúvida'];
@@ -4193,26 +4366,42 @@ class Component extends DCLogic {
   // ---------- reportar ao SUPROD / COPROD ----------
   get REPORTES() { return this.nsk('reportes-v1'); }
   destinoReporte() {
-    var posto = this.doc.header.posto, tipo = this.tipo();
-    if (this.POSTOS_MENU.indexOf(posto) >= 0) return { posto: 'SUPROD', tipo: tipo, periodoKey: this.doc.periodoKey };
-    if (posto === 'SUPROD') { var sem = this.semanaDe(this.doc.header.inicio ? new Date(new Date(this.doc.header.inicio).getTime() + 3600000) : new Date()); return { posto: 'COPROD', tipo: 'Turma', periodoKey: sem.key, periodoNome: sem.nome }; }
+    var posto = this.doc.header.posto, tipo = this.tipo(), info = this.postoInfo(posto);
+    if (info.nivel === 'exec' && info.sup && this.estrutura().some(function (x) { return x.p === info.sup; })) return { posto: info.sup, tipo: tipo, periodoKey: this.doc.periodoKey };
+    if (info.nivel === 'sup') {
+      var co = this.estrutura().filter(function (x) { return x.coord === info.coord && x.nivel === 'coord'; })[0];
+      if (co) { var sem = this.semanaDe(this.doc.header.inicio ? new Date(new Date(this.doc.header.inicio).getTime() + 3600000) : new Date()); return { posto: co.p, tipo: 'Turma', periodoKey: sem.key, periodoNome: sem.nome }; }
+    }
     return null;
   }
-  abrirReporte(sid, pid, rid) {
+  // Itens da passagem de turno reaproveitados na passagem de turma do mesmo posto.
+  destinoTurma() {
+    if (this.tipo() !== 'Turno') return null;
+    var posto = this.doc.header.posto; if ((this.postoInfo(posto).tipos || []).indexOf('Turma') < 0) return null;
+    var sem = this.semanaDe(this.doc.header.inicio ? new Date(new Date(this.doc.header.inicio).getTime() + 3600000) : new Date());
+    return { posto: posto, tipo: 'Turma', periodoKey: sem.key, periodoNome: sem.nome, turma: true };
+  }
+  secoesDe(posto, tipo) {
+    var prev = this.doc;
+    try { this.doc = { header: { posto: posto, tipo: tipo }, Turno: {}, Turma: {}, equipe: [], log: [] }; return this.schema(tipo).map(function (s) { return s.key; }); }
+    catch (e) { return []; } finally { this.doc = prev; }
+  }
+  abrirReporte(sid, pid, rid, modo) {
     if (!this.podeEditar()) { this.flash('Vincule-se à passagem para reportar.'); return; }
-    var dest = this.destinoReporte(); if (!dest) return;
+    var dest = modo === 'turma' ? this.destinoTurma() : this.destinoReporte(); if (!dest) return;
     var self = this, s = this.schema(this.tipo()).filter(function (x) { return x.key === sid; })[0], p = s && s.panels.filter(function (x) { return x.pid === pid; })[0];
     var r = p && this.linhaPorRid(sid, pid, rid); if (!r) return;
-    var mesmoBloco = !(sid === 'disponibilidade' || sid === 'composicao' || sid === 'coprod' || p.herdado || p.herdadoDet || p.fixed);
+    var mesmoBloco = !(sid === 'disponibilidade' || sid === 'composicao' || sid === 'coprod' || p.herdado || p.herdadoDet || p.fixed) && this.secoesDe(dest.posto, dest.tipo).indexOf(sid) >= 0;
     var partes = []; p.cols.forEach(function (c, i) { var v = String(r.c[i] || '').trim(); if (v && c.type !== 'elapsed') partes.push(c.label + ': ' + ((c.type === 'date' || c.type === 'datetime') ? self.fmtDT(v) : v)); });
-    this.setState({ reporte: { sid: sid, pid: pid, rid: rid, dest: dest, mesmoBloco: mesmoBloco, blocoTitulo: s.title, resumo: partes.join('\n'), obs: '', reenvio: !!r.reportado } });
+    this.setState({ reporte: { sid: sid, pid: pid, rid: rid, dest: dest, mesmoBloco: mesmoBloco, blocoTitulo: s.title, resumo: partes.join('\n'), obs: '', modo: modo || '', reenvio: !!(modo === 'turma' ? r.paraTurma : r.reportado) } });
   }
   enviarReporte() {
     var rp = this.state.reporte; if (!rp || !this.podeEditar()) return;
     var self = this, d = this.doc, r = this.linhaPorRid(rp.sid, rp.pid, rp.rid); if (!r) return;
     if (!r.rid) r.rid = this.novoRid();
     var c = this.carimbo(), dest = rp.dest;
-    var origem = { tipo: 'reporte', codigo: d.codigo, posto: d.header.posto, sid: rp.sid, pid: rp.pid, rid: r.rid, em: c.em, u: c.u, n: c.n, obs: rp.obs || '' };
+    var origem = { tipo: 'reporte', modo: rp.modo || '', codigo: d.codigo, posto: d.header.posto, sid: rp.sid, pid: rp.pid, rid: r.rid, em: c.em, u: c.u, n: c.n, obs: rp.obs || '' };
+    var ehTurma = rp.modo === 'turma', alvoTxt = ehTurma ? 'à passagem de turma' : 'ao ' + dest.posto;
     var item;
     if (rp.mesmoBloco) item = { sid: rp.sid, pid: rp.pid, c: r.c.slice(), ok: false, autor: c, img: r.img || null, imgs: (r.imgs || []).map(function (im) { return Object.assign({}, im); }), origem: origem };
     else item = { sid: 'complementares', pid: 'p', c: [/degrada|integridade/.test(rp.sid) ? 'Segurança / SMS' : 'Operação', '[' + d.header.posto + ' · ' + rp.blocoTitulo + '] ' + (r.c.filter(function (v, i) { return i > 0 && String(v || '').trim(); })[0] || r.c[0] || ''), rp.resumo, rp.obs || '', d.codigo || '', this.nomeCurto(c.n) + ' (' + c.u + ')', '', 'Acompanhar'], ok: false, autor: c, img: null, imgs: [], origem: origem };
@@ -4222,11 +4411,11 @@ class Component extends DCLogic {
     else { var fila = (this.lsGet(this.REPORTES, []) || []).filter(function (q) { return !(q.posto === dest.posto && q.periodoKey === dest.periodoKey && q.item.origem.rid === r.rid); }); fila.push({ posto: dest.posto, tipo: dest.tipo, periodoKey: dest.periodoKey, item: JSON.parse(JSON.stringify(item)) }); this.lsSet(this.REPORTES, fila); }
     var i = -1; for (var k = 0; k < l.length; k++) if (l[k].id === d.id) { i = k; break; }
     if (i >= 0) l[i] = d; this.gravarAbertas(l);
-    r.reportado = { em: c.em, u: c.u, n: c.n, sig: this.rowSig(r), destino: dest.posto };
-    this.registrar((rp.reenvio ? 'Reenviou' : 'Reportou') + ' item ao ' + dest.posto, rp.blocoTitulo + (alvo ? ' → ' + alvo.codigo : ' (aguardando abertura da passagem do ' + dest.posto + ')'));
-    this.syslog('reporte', 'Reporte de ' + d.header.posto + ' → ' + dest.posto, rp.blocoTitulo + ' · ' + (d.codigo || ''));
+    r[ehTurma ? 'paraTurma' : 'reportado'] = { em: c.em, u: c.u, n: c.n, sig: this.rowSig(r), destino: dest.posto };
+    this.registrar((rp.reenvio ? 'Reenviou' : (ehTurma ? 'Enviou' : 'Reportou')) + ' item ' + alvoTxt, rp.blocoTitulo + (alvo ? ' → ' + alvo.codigo : ' (aguardando abertura da passagem ' + (ehTurma ? 'de turma' : 'do ' + dest.posto) + ')'));
+    this.syslog('reporte', (ehTurma ? 'Turno → turma · ' + d.header.posto : 'Reporte de ' + d.header.posto + ' → ' + dest.posto), rp.blocoTitulo + ' · ' + (d.codigo || ''));
     this.setState({ reporte: null }); this.save(true); this.forceUpdate(); this.vibrar(25);
-    this.flash('Item reportado ao ' + dest.posto + (alvo ? '.' : ' — será entregue quando a passagem for aberta.'));
+    this.flash((ehTurma ? 'Item enviado à passagem de turma' : 'Item reportado ao ' + dest.posto) + (alvo ? '.' : ' — será entregue quando a passagem for aberta.'));
   }
   inserirReporte(alvo, item) {
     var tipo = alvo.tipo || alvo.header.tipo, store = alvo[tipo] || (alvo[tipo] = {});
@@ -4621,7 +4810,7 @@ class Component extends DCLogic {
       codigo: src.codigo || '—',
       temEquipe: equipeRep.length > 0, equipe: equipeRep,
       temLog: logRep.length > 0, log: logRep,
-      tipoTitle: tipo === 'Turma' ? 'turma (semanal)' : 'turno',
+      anexo: this.anexoDe((src.header || {}).posto), tipoTitle: tipo === 'Turma' ? 'turma (semanal)' : 'turno',
       emitido: fmt(stamp),
       emitidoPor: src.emitidoPor || (this.state.user ? this.state.user.nome + ' · ' + this.state.user.user : '—'),
       posto: h.posto || '—', turma: h.turma || '—', local: h.local || '—',
@@ -4981,10 +5170,16 @@ class Component extends DCLogic {
     var ini = this.state.iniciar, iniVals = { showIniciar: !!ini, ini: { tipoLabel: '', posto: '', codigo: '', periodo: '', coord: '' },
       iniciando: !!this.state.iniciando, iniLabel: this.state.iniciando ? 'Iniciando…' : 'Iniciar passagem',
       cancelIniciar: function () { if (!self.state.iniciando) self.setState({ iniciar: null }); },
-      confirmIniciar: function () { var i = self.state.iniciar; if (i && !self.state.iniciando && !self._criando) self.criarPassagem(i.tipo, i.posto, i.key); } };
+      confirmIniciar: function () { var i = self.state.iniciar; if (i && !self.state.iniciando && !self._criando) self.criarPassagem(i.tipo, i.unico && i.unir ? i.unir : i.posto, i.key); } };
     if (ini) {
-      var per = this.periodoAtual(ini.tipo), ser = this.serie(ini.tipo, ini.posto, per.ano);
-      iniVals.ini = { tipoLabel: ini.tipo === 'Turma' ? 'turma (semanal)' : 'turno', posto: ini.posto, codigo: this.codigo(ser, this.proximoSeq(ser)), periodo: per.nome + ' · ' + this.fmtPeriodo(per), coord: this.coord() + ' — ' + (this.props.coordenacaoNome || 'Coordenação de Produção') };
+      var postoEf = ini.unico && ini.unir ? ini.unir : ini.posto, infoI = this.postoInfo(postoEf);
+      var per = this.periodoAtual(ini.tipo), ser = this.serie(ini.tipo, postoEf, per.ano);
+      var outroI = ini.unir ? ((this.postoInfo(ini.unir).une || []).filter(function (x) { return x !== ini.posto; })[0] || '') : '';
+      var setUn = function (v) { return function () { self.setState({ iniciar: Object.assign({}, self.state.iniciar, { unico: v }) }); }; };
+      iniVals.ini = { tipoLabel: ini.tipo === 'Turma' ? 'turma (semanal)' : 'turno', posto: postoEf, codigo: this.codigo(ser, this.proximoSeq(ser)), periodo: per.nome + ' · ' + this.fmtPeriodo(per),
+        coord: this.coordDe(postoEf) + ' — ' + (infoI.coord === 'PROD' ? (this.props.coordenacaoNome || 'Coordenação de Produção') : (this.COORDS[infoI.coord] || infoI.coord)),
+        podeUnir: !!ini.unir, postoBase: ini.posto, outro: outroI, setSeparada: setUn(false), setUnica: setUn(true), sepClass: ini.unico ? 'btn-secondary' : 'btn-primary', uniClass: ini.unico ? 'btn-primary' : 'btn-secondary',
+        unirNota: ini.unico ? 'Um único documento cobre os dois postos; operadores do ' + ini.posto + ' e do ' + outroI + ' entram na mesma passagem. Não poderá haver passagem separada de nenhum dos dois neste período.' : 'Documento só do ' + ini.posto + '. O ' + outroI + ' elabora a passagem dele separadamente.' };
     }
     Object.assign(loginVals, iniVals, this.menuVals(), {
       viewMenu: (this.state.view === 'menu' || (this.state.view === 'form' && !docAtual)) && this.ehOperador(), viewForm: this.state.view === 'form' && !!docAtual, viewHist: this.state.view === 'hist',
@@ -5012,6 +5207,7 @@ class Component extends DCLogic {
     var secs = this.schema(tipo);
     var podeEd = this.podeEditar();
     var destRep = (this.doc && this.doc.id && !this.doc._placeholder) ? this.destinoReporte() : null;
+    var destTur = (this.doc && this.doc.id && !this.doc._placeholder) ? this.destinoTurma() : null;
     var issuesBySec = {};
     var completos = 0;
     secs.forEach(function (s) {
@@ -5081,6 +5277,8 @@ class Component extends DCLogic {
               alertado: !!alertado, alertadoLabel: alertado ? 'Alertado aos demais postos' + (alertado.nivel ? ' (' + alertado.nivel + ')' : '') + ' · ' + self.fmtHoraISO(alertado.em).slice(-5) : '',
               podeReportar: podeEd && !!completo && !!destRep && !(r.origem && r.origem.tipo === 'reporte') && !r.reportado, reportar: function () { self.abrirReporte(s.key, p.pid, r.rid); }, reportarLabel: destRep ? 'Reportar ao ' + destRep.posto : '',
               reportado: !!r.reportado, reportadoLabel: r.reportado ? 'Reportado ao ' + r.reportado.destino + ' · ' + self.fmtHoraISO(r.reportado.em).slice(-5) : '', reportDesatualizado: !!(r.reportado && r.reportado.sig !== self.rowSig(r)),
+              podeTurma: podeEd && !!completo && !!destTur && !r.paraTurma, enviarTurma: function () { self.abrirReporte(s.key, p.pid, r.rid, 'turma'); },
+              paraTurma: !!r.paraTurma, paraTurmaLabel: r.paraTurma ? 'Na passagem de turma · ' + self.fmtHoraISO(r.paraTurma.em).slice(-5) : '', turmaDesatualizado: !!(r.paraTurma && r.paraTurma.sig !== self.rowSig(r)),
               autorLabel: r.autor ? 'Registrado por ' + self.fmtCarimbo(r.autor) : '',
               bg: (pAlerta && !travada && (usedRows.indexOf(r) >= 0 || (!usedRows.length && ri === primAberta))) ? RFILL : (origem ? 'color-mix(in srgb, var(--color-accent) 8%, transparent)' : (travada ? 'color-mix(in srgb, var(--color-text) 5%, transparent)' : 'color-mix(in srgb, var(--color-text) 3%, transparent)')),
               metaLida: meta.length ? '· ' + meta.join(' · ') : '',
@@ -5201,6 +5399,8 @@ class Component extends DCLogic {
             podeAlertar: podeEd && !r.herd && self.filled(p, r) && !alertado, alertar: function () { self.abrirAlerta(s.key, p.pid, r.rid); },
             podeReportar: podeEd && !r.herd && !!destRep && self.filled(p, r) && !(r.origem && r.origem.tipo === 'reporte') && !r.reportado && s.key !== 'composicao' && s.key !== 'coprod', reportar: function () { self.abrirReporte(s.key, p.pid, r.rid); }, reportarTitle: destRep ? 'Reportar ao ' + destRep.posto + ' — envia este item para a passagem do ' + destRep.posto + ' do período' : '',
             reportado: !!r.reportado, reportadoLabel: r.reportado ? 'Reportado ao ' + r.reportado.destino + ' · ' + self.fmtHoraISO(r.reportado.em).slice(-5) : '', reportDesatualizado: !!(r.reportado && r.reportado.sig !== self.rowSig(r)), reenviarRep: function () { self.abrirReporte(s.key, p.pid, r.rid); },
+            podeTurma: podeEd && !r.herd && !!destTur && self.filled(p, r) && !r.paraTurma && s.key !== 'composicao' && s.key !== 'coprod', enviarTurma: function () { self.abrirReporte(s.key, p.pid, r.rid, 'turma'); },
+            paraTurma: !!r.paraTurma, paraTurmaLabel: r.paraTurma ? 'Na turma · ' + self.fmtHoraISO(r.paraTurma.em).slice(-5) : '', turmaDesatualizado: !!(r.paraTurma && r.paraTurma.sig !== self.rowSig(r)), reenviarTurma: function () { self.abrirReporte(s.key, p.pid, r.rid, 'turma'); },
             temOrigem: !!r.origem, origemLabel: r.origem ? self.origemLabel(r.origem) : '',
             alertado: !!alertado, alertadoLabel: alertado ? 'Alertado · ' + self.fmtHoraISO(alertado.em).slice(-5) : '', alertaDesatualizado: alertaDesatualizado, reenviar: function () { self.abrirAlerta(s.key, p.pid, r.rid); },
             autorTip: r.autor ? 'Item concluído por ' + self.fmtCarimbo(r.autor) : '',
@@ -5503,7 +5703,7 @@ class Component extends DCLogic {
 
     return Object.assign(loginVals, {
       unidade: this.unidade(),
-      h: h, postos: this.POSTOS, sistemas: this.SIST, pocos: this.PROD.concat(this.INJ),
+      h: h, postos: this.POSTOS, sistemas: this.ehEmb(h.posto) ? (this.SIST_POSTO[h.posto] || []) : this.SIST, pocos: this.PROD.concat(this.INJ),
       isTurno: tipo === 'Turno', isTurma: tipo === 'Turma',
       setTurno: function () { h.tipo = 'Turno'; self.ensure(); self.commit(); },
       setTurma: function () { h.tipo = 'Turma'; self.ensure(); self.commit(); },
@@ -5548,8 +5748,8 @@ class Component extends DCLogic {
       fecharSobre: function () { self.setState({ sobre: null }); }, confirmarSobre: function () { var sb = self.state.sobre; if (sb && self.sobrescreverHerdado(sb.sid, sb.pid, sb.label, sb.status, sb.motivo)) self.setState({ sobre: null }); },
       alertasN: docAtual ? this.alertasRecebidos(docAtual).length : 0, temAlertas: !!docAtual && this.alertasRecebidos(docAtual).length > 0, reportadosAbertos: docAtual ? this.reportadosAbertos(docAtual) : 0, temReportadosAbertos: !!docAtual && this.reportadosAbertos(docAtual) > 0,
       showReporte: !!this.state.reporte, reporte: this.state.reporte || { dest: { posto: '', tipo: '' }, blocoTitulo: '', resumo: '', obs: '', mesmoBloco: false },
-      reporteTitulo: this.state.reporte ? (this.state.reporte.reenvio ? 'Reenviar ao ' : 'Reportar ao ') + this.state.reporte.dest.posto : '', reporteDestino: this.state.reporte ? (this.state.reporte.dest.tipo === 'Turma' ? 'passagem semanal (turma) do ' : 'passagem de turno do ') + this.state.reporte.dest.posto + (this.state.reporte.dest.periodoNome ? ' · ' + this.state.reporte.dest.periodoNome : '') : '',
-      reporteOnde: this.state.reporte ? (this.state.reporte.mesmoBloco ? 'no mesmo bloco (“' + this.state.reporte.blocoTitulo + '”), como item aberto para o ' + this.state.reporte.dest.posto + ' revisar e confirmar' : 'em “Registros complementares”, como item aberto para revisão') : '',
+      reporteTitulo: this.state.reporte ? (this.state.reporte.modo === 'turma' ? (this.state.reporte.reenvio ? 'Reenviar para a turma' : 'Enviar para a passagem de turma') : (this.state.reporte.reenvio ? 'Reenviar ao ' : 'Reportar ao ') + this.state.reporte.dest.posto) : '', reporteDestino: this.state.reporte ? (this.state.reporte.dest.tipo === 'Turma' ? 'passagem semanal (turma) do ' : 'passagem de turno do ') + this.state.reporte.dest.posto + (this.state.reporte.dest.periodoNome ? ' · ' + this.state.reporte.dest.periodoNome : '') : '',
+      reporteOnde: this.state.reporte ? (this.state.reporte.mesmoBloco ? 'no mesmo bloco (“' + this.state.reporte.blocoTitulo + '”), como item aberto para ' + (this.state.reporte.modo === 'turma' ? 'a turma' : 'o ' + this.state.reporte.dest.posto) + ' revisar e confirmar' : 'em “Registros complementares”, como item aberto para revisão') : '',
       setReporteObs: function (e) { self.setState({ reporte: Object.assign({}, self.state.reporte, { obs: e.target.value }) }); }, fecharReporte: function () { self.setState({ reporte: null }); }, confirmarReporte: function () { self.enviarReporte(); },
       goComplementares: function () { self.setState({ view: 'form' }); setTimeout(function () { self.goTo('sec-complementares'); }, 30); },
       desvCorpo: desvM ? (desvMeu
@@ -6441,7 +6641,9 @@ class Component extends DCLogic {
         alertado: !!r.alertado, alertadoLabel: r.alertado ? 'Alertado aos demais postos' + (r.alertado.nivel ? ' (' + r.alertado.nivel + ')' : '') + ' · ' + self.fmtHoraISO(r.alertado.em).slice(-5) : '',
         ehAlerta: !!r.origem, origemTexto: r.origem ? self.origemLabel(r.origem) : '',
         podeReportar: pode && !r.herd && !!self.destinoReporte() && self.filled(p, r) && !(r.origem && r.origem.tipo === 'reporte') && !r.reportado && sec.key !== 'composicao' && sec.key !== 'coprod', reportar: function () { self.abrirReporte(sec.key, p.pid, r.rid); }, reportarLabel: self.destinoReporte() ? 'Reportar ao ' + self.destinoReporte().posto : '',
-        reportado: !!r.reportado, reportadoLabel: r.reportado ? 'Reportado ao ' + r.reportado.destino + ' · ' + self.fmtHoraISO(r.reportado.em).slice(-5) : ''
+        reportado: !!r.reportado, reportadoLabel: r.reportado ? 'Reportado ao ' + r.reportado.destino + ' · ' + self.fmtHoraISO(r.reportado.em).slice(-5) : '',
+        podeTurma: pode && !r.herd && !!self.destinoTurma() && self.filled(p, r) && !r.paraTurma && sec.key !== 'composicao' && sec.key !== 'coprod', enviarTurma: function () { self.abrirReporte(sec.key, p.pid, r.rid, 'turma'); },
+        paraTurma: !!r.paraTurma, paraTurmaLabel: r.paraTurma ? 'Enviado à passagem de turma · ' + self.fmtHoraISO(r.paraTurma.em).slice(-5) : ''
       };
     }
 
@@ -6606,24 +6808,24 @@ class Component extends DCLogic {
       var l = this.lsGet(this.USR, null), agora = new Date().toISOString();
       if (!Array.isArray(l) || !l.length) {
         var outras = this.UNIDADES.filter(function (u) { return u !== 'P-83'; });
-        l = this.USERS_SEED.map(function (x) { return { u: x.u, n: x.n, f: x.f, m: x.m || '', un: 'P-83', uns: x.t ? outras.slice() : [], acesso: x.a || 'operador', papel: 'operador', senha: '1234', ativo: true, criadoEm: agora }; });
-        l.unshift({ u: 'ADMIN', n: 'Administrador do sistema', f: 'ADMINISTRAÇÃO', un: '', uns: [], papel: 'admin', acesso: 'geplat', senha: 'admin1234', ativo: true, criadoEm: agora });
-        this.DEMO_ADM.forEach(function (x) { l.splice(1, 0, Object.assign({ uns: [], acesso: 'geplat', ativo: true, criadoEm: agora }, x)); });
+        l = this.USERS_SEED.map(function (x) { return { u: x.u, n: x.n, f: x.f, m: x.m || '', un: 'P-83', uns: x.t ? outras.slice() : [], acesso: x.a || 'posto', posto: x.p || '', estV: 2, papel: 'operador', senha: '1234', ativo: true, criadoEm: agora }; });
+        l.unshift({ u: 'ADMIN', n: 'Administrador do sistema', f: 'ADMINISTRAÇÃO', un: '', uns: [], papel: 'admin', acesso: 'geop', senha: 'admin1234', ativo: true, criadoEm: agora });
+        this.DEMO_ADM.forEach(function (x) { l.splice(1, 0, Object.assign({ uns: [], acesso: 'geop', estV: 2, ativo: true, criadoEm: agora }, x)); });
         this.lsSet(this.USR, l);
       } else {
         // Sincroniza com a planilha de chaves: acrescenta chaves novas e preenche função/acesso de quem ainda não tem.
         var porU = {}; l.forEach(function (x) { porU[x.u] = x; }); var mudou = false, outrasU = this.UNIDADES.filter(function (u) { return u !== 'P-83'; });
         this.USERS_SEED.forEach(function (x) {
           var e = porU[x.u];
-          if (!e) { l.push({ u: x.u, n: x.n, f: x.f, m: x.m || '', un: 'P-83', uns: x.t ? outrasU.slice() : [], acesso: x.a || 'operador', papel: 'operador', senha: '1234', ativo: true, criadoEm: agora }); mudou = true; return; }
-          if (!e.acesso) { e.acesso = x.a || 'operador'; mudou = true; }
+          if (!e) { l.push({ u: x.u, n: x.n, f: x.f, m: x.m || '', un: 'P-83', uns: x.t ? outrasU.slice() : [], acesso: x.a || 'posto', posto: x.p || '', estV: 2, papel: 'operador', senha: '1234', ativo: true, criadoEm: agora }); mudou = true; return; }
+          if (e.estV !== 2) { e.acesso = x.a || 'posto'; e.posto = x.p || ''; if (x.f) e.f = x.f; e.estV = 2; mudou = true; }
           // Chaves com acesso a todas as unidades do campo (t: 1).
           if (x.t) { if (!Array.isArray(e.uns)) e.uns = []; outrasU.forEach(function (u) { if (u !== (e.un || 'P-83') && e.uns.indexOf(u) < 0) { e.uns.push(u); mudou = true; } }); }
           if (!e.m && x.m) { e.m = x.m; mudou = true; }
           if (e.f !== x.f && (!e.f || /^(GEOP|GEPLAT|ENG|GEST)/.test(e.f) === false && e.acesso === (x.a || 'operador'))) { /* mantém edição local */ }
         });
-        l.forEach(function (e) { if (!e.acesso) { e.acesso = e.papel === 'admin' ? 'geplat' : 'operador'; mudou = true; } if (e.un === undefined) { e.un = e.papel === 'admin' ? '' : 'P-83'; mudou = true; } if (!Array.isArray(e.uns)) { e.uns = []; mudou = true; } });
-        this.DEMO_ADM.forEach(function (x) { if (!porU[x.u]) { l.push(Object.assign({ uns: [], acesso: 'geplat', ativo: true, criadoEm: agora }, x)); mudou = true; } });
+        l.forEach(function (e) { if (e.estV !== 2) { var MAPA = { suprod: 'SUPROD', coprod: 'COPROD', geplat: 'GEPLAT' }; if ((e.papel || 'operador') !== 'operador') e.acesso = 'geop'; else if (['posto', 'geop', 'eng', 'apoio'].indexOf(e.acesso) < 0) { e.posto = MAPA[e.acesso] || e.posto || ''; e.acesso = 'posto'; } e.estV = 2; mudou = true; } if (e.un === undefined) { e.un = e.papel === 'admin' ? '' : 'P-83'; mudou = true; } if (!Array.isArray(e.uns)) { e.uns = []; mudou = true; } });
+        this.DEMO_ADM.forEach(function (x) { if (!porU[x.u]) { l.push(Object.assign({ uns: [], acesso: 'geop', estV: 2, ativo: true, criadoEm: agora }, x)); mudou = true; } });
         if (mudou) this.lsSet(this.USR, l);
       }
       this._usr = l;
@@ -6632,23 +6834,125 @@ class Component extends DCLogic {
   }
   gravarUsuarios() { this.lsSet(this.USR, this.usuarios()); }
   get USERS() { var self = this, u = this.un(); return this.usuarios().filter(function (x) { return x.ativo !== false && (x.papel || 'operador') === 'operador' && self.atuaEm(x, u); }); }
-  // ---- postos de gestão e privilégios de acesso por função ----
+  // ---- estrutura organizacional (PE-3BUZ-00130): coordenações, postos, níveis e regras de acesso ----
   POSTOS_GESTAO = ['SUPROD', 'COPROD'];
-  ACESSOS = { operador: 'Operador', suprod: 'SUPROD', coprod: 'COPROD', geplat: 'GEPLAT' };
-  ehGestao(posto) { return this.POSTOS_GESTAO.indexOf(posto) >= 0; }
-  acesso() { var eu = this.state.user; if (!eu) return 'operador'; if (this.papel() !== 'operador') return 'geplat'; return eu.acesso || 'operador'; }
-  postosPermitidos() {
-    var a = this.acesso(), base = this.POSTOS_MENU.slice();
-    if (a === 'suprod') return base.concat(['SUPROD']);
-    if (a === 'coprod' || a === 'geplat') return base.concat(this.POSTOS_GESTAO);
-    return base;
+  COORDS = { GER: 'Gerência da plataforma', PROD: 'Coordenação da produção', MAN: 'Coordenação da manutenção', EMB: 'Coordenação da embarcação', APOIO: 'Apoio e outras gerências' };
+  COORDS_CURTO = { GER: 'Gerência', PROD: 'Produção', MAN: 'Manutenção', EMB: 'Embarcação', APOIO: 'Apoio' };
+  NIVEIS_ORG = { geplat: 'GEPLAT', coord: 'Coordenação', sup: 'Supervisão', exec: 'Executante' };
+  MODELOS = { A1: 'Anexo A-1 — Geplat, coordenador e fiscal', COPROD: 'Anexo A-1 + quadro da produção', OP: 'Operação (produção)', SUPMAN: 'Anexo C-1 + disponibilidade (supervisão)', C1: 'Anexo C-1 — mantenedor', EMB: 'Embarcação (base A-1)' };
+  ehEmb(p) { return this.postoInfo(p).coord === 'EMB'; }
+  ESTRUTURA_BASE = [
+    { p: 'GEPLAT', cod: 'GPL', coord: 'GER', nivel: 'geplat', modelo: 'A1', tipos: ['Turma'], desc: 'Gerente de plataforma — passagem de turma entre GEPLATs' },
+    { p: 'COPROD', cod: 'COP', coord: 'PROD', nivel: 'coord', modelo: 'COPROD', tipos: ['Turma'], desc: 'Coordenação da produção — passagem de turma entre coordenadores' },
+    { p: 'SUPROD', cod: 'SUP', coord: 'PROD', nivel: 'sup', modelo: 'OP', desc: 'Supervisor de produção — líder do grupo do turno' },
+    { p: 'Controle', cod: 'CTR', coord: 'PROD', nivel: 'exec', sup: 'SUPROD', modelo: 'OP', rod: 'PROD' },
+    { p: 'Óleo', cod: 'OLE', coord: 'PROD', nivel: 'exec', sup: 'SUPROD', modelo: 'OP', rod: 'PROD' },
+    { p: 'Gás', cod: 'GAS', coord: 'PROD', nivel: 'exec', sup: 'SUPROD', modelo: 'OP', rod: 'PROD' },
+    { p: 'Água', cod: 'AGU', coord: 'PROD', nivel: 'exec', sup: 'SUPROD', modelo: 'OP', rod: 'PROD' },
+    { p: 'COMAN', cod: 'COM', coord: 'MAN', nivel: 'coord', modelo: 'A1', tipos: ['Turma'], desc: 'Coordenação da manutenção — passagem de turma entre coordenadores' },
+    { p: 'SUMEC', cod: 'SMC', coord: 'MAN', nivel: 'sup', modelo: 'SUPMAN', desc: 'Supervisor de mecânica' },
+    { p: 'Manutenção Mecânica', cod: 'MEC', coord: 'MAN', nivel: 'exec', sup: 'SUMEC', modelo: 'C1', facultativo: true },
+    { p: 'SUEIN', cod: 'SEI', coord: 'MAN', nivel: 'sup', modelo: 'SUPMAN', desc: 'Supervisor de elétrica e instrumentação' },
+    { p: 'Manutenção Elétrica', cod: 'ELE', coord: 'MAN', nivel: 'exec', sup: 'SUEIN', modelo: 'C1', facultativo: true },
+    { p: 'Manutenção Instrumentação', cod: 'INS', coord: 'MAN', nivel: 'exec', sup: 'SUEIN', modelo: 'C1', facultativo: true },
+    { p: 'Manutenção Automação', cod: 'AUT', coord: 'MAN', nivel: 'exec', sup: 'SUEIN', modelo: 'C1', facultativo: true },
+    { p: 'COEMB', cod: 'COE', coord: 'EMB', nivel: 'coord', modelo: 'A1', tipos: ['Turma'], desc: 'Coordenação da embarcação — passagem de turma entre coordenadores' },
+    { p: 'SUEMB', cod: 'SEM', coord: 'EMB', nivel: 'sup', modelo: 'OP', desc: 'Supervisor da embarcação' },
+    { p: 'Controle Embarcação', cod: 'CEM', coord: 'EMB', nivel: 'exec', sup: 'SUEMB', modelo: 'OP', rod: 'EMB', unir: 'Controle Embarcação + Convés', desc: 'Pode elaborar passagem única com o Convés' },
+    { p: 'Convés', cod: 'CVS', coord: 'EMB', nivel: 'exec', sup: 'SUEMB', modelo: 'OP', rod: 'EMB', unir: 'Controle Embarcação + Convés', desc: 'Pode elaborar passagem única com o Controle Embarcação' },
+    { p: 'Controle Embarcação + Convés', cod: 'CEC', coord: 'EMB', nivel: 'exec', sup: 'SUEMB', modelo: 'OP', rod: 'EMB', oculto: true, une: ['Controle Embarcação', 'Convés'], desc: 'Passagem única dos postos Controle Embarcação e Convés' },
+    { p: 'TLT', cod: 'TLT', coord: 'EMB', nivel: 'exec', sup: 'SUEMB', modelo: 'A1', tipos: ['Turma'], desc: 'Técnico de logística e transporte — passagem de turma (Anexo A-1)' }
+  ];
+  ACESSOS = { posto: 'Pelo posto de lotação', geop: 'GEOP — lê e edita todas as passagens, não elabora', eng: 'Engenheiro de base — consulta supervisores e executantes', apoio: 'Sem acesso às passagens' };
+  ACESSO_CURTO = { geop: 'GEOP · todas as passagens', eng: 'Engenheiro de base · consulta', apoio: 'Sem passagens' };
+  perfisExtra() { var l = this.param('perfis', []); return Array.isArray(l) ? l : []; }
+  estrutura() {
+    var vistos = {}, out = [];
+    this.ESTRUTURA_BASE.concat(this.perfisExtra().map(function (x) { return Object.assign({}, x, { custom: true }); })).forEach(function (x) {
+      if (!x || !x.p || vistos[x.p]) return; vistos[x.p] = 1; out.push(Object.assign({ tipos: ['Turno', 'Turma'] }, x));
+    });
+    return out;
   }
-  permitePosto(posto) { return this.postosPermitidos().indexOf(posto) >= 0; }
-  usuariosPorAcesso(a) { var self = this, u = this.un(); return this.usuarios().filter(function (x) { return x.ativo !== false && (x.papel || 'operador') === 'operador' && (x.acesso || 'operador') === a && self.atuaEm(x, u); }); }
+  postoInfo(p) { return this.estrutura().filter(function (x) { return x.p === p; })[0] || { p: p, cod: 'GEN', coord: 'PROD', nivel: 'exec', modelo: 'OP', tipos: ['Turno', 'Turma'] }; }
+  coordDe(p) { var cc = this.postoInfo(p).coord; return cc === 'PROD' || !cc ? this.coord() : ({ GER: 'GER', MAN: 'MAN', EMB: 'EMB', APOIO: 'APO' }[cc] || cc); }
+  anexoDe(p) { var m = this.postoInfo(p).modelo; return (m === 'A1' || m === 'COPROD') ? ' · Anexo A-1' : (m === 'C1' || m === 'SUPMAN') ? ' · Anexo C-1' : ''; }
+  ehGestao(posto) { return this.POSTOS_GESTAO.indexOf(posto) >= 0; }
+  meuReg() { var eu = this.state.user; if (!eu) return null; return this.usuarios().filter(function (x) { return x.u === eu.user; })[0] || null; }
+  acesso() { var eu = this.state.user; if (!eu) return 'apoio'; if (this.papel() !== 'operador') return 'geop'; var r = this.meuReg(); return (r && r.acesso) || 'posto'; }
+  meuPosto() { if (this.acesso() !== 'posto') return ''; var r = this.meuReg(); return (r && r.posto) || ''; }
+  // Postos cujas passagens o usuário vê (e edita, se vinculado), conforme o nível hierárquico.
+  postosAcesso() {
+    var a = this.acesso(), est = this.estrutura(), nome = function (x) { return x.p; };
+    if (a === 'geop') return est.map(nome);
+    if (a === 'eng') return est.filter(function (x) { return x.nivel === 'sup' || x.nivel === 'exec'; }).map(nome);
+    var meu = this.meuPosto(), info = est.filter(function (x) { return x.p === meu; })[0];
+    if (a !== 'posto' || !info) return [];
+    if (info.nivel === 'geplat') return est.map(nome);
+    if (info.nivel === 'coord') return est.filter(function (x) { return x.p === meu || (x.coord === info.coord && (x.nivel === 'sup' || x.nivel === 'exec')); }).map(nome);
+    if (info.nivel === 'sup') return est.filter(function (x) { return x.p === meu || (x.nivel === 'exec' && x.sup === meu); }).map(nome);
+    return est.filter(function (x) { return x.p === meu || (x.nivel === 'exec' && info.rod && x.rod === info.rod); }).map(nome);
+  }
+  postosPermitidos() { return this.postosAcesso(); }
+  permitePosto(posto) { return this.postosAcesso().indexOf(posto) >= 0; }
+  // Elaborar = iniciar uma passagem nova. GEOP e engenheiros não elaboram; coordenador/GEPLAT só fazem turma no próprio posto.
+  podeElaborar(posto, tipo) {
+    if (!this.state.user || this.papel() !== 'operador' || this.acesso() !== 'posto') return false;
+    if ((this.postoInfo(posto).tipos || []).indexOf(tipo) < 0) return false;
+    return this.permitePosto(posto);
+  }
+  usuariosDoPosto(posto) { var self = this, u = this.un(); return this.usuarios().filter(function (x) { return x.ativo !== false && (x.papel || 'operador') === 'operador' && (x.acesso || 'posto') === 'posto' && x.posto === posto && self.atuaEm(x, u); }); }
+  usuariosPorAcesso(a) {
+    var m = { coprod: 'COPROD', suprod: 'SUPROD' }; if (m[a]) return this.usuariosDoPosto(m[a]);
+    var self = this, u = this.un(), prod = ['Controle', 'Óleo', 'Gás', 'Água'];
+    return this.usuarios().filter(function (x) { if (x.ativo === false || (x.papel || 'operador') !== 'operador' || !self.atuaEm(x, u)) return false; return a === 'operador' ? ((x.acesso || 'posto') === 'posto' && prod.indexOf(x.posto) >= 0) : (x.acesso || 'posto') === a; });
+  }
+  // ---- turno sem ocorrências (executantes com passagem de turno facultativa) ----
+  get SEMOC() { return this.nsk('semocorr-v1'); }
+  semOcorrDe(posto, key) { var l = this.lsGet(this.SEMOC, []); return (Array.isArray(l) ? l : []).filter(function (x) { return x.posto === posto && x.periodoKey === key; })[0] || null; }
+  declararSemOcorr(posto, per) {
+    if (!this.podeElaborar(posto, 'Turno')) { this.flash('Seu perfil não registra o turno deste posto.'); return; }
+    if (this.buscarAberta('Turno', posto, per.key)) { this.flash('Já existe passagem de turno deste posto no período.'); return; }
+    if (!window.confirm('Declarar que o turno ' + per.nome + ' do posto ' + posto + ' transcorreu sem eventos ou ocorrências que justifiquem a elaboração de uma passagem de serviço?')) return;
+    var c = this.carimbo(), l = this.lsGet(this.SEMOC, []); if (!Array.isArray(l)) l = [];
+    l.unshift({ id: 'so' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), posto: posto, periodoKey: per.key, periodoNome: per.nome, u: c.u, n: c.n, em: c.em });
+    if (l.length > 3000) l.length = 3000;
+    this.lsSet(this.SEMOC, l);
+    this.syslog('semocorrencia', 'Turno sem ocorrências · ' + posto, per.nome + ' · ' + c.n + ' (' + c.u + ')');
+    this.flash('Registrado: turno sem ocorrências no posto ' + posto + '.'); this.vibrar(25); this.forceUpdate();
+  }
+  desfazerSemOcorr(posto, key) {
+    var l = this.lsGet(this.SEMOC, []); if (!Array.isArray(l)) return;
+    this.lsSet(this.SEMOC, l.filter(function (x) { return !(x.posto === posto && x.periodoKey === key); }));
+    this.syslog('semocorrencia', 'Desfez declaração de turno sem ocorrências · ' + posto, key);
+    this.forceUpdate();
+  }
+  // ---- perfis adicionais criados na unidade (fiscais, MIED, EEE…) ----
+  criarPerfil(f) {
+    if (!this.permite('perfis')) return 'Sem permissão.';
+    var p = String(f.p || '').trim().replace(/\s+/g, ' '), cod = String(f.cod || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+    if (p.length < 3) return 'Informe o nome do posto ou perfil (mínimo 3 caracteres).';
+    if (cod.length !== 3) return 'O código deve ter 3 letras ou números — ele compõe o número dos documentos.';
+    var est = this.estrutura();
+    if (est.some(function (x) { return x.p.toLowerCase() === p.toLowerCase(); })) return 'Já existe um posto com esse nome.';
+    if (est.some(function (x) { return x.cod === cod; })) return 'Código já usado por outro posto.';
+    var nivel = f.nivel || 'exec', novo = { p: p, cod: cod, coord: f.coord || 'APOIO', nivel: nivel, sup: nivel === 'exec' ? (f.sup || '') : '', modelo: f.modelo || 'A1', tipos: f.tipos === 'turma' ? ['Turma'] : ['Turno', 'Turma'], facultativo: !!f.facultativo && f.tipos !== 'turma', desc: String(f.desc || '').trim(), criadoEm: new Date().toISOString(), criadoPor: this.state.user ? this.state.user.user : '' };
+    this.setParams({ perfis: this.perfisExtra().concat([novo]) });
+    this.syslog('perfil', 'Criou o perfil ' + p + ' (' + cod + ')', (this.COORDS[novo.coord] || novo.coord) + ' · ' + this.NIVEIS_ORG[nivel] + ' · ' + (this.MODELOS[novo.modelo] || novo.modelo));
+    this.flash('Perfil ' + p + ' criado. Lote os usuários no novo posto em Usuários.');
+    return '';
+  }
+  removerPerfil(p) {
+    if (!this.permite('perfis')) return;
+    var n = this.usuariosDoPosto(p).length;
+    if (!window.confirm('Remover o perfil ' + p + '?' + (n ? ' ' + n + ' usuário(s) lotado(s) nele ficarão sem posto.' : '') + ' As passagens já emitidas permanecem no arquivo.')) return;
+    this.setParams({ perfis: this.perfisExtra().filter(function (x) { return x.p !== p; }) });
+    this.syslog('perfil', 'Removeu o perfil ' + p, n ? n + ' usuário(s) ficaram sem posto' : '');
+    this.forceUpdate();
+  }
   papel() { return this.state.user ? (this.state.user.papel || 'operador') : ''; }
   ehOperador() { return !this.state.user || this.papel() === 'operador'; }
   permite(acao) {
-    var mapa = { usuarios: ['admin', 'admlocal'], reabrir: ['admin', 'admlocal', 'supervisor'], excluir: ['admin', 'admlocal'], parametros: ['admin', 'admlocal'], referencias: ['admin', 'admlocal'], manutencao: ['admin', 'admlocal'], exemplos: ['admin', 'admlocal'], log: ['admin', 'admlocal', 'supervisor', 'auditor'], passagens: ['admin', 'admlocal', 'supervisor', 'auditor'], feedback: ['admin', 'admlocal', 'supervisor', 'auditor'], feedbackAvaliar: ['admin', 'admlocal', 'supervisor'], feedbackExcluir: ['admin'], uso: ['admin', 'admlocal', 'supervisor', 'auditor'], sessoes: ['admin', 'admlocal'], restaurar: ['admin'], multiunidade: ['admin'] };
+    var mapa = { usuarios: ['admin', 'admlocal'], reabrir: ['admin', 'admlocal', 'supervisor'], excluir: ['admin', 'admlocal'], parametros: ['admin', 'admlocal'], referencias: ['admin', 'admlocal'], perfis: ['admin', 'admlocal'], manutencao: ['admin', 'admlocal'], exemplos: ['admin', 'admlocal'], log: ['admin', 'admlocal', 'supervisor', 'auditor'], passagens: ['admin', 'admlocal', 'supervisor', 'auditor'], feedback: ['admin', 'admlocal', 'supervisor', 'auditor'], feedbackAvaliar: ['admin', 'admlocal', 'supervisor'], feedbackExcluir: ['admin'], uso: ['admin', 'admlocal', 'supervisor', 'auditor'], sessoes: ['admin', 'admlocal'], restaurar: ['admin'], multiunidade: ['admin'] };
     return (mapa[acao] || []).indexOf(this.papel()) >= 0;
   }
   syslog(tipo, resumo, det) {
@@ -6810,7 +7114,7 @@ class Component extends DCLogic {
       if (existente) return 'Já existe um usuário com a chave ' + u + '.';
       var senha = String(f.senha || '');
       if (senha.length < 4) return 'A senha inicial precisa de ao menos 4 caracteres.';
-      lista.push({ u: u, n: n, f: fu, un: lot, uns: ehAdmSis ? extras : [], papel: papel, acesso: f.acesso || 'operador', senha: senha, ativo: true, criadoEm: new Date().toISOString(), trocar: !!f.trocar });
+      lista.push({ u: u, n: n, f: fu, un: lot, uns: ehAdmSis ? extras : [], papel: papel, acesso: f.acesso || 'posto', posto: (f.acesso || 'posto') === 'posto' ? (f.posto || '') : '', estV: 2, senha: senha, ativo: true, criadoEm: new Date().toISOString(), trocar: !!f.trocar });
       this.gravarUsuarios();
       this.syslog('usuario', 'Criou o usuário ' + u + ' — ' + n, this.papelLabel(papel) + (lot ? ' · lotação ' + lot : '') + (fu ? ' · ' + fu : ''));
       return '';
@@ -6826,11 +7130,13 @@ class Component extends DCLogic {
     if ((alvo.papel || 'operador') !== papel) mud.push('papel: ' + this.papelLabel(alvo.papel) + ' → ' + this.papelLabel(papel));
     if (alvo.u !== u) { mud.push('chave: ' + alvo.u + ' → ' + u); this.renomearChave(alvo.u, u, alvo.n, n); }
     else if (alvo.n !== n) this.renomearChave(alvo.u, u, alvo.n, n);
-    if ((alvo.acesso || 'operador') !== (f.acesso || 'operador')) mud.push('acesso: ' + (this.ACESSOS[alvo.acesso] || 'Operador') + ' → ' + (this.ACESSOS[f.acesso] || 'Operador'));
+    if ((alvo.acesso || 'posto') !== (f.acesso || 'posto')) mud.push('acesso: ' + (this.ACESSOS[alvo.acesso] || '—') + ' → ' + (this.ACESSOS[f.acesso] || '—'));
+    var postoNovo = (f.acesso || 'posto') === 'posto' ? (f.posto || '') : '';
+    if ((alvo.posto || '') !== postoNovo) mud.push('posto: ' + (alvo.posto || '—') + ' → ' + (postoNovo || '—'));
     if ((alvo.un || '') !== lot) mud.push('lotação: ' + (alvo.un || '—') + ' → ' + (lot || 'todas'));
     var extAnt = (alvo.uns || []).join(', '), extNov = (ehAdmSis ? extras : (alvo.uns || [])).join(', ');
     if (extAnt !== extNov) mud.push('acesso adicional: ' + (extAnt || '—') + ' → ' + (extNov || '—'));
-    alvo.u = u; alvo.n = n; alvo.f = fu; alvo.papel = papel; alvo.acesso = f.acesso || 'operador'; alvo.un = lot; if (ehAdmSis) alvo.uns = extras;
+    alvo.u = u; alvo.n = n; alvo.f = fu; alvo.papel = papel; alvo.acesso = f.acesso || 'posto'; alvo.posto = postoNovo; alvo.estV = 2; alvo.un = lot; if (ehAdmSis) alvo.uns = extras;
     if (f.senha) { if (String(f.senha).length < 4) return 'A nova senha precisa de ao menos 4 caracteres.'; alvo.senha = String(f.senha); alvo.trocar = !!f.trocar; mud.push('senha redefinida'); }
     this.gravarUsuarios();
     if (mud.length) this.syslog('usuario', 'Editou o usuário ' + u, mud.join('; '));
@@ -6998,8 +7304,7 @@ class Component extends DCLogic {
     if (!auto && !this.permite('exemplos')) return;
     var self = this;
     this.removerExemplos(true);
-    var self0 = this, opsOper = this.USERS.filter(function (x) { return (x.acesso || 'operador') === 'operador' && /OPERA|GEOP|ENG/i.test(x.f || '') ; });
-    if (opsOper.length < 3) opsOper = this.USERS.filter(function (x) { return (x.acesso || 'operador') === 'operador'; });
+    var self0 = this, opsOper = this.usuariosPorAcesso('operador');
     var opsPor = function (posto) { if (posto === 'SUPROD') { var l1 = self0.usuariosPorAcesso('suprod'); return l1.length ? l1 : opsOper; } if (posto === 'COPROD') { var l2 = self0.usuariosPorAcesso('coprod'); return l2.length ? l2 : opsOper; } return opsOper; };
     if (opsOper.length < 3) opsOper = this.USERS.slice();
     var ops = opsOper;
@@ -7124,7 +7429,7 @@ class Component extends DCLogic {
             else rows.push(row(p, [lab]));
           });
         } else {
-          var qtd = { atencao: 1 + rnd(3), degradacao: rnd(3) === 0 ? 0 : 1, operacoes: 1 + rnd(2), gm: rnd(2), estado: 1 + rnd(2), det: 0, des: 0, pts: 1 + rnd(3), pendencias: 0 }[sec.key === 'disponibilidade' || sec.key === 'integridade' ? p.pid : sec.key];
+          var qtd = { atencao: 1 + rnd(3), degradacao: rnd(3) === 0 ? 0 : 1, operacoes: 1 + rnd(2), gm: rnd(2), estado: 1 + rnd(2), det: 0, des: 0, pts: 1 + rnd(3), pendencias: 0, eventos: 0, anomalias: 0, manutencoes: 0, dispa1: 0 }[sec.key === 'disponibilidade' || sec.key === 'integridade' ? p.pid : sec.key];
           if (qtd == null) qtd = 1;
           if (p.pid === 'det') { var stRows = store[sec.key] && store[sec.key].panels.st ? store[sec.key].panels.st.filter(function (r) { return ['Inoperante', 'Manutenção', 'Limitado'].indexOf(r.c[1]) >= 0; }) : []; stRows.forEach(function (r) { rows.push(row(p, B.det(r.c[0], r.c[2]), true)); }); }
           else if (p.pid === 'des') { var subSim = store[sec.key] && store[sec.key].panels.sub ? store[sec.key].panels.sub.filter(function (r) { return r.c[1] === 'Sim'; }) : []; subSim.forEach(function () { rows.push(row(p, B.des(), true)); }); }
@@ -7210,13 +7515,13 @@ class Component extends DCLogic {
     var unFb = this.un(), fbsAll = this.feedbacks().filter(function (x) { return papel === 'admin' || (x.un || 'P-83') === unFb; }), fbNovosN = fbsAll.filter(function (x) { return x.status === 'novo'; }).length;
     var abas = [
       { k: 'painel', l: 'Painel', ok: true }, { k: 'passagens', l: 'Passagens', ok: this.permite('passagens') }, { k: 'usuarios', l: 'Usuários', ok: this.permite('usuarios') },
-      { k: 'log', l: 'Log do sistema', ok: this.permite('log') }, { k: 'feedback', l: 'Feedback' + (fbNovosN ? ' · ' + fbNovosN : ''), ok: this.permite('feedback') }, { k: 'parametros', l: 'Parâmetros', ok: this.permite('parametros') }, { k: 'referencias', l: 'Referências', ok: this.permite('referencias') },
+      { k: 'log', l: 'Log do sistema', ok: this.permite('log') }, { k: 'feedback', l: 'Feedback' + (fbNovosN ? ' · ' + fbNovosN : ''), ok: this.permite('feedback') }, { k: 'parametros', l: 'Parâmetros', ok: this.permite('parametros') }, { k: 'referencias', l: 'Referências', ok: this.permite('referencias') }, { k: 'perfis', l: 'Perfis e postos', ok: this.permite('perfis') },
       { k: 'manutencao', l: 'Manutenção', ok: this.permite('manutencao') }, { k: 'exemplos', l: 'Exemplos', ok: this.permite('exemplos') }
     ].filter(function (a) { return a.ok; });
     if (!abas.some(function (a) { return a.k === tab; })) tab = 'painel';
     var adm = { ativo: true, papel: this.papelLabel(papel) + ' · ' + this.un(), usuario: eu.nome + ' · ' + eu.user, tab: tab,
       abas: abas.map(function (a) { return { label: a.l, ativa: a.k === tab, bg: a.k === tab ? 'var(--color-accent-200)' : 'transparent', border: a.k === tab ? 'var(--color-accent-700)' : 'transparent', go: function () { self.setState({ aTab: a.k, aDlg: null, aUsrForm: null }); window.scrollTo({ top: 0 }); } }; }),
-      isPainel: tab === 'painel', isPassagens: tab === 'passagens', isUsuarios: tab === 'usuarios', isLog: tab === 'log', isFeedback: tab === 'feedback', isParametros: tab === 'parametros', isReferencias: tab === 'referencias', isManutencao: tab === 'manutencao', isExemplos: tab === 'exemplos',
+      isPainel: tab === 'painel', isPassagens: tab === 'passagens', isUsuarios: tab === 'usuarios', isLog: tab === 'log', isFeedback: tab === 'feedback', isParametros: tab === 'parametros', isReferencias: tab === 'referencias', isManutencao: tab === 'manutencao', isExemplos: tab === 'exemplos', isPerfis: tab === 'perfis',
       podeReabrir: this.permite('reabrir'), podeExcluir: this.permite('excluir'), podeUsuarios: this.permite('usuarios'), podeSessoes: this.permite('sessoes'), podeRestaurar: this.permite('restaurar'), sair: function () { self.logout(); } };
     var todas = this.todasPassagens(), uso = this.relatorioUso(), integ = st.aInteg || { alertas: [], orfas: null, em: '' };
     var syslog = this.lsGet(this.SYSLOG, []) || [], unAtual = this.un();
@@ -7295,19 +7600,35 @@ class Component extends DCLogic {
     adm.usuarios = usuarios.filter(function (x) { return (!fUn || self.atuaEm(x, fUn)) && (!fu || (x.u + ' ' + x.n + ' ' + (x.f || '') + ' ' + self.papelLabel(x.papel) + ' ' + (x.un || '')).toLowerCase().indexOf(fu) >= 0); }).map(function (x) {
       var lotX = (x.papel || 'operador') === 'admin' ? '' : (x.un || 'P-83'), podeEd = ehAdmSis || lotX === unAdm;
       var on = ativos.indexOf(x.u) >= 0, ss = sess[x.u];
-      return { u: x.u, n: x.n, f: x.f || '—', papel: self.papelLabel(x.papel), unLabel: lotX || 'Todas', unExtra: (x.uns || []).length ? '+ ' + x.uns.join(', ') : '', podeEditar: podeEd, podeToggle: podeEd && x.u !== 'ADMIN', acessoLabel: (x.papel || 'operador') === 'operador' ? (self.ACESSOS[x.acesso] || 'Operador') : 'Tudo (leitura)', ativo: x.ativo !== false, statusLabel: x.ativo === false ? 'Desativado' : (on ? 'Conectado' : 'Ativo'), tagClass: x.ativo === false ? 'tag-neutral' : (on ? 'tag-accent' : 'tag-outline'),
+      return { u: x.u, n: x.n, f: x.f || '—', papel: self.papelLabel(x.papel), unLabel: lotX || 'Todas', unExtra: (x.uns || []).length ? '+ ' + x.uns.join(', ') : '', podeEditar: podeEd, podeToggle: podeEd && x.u !== 'ADMIN', acessoLabel: (x.papel || 'operador') === 'operador' ? ((x.acesso || 'posto') === 'posto' ? (x.posto || 'Sem posto') : (self.ACESSO_CURTO[x.acesso] || '—')) : 'Tudo (leitura)', ativo: x.ativo !== false, statusLabel: x.ativo === false ? 'Desativado' : (on ? 'Conectado' : 'Ativo'), tagClass: x.ativo === false ? 'tag-neutral' : (on ? 'tag-accent' : 'tag-outline'),
         acesso: x.ultimoAcesso ? 'último acesso ' + self.fmtHoraISO(x.ultimoAcesso, true) : 'nunca acessou', dispositivo: ss ? (ss.mob ? 'campo (móvel)' : 'escritório') : '', emPassagens: self.usoEmPassagens(x.u),
-        editar: function () { if (!podeEd) return; self.setState({ aUsrForm: { novo: false, uOriginal: x.u, u: x.u, n: x.n, f: x.f || '', papel: x.papel || 'operador', acesso: x.acesso || 'operador', un: lotX, uns: (x.uns || []).slice(), senha: '', trocar: false, erro: '' } }); },
+        editar: function () { if (!podeEd) return; self.setState({ aUsrForm: { novo: false, uOriginal: x.u, u: x.u, n: x.n, f: x.f || '', papel: x.papel || 'operador', acesso: x.acesso || 'posto', posto: x.posto || '', un: lotX, uns: (x.uns || []).slice(), senha: '', trocar: false, erro: '' } }); },
         toggle: function () { if (window.confirm((x.ativo === false ? 'Reativar ' : 'Desativar ') + x.u + ' — ' + x.n + '?' + (x.ativo === false ? '' : ' A sessão dele será encerrada e ele não conseguirá entrar. O histórico permanece.'))) self.toggleAtivo(x.u); }, toggleLabel: x.ativo === false ? 'Reativar' : 'Desativar', ehAdmin: x.u === 'ADMIN',
         podeKick: on && self.permite('sessoes') && x.u !== eu.user, kick: function () { if (window.confirm('Encerrar a sessão de ' + x.u + ' agora?')) self.forcarSaida(x.u); } };
     });
     adm.usuariosResumo = (ehAdmSis ? 'Campo de Búzios · ' : unAdm + ' · ') + usuarios.length + ' cadastrados · ' + usuarios.filter(function (x) { return x.ativo !== false; }).length + ' ativos · ' + ativos.length + ' conectado(s)';
-    adm.novoUsuario = function () { self.setState({ aUsrForm: { novo: true, u: '', n: '', f: '', papel: 'operador', acesso: 'operador', un: unAdm, uns: [], senha: '', trocar: true, erro: '' } }); };
+    var estA = this.estrutura(), pfB = { p: '', cod: '', coord: 'APOIO', nivel: 'exec', sup: '', modelo: 'A1', tipos: 'ambos', facultativo: false, desc: '', erro: '' }, pf = Object.assign({}, pfB, st.aPerf || {});
+    var setPf = function (k) { return function (e) { var v = e.target.type === 'checkbox' ? e.target.checked : e.target.value; if (k === 'cod') v = String(v).toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 3); var o = {}; o[k] = v; o.erro = ''; self.setState({ aPerf: Object.assign({}, pfB, self.state.aPerf || {}, o) }); }; };
+    adm.pf = pf; adm.pfSet = { p: setPf('p'), cod: setPf('cod'), coord: setPf('coord'), nivel: setPf('nivel'), sup: setPf('sup'), modelo: setPf('modelo'), tipos: setPf('tipos'), facultativo: setPf('facultativo'), desc: setPf('desc') };
+    adm.pfCoordsEl = this.optionsEl(Object.keys(this.COORDS).filter(function (k) { return k !== 'GER'; }).map(function (k) { return { v: k, l: self.COORDS[k] }; }));
+    adm.pfNiveisEl = this.optionsEl([{ v: 'coord', l: 'Coordenação' }, { v: 'sup', l: 'Supervisão' }, { v: 'exec', l: 'Executante / fiscal / técnico' }]);
+    adm.pfSupEl = this.optionsEl([{ v: '', l: '— nenhum —' }].concat(estA.filter(function (x) { return x.nivel === 'sup'; }).map(function (x) { return { v: x.p, l: x.p }; })));
+    adm.pfSupBloq = pf.nivel !== 'exec';
+    adm.pfModelosEl = this.optionsEl(['A1', 'C1', 'OP'].map(function (k) { return { v: k, l: self.MODELOS[k] }; }));
+    adm.pfTiposEl = this.optionsEl([{ v: 'ambos', l: 'Turno e turma' }, { v: 'turma', l: 'Somente turma' }]);
+    adm.pfRegra = pf.nivel === 'coord' ? 'Coordenação: lê e edita as passagens dos supervisores e executantes da mesma coordenação; não acessa outras disciplinas. Passagem própria normalmente só de turma.' : pf.nivel === 'sup' ? 'Supervisão: lê e edita as passagens dos executantes subordinados; não acessa as do coordenador.' : 'Executante: acessa somente a passagem do próprio posto; não acessa as do supervisor nem do coordenador.' + (pf.sup ? ' Itens podem ser reportados ao ' + pf.sup + '.' : '');
+    adm.pfCriar = function () { var cur = Object.assign({}, pfB, self.state.aPerf || {}); var erro = self.criarPerfil(cur); if (erro) self.setState({ aPerf: Object.assign(cur, { erro: erro }) }); else self.setState({ aPerf: null }); };
+    adm.perfis = estA.map(function (x) {
+      return { coord: self.COORDS_CURTO[x.coord] || x.coord, p: x.p, cod: x.cod, nivel: self.NIVEIS_ORG[x.nivel] || x.nivel, sup: x.sup || '—', modelo: (self.MODELOS[x.modelo] || x.modelo).split(' — ')[0],
+        tipos: (x.tipos || []).join(' + ') + (x.facultativo ? ' · turno facultativo' : ''), n: self.usuariosDoPosto(x.p).length, custom: !!x.custom, padrao: !x.custom, remover: function () { self.removerPerfil(x.p); } };
+    });
+    adm.perfisResumo = estA.length + ' postos · ' + estA.filter(function (x) { return x.custom; }).length + ' criados nesta unidade';
+    adm.novoUsuario = function () { self.setState({ aUsrForm: { novo: true, u: '', n: '', f: '', papel: 'operador', acesso: 'posto', posto: '', un: unAdm, uns: [], senha: '', trocar: true, erro: '' } }); };
     var uf = st.aUsrForm;
     adm.showUsrForm = !!uf; adm.uf = uf || { u: '', n: '', f: '', papel: 'operador', senha: '', trocar: false, erro: '', novo: false };
     adm.ufTitulo = uf ? (uf.novo ? 'Novo usuário' : 'Editar ' + uf.uOriginal) : ''; adm.ufSenhaLabel = uf && uf.novo ? 'Senha inicial' : 'Nova senha (deixe em branco para manter)';
     var setUf = function (k, tr) { return function (e) { var v = e.target.type === 'checkbox' ? e.target.checked : e.target.value; if (tr) v = tr(v); self.setState({ aUsrForm: Object.assign({}, self.state.aUsrForm, { [k]: v, erro: '' }) }); }; };
-    adm.ufSetU = setUf('u', function (v) { return String(v).toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 4); }); adm.ufSetN = setUf('n'); adm.ufSetF = setUf('f'); adm.ufSetPapel = setUf('papel'); adm.ufSetAcesso = setUf('acesso'); adm.acessosEl = this.optionsEl(Object.keys(this.ACESSOS).map(function (k) { return { v: k, l: self.ACESSOS[k] }; })); adm.ufSetSenha = setUf('senha'); adm.ufSetTrocar = setUf('trocar');
+    adm.ufSetU = setUf('u', function (v) { return String(v).toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 4); }); adm.ufSetN = setUf('n'); adm.ufSetF = setUf('f'); adm.ufSetPapel = setUf('papel'); adm.ufSetAcesso = setUf('acesso'); adm.ufSetPosto = setUf('posto'); adm.ufPostoBloq = !uf || (uf.acesso || 'posto') !== 'posto'; adm.postosLotEl = this.optionsEl([{ v: '', l: '— sem posto —' }].concat(this.estrutura().map(function (x) { return { v: x.p, l: (self.COORDS_CURTO[x.coord] || x.coord) + ' · ' + x.p }; }))); adm.acessosEl = this.optionsEl(Object.keys(this.ACESSOS).map(function (k) { return { v: k, l: self.ACESSOS[k] }; })); adm.ufSetSenha = setUf('senha'); adm.ufSetTrocar = setUf('trocar');
     adm.papeis = Object.keys(this.PAPEIS).filter(function (k) { return ehAdmSis || k !== 'admin'; }).map(function (k) { return { k: k, l: self.PAPEIS[k] }; });
     var ufAdm = !!uf && uf.papel === 'admin';
     adm.ufSetUn = setUf('un'); adm.ufUnBloq = !ehAdmSis || ufAdm;

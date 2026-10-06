@@ -21,3 +21,12 @@ Conteúdo estático: `index.html` (página de entrada com chaves de teste), `app
 
 ## Base de dados compartilhada (Supabase)
 `nuvem.js` sincroniza os dados (usuários, passagens, arquivo, parâmetros) com o Supabase: carga completa ao abrir, envio ~1 s após cada alteração, atualização a cada 8 s e fila local quando offline. Preferências de tela e a sessão continuam locais. Criar a tabela uma única vez executando `supabase-buzios.sql` no SQL Editor do projeto.
+
+
+## Atualização — estrutura completa de postos (out/2026)
+- 20 postos em 4 coordenações (Gerência, Produção, Manutenção, Embarcação) com regras de acesso por nível (GEOP, GEPLAT, coordenação, supervisão, executante, engenheiros de base).
+- Modelos do PE-3BUZ-00130: Anexo A-1 (GEPLAT, coordenadores, TLT) e Anexo C-1 (manutenção, com turno facultativo e “Turno sem ocorrências”).
+- Botão “Turma” para levar itens da passagem de turno à passagem de turma do posto.
+- Controle Embarcação e Convés: passagem separada ou única.
+- Admin → Perfis e postos: criação de perfis adicionais (fiscais, MIED, EEE).
+- Cadastro de 183 usuários da P-83 (senha de teste 1234).
