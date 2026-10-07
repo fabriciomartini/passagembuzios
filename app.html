@@ -74,8 +74,8 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
         <p style="margin:0;font-size:14px;line-height:1.5;text-wrap:pretty">Ao confirmar, você declara que conferiu a condição real de cada item — não apenas repetiu o que veio da passagem anterior. A confirmação em bloco fica registrada no histórico com seu nome e horário.</p>
       </div>
       <div class="dialog-actions" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;margin-top:var(--space-5)">
-        <button type="button" class="btn btn-ghost" onClick="{{ gConfCancel }}" style="border-color:var(--color-divider)">Voltar e conferir item a item</button>
-        <button type="button" class="btn btn-primary" onClick="{{ gConfOk }}">Conferi todos — confirmar grupo</button>
+        <button type="button" class="btn btn-ghost" onClick="{{ gConfCancel }}" style="border-color:var(--color-divider);height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center">Voltar e conferir item a item</button>
+        <button type="button" class="btn btn-primary" onClick="{{ gConfOk }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center">Conferi todos — confirmar grupo</button>
       </div>
     </div>
   </div>
@@ -83,10 +83,10 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
 <sc-if value="{{ ambAvisoOn }}" hint-placeholder-val="{{ false }}">
   <div class="dialog-backdrop" style="position:fixed;inset:0;z-index:400;display:flex;align-items:center;justify-content:center;padding:var(--space-6)">
     <div class="dialog blueprint" role="alertdialog" aria-modal="true" style="max-width:560px;width:100%;padding:var(--space-6);background:var(--color-bg);box-shadow:inset 0 0 0 2px oklch(0.55 0.19 25)"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-      <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:oklch(0.5 0.18 25)">Meio ambiente · notificação imediata</div>
-      <div class="dialog-title" style="font-family:var(--font-heading);font-size:22px;line-height:1.1;margin-top:4px">⚠ Valor fora do limite de referência</div>
-      <div class="dialog-body" style="margin-top:var(--space-4)"><p style="margin:0;font-size:15px;line-height:1.5;text-wrap:pretty">{{ ambAvisoTxt }}</p></div>
-      <div class="dialog-actions" style="display:flex;justify-content:flex-end;margin-top:var(--space-5)"><button type="button" class="btn btn-primary" onClick="{{ ambAvisoOk }}">Ciente — vou notificar agora</button></div>
+      <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:oklch(0.5 0.18 25)">{{ ambAvisoKicker }}</div>
+      <div class="dialog-title" style="font-family:var(--font-heading);font-size:22px;line-height:1.1;margin-top:4px">⚠ {{ ambAvisoTitulo }}</div>
+      <div class="dialog-body" style="margin-top:var(--space-4);display:flex;flex-direction:column;gap:10px"><p style="margin:0;font-size:15px;line-height:1.5;text-wrap:pretty">{{ ambAvisoTxt }}</p><sc-if value="{{ ambAvisoTemNota }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font-size:14px;line-height:1.5;text-wrap:pretty;padding:8px 10px;border:1px solid var(--color-divider)">{{ ambAvisoNota }}</p></sc-if></div>
+      <div class="dialog-actions" style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:var(--space-5)"><sc-if value="{{ ambAvisoTemCancel }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ ambAvisoCancel }}" style="border-color:var(--color-divider);height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center">{{ ambAvisoCancelLabel }}</button></sc-if><button type="button" class="btn btn-primary" onClick="{{ ambAvisoOk }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center">{{ ambAvisoOkLabel }}</button></div>
     </div>
   </div>
 </sc-if>
@@ -827,7 +827,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
         <div style="font-size:13px;margin-top:6px;color:color-mix(in srgb, var(--color-text) 62%, transparent)">{{ adm.dlgResumo }}</div>
         <p style="margin:var(--space-4) 0 0;font-size:14px;line-height:1.5;text-wrap:pretty">A passagem volta ao modo de elaboração com o mesmo número. As declarações de conclusão da equipe são desfeitas e o relatório só poderá ser emitido novamente após todos declararem. Nenhum campo é alterado pela administração.</p>
         <div class="field" style="margin-top:var(--space-4)"><label>Justificativa (obrigatória, mínimo 10 caracteres)</label><textarea class="input" style="min-height:84px" value="{{ adm.dlgMotivo }}" onChange="{{ adm.setDlgMotivo }}" placeholder="ex.: Correção do TAG informado no bloco 1 a pedido da supervisão." autoFocus="{{ true }}"></textarea></div>
-        <div class="dialog-actions" style="display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)"><button class="btn btn-secondary" type="button" onClick="{{ adm.fecharDlg }}">Cancelar</button><button class="btn btn-primary" type="button" onClick="{{ adm.confirmarReabrir }}" disabled="{{ adm.reabrirBloqueado }}">Reabrir passagem</button></div>
+        <div class="dialog-actions" style="flex-wrap:wrap;display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)"><button class="btn btn-secondary" type="button" onClick="{{ adm.fecharDlg }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Cancelar</button><button class="btn btn-primary" type="button" onClick="{{ adm.confirmarReabrir }}" disabled="{{ adm.reabrirBloqueado }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Reabrir passagem</button></div>
       </div>
     </div>
   </sc-if>
@@ -840,7 +840,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
         <p style="margin:var(--space-4) 0 0;font-size:14px;line-height:1.5;text-wrap:pretty">A passagem sai do sistema e vai para a lixeira, onde pode ser restaurada por 30 dias. A exclusão fica registrada no log com o código, o posto, o período, a equipe e o motivo.</p>
         <div class="field" style="margin-top:var(--space-4)"><label>Motivo</label><input class="input" value="{{ adm.dlgMotivo }}" onChange="{{ adm.setDlgMotivo }}" placeholder="ex.: Passagem duplicada criada por engano."></div>
         <div class="field" style="margin-top:var(--space-3)"><label>Digite o código para confirmar</label><input class="input" value="{{ adm.dlgConf }}" onChange="{{ adm.setDlgConf }}" placeholder="{{ adm.dlgCodigo }}" style="font-family:var(--font-heading);letter-spacing:0.04em"></div>
-        <div class="dialog-actions" style="display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)"><button class="btn btn-secondary" type="button" onClick="{{ adm.fecharDlg }}">Cancelar</button><button class="btn btn-primary" type="button" onClick="{{ adm.confirmarExcluir }}" disabled="{{ adm.excluirBloqueado }}">Mover para a lixeira</button></div>
+        <div class="dialog-actions" style="flex-wrap:wrap;display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)"><button class="btn btn-secondary" type="button" onClick="{{ adm.fecharDlg }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Cancelar</button><button class="btn btn-primary" type="button" onClick="{{ adm.confirmarExcluir }}" disabled="{{ adm.excluirBloqueado }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Mover para a lixeira</button></div>
       </div>
     </div>
   </sc-if>
@@ -876,7 +876,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
         <label class="radio" style="gap:10px;margin-top:var(--space-3)"><input type="checkbox" checked="{{ adm.uf.trocar }}" onChange="{{ adm.ufSetTrocar }}"><span class="dot" style="border-radius:0"></span><span style="font-size:13px">Pedir troca de senha no próximo acesso</span></label>
         <p style="margin:var(--space-3) 0 0;font-size:12px;line-height:1.5;color:color-mix(in srgb, var(--color-text) 58%, transparent);text-wrap:pretty">Operador: preenche e valida passagens. Supervisor: lê tudo e pode reabrir passagens. Auditor: só leitura e log. Administrador local: administra a própria unidade (usuários, parâmetros, passagens), sem preencher passagens. ADM do sistema: todas as unidades e acessos entre unidades. Renomear a chave atualiza o histórico das passagens.</p>
         <sc-if value="{{ adm.uf.erro }}" hint-placeholder-val="{{ false }}"><div style="margin-top:var(--space-3);border:1px solid var(--color-accent-700);padding:var(--space-3);font-size:13px">{{ adm.uf.erro }}</div></sc-if>
-        <div class="dialog-actions" style="display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)"><button class="btn btn-secondary" type="button" onClick="{{ adm.ufCancelar }}">Cancelar</button><button class="btn btn-primary" type="button" onClick="{{ adm.ufSalvar }}" disabled="{{ adm.ufBloqueado }}">Salvar</button></div>
+        <div class="dialog-actions" style="flex-wrap:wrap;display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)"><button class="btn btn-secondary" type="button" onClick="{{ adm.ufCancelar }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Cancelar</button><button class="btn btn-primary" type="button" onClick="{{ adm.ufSalvar }}" disabled="{{ adm.ufBloqueado }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Salvar</button></div>
       </div>
     </div>
   </sc-if>
@@ -888,7 +888,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
         <div style="font-size:13px;margin-top:6px;color:color-mix(in srgb, var(--color-text) 62%, transparent)">{{ adm.imp.nome }} · gerado em {{ adm.impQuando }} por {{ adm.imp.por }} · {{ adm.imp.unidade }}</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-2);margin-top:var(--space-4)"><sc-for list="{{ adm.imp.resumo }}" as="r" hint-placeholder-count="0"><div style="border:1px solid var(--color-divider);padding:8px 10px;font-size:12.5px;display:flex;justify-content:space-between"><span>{{ r.k }}</span><span style="font-family:var(--font-heading);font-size:15px">{{ r.v }}</span></div></sc-for></div>
         <p style="margin:var(--space-4) 0 0;font-size:14px;line-height:1.5;text-wrap:pretty">Os dados atuais deste navegador serão substituídos pelos do arquivo (usuários, passagens, arquivo, log, parâmetros e listas). Exporte um backup antes, se quiser preservar o estado atual.</p>
-        <div class="dialog-actions" style="display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)"><button class="btn btn-secondary" type="button" onClick="{{ adm.impCancelar }}">Cancelar</button><button class="btn btn-primary" type="button" onClick="{{ adm.impAplicar }}">Substituir e restaurar</button></div>
+        <div class="dialog-actions" style="flex-wrap:wrap;display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)"><button class="btn btn-secondary" type="button" onClick="{{ adm.impCancelar }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Cancelar</button><button class="btn btn-primary" type="button" onClick="{{ adm.impAplicar }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Substituir e restaurar</button></div>
       </div>
     </div>
   </sc-if>
@@ -1172,7 +1172,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                                   <div data-tip="{{ cell.tip }}" style="font-size:13px;line-height:1.35;padding-top:7px;max-width:380px;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;color:{{ cell.staticColor }};cursor:{{ cell.tipCursor }}">{{ cell.shown }}</div>
                                 </sc-if>
                                 <sc-if value="{{ cell.isText }}" hint-placeholder-val="{{ true }}">
-                                  <input class="input" style="min-height:34px;min-width:96px;width:100%" value="{{ cell.value }}" onChange="{{ cell.set }}" placeholder="{{ cell.ph }}" list="{{ cell.list }}">
+                                  <input class="input" style="min-height:34px;min-width:96px;width:100%" value="{{ cell.value }}" onChange="{{ cell.set }}" onBlur="{{ cell.blur }}" placeholder="{{ cell.ph }}" list="{{ cell.list }}">
                                 </sc-if>
                                 <sc-if value="{{ cell.isDate }}" hint-placeholder-val="{{ false }}">
                                   <input class="input" inputMode="numeric" style="min-height:34px;min-width:112px" value="{{ cell.dataValue }}" onChange="{{ cell.setData }}" placeholder="dd/mm/aaaa">
@@ -1694,7 +1694,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
           <sc-if value="{{ c.isStatic }}" hint-placeholder-val="{{ false }}"><div style="font-size:17px;line-height:1.4;padding:10px 0;border-bottom:1px solid var(--color-divider);text-wrap:pretty">{{ c.shown }}</div></sc-if>
           <sc-if value="{{ c.isText }}" hint-placeholder-val="{{ true }}">
             <div style="display:flex;gap:8px">
-              <input class="input" style="flex:1;min-width:0" value="{{ c.value }}" onChange="{{ c.set }}" list="{{ c.list }}" inputMode="{{ c.inputMode }}" enterKeyHint="next" autoCapitalize="sentences">
+              <input class="input" style="flex:1;min-width:0" value="{{ c.value }}" onChange="{{ c.set }}" onBlur="{{ c.blur }}" list="{{ c.list }}" inputMode="{{ c.inputMode }}" enterKeyHint="next" autoCapitalize="sentences">
               <sc-if value="{{ c.podeScan }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-secondary" onClick="{{ c.scan }}" title="Ler TAG / QR com a câmera" aria-label="Ler TAG" style="flex:none;width:52px;padding:0;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"></path><rect x="7" y="7" width="3" height="3"></rect><rect x="14" y="7" width="3" height="3"></rect><rect x="7" y="14" width="3" height="3"></rect><path d="M14 14h3v3"></path></svg></button></sc-if>
               <button type="button" class="btn btn-secondary" onClick="{{ c.mic }}" title="Ditar" aria-label="Ditar" style="flex:none;width:52px;padding:0;justify-content:center;background:{{ c.micBg }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"></path></svg></button>
             </div>
@@ -1995,10 +1995,10 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
             </sc-for>
           </div>
         </sc-if>
-        <div class="dialog-actions" style="display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)">
-          <button class="btn btn-secondary" type="button" onClick="{{ closeSend }}">{{ sendCloseLabel }}</button>
+        <div class="dialog-actions" style="flex-wrap:wrap;display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)">
+          <button class="btn btn-secondary" type="button" onClick="{{ closeSend }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">{{ sendCloseLabel }}</button>
           <sc-if value="{{ sendCanConfirm }}" hint-placeholder-val="{{ false }}">
-            <button class="btn btn-primary" type="button" onClick="{{ confirmSend }}">{{ sendConfirmLabel }}</button>
+            <button class="btn btn-primary" type="button" onClick="{{ confirmSend }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">{{ sendConfirmLabel }}</button>
           </sc-if>
         </div>
       </div>
@@ -2006,7 +2006,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
   </sc-if>
   <sc-if value="{{ showRev }}" hint-placeholder-val="{{ false }}">
     <div class="dialog-backdrop" style="position:fixed;inset:0;z-index:410;display:flex;align-items:center;justify-content:center;padding:var(--space-6)">
-      <div class="dialog blueprint" role="dialog" aria-modal="true" style="max-width:720px;width:100%;max-height:88vh;overflow:auto;padding:var(--space-6);background:var(--color-bg)">
+      <div class="dialog blueprint" role="dialog" aria-modal="true" style="max-width:720px;width:100%;max-height:88vh;overflow-y:auto;overflow-x:hidden;padding:var(--space-6);background:var(--color-bg)">
         <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
         <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent)">Chat Petrobras · revisão assistida</div>
         <div class="dialog-title" style="font-family:var(--font-heading);font-size:22px;line-height:1.1;margin-top:4px">{{ revTitle }}</div>
@@ -2038,10 +2038,10 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
           </label>
         </sc-if>
         <div style="margin-top:var(--space-4);font-size:11.5px;line-height:1.5;color:color-mix(in srgb, var(--color-text) 58%, transparent);text-wrap:pretty">Função ilustrativa nesta prova de conceito — a integração com o Chat Petrobras será feita na fase de implantação.</div>
-        <div class="dialog-actions" style="display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)">
-          <button class="btn btn-secondary" type="button" onClick="{{ closeRev }}">Manter meu texto</button>
+        <div class="dialog-actions" style="flex-wrap:wrap;display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)">
+          <button class="btn btn-secondary" type="button" onClick="{{ closeRev }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Manter meu texto</button>
           <sc-if value="{{ revReady }}" hint-placeholder-val="{{ false }}">
-            <button class="btn btn-primary" type="button" onClick="{{ aplicarRev }}" disabled="{{ revBlocked }}">Aceitar texto revisado</button>
+            <button class="btn btn-primary" type="button" onClick="{{ aplicarRev }}" disabled="{{ revBlocked }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Aceitar texto revisado</button>
           </sc-if>
         </div>
       </div>
@@ -2069,9 +2069,9 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
           <span style="color:color-mix(in srgb, var(--color-text) 58%, transparent)">Coordenação</span><span>{{ ini.coord }}</span>
         </div>
         <p style="margin:var(--space-3) 0 0;font-size:12px;line-height:1.5;color:color-mix(in srgb, var(--color-text) 58%, transparent);text-wrap:pretty">O número torna-se definitivo na criação e não é reutilizado. Só é possível uma passagem deste tipo por posto neste período.</p>
-        <div class="dialog-actions" style="display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)">
-          <button class="btn btn-secondary" type="button" onClick="{{ cancelIniciar }}">Cancelar</button>
-          <button class="btn btn-primary" type="button" onClick="{{ confirmIniciar }}" disabled="{{ iniciando }}" autoFocus="{{ true }}">{{ iniLabel }}</button>
+        <div class="dialog-actions" style="flex-wrap:wrap;display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)">
+          <button class="btn btn-secondary" type="button" onClick="{{ cancelIniciar }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Cancelar</button>
+          <button class="btn btn-primary" type="button" onClick="{{ confirmIniciar }}" disabled="{{ iniciando }}" autoFocus="{{ true }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">{{ iniLabel }}</button>
         </div>
       </div>
     </div>
@@ -2088,13 +2088,13 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
             <input class="input" value="{{ clearWord }}" onChange="{{ setClearWord }}" placeholder="LIMPAR" autoFocus="{{ true }}">
           </div>
         </sc-if>
-        <div class="dialog-actions" style="display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)">
-          <button class="btn btn-secondary" type="button" onClick="{{ cancelClear }}">Cancelar</button>
+        <div class="dialog-actions" style="flex-wrap:wrap;display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)">
+          <button class="btn btn-secondary" type="button" onClick="{{ cancelClear }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Cancelar</button>
           <sc-if value="{{ clearStep1 }}" hint-placeholder-val="{{ true }}">
-            <button class="btn btn-primary" type="button" onClick="{{ nextClear }}">Continuar</button>
+            <button class="btn btn-primary" type="button" onClick="{{ nextClear }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Continuar</button>
           </sc-if>
           <sc-if value="{{ clearStep2 }}" hint-placeholder-val="{{ false }}">
-            <button class="btn btn-primary" type="button" onClick="{{ confirmClear }}" disabled="{{ clearBlocked }}">Limpar e reiniciar</button>
+            <button class="btn btn-primary" type="button" onClick="{{ confirmClear }}" disabled="{{ clearBlocked }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Limpar e reiniciar</button>
           </sc-if>
         </div>
       </div>
@@ -2109,28 +2109,28 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
         <div class="field" style="margin-top:var(--space-4)"><label>Operador (chave ou nome)</label><input class="input" value="{{ incChave }}" onChange="{{ setIncChave }}" list="dl-chaves" placeholder="ex.: URPQ" autoFocus="{{ true }}"></div>
         <div style="font-size:12.5px;margin-top:6px;color:color-mix(in srgb, var(--color-text) 58%, transparent)">{{ incInfo }}</div>
         <div class="field" style="margin-top:var(--space-4)"><label>Justificativa da inclusão *</label><textarea class="input" style="min-height:84px;line-height:1.5" value="{{ incMotivo }}" onChange="{{ setIncMotivo }}" placeholder="Por que este operador não se vinculou por conta própria? Ex.: em campo desde o início do turno, sem acesso à estação."></textarea></div>
-        <div class="dialog-actions" style="display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)">
-          <button class="btn btn-secondary" type="button" onClick="{{ cancelIncluir }}">Cancelar</button>
-          <button class="btn btn-primary" type="button" onClick="{{ confirmIncluir }}" disabled="{{ incBloqueado }}">Incluir operador</button>
+        <div class="dialog-actions" style="flex-wrap:wrap;display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)">
+          <button class="btn btn-secondary" type="button" onClick="{{ cancelIncluir }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Cancelar</button>
+          <button class="btn btn-primary" type="button" onClick="{{ confirmIncluir }}" disabled="{{ incBloqueado }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Incluir operador</button>
         </div>
       </div>
     </div>
   </sc-if>
   <sc-if value="{{ showReporte }}" hint-placeholder-val="{{ false }}">
     <div class="dialog-backdrop" style="position:fixed;inset:0;z-index:400;display:flex;align-items:center;justify-content:center;padding:var(--space-6)">
-      <div class="dialog blueprint" role="dialog" aria-modal="true" style="max-width:600px;width:100%;max-height:90vh;overflow:auto;padding:var(--space-6);background:var(--color-bg)"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <div class="dialog blueprint" role="dialog" aria-modal="true" style="max-width:600px;width:100%;max-height:90vh;overflow-y:auto;overflow-x:hidden;padding:var(--space-6);background:var(--color-bg)"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
         <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">Sem retrabalho</div>
         <div class="dialog-title" style="font-family:var(--font-heading);font-size:22px;line-height:1.1;margin-top:4px">{{ reporteTitulo }}</div>
         <p style="margin:var(--space-3) 0 0;font-size:13.5px;line-height:1.5;text-wrap:pretty">O item entra na <strong>{{ reporteDestino }}</strong> {{ reporteOnde }}. Se essa passagem ainda não foi aberta, o item é entregue quando ela for iniciada. A origem fica marcada como reportada.</p>
         <div style="margin-top:var(--space-4);border:1px solid var(--color-divider);padding:var(--space-3);font-size:13px;line-height:1.5;white-space:pre-wrap">{{ reporte.resumo }}</div>
         <div class="field" style="margin-top:var(--space-3)"><label>Observação para o {{ reporte.dest.posto }} (opcional)</label><input class="input" value="{{ reporte.obs }}" onChange="{{ setReporteObs }}" placeholder="ex.: Sugiro destacar na passagem semanal."></div>
-        <div class="dialog-actions" style="display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)"><button class="btn btn-secondary" type="button" onClick="{{ fecharReporte }}">Cancelar</button><button class="btn btn-primary" type="button" onClick="{{ confirmarReporte }}">{{ reporteTitulo }}</button></div>
+        <div class="dialog-actions" style="flex-wrap:wrap;display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)"><button class="btn btn-secondary" type="button" onClick="{{ fecharReporte }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Cancelar</button><button class="btn btn-primary" type="button" onClick="{{ confirmarReporte }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">{{ reporteTitulo }}</button></div>
       </div>
     </div>
   </sc-if>
   <sc-if value="{{ showAlerta }}" hint-placeholder-val="{{ false }}">
     <div class="dialog-backdrop" style="position:fixed;inset:0;z-index:400;display:flex;align-items:center;justify-content:center;padding:var(--space-6)">
-      <div class="dialog blueprint" role="dialog" aria-modal="true" style="max-width:640px;width:100%;max-height:90vh;overflow:auto;padding:var(--space-6);background:var(--color-bg)"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <div class="dialog blueprint" role="dialog" aria-modal="true" style="max-width:640px;width:100%;max-height:90vh;overflow-y:auto;overflow-x:hidden;padding:var(--space-6);background:var(--color-bg)"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
         <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">Alerta aos demais postos</div>
         <div class="dialog-title" style="font-family:var(--font-heading);font-size:22px;line-height:1.1;margin-top:4px">{{ alertaTitulo }}</div>
         <p style="margin:var(--space-3) 0 0;font-size:13.5px;line-height:1.5;text-wrap:pretty">O registro abaixo entra em “Registros complementares” das passagens de <strong>{{ alertaDestinos }}</strong> deste período. Postos sem passagem aberta recebem o alerta ao iniciar a sua. Revise o texto antes de enviar.</p>
@@ -2148,7 +2148,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
         <div class="field" style="margin-top:var(--space-3)"><label>Descrição</label><textarea class="input" style="min-height:110px;line-height:1.45" value="{{ alerta.descricao }}" onChange="{{ setAlerta.descricao }}"></textarea></div>
         <div class="field" style="margin-top:var(--space-3)"><label>Encaminhamento / ação requerida dos demais postos</label><textarea class="input" style="min-height:64px;line-height:1.45" value="{{ alerta.acao }}" onChange="{{ setAlerta.acao }}" placeholder="O que os outros postos devem observar, verificar ou fazer."></textarea></div>
         <div style="font-size:12px;margin-top:var(--space-3);color:color-mix(in srgb, var(--color-text) 60%, transparent)">Referência: {{ alerta.ref }} · Entra nos destinos como “{{ alerta.relevancia }}” · Registrado em nome de quem envia; fica no log das passagens de origem e destino.</div>
-        <div class="dialog-actions" style="display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)"><button class="btn btn-secondary" type="button" onClick="{{ fecharAlerta }}">Cancelar</button><button class="btn btn-primary" type="button" onClick="{{ confirmarAlerta }}" disabled="{{ alertaBloqueado }}">{{ alertaBtn }}</button></div>
+        <div class="dialog-actions" style="flex-wrap:wrap;display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)"><button class="btn btn-secondary" type="button" onClick="{{ fecharAlerta }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Cancelar</button><button class="btn btn-primary" type="button" onClick="{{ confirmarAlerta }}" disabled="{{ alertaBloqueado }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">{{ alertaBtn }}</button></div>
       </div>
     </div>
   </sc-if>
@@ -2181,9 +2181,9 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
         <label class="radio" style="gap:10px;margin-top:var(--space-4)"><input type="checkbox" checked="{{ fb.contato }}" onChange="{{ fbSetContato }}"><span class="dot" style="border-radius:0"></span><span style="font-size:13.5px">Posso ser contatado para esclarecer detalhes</span></label>
         <div style="font-size:12px;line-height:1.5;margin-top:var(--space-4);padding-top:var(--space-3);border-top:1px solid var(--color-divider);color:color-mix(in srgb, var(--color-text) 60%, transparent);text-wrap:pretty">Enviado como {{ fbQuem }}.<br>Contexto capturado automaticamente: {{ fbContexto }}.</div>
         <div class="dialog-actions" style="display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-5);flex-wrap:wrap">
-          <sc-if value="{{ fbTemRascunho }}" hint-placeholder-val="{{ false }}"><button class="btn btn-ghost" type="button" onClick="{{ limparFeedback }}" style="margin-right:auto;border-color:var(--color-divider)">Descartar</button></sc-if>
-          <button class="btn btn-secondary" type="button" onClick="{{ fecharFeedback }}">Fechar</button>
-          <button class="btn btn-primary" type="button" onClick="{{ confirmarFeedback }}" disabled="{{ fbBloqueado }}">Enviar feedback</button>
+          <sc-if value="{{ fbTemRascunho }}" hint-placeholder-val="{{ false }}"><button class="btn btn-ghost" type="button" onClick="{{ limparFeedback }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;margin-right:auto;border-color:var(--color-divider)">Descartar</button></sc-if>
+          <button class="btn btn-secondary" type="button" onClick="{{ fecharFeedback }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Fechar</button>
+          <button class="btn btn-primary" type="button" onClick="{{ confirmarFeedback }}" disabled="{{ fbBloqueado }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Enviar feedback</button>
         </div>
       </div>
     </div>
@@ -2197,7 +2197,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
         <p style="margin:var(--space-3) 0 0;font-size:13px;line-height:1.5;color:color-mix(in srgb, var(--color-text) 62%, transparent);text-wrap:pretty">O status passa a valer nesta passagem de controle com a marca “sobrescrito” e a justificativa no relatório e no registro de ações. A passagem do posto de origem não é alterada.</p>
         <div class="field" style="margin-top:var(--space-4)"><label>Novo status</label><select class="input" value="{{ sobre.status }}" onChange="{{ setSobreStatus }}">{{ stSistEl }}</select></div>
         <div class="field" style="margin-top:var(--space-3)"><label>Justificativa (mínimo 10 caracteres)</label><textarea class="input" style="min-height:80px" value="{{ sobre.motivo }}" onChange="{{ setSobreMotivo }}" placeholder="ex.: Parada informada por rádio pelo operador de área às 14:20; posto ainda não registrou." autoFocus="{{ true }}"></textarea></div>
-        <div class="dialog-actions" style="display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)"><button class="btn btn-secondary" type="button" onClick="{{ fecharSobre }}">Cancelar</button><button class="btn btn-primary" type="button" onClick="{{ confirmarSobre }}" disabled="{{ sobreBloqueado }}">Aplicar com justificativa</button></div>
+        <div class="dialog-actions" style="flex-wrap:wrap;display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)"><button class="btn btn-secondary" type="button" onClick="{{ fecharSobre }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Cancelar</button><button class="btn btn-primary" type="button" onClick="{{ confirmarSobre }}" disabled="{{ sobreBloqueado }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Aplicar com justificativa</button></div>
       </div>
     </div>
   </sc-if>
@@ -2216,9 +2216,9 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
             <span style="font-size:13px;line-height:1.4">{{ desvCheckLabel }}</span>
           </label>
         </sc-if>
-        <div class="dialog-actions" style="display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)">
-          <button class="btn btn-secondary" type="button" onClick="{{ cancelDesv }}" autoFocus="{{ true }}">Cancelar</button>
-          <button class="btn btn-primary" type="button" onClick="{{ confirmDesv }}" disabled="{{ desvBloqueado }}">{{ desvBtn }}</button>
+        <div class="dialog-actions" style="flex-wrap:wrap;display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)">
+          <button class="btn btn-secondary" type="button" onClick="{{ cancelDesv }}" autoFocus="{{ true }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Cancelar</button>
+          <button class="btn btn-primary" type="button" onClick="{{ confirmDesv }}" disabled="{{ desvBloqueado }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">{{ desvBtn }}</button>
         </div>
       </div>
     </div>
@@ -2240,13 +2240,13 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
             <span style="font-size:13px;line-height:1.4">{{ declCheckLabel }}</span>
           </label>
         </sc-if>
-        <div class="dialog-actions" style="display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)">
-          <button class="btn btn-secondary" type="button" onClick="{{ cancelDecl }}">Cancelar</button>
+        <div class="dialog-actions" style="flex-wrap:wrap;display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)">
+          <button class="btn btn-secondary" type="button" onClick="{{ cancelDecl }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Cancelar</button>
           <sc-if value="{{ declPasso1 }}" hint-placeholder-val="{{ true }}">
-            <button class="btn btn-primary" type="button" onClick="{{ nextDecl }}">Continuar</button>
+            <button class="btn btn-primary" type="button" onClick="{{ nextDecl }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Continuar</button>
           </sc-if>
           <sc-if value="{{ declPasso2 }}" hint-placeholder-val="{{ false }}">
-            <button class="btn btn-primary" type="button" onClick="{{ confirmDecl }}" disabled="{{ declBlocked }}">Confirmar declaração</button>
+            <button class="btn btn-primary" type="button" onClick="{{ confirmDecl }}" disabled="{{ declBlocked }}" style="height:auto;min-height:40px;padding:8px 14px;line-height:1.25;text-align:center;">Confirmar declaração</button>
           </sc-if>
         </div>
       </div>
@@ -3046,7 +3046,7 @@ class Component extends DCLogic {
     var notificar = this.ehEmb(posto) ? 'SUEMB e o COEMB' : 'SUPROD e o COPROD';
     var meio = {
       num: '7', key: 'ambiente', title: 'Meio ambiente e descartes', amb: true, notificar: notificar,
-      hint: 'Informe o TOG da água produzida e a temperatura do descarte overboard. Referências: TOG ≤ 29,00 mg/L (≈ ppm) — Resolução CONAMA 393/2007, art. 5º (média mensal; máximo diário 42 mg/L); temperatura inferior a 40,00 °C — Resolução CONAMA 430/2011, art. 16, I, “b” (40,00 °C ou mais já é desvio); cumprimento fiscalizado pelo IBAMA no licenciamento ambiental federal. TOG até 29,00 e temperatura abaixo de 40,00 são classificados automaticamente como “Dentro do limite”; fora disso, como “Desvio” — notifique imediatamente o ' + notificar + ' e registre em Observações a notificação e a ação tomada.',
+      hint: 'Informe o TOG da água produzida e a temperatura do descarte overboard. Referências: TOG ≤ 29,00 mg/L (≈ ppm) — Resolução CONAMA 393/2007, art. 5º (média mensal; máximo diário 42 mg/L); temperatura inferior a 40,00 °C — Resolução CONAMA 430/2011, art. 16, I, “b” (40,00 °C ou mais já é desvio); cumprimento fiscalizado pelo IBAMA no licenciamento ambiental federal. TOG até 29,00 e temperatura abaixo de 40,00 são classificados automaticamente como “Dentro do limite”; fora disso, como “Desvio” — notifique imediatamente o ' + notificar + ' e registre em Observações a notificação e a ação tomada. Valor fora do limite confirmado pelo usuário é enviado compulsoriamente à passagem da supervisão.',
       panels: [fixo('p', [
         c('Parâmetro', 'label'),
         c('Valor medido', 'text', { w: '120px', req: true, ph: '0,00' }),
@@ -3058,7 +3058,7 @@ class Component extends DCLogic {
 
     var integ = {
       num: '8', key: 'integridade', title: 'Integridade dos sistemas',
-      hint: turma ? 'Desvios em aberto — prioridade para by-pass, overrides, CAPs e bloqueios não reinstalados.' : 'Desvios do período, tratados e não tratados. Os subitens D e E permanecem em aberto até a reinstalação.',
+      hint: turma ? 'Desvios em aberto — prioridade para by-pass, overrides, CAPs e bloqueios não reinstalados.' : 'Desvios do período, tratados e não tratados. Os subitens D e E permanecem em aberto até a reinstalação. Resposta “Sim” exige comunicação imediata ao ' + (this.ehEmb(posto) ? 'SUEMB e ao COEMB' : 'SUPROD e ao COPROD') + '; o desvio, depois de preenchido e validado (✓), é enviado compulsoriamente à passagem da supervisão.',
       panels: [
         fixo('sub', [c('Subitem', 'label'), c('Situação', 'select', { options: ['Nada a relatar', 'Sim'], w: '170px', req: true })], this.SUBITENS, {}),
         t('des', [
@@ -3975,7 +3975,7 @@ class Component extends DCLogic {
   _snaps = {};
   novoRid() { return 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
   rowSig(r) {
-    var o = Object.assign({}, r, { rid: undefined, autor: undefined, img: r.img ? 'img:' + String(r.img).length : null,
+    var o = Object.assign({}, r, { rid: undefined, autor: undefined, reportado: undefined, paraTurma: undefined, alertado: undefined, conf: undefined, confBloco: undefined, ambConf: undefined, editado: undefined, img: r.img ? 'img:' + String(r.img).length : null,
       imgs: Array.isArray(r.imgs) ? r.imgs.map(function (x) { return typeof x === 'string' ? x.length : JSON.stringify(x || null).length; }) : null });
     return JSON.stringify(o);
   }
@@ -4593,23 +4593,26 @@ class Component extends DCLogic {
   }
   abrirReporte(sid, pid, rid, modo) {
     if (!this.podeEditar()) { this.flash('Vincule-se à passagem para reportar.'); return; }
-    var dest = modo === 'turma' ? this.destinoTurma() : this.destinoReporte(); if (!dest) return;
+    var rp = this.montarReporte(sid, pid, rid, modo); if (rp) this.setState({ reporte: rp });
+  }
+  montarReporte(sid, pid, rid, modo, destF) {
+    var dest = destF || (modo === 'turma' ? this.destinoTurma() : this.destinoReporte()); if (!dest) return null;
     var self = this, s = this.schema(this.tipo()).filter(function (x) { return x.key === sid; })[0], p = s && s.panels.filter(function (x) { return x.pid === pid; })[0];
-    var r = p && this.linhaPorRid(sid, pid, rid); if (!r) return;
+    var r = p && this.linhaPorRid(sid, pid, rid); if (!r) return null;
     var mesmoBloco = !(sid === 'disponibilidade' || sid === 'composicao' || sid === 'coprod' || p.herdado || p.herdadoDet || p.fixed) && this.secoesDe(dest.posto, dest.tipo).indexOf(sid) >= 0;
     var partes = []; p.cols.forEach(function (c, i) { var v = String(r.c[i] || '').trim(); if (v && c.type !== 'elapsed') partes.push(c.label + ': ' + ((c.type === 'date' || c.type === 'datetime') ? self.fmtDT(v) : v)); });
-    this.setState({ reporte: { sid: sid, pid: pid, rid: rid, dest: dest, mesmoBloco: mesmoBloco, blocoTitulo: s.title, resumo: partes.join('\n'), obs: '', modo: modo || '', reenvio: !!(modo === 'turma' ? r.paraTurma : r.reportado) } });
+    return { sid: sid, pid: pid, rid: rid, dest: dest, mesmoBloco: mesmoBloco, blocoTitulo: s.title, resumo: partes.join('\n'), obs: '', modo: modo || '', reenvio: !!(modo === 'turma' ? r.paraTurma : r.reportado) };
   }
-  enviarReporte() {
-    var rp = this.state.reporte; if (!rp || !this.podeEditar()) return;
+  enviarReporte(rpArg) {
+    var rp = (rpArg && rpArg.sid) ? rpArg : this.state.reporte; if (!rp || !this.podeEditar()) return;
     var self = this, d = this.doc, r = this.linhaPorRid(rp.sid, rp.pid, rp.rid); if (!r) return;
     if (!r.rid) r.rid = this.novoRid();
     var c = this.carimbo(), dest = rp.dest;
-    var origem = { tipo: 'reporte', modo: rp.modo || '', codigo: d.codigo, posto: d.header.posto, sid: rp.sid, pid: rp.pid, rid: r.rid, em: c.em, u: c.u, n: c.n, obs: rp.obs || '' };
+    var origem = { tipo: 'reporte', compulsorio: !!rp.compulsorio, modo: rp.modo || '', codigo: d.codigo, posto: d.header.posto, sid: rp.sid, pid: rp.pid, rid: r.rid, em: c.em, u: c.u, n: c.n, obs: rp.obs || '' };
     var ehTurma = rp.modo === 'turma', alvoTxt = ehTurma ? 'à passagem de turma' : 'ao ' + dest.posto;
     var item;
     if (rp.mesmoBloco) item = { sid: rp.sid, pid: rp.pid, c: r.c.slice(), ok: false, autor: c, img: r.img || null, imgs: (r.imgs || []).map(function (im) { return Object.assign({}, im); }), origem: origem };
-    else item = { sid: 'complementares', pid: 'p', c: [/degrada|integridade/.test(rp.sid) ? 'Segurança / SMS' : 'Operação', '[' + d.header.posto + ' · ' + rp.blocoTitulo + '] ' + (r.c.filter(function (v, i) { return i > 0 && String(v || '').trim(); })[0] || r.c[0] || ''), rp.resumo, rp.obs || '', d.codigo || '', this.nomeCurto(c.n) + ' (' + c.u + ')', '', 'Acompanhar'], ok: false, autor: c, img: null, imgs: [], origem: origem };
+    else item = { sid: 'complementares', pid: 'p', c: [/degrada|integridade|ambiente/.test(rp.sid) ? 'Segurança / SMS' : 'Operação', '[' + d.header.posto + ' · ' + rp.blocoTitulo + '] ' + (r.c.filter(function (v, i) { return i > 0 && String(v || '').trim(); })[0] || r.c[0] || ''), rp.resumo, rp.obs || '', d.codigo || '', this.nomeCurto(c.n) + ' (' + c.u + ')', '', 'Acompanhar'], ok: false, autor: c, img: null, imgs: [], origem: origem };
     var l = this.recarregarAbertas();
     var alvo = l.filter(function (x) { return x.tipo === dest.tipo && x.header.posto === dest.posto && x.periodoKey === dest.periodoKey && x.status !== 'emitida'; })[0];
     if (alvo) this.inserirReporte(alvo, item);
@@ -4617,10 +4620,10 @@ class Component extends DCLogic {
     var i = -1; for (var k = 0; k < l.length; k++) if (l[k].id === d.id) { i = k; break; }
     if (i >= 0) l[i] = d; this.gravarAbertas(l);
     r[ehTurma ? 'paraTurma' : 'reportado'] = { em: c.em, u: c.u, n: c.n, sig: this.rowSig(r), destino: dest.posto };
-    this.registrar((rp.reenvio ? 'Reenviou' : (ehTurma ? 'Enviou' : 'Reportou')) + ' item ' + alvoTxt, rp.blocoTitulo + (alvo ? ' → ' + alvo.codigo : ' (aguardando abertura da passagem ' + (ehTurma ? 'de turma' : 'do ' + dest.posto) + ')'));
+    this.registrar((rp.compulsorio ? 'Enviou compulsoriamente' : rp.reenvio ? 'Reenviou' : (ehTurma ? 'Enviou' : 'Reportou')) + ' item ' + alvoTxt, rp.blocoTitulo + (alvo ? ' → ' + alvo.codigo : ' (aguardando abertura da passagem ' + (ehTurma ? 'de turma' : 'do ' + dest.posto) + ')'));
     this.syslog('reporte', (ehTurma ? 'Turno → turma · ' + d.header.posto : 'Reporte de ' + d.header.posto + ' → ' + dest.posto), rp.blocoTitulo + ' · ' + (d.codigo || ''));
     this.setState({ reporte: null }); this.save(true); this.forceUpdate(); this.vibrar(25);
-    this.flash((ehTurma ? 'Item enviado à passagem de turma' : 'Item reportado ao ' + dest.posto) + (alvo ? '.' : ' — será entregue quando a passagem for aberta.'));
+    this.flash((rp.compulsorio ? 'Envio compulsório: item encaminhado à passagem do ' + dest.posto : ehTurma ? 'Item enviado à passagem de turma' : 'Item reportado ao ' + dest.posto) + (alvo ? '.' : ' — será entregue quando a passagem for aberta.'));
   }
   inserirReporte(alvo, item) {
     var tipo = alvo.tipo || alvo.header.tipo, store = alvo[tipo] || (alvo[tipo] = {});
@@ -4769,6 +4772,7 @@ class Component extends DCLogic {
         if (faltando) issues.push(label + faltando + ' campo(s) obrigatório(s) em branco na tabela.');
         if (p.desvio) {
           rows.forEach(function (r) {
+            if (s.amb && r.c[2] === 'Desvio' && !r.ambConf) issues.push('“' + r.c[0] + '”: valor fora do limite ainda não confirmado — saia do campo e confirme o valor medido (ou corrija).');
             if (r.c[2] === 'Desvio' && String(r.c[3] || '').trim() === '') issues.push('“' + r.c[0] + '”: acima do limite de referência — registre em Observações a notificação ao ' + (s.notificar || 'SUPROD e o COPROD') + ' e a ação tomada.');
           });
         }
@@ -4837,11 +4841,43 @@ class Component extends DCLogic {
     var raw = String(r.c[1] || '').replace(/\s/g, '').replace(',', '.').replace(/[^\d.\-]/g, '');
     var v = raw === '' ? NaN : Number(raw), antes = r.c[2];
     r.c[2] = isNaN(v) ? '' : ((lim === 40 ? v < lim : v <= lim) ? 'Dentro do limite' : 'Desvio');
-    if (avisar && r.c[2] === 'Desvio' && antes !== 'Desvio') {
-      var quem = this.ehEmb(this.doc && this.doc.header ? this.doc.header.posto : '') ? 'SUEMB e o COEMB' : 'SUPROD e o COPROD';
-      this.setState({ ambAviso: lbl.replace(/\s*\(.*\)$/, '') + ': ' + String(r.c[1]).trim() + (/TOG/i.test(lbl) ? ' mg/L' : ' °C') + ' — fora do limite de referência: ' + (lim === 29 ? '29,00 mg/L (CONAMA 393/2007)' : 'inferior a 40,00 °C (CONAMA 430/2011)') + '. Notifique imediatamente o ' + quem + ' e registre em Observações a notificação (horário e destinatário) e a ação tomada.' });
+    if (r.c[2] !== 'Desvio' || String(r.c[1] || '') !== String((r.ambConf || {}).v || '')) delete r.ambConf;
+    if (avisar && r.c[2] === 'Desvio' && !r.ambConf) {
+      var quem = this.ehEmb(this.doc && this.doc.header ? this.doc.header.posto : '') ? 'SUEMB e o COEMB' : 'SUPROD e o COPROD', self = this, dst = this.destCompulsorio();
+      this.setState({ ambAviso: { kicker: 'Meio ambiente · notificação imediata', titulo: 'Valor fora do limite de referência', okLabel: 'Confirmo o valor medido', cancelLabel: 'Corrigir o valor',
+        nota: dst ? 'Ao confirmar, o item será enviado compulsoriamente à passagem do ' + dst.posto + '.' : '',
+        ok: function () { self.confirmarAmb(r); }, cancel: function () { r.c[1] = ''; r.c[2] = ''; delete r.ambConf; self.commit(); },
+        txt: lbl.replace(/\s*\(.*\)$/, '') + ': ' + String(r.c[1]).trim() + (/TOG/i.test(lbl) ? ' mg/L' : ' °C') + ' — fora do limite de referência: ' + (lim === 29 ? '29,00 mg/L (CONAMA 393/2007)' : 'inferior a 40,00 °C (CONAMA 430/2011)') + '. Notifique imediatamente o ' + quem + ' e registre em Observações a notificação (horário e destinatário) e a ação tomada.' } });
       this.vibrar(60);
     }
+  }
+  // Envio compulsório à supervisão (executantes): integridade com desvio validado e meio ambiente fora do limite confirmado.
+  destCompulsorio() {
+    if (!this.doc || !this.doc.header) return null;
+    var info = this.postoInfo(this.doc.header.posto); if (info.nivel !== 'exec') return null;
+    var d = this.destinoReporte(); return d && d.tipo === this.tipo() ? d : null;
+  }
+  enviarCompulsorio(sid, pid, r) {
+    var dest = this.destCompulsorio(); if (!dest || !r) return false;
+    if (!r.rid) r.rid = this.novoRid();
+    if (r.reportado && r.reportado.sig === this.rowSig(r)) return true;
+    var rp = this.montarReporte(sid, pid, r.rid, '', dest); if (!rp) return false;
+    rp.compulsorio = true; rp.obs = 'Envio compulsório — ' + (sid === 'integridade' ? 'desvio de integridade dos sistemas' : 'parâmetro ambiental fora do limite de referência') + '.';
+    this.enviarReporte(rp); return true;
+  }
+  confirmarAmb(r) {
+    if (!this.podeEditar()) return;
+    r.ambConf = Object.assign({ v: String(r.c[1] || '') }, this.carimbo());
+    this.registrar('Confirmou valor fora do limite', r.c[0] + ': ' + r.c[1]);
+    if (!this.enviarCompulsorio('ambiente', 'p', r)) this.commit();
+  }
+  avisoIntegridade(r) {
+    var quem = this.ehEmb(this.doc.header.posto) ? 'SUEMB e o COEMB' : 'SUPROD e o COPROD', dst = this.destCompulsorio();
+    this.setState({ ambAviso: { kicker: 'Integridade dos sistemas · comunicação imediata', titulo: 'Desvio de integridade declarado',
+      txt: '“' + String(r.c[0] || '').replace(/\s+/g, ' ') + '” marcado como Sim. Comunique imediatamente o ' + quem + ' e registre o item e a descrição do desvio em “Desvios identificados”.',
+      nota: dst ? 'Após o preenchimento e a validação (✓) do desvio, o item declarado e a descrição serão enviados compulsoriamente à passagem do ' + dst.posto + '.' : '',
+      okLabel: 'Ciente — vou comunicar agora' } });
+    this.vibrar(60);
   }
   statusAmb(s) {
     var rows = this.rows(s.key, 'p') || [];
@@ -5408,11 +5444,17 @@ class Component extends DCLogic {
   // ---------- render ----------
   renderVals() {
     var self = this;
+    var av = typeof this.state.ambAviso === 'string' ? { txt: this.state.ambAviso } : (this.state.ambAviso || {});
     var loginVals = {
       gConfOn: !!this.state.gConf, gConfN: this.state.gConf ? this.state.gConf.n + (this.state.gConf.n === 1 ? ' item' : ' itens') : '', gConfGrupo: this.state.gConf ? this.state.gConf.grupo : '',
       gConfCancel: function () { self.setState({ gConf: null }); },
       gConfOk: function () { var g = self.state.gConf; if (!g) return; var cb = self.carimbo(); g.rows.forEach(function (r) { if (!r.conf) { r.conf = cb; r.confBloco = true; } }); self.registrar('Confirmou em bloco ' + g.n + ' item(ns)', g.sec + ' › ' + g.grupo); self.setState({ gConf: null }); self.commit(); self.flash('Grupo “' + g.grupo + '” confirmado em bloco (' + g.n + ' itens) — registrado no histórico.'); },
-      ambAvisoOn: !!this.state.ambAviso, ambAvisoTxt: this.state.ambAviso || '', ambAvisoOk: function () { self.setState({ ambAviso: null }); },
+      ambAvisoOn: !!this.state.ambAviso,
+      ambAvisoKicker: av.kicker || 'Meio ambiente · notificação imediata', ambAvisoTitulo: av.titulo || 'Valor fora do limite de referência', ambAvisoTxt: av.txt || '',
+      ambAvisoTemNota: !!av.nota, ambAvisoNota: av.nota || '', ambAvisoOkLabel: av.okLabel || 'Ciente — vou notificar agora',
+      ambAvisoTemCancel: !!av.cancelLabel, ambAvisoCancelLabel: av.cancelLabel || '',
+      ambAvisoOk: function () { var a = self.state.ambAviso; self.setState({ ambAviso: null }); if (a && a.ok) a.ok(); },
+      ambAvisoCancel: function () { var a = self.state.ambAviso; self.setState({ ambAviso: null }); if (a && a.cancel) a.cancel(); },
       deslogado: !this.state.user, logado: !!this.state.user && !!this.state.user.un, escolherUn: !!this.state.user && !this.state.user.un,
       unOpcoes: (function () {
         var eu = self.state.user; if (!eu || eu.un) return [];
@@ -5645,9 +5687,12 @@ class Component extends DCLogic {
                 if (c.stamp != null && novo !== r.c[ci]) r.c[c.stamp] = self.agoraISO();
                 r.c[ci] = novo;
                 if (p.confirmar && ci > 0) r.conf = self.carimbo();
-                if (s.amb && p.pid === 'p' && ci === 1) self.avaliarAmb(r, true);
+                if (s.amb && p.pid === 'p' && ci === 1) self.avaliarAmb(r, false);
+                var simNovo = s.key === 'integridade' && p.pid === 'sub' && ci === 1 && novo === 'Sim';
                 self.commit();
+                if (simNovo) self.avisoIntegridade(r);
               },
+              blur: (s.amb && p.pid === 'p' && ci === 1) ? function () { setTimeout(function () { self.avaliarAmb(r, true); }, 60); } : undefined,
               mic: function () {
                 self.dictKey = dictKey;
                 self.mic(function () { return r.c[ci] || ''; }, function (v) { r.c[ci] = v; self.commit(); });
@@ -5681,7 +5726,7 @@ class Component extends DCLogic {
               rows.splice(ri, 1);
               rows.push(r);
               if (!rows.some(function (x) { return !x.ok; })) rows.unshift(self.blank(p));
-              self.commit();
+              if (!(s.key === 'integridade' && p.pid === 'des' && self.enviarCompulsorio('integridade', 'des', r))) self.commit();
             },
             editar: function () { r.ok = false; if (r.origem) r.editado = true; self.commit(); },
             del: function () {
@@ -6895,13 +6940,13 @@ class Component extends DCLogic {
         temConf: !!p.confirmar && !r.herd && !!String(r.c[0] || '').trim(), conf: !!r.conf, confBg: r.conf ? 'var(--color-accent-200)' : 'transparent',
         confLabel: r.conf ? '☑ Condição confirmada — tocar para desfazer' : '☐ Confirmar a condição deste item',
         confToggle: function () { if (!pode) { self.flash('Vincule-se à passagem para confirmar.'); return; } if (r.conf) delete r.conf; else { if (!self.confPronto(p, r)) { self.flash('Preencha os campos obrigatórios antes de confirmar.'); return; } r.conf = self.carimbo(); } self.commit(); self.vibrar(15); },
-        concluir: function () { r.ok = true; r.autor = self.carimbo(); rows2.splice(ri, 1); rows2.push(r); if (!rows2.some(function (x) { return !x.ok; })) rows2.unshift(self.blank(p)); self.commit(); self.vibrar(25); self.backM(); },
+        concluir: function () { r.ok = true; r.autor = self.carimbo(); rows2.splice(ri, 1); rows2.push(r); if (!rows2.some(function (x) { return !x.ok; })) rows2.unshift(self.blank(p)); if (!(sec.key === 'integridade' && p.pid === 'des' && self.enviarCompulsorio('integridade', 'des', r))) self.commit(); self.vibrar(25); self.backM(); },
         editar: function () { r.ok = false; self.commit(); },
         remover: function () { if (!window.confirm('Remover este item?')) return; (r.imgs || []).forEach(function (im) { if (im.mid) self.midiaDel(im.mid); }); rows2.splice(ri, 1); if (!rows2.length) rows2.push(self.blank(p)); if (itemiz && !rows2.some(function (x) { return !x.ok; })) rows2.unshift(self.blank(p)); self.commit(); self.backM(); },
         campos: p.cols.map(function (c, ci) {
           var dk = sec.key + '/' + p.pid + '/' + ri + '/' + ci, v = r.c[ci] || '';
           var get = function () { return r.c[ci] || ''; };
-          var set = function (nv) { if (c.stamp != null && nv !== r.c[ci]) r.c[c.stamp] = self.agoraISO(); r.c[ci] = nv; if (p.confirmar && ci > 0) r.conf = self.carimbo(); if (sec.amb && p.pid === 'p' && ci === 1) self.avaliarAmb(r, true); self.commit(); };
+          var set = function (nv) { if (c.stamp != null && nv !== r.c[ci]) r.c[c.stamp] = self.agoraISO(); r.c[ci] = nv; if (p.confirmar && ci > 0) r.conf = self.carimbo(); if (sec.amb && p.pid === 'p' && ci === 1) self.avaliarAmb(r, false); var simN = sec.key === 'integridade' && p.pid === 'sub' && ci === 1 && nv === 'Sim'; self.commit(); if (simN) self.avisoIntegridade(r); };
           var t = c.type;
           var opts = c.options || (p.kind === 'notes' ? (ci === 0 ? p.categorias : ci === 7 ? p.relevancias : null) : null);
           if (opts && t === 'select') { /* ok */ } else if (opts) t = 'select';
@@ -6916,6 +6961,7 @@ class Component extends DCLogic {
             set: function (e) { set(e.target.value); },
             mic: function () { self.dictKey = dk; self.mic(get, set); }, micAtivo: st.dict === dk, micLabel: st.dict === dk ? '■ Parar' : 'Ditar', micBg: st.dict === dk ? 'var(--color-accent-200)' : 'transparent',
             podeScan: escan, scan: function () { self.abrirScan(set); },
+            blur: (sec.amb && p.pid === 'p' && ci === 1) ? function () { setTimeout(function () { self.avaliarAmb(r, true); }, 60); } : undefined,
             revisar: function () { self.abrirRevisao(dk, get, set); }, aiBlur: t === 'area' ? self.aiAuto(dk, get, set) : undefined,
             nota: function () { self.abrirNota({ sid: sec.key, pid: p.pid, rid: r.rid, ci: ci }); }
           };
