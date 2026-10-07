@@ -3,7 +3,7 @@
 Conteúdo estático: `index.html` (página de entrada com chaves de teste), `app.html` (aplicativo), `deck.html` (apresentação) e seus recursos.
 
 ## Publicar no GitHub Pages
-1. Envie TODOS os arquivos desta pasta para a raiz do repositório `fabriciomartini/passagembuzios` (branch `main`), inclusive `.nojekyll` e as pastas `ds`, `assets` (com os 3 vídeos .webm e `assets/fonts/` — fonte Petrobras Sans) e `screenshots`.
+1. Envie TODOS os arquivos desta pasta para a raiz do repositório `fabriciomartini/passagembuzios` (branch `main`), inclusive as pastas `ds`, `assets` (com os 3 vídeos .webm e `assets/fonts/` — fonte Petrobras Sans) e `screenshots`.
 2. No GitHub: Settings → Pages → Source: *Deploy from a branch* → Branch `main` / `/(root)` → Save.
 3. Em ~1 min o site estará em https://fabriciomartini.github.io/passagembuzios/
 
@@ -32,3 +32,18 @@ Conteúdo estático: `index.html` (página de entrada com chaves de teste), `app
 - Cadastro de 183 usuários da P-83 (senha de teste 1234).
 - Embarcação: formulário da produção sem poços; TLT só turma (Anexo A-1).
 - Deck técnico atualizado (67 slides): estrutura, regras de acesso, modelos, envio à turma, turno sem ocorrências, passagem única e perfis.
+
+
+## Atualização — validação e confirmações (out/2026)
+- Barra lateral do formulário com rolagem própria.
+- “Concluir preenchimento do bloco” nos blocos de lista aberta; qualquer edição posterior reabre o bloco.
+- Poços e Disponibilidade importados da passagem anterior com confirmação item a item ou por grupo (com aviso de atenção na confirmação em bloco). Inclusão de sistemas restrita aos administradores; remoção retirada.
+- Revisão assistida ligada por padrão e executada automaticamente ao sair do campo.
+- Passagem aberta acompanha as alterações dos demais membros (conclusões declaradas aparecem para todos).
+- Cópia de segurança local do rascunho: recarregar ou fechar o navegador não perde o preenchimento.
+- Meio ambiente: TOG ≤ 29,00 mg/L (CONAMA 393/2007) e temperatura < 40,00 °C (CONAMA 430/2011) classificados automaticamente, alerta de notificação ao SUPROD/COPROD ou SUEMB/COEMB e campo livre.
+- Tipo de alteração com palavras-guia do HAZOP, texto livre e “Não aplicável”.
+- Deck técnico atualizado (75 slides, capturas de tela refeitas): conclusão por bloco, confirmação dos dados herdados, meio ambiente, tipos de alteração HAZOP, edição simultânea e rascunho protegido.
+- Operadores de produção com acesso apenas ao próprio posto (planilha Equipe P-83). Botão “Turma” sem seta.
+
+Obs.: o arquivo do design system foi renomeado para `ds/industry/ds_bundle.js` (sem sublinhado), dispensando o arquivo oculto `.nojekyll`. O antigo `ds/industry/_ds_bundle.js` e o `.nojekyll` que já estão no repositório podem permanecer — não interferem.

@@ -21,7 +21,7 @@
 :root,deck-stage{--font-heading:"Petrobras Sans",system-ui,sans-serif;--font-body:"Petrobras Sans",system-ui,sans-serif;--font-heading-weight:700}
 body{font-family:var(--font-body)}
 </style>
-<script src="ds/industry/_ds_bundle.js"></script>
+<script src="ds/industry/ds_bundle.js"></script>
 <script src="image-slot.js"></script>
 <script src="equipamentos.js"></script>
 <meta name="omelette-owns-print" content="1">
@@ -63,6 +63,33 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
 }
 </style>
 </helmet>
+<datalist id="dl-tipoalt"><option value="Fluxo maior"></option><option value="Fluxo menor"></option><option value="Sem fluxo"></option><option value="Fluxo reverso"></option><option value="Pressão maior"></option><option value="Pressão menor"></option><option value="Temperatura maior"></option><option value="Temperatura menor"></option><option value="Nível maior"></option><option value="Nível menor"></option><option value="Composição diferente / contaminação"></option><option value="Variável de processo fora do usual"></option><option value="Rodízio de equipamento"></option><option value="Válvula de controle em by-pass"></option><option value="Válvula bloqueada"></option><option value="Malha em manual"></option><option value="Não aplicável"></option></datalist>
+<sc-if value="{{ gConfOn }}" hint-placeholder-val="{{ false }}">
+  <div class="dialog-backdrop" style="position:fixed;inset:0;z-index:400;display:flex;align-items:center;justify-content:center;padding:var(--space-6)">
+    <div class="dialog blueprint" role="alertdialog" aria-modal="true" style="max-width:560px;width:100%;padding:var(--space-6);background:var(--color-bg)"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">Atenção</div>
+      <div class="dialog-title" style="font-family:var(--font-heading);font-size:22px;line-height:1.1;margin-top:4px">Confirmação em bloco</div>
+      <div class="dialog-body" style="display:flex;flex-direction:column;gap:10px;margin-top:var(--space-4)">
+        <p style="margin:0;font-size:15px;line-height:1.5;text-wrap:pretty">Você vai confirmar de uma vez <strong>{{ gConfN }}</strong> do grupo <strong>{{ gConfGrupo }}</strong>.</p>
+        <p style="margin:0;font-size:14px;line-height:1.5;text-wrap:pretty">Ao confirmar, você declara que conferiu a condição real de cada item — não apenas repetiu o que veio da passagem anterior. A confirmação em bloco fica registrada no histórico com seu nome e horário.</p>
+      </div>
+      <div class="dialog-actions" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;margin-top:var(--space-5)">
+        <button type="button" class="btn btn-ghost" onClick="{{ gConfCancel }}" style="border-color:var(--color-divider)">Voltar e conferir item a item</button>
+        <button type="button" class="btn btn-primary" onClick="{{ gConfOk }}">Conferi todos — confirmar grupo</button>
+      </div>
+    </div>
+  </div>
+</sc-if>
+<sc-if value="{{ ambAvisoOn }}" hint-placeholder-val="{{ false }}">
+  <div class="dialog-backdrop" style="position:fixed;inset:0;z-index:400;display:flex;align-items:center;justify-content:center;padding:var(--space-6)">
+    <div class="dialog blueprint" role="alertdialog" aria-modal="true" style="max-width:560px;width:100%;padding:var(--space-6);background:var(--color-bg);box-shadow:inset 0 0 0 2px oklch(0.55 0.19 25)"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:oklch(0.5 0.18 25)">Meio ambiente · notificação imediata</div>
+      <div class="dialog-title" style="font-family:var(--font-heading);font-size:22px;line-height:1.1;margin-top:4px">⚠ Valor fora do limite de referência</div>
+      <div class="dialog-body" style="margin-top:var(--space-4)"><p style="margin:0;font-size:15px;line-height:1.5;text-wrap:pretty">{{ ambAvisoTxt }}</p></div>
+      <div class="dialog-actions" style="display:flex;justify-content:flex-end;margin-top:var(--space-5)"><button type="button" class="btn btn-primary" onClick="{{ ambAvisoOk }}">Ciente — vou notificar agora</button></div>
+    </div>
+  </div>
+</sc-if>
 <sc-if value="{{ deslogado }}" hint-placeholder-val="{{ true }}">
 <sc-if value="{{ mob }}" hint-placeholder-val="{{ false }}">
 <div class="mob" data-sol="{{ solAttr }}" data-screen-label="Campo · Acesso" lang="pt-BR" style="min-height:100vh;font-family:var(--font-body);display:flex;flex-direction:column;background:var(--color-bg)">
@@ -426,7 +453,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
 
   <sc-if value="{{ viewAdmin }}" hint-placeholder-val="{{ false }}">
   <div data-screen-label="Administração" style="max-width:1720px;margin:0 auto;padding:var(--space-8);display:grid;grid-template-columns:230px minmax(0,1fr);gap:var(--space-8);align-items:start">
-    <aside style="position:sticky;top:calc(var(--hdr, 88px) + var(--space-4));display:flex;flex-direction:column;gap:var(--space-4)">
+    <aside style="position:sticky;top:calc(var(--hdr, 88px) + var(--space-4));display:flex;flex-direction:column;gap:var(--space-4);max-height:calc(100vh - var(--hdr, 88px) - var(--space-8));overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;padding:2px 4px">
       <div class="blueprint" style="padding:var(--space-4)"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
         <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent)">Administração do sistema</div>
         <div style="font-family:var(--font-heading);font-size:18px;line-height:1.15;margin-top:6px;text-wrap:pretty">{{ adm.usuario }}</div>
@@ -869,7 +896,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
 
   <sc-if value="{{ viewForm }}" hint-placeholder-val="{{ true }}">
   <div style="max-width:1720px;margin:0 auto;padding:var(--space-8);display:grid;grid-template-columns:270px minmax(0,1fr);gap:var(--space-8);align-items:start">
-    <aside style="position:sticky;top:calc(var(--hdr, 88px) + var(--space-4));display:flex;flex-direction:column;gap:var(--space-4)">
+    <aside style="position:sticky;top:calc(var(--hdr, 88px) + var(--space-4));display:flex;flex-direction:column;gap:var(--space-4);max-height:calc(100vh - var(--hdr, 88px) - var(--space-8));overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;padding:2px 4px">
       <div class="blueprint" style="padding:var(--space-4)">
         <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
         <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent);margin-bottom:var(--space-2)">Documento</div>
@@ -1041,10 +1068,11 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
       <sc-for list="{{ sections }}" as="s" hint-placeholder-count="6">
         <section class="blueprint" id="{{ s.anchor }}" style="padding:var(--space-6);min-width:0;scroll-margin-top:calc(var(--hdr, 96px) + var(--space-4));background:{{ s.alertaBg }};border-color:{{ s.alertaBd }};box-shadow:{{ s.alertaRing }}">
           <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-          <div style="display:flex;align-items:flex-start;gap:var(--space-4);margin-bottom:var(--space-4)">
-            <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:flex-start;gap:var(--space-4);margin-bottom:var(--space-4);flex-wrap:wrap">
+            <div style="flex:1 1 320px;min-width:0">
               <div style="display:flex;align-items:center;gap:var(--space-3);flex-wrap:wrap">
                 <h4 style="margin:0">{{ s.title }}</h4>
+                <sc-if value="{{ s.concluido }}" hint-placeholder-val="{{ false }}"><span class="tag tag-accent" title="{{ s.concluidoLabel }}" style="font-size:11px">✓ Concluído</span></sc-if>
                 <sc-if value="{{ s.alerta }}" hint-placeholder-val="{{ false }}"><span title="Campos destacados em vermelho impedem gerar o relatório e os envios" style="display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;font-size:11.5px;letter-spacing:0.05em;text-transform:uppercase;color:#fff;background:oklch(0.55 0.19 25)">⚠ {{ s.alertaLabel }}</span></sc-if>
               </div>
               <sc-if value="{{ s.temAutor }}" hint-placeholder-val="{{ false }}">
@@ -1053,6 +1081,8 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
               <sc-if value="{{ s.showHint }}" hint-placeholder-val="{{ true }}">
                 <p style="margin:2px 0 0;font-size:13px;color:color-mix(in srgb, var(--color-text) 60%, transparent);text-wrap:pretty">{{ s.hint }}</p>
               </sc-if>
+              <sc-if value="{{ s.ambOk }}" hint-placeholder-val="{{ false }}"><div style="margin-top:8px;display:inline-flex;align-items:center;gap:8px;padding:5px 10px;border:1px solid var(--color-accent-700);color:var(--color-accent-900);background:var(--color-accent-100);font-size:13px">✓ Dentro dos limites de referência (TOG ≤ 29,00 mg/L · temperatura &lt; 40,00 °C)</div></sc-if>
+              <sc-if value="{{ s.ambDesvio }}" hint-placeholder-val="{{ false }}"><div role="alert" style="margin-top:8px;padding:8px 12px;border:2px solid oklch(0.55 0.19 25);color:oklch(0.45 0.17 25);background:color-mix(in srgb, oklch(0.62 0.2 25) 10%, transparent);font-size:13.5px;line-height:1.45;text-wrap:pretty">⚠ {{ s.ambDesvioTxt }}</div></sc-if>
             </div>
             <sc-if value="{{ s.canImport }}" hint-placeholder-val="{{ false }}">
               <button type="button" class="btn btn-secondary" onClick="{{ s.doImport }}" title="{{ s.importTitle }}" style="flex:none;font-size:12.5px;white-space:nowrap">↧ Importar do anterior</button>
@@ -1086,15 +1116,15 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                   </sc-if>
 
                   <sc-if value="{{ p.isText }}" hint-placeholder-val="{{ false }}">
-                    <textarea class="input" style="min-height:150px;line-height:1.5;box-shadow:{{ p.ring }}" value="{{ p.textValue }}" onChange="{{ p.setText }}" placeholder="{{ p.placeholder }}"></textarea>
+                    <textarea class="input" style="min-height:150px;line-height:1.5;box-shadow:{{ p.ring }}" value="{{ p.textValue }}" onChange="{{ p.setText }}" onBlur="{{ p.aiBlur }}" placeholder="{{ p.placeholder }}"></textarea>
                     <sc-if value="{{ p.temAutor }}" hint-placeholder-val="{{ false }}"><div title="Registro automático e não editável" style="font-size:11.5px;color:color-mix(in srgb, var(--color-text) 58%, transparent)">{{ p.autorLabel }}</div></sc-if>
                     <div style="display:flex;gap:6px;align-items:center;margin-top:4px">
-                      <button type="button" class="btn btn-ghost" onClick="{{ p.aiToggle }}" style="height:24px;padding:0 9px;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;border-color:var(--color-divider);background:{{ p.aiBg }};gap:6px">
+                      <button type="button" class="btn btn-ghost" data-ai="1" onClick="{{ p.aiToggle }}" style="height:24px;padding:0 9px;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;border-color:var(--color-divider);background:{{ p.aiBg }};gap:6px">
                         <span title="{{ p.aiTitle }}" style="border-bottom:1px dotted currentColor;cursor:help">Assistência Chat Petrobras:</span>
                         <span style="font-family:var(--font-heading);letter-spacing:0.04em;color:{{ p.aiStateColor }}">{{ p.aiState }}</span>
                       </button>
                       <sc-if value="{{ p.aiShowRun }}" hint-placeholder-val="{{ false }}">
-                        <button type="button" class="btn btn-ghost" onClick="{{ p.aiRun }}" title="Revisar agora com o Chat Petrobras" style="height:24px;padding:0 9px;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;border-color:var(--color-divider)">Revisar</button>
+                        <button type="button" class="btn btn-ghost" data-ai="1" onClick="{{ p.aiRun }}" title="Revisar agora com o Chat Petrobras" style="height:24px;padding:0 9px;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;border-color:var(--color-divider)">Revisar</button>
                       </sc-if>
                     </div>
                   </sc-if>
@@ -1107,6 +1137,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                         <button type="button" class="btn btn-ghost" onClick="{{ p.toggleTodos }}" style="margin-left:auto;font-size:12px;min-height:30px;border-color:var(--color-divider)">{{ p.toggleTodosLabel }}</button>
                       </div>
                     </sc-if>
+                    <sc-if value="{{ p.temConfResumo }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;line-height:1.45;color:{{ p.confResumoCor }};border-left:2px solid {{ p.confResumoCor }};padding:4px 10px;text-wrap:pretty">{{ p.confResumo }}</div></sc-if>
                     <sc-if value="{{ p.notaHerdado }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;line-height:1.45;color:color-mix(in srgb, var(--color-text) 62%, transparent);border-left:2px solid var(--color-accent-700);padding:4px 10px;text-wrap:pretty">{{ p.notaHerdado }}</div></sc-if>
                     <div style="max-width:100%;overflow-x:auto">
                     <table class="table" style="width:100%">
@@ -1125,6 +1156,12 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                                 <span style="font-family:var(--font-heading);font-size:15px;letter-spacing:0.02em">{{ r.grupoLabel }}</span>
                                 <span style="font-size:12px;color:color-mix(in srgb, var(--color-text) 58%, transparent)">{{ r.grupoN }} · {{ r.grupoInfo }}</span>
                               </button>
+                              <sc-if value="{{ r.temGConf }}" hint-placeholder-val="{{ false }}">
+                                <div style="display:flex;align-items:center;gap:8px;padding:0 10px 6px 32px;flex-wrap:wrap">
+                                  <span style="font-size:12px;color:{{ r.gConfCor }}">{{ r.gConfTxt }}</span>
+                                  <sc-if value="{{ r.podeGConf }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ r.gConf }}" title="Confirma de uma vez todos os itens pendentes deste grupo" style="height:26px;padding:0 9px;font-size:11.5px;border-color:var(--color-divider);white-space:nowrap">☐ Confirmar grupo</button></sc-if>
+                                </div>
+                              </sc-if>
                             </td></tr>
                           </sc-if>
                           <sc-if value="{{ r.isRow }}" hint-placeholder-val="{{ true }}">
@@ -1149,14 +1186,14 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                                   </select>
                                 </sc-if>
                                 <sc-if value="{{ cell.isArea }}" hint-placeholder-val="{{ false }}">
-                                  <textarea class="input" style="min-height:34px;min-width:150px;width:100%;line-height:1.4" rows="2" value="{{ cell.value }}" onChange="{{ cell.set }}" placeholder="{{ cell.ph }}"></textarea>
+                                  <textarea class="input" style="min-height:34px;min-width:150px;width:100%;line-height:1.4" rows="2" value="{{ cell.value }}" onChange="{{ cell.set }}" onBlur="{{ cell.aiBlur }}" placeholder="{{ cell.ph }}"></textarea>
                                   <div style="display:flex;gap:5px;align-items:center;margin-top:3px">
-                                    <button type="button" class="btn btn-ghost" onClick="{{ cell.aiToggle }}" style="height:21px;padding:0 7px;font-size:10px;letter-spacing:0.05em;text-transform:uppercase;border-color:var(--color-divider);background:{{ cell.aiBg }};gap:5px">
+                                    <button type="button" class="btn btn-ghost" data-ai="1" onClick="{{ cell.aiToggle }}" style="height:21px;padding:0 7px;font-size:10px;letter-spacing:0.05em;text-transform:uppercase;border-color:var(--color-divider);background:{{ cell.aiBg }};gap:5px">
                                       <span title="{{ cell.aiTitle }}" style="border-bottom:1px dotted currentColor;cursor:help">Assistência Chat Petrobras:</span>
                                       <span style="font-family:var(--font-heading);letter-spacing:0.04em;color:{{ cell.aiStateColor }}">{{ cell.aiState }}</span>
                                     </button>
                                     <sc-if value="{{ cell.aiShowRun }}" hint-placeholder-val="{{ false }}">
-                                      <button type="button" class="btn btn-ghost" onClick="{{ cell.aiRun }}" title="Revisar agora com o Chat Petrobras" style="height:21px;padding:0 7px;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;border-color:var(--color-divider)">Revisar</button>
+                                      <button type="button" class="btn btn-ghost" data-ai="1" onClick="{{ cell.aiRun }}" title="Revisar agora com o Chat Petrobras" style="height:21px;padding:0 7px;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;border-color:var(--color-divider)">Revisar</button>
                                     </sc-if>
                                   </div>
                                 </sc-if>
@@ -1179,7 +1216,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                                     <span class="tag tag-outline" style="font-size:10px;height:28px;display:inline-flex;align-items:center">{{ r.reportadoLabel }}</span>
                                     <sc-if value="{{ r.reportDesatualizado }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ r.reenviarRep }}" title="O item mudou depois do reporte — reenviar" style="height:28px;padding:0 8px;font-size:11px;border-color:var(--color-divider)">Reenviar</button></sc-if>
                                   </sc-if>
-                                  <sc-if value="{{ r.podeTurma }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ r.enviarTurma }}" title="Enviar este item para a passagem de turma do posto — reaproveita o registro na consolidação semanal" style="height:28px;padding:0 8px;font-size:11px;gap:4px;border-color:var(--color-divider);white-space:nowrap"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"></path></svg>Turma</button></sc-if>
+                                  <sc-if value="{{ r.podeTurma }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ r.enviarTurma }}" title="Enviar este item para a passagem de turma do posto — reaproveita o registro na consolidação semanal" style="height:28px;padding:0 8px;font-size:11px;gap:4px;border-color:var(--color-divider);white-space:nowrap">Turma</button></sc-if>
                                   <sc-if value="{{ r.paraTurma }}" hint-placeholder-val="{{ false }}"><span class="tag tag-outline" style="font-size:10px;height:28px;display:inline-flex;align-items:center;white-space:nowrap">{{ r.paraTurmaLabel }}</span><sc-if value="{{ r.turmaDesatualizado }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ r.reenviarTurma }}" title="O item mudou depois do envio — reenviar para a turma" style="height:28px;padding:0 8px;font-size:11px;border-color:var(--color-divider)">Reenviar</button></sc-if></sc-if>
                                   <sc-if value="{{ r.temOrigem }}" hint-placeholder-val="{{ false }}"><span class="tag tag-accent" title="{{ r.origemLabel }}" style="font-size:10px;height:28px;display:inline-flex;align-items:center;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.origemLabel }}</span></sc-if>
                                   <sc-if value="{{ r.podeAlertar }}" hint-placeholder-val="{{ false }}">
@@ -1192,13 +1229,16 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                                   <sc-if value="{{ r.showAttach }}" hint-placeholder-val="{{ false }}">
                                     <button type="button" class="btn btn-ghost" onClick="{{ r.attach }}" title="Anexar foto" style="width:28px;height:28px;padding:0;border-color:var(--color-divider)">⎘</button>
                                   </sc-if>
+                                  <sc-if value="{{ r.temConf }}" hint-placeholder-val="{{ false }}">
+                                    <button type="button" class="btn btn-ghost" onClick="{{ r.confToggle }}" title="{{ r.confTip }}" aria-pressed="{{ r.conf }}" style="height:28px;padding:0 9px;font-size:11.5px;gap:5px;white-space:nowrap;border-color:{{ r.confBd }};background:{{ r.confBg }};color:{{ r.confCor }}">{{ r.confLabel }}</button>
+                                  </sc-if>
                                   <sc-if value="{{ r.showConfirm }}" hint-placeholder-val="{{ false }}">
                                     <button type="button" class="btn btn-primary" onClick="{{ r.confirmar }}" title="Concluir item" style="width:28px;height:28px;padding:0">✓</button>
                                   </sc-if>
                                   <sc-if value="{{ r.locked }}" hint-placeholder-val="{{ false }}">
                                     <button type="button" class="btn btn-ghost" onClick="{{ r.editar }}" title="Editar item" style="width:28px;height:28px;padding:0;border-color:var(--color-divider)">✎</button>
                                   </sc-if>
-                                  <sc-if value="{{ p.addable }}" hint-placeholder-val="{{ true }}">
+                                  <sc-if value="{{ r.podeDel }}" hint-placeholder-val="{{ true }}">
                                     <button type="button" class="btn btn-ghost" onClick="{{ r.del }}" title="Remover item" style="width:28px;height:28px;padding:0;border-color:var(--color-divider)">−</button>
                                   </sc-if>
                                 </span>
@@ -1241,7 +1281,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                             <sc-if value="{{ n.alertado }}" hint-placeholder-val="{{ false }}"><span class="tag tag-accent" style="font-size:10px">{{ n.alertadoLabel }}</span></sc-if>
                             <sc-if value="{{ n.reportado }}" hint-placeholder-val="{{ false }}"><span class="tag tag-outline" style="font-size:10px">{{ n.reportadoLabel }}</span></sc-if>
                             <sc-if value="{{ n.podeReportar }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ n.reportar }}" style="height:28px;padding:0 10px;font-size:12px;border-color:var(--color-divider);gap:6px;white-space:nowrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"></path></svg>{{ n.reportarLabel }}</button></sc-if>
-                            <sc-if value="{{ n.podeTurma }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ n.enviarTurma }}" title="Enviar este registro para a passagem de turma do posto" style="height:28px;padding:0 10px;font-size:12px;border-color:var(--color-divider);gap:6px;white-space:nowrap"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"></path></svg>Enviar para a turma</button></sc-if>
+                            <sc-if value="{{ n.podeTurma }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ n.enviarTurma }}" title="Enviar este registro para a passagem de turma do posto" style="height:28px;padding:0 10px;font-size:12px;border-color:var(--color-divider);gap:6px;white-space:nowrap">Turma</button></sc-if>
                             <sc-if value="{{ n.paraTurma }}" hint-placeholder-val="{{ false }}"><span class="tag tag-outline" style="font-size:10px">{{ n.paraTurmaLabel }}</span></sc-if>
                             <sc-if value="{{ n.podeAlertar }}" hint-placeholder-val="{{ false }}">
                               <button type="button" class="btn btn-ghost" onClick="{{ n.alertar }}" title="Alertar todos os postos" style="height:28px;padding:0 10px;font-size:12px;border-color:var(--color-accent-700);color:var(--color-accent-700);gap:6px;white-space:nowrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>Alertar postos</button>
@@ -1295,26 +1335,26 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                             </div>
                           </div>
                           <div class="field" style="margin-top:var(--space-3)"><label><span title="Fato, local, horário e condição atual. Evite siglas não usuais e não registre suposições." style="border-bottom:1px dotted color-mix(in srgb, var(--color-text) 45%, transparent);cursor:help">Descrição *</span></label>
-                            <textarea class="input" style="min-height:96px;line-height:1.5" value="{{ n.descricao }}" onChange="{{ n.setDescricao }}" placeholder="Fato, local, horário e condição atual. Evite siglas não usuais."></textarea>
+                            <textarea class="input" style="min-height:96px;line-height:1.5" value="{{ n.descricao }}" onChange="{{ n.setDescricao }}" onBlur="{{ n.aiDescBlur }}" placeholder="Fato, local, horário e condição atual. Evite siglas não usuais."></textarea>
                             <div style="display:flex;gap:6px;align-items:center;margin-top:4px">
-                              <button type="button" class="btn btn-ghost" onClick="{{ n.aiDescToggle }}" style="height:24px;padding:0 9px;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;border-color:var(--color-divider);background:{{ n.aiDescBg }};gap:6px">
+                              <button type="button" class="btn btn-ghost" data-ai="1" onClick="{{ n.aiDescToggle }}" style="height:24px;padding:0 9px;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;border-color:var(--color-divider);background:{{ n.aiDescBg }};gap:6px">
                                 <span title="{{ n.aiDescTitle }}" style="border-bottom:1px dotted currentColor;cursor:help">Assistência Chat Petrobras:</span>
                                 <span style="font-family:var(--font-heading);letter-spacing:0.04em;color:{{ n.aiDescStateColor }}">{{ n.aiDescState }}</span>
                               </button>
                               <sc-if value="{{ n.aiDescShowRun }}" hint-placeholder-val="{{ false }}">
-                                <button type="button" class="btn btn-ghost" onClick="{{ n.aiDescRun }}" title="Revisar agora com o Chat Petrobras" style="height:24px;padding:0 9px;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;border-color:var(--color-divider)">Revisar</button>
+                                <button type="button" class="btn btn-ghost" data-ai="1" onClick="{{ n.aiDescRun }}" title="Revisar agora com o Chat Petrobras" style="height:24px;padding:0 9px;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;border-color:var(--color-divider)">Revisar</button>
                               </sc-if>
                             </div>
                           </div>
                           <div class="field" style="margin-top:var(--space-3)"><label><span title="O que a próxima equipe deve fazer, verificar ou acompanhar — de forma explícita." style="border-bottom:1px dotted color-mix(in srgb, var(--color-text) 45%, transparent);cursor:help">Encaminhamento / ação requerida</span></label>
-                            <textarea class="input" style="min-height:64px;line-height:1.5" value="{{ n.acao }}" onChange="{{ n.setAcao }}" placeholder="O que a próxima equipe deve fazer, verificar ou acompanhar."></textarea>
+                            <textarea class="input" style="min-height:64px;line-height:1.5" value="{{ n.acao }}" onChange="{{ n.setAcao }}" onBlur="{{ n.aiAcaoBlur }}" placeholder="O que a próxima equipe deve fazer, verificar ou acompanhar."></textarea>
                             <div style="display:flex;gap:6px;align-items:center;margin-top:4px">
-                              <button type="button" class="btn btn-ghost" onClick="{{ n.aiAcaoToggle }}" style="height:24px;padding:0 9px;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;border-color:var(--color-divider);background:{{ n.aiAcaoBg }};gap:6px">
+                              <button type="button" class="btn btn-ghost" data-ai="1" onClick="{{ n.aiAcaoToggle }}" style="height:24px;padding:0 9px;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;border-color:var(--color-divider);background:{{ n.aiAcaoBg }};gap:6px">
                                 <span title="{{ n.aiAcaoTitle }}" style="border-bottom:1px dotted currentColor;cursor:help">Assistência Chat Petrobras:</span>
                                 <span style="font-family:var(--font-heading);letter-spacing:0.04em;color:{{ n.aiAcaoStateColor }}">{{ n.aiAcaoState }}</span>
                               </button>
                               <sc-if value="{{ n.aiAcaoShowRun }}" hint-placeholder-val="{{ false }}">
-                                <button type="button" class="btn btn-ghost" onClick="{{ n.aiAcaoRun }}" title="Revisar agora com o Chat Petrobras" style="height:24px;padding:0 9px;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;border-color:var(--color-divider)">Revisar</button>
+                                <button type="button" class="btn btn-ghost" data-ai="1" onClick="{{ n.aiAcaoRun }}" title="Revisar agora com o Chat Petrobras" style="height:24px;padding:0 9px;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;border-color:var(--color-divider)">Revisar</button>
                               </sc-if>
                             </div>
                           </div>
@@ -1352,6 +1392,19 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                   </sc-if>
                 </div>
               </sc-for>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ s.temBarraConc }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:var(--space-3);flex-wrap:wrap;margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid var(--color-divider)">
+              <sc-if value="{{ s.temConcluir }}" hint-placeholder-val="{{ false }}">
+                <button type="button" class="{{ s.concluirClass }}" onClick="{{ s.concluir }}" title="{{ s.concluirTip }}" style="font-size:13px;white-space:nowrap">✓ Concluir preenchimento do bloco</button>
+                <span style="font-size:12.5px;line-height:1.4;color:color-mix(in srgb, var(--color-text) 60%, transparent);text-wrap:pretty;flex:1;min-width:200px">{{ s.concluirHint }}</span>
+              </sc-if>
+              <sc-if value="{{ s.concluido }}" hint-placeholder-val="{{ false }}">
+                <span style="display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--color-accent-900);padding:5px 10px;border:1px solid var(--color-accent-700);background:var(--color-accent-100)">✓ {{ s.concluidoLabel }}</span>
+                <sc-if value="{{ s.podeReabrir }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ s.reabrir }}" title="Volta o bloco para edição — será preciso concluir novamente" style="font-size:12px;min-height:30px;border-color:var(--color-divider)">Reabrir bloco</button></sc-if>
+              </sc-if>
             </div>
           </sc-if>
 
@@ -1580,7 +1633,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
           <div style="display:flex;flex-direction:column;gap:8px">
             <sc-if value="{{ p.hasTitle }}" hint-placeholder-val="{{ false }}"><div style="font-family:var(--font-heading);font-size:17px;margin-top:4px">{{ p.title }}</div></sc-if>
             <sc-if value="{{ p.isText }}" hint-placeholder-val="{{ false }}">
-              <textarea class="input" style="min-height:200px" value="{{ p.textValue }}" onChange="{{ p.setText }}" placeholder="{{ p.placeholder }}" enterKeyHint="enter"></textarea>
+              <textarea class="input" style="min-height:200px" value="{{ p.textValue }}" onChange="{{ p.setText }}" onBlur="{{ p.aiBlur }}" placeholder="{{ p.placeholder }}" enterKeyHint="enter"></textarea>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
                 <button type="button" class="btn btn-secondary" onClick="{{ p.mic }}" style="justify-content:center;background:{{ p.micBg }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"></path></svg>Ditar</button>
                 <button type="button" class="btn btn-secondary" onClick="{{ p.revisar }}" style="justify-content:center">Revisar (Chat)</button>
@@ -1595,6 +1648,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                       <span style="font-family:var(--font-heading);font-size:18px;width:14px">{{ r.seta }}</span>
                       <span style="flex:1;min-width:0"><span style="display:block;font-family:var(--font-heading);font-size:16px;line-height:1.2">{{ r.primario }}</span><span style="display:block;font-size:12px;margin-top:2px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">{{ r.secundario }}</span></span>
                     </button>
+                    <sc-if value="{{ r.podeGConf }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-secondary" onClick="{{ r.gConf }}" style="min-height:48px;justify-content:center;font-size:14px">{{ r.gPendTxt }}</button></sc-if>
                   </sc-if>
                   <sc-if value="{{ r.isRow }}" hint-placeholder-val="{{ true }}">
                   <button type="button" class="blueprint" onClick="{{ r.go }}" style="display:flex;align-items:center;gap:10px;padding:12px 14px;min-height:64px;background:transparent;border:1px solid var(--color-divider);cursor:pointer;text-align:left;font:inherit;color:var(--color-text)">
@@ -1614,6 +1668,9 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
           </div>
         </sc-for>
       </sc-if>
+      <sc-if value="{{ m.b.ambDesvio }}" hint-placeholder-val="{{ false }}"><div role="alert" style="padding:10px 12px;border:2px solid oklch(0.55 0.19 25);color:oklch(0.45 0.17 25);font-size:14px;line-height:1.45;text-wrap:pretty">⚠ {{ m.b.ambDesvioTxt }}</div></sc-if>
+      <sc-if value="{{ m.b.temConcluir }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-primary" onClick="{{ m.b.concluir }}" style="min-height:60px;justify-content:center;font-size:16px">✓ Concluir preenchimento do bloco</button></sc-if>
+      <sc-if value="{{ m.b.concluido }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;gap:8px;padding:10px 12px;border:1px solid var(--color-accent-700);background:var(--color-accent-100);font-size:14px;color:var(--color-accent-900)"><span>✓ {{ m.b.concluidoLabel }}</span><sc-if value="{{ m.b.podeReabrir }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ m.b.reabrir }}" style="min-height:48px;justify-content:center;border-color:var(--color-divider)">Reabrir bloco</button></sc-if></div></sc-if>
       <button type="button" class="btn btn-primary" onClick="{{ m.b.nota }}" style="min-height:56px;justify-content:center;margin-top:4px">Nota rápida para este bloco</button>
     </div>
     </sc-if>
@@ -1648,7 +1705,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
           <sc-if value="{{ c.isDate }}" hint-placeholder-val="{{ false }}"><input class="input" type="date" value="{{ c.value }}" onChange="{{ c.set }}"></sc-if>
           <sc-if value="{{ c.isDT }}" hint-placeholder-val="{{ false }}"><input class="input" type="datetime-local" value="{{ c.value }}" onChange="{{ c.set }}"></sc-if>
           <sc-if value="{{ c.isArea }}" hint-placeholder-val="{{ false }}">
-            <textarea class="input" rows="{{ 4 }}" value="{{ c.value }}" onChange="{{ c.set }}" enterKeyHint="enter" autoCapitalize="sentences"></textarea>
+            <textarea class="input" rows="{{ 4 }}" value="{{ c.value }}" onChange="{{ c.set }}" onBlur="{{ c.aiBlur }}" enterKeyHint="enter" autoCapitalize="sentences"></textarea>
             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
               <button type="button" class="btn btn-secondary" onClick="{{ c.mic }}" style="justify-content:center;font-size:14px;padding:0 6px;background:{{ c.micBg }}">{{ c.micLabel }}</button>
               <button type="button" class="btn btn-secondary" onClick="{{ c.nota }}" style="justify-content:center;font-size:14px;padding:0 6px">Nota rápida</button>
@@ -1685,9 +1742,10 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
       </div>
       <div style="display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--color-divider);padding-top:14px">
         <sc-if value="{{ m.l.podeConcluir }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-primary" onClick="{{ m.l.concluir }}" style="min-height:60px;justify-content:center;font-size:17px">✓ Concluir item</button></sc-if>
+        <sc-if value="{{ m.l.temConf }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-secondary" onClick="{{ m.l.confToggle }}" aria-pressed="{{ m.l.conf }}" style="min-height:60px;justify-content:center;font-size:16px;background:{{ m.l.confBg }}">{{ m.l.confLabel }}</button></sc-if>
         <button type="button" class="btn btn-secondary" onClick="{{ m.l.nota }}" style="min-height:52px;justify-content:center">Nota rápida para este item</button>
         <sc-if value="{{ m.l.podeReportar }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-secondary" onClick="{{ m.l.reportar }}" style="min-height:52px;justify-content:center;gap:8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"></path></svg>{{ m.l.reportarLabel }}</button></sc-if>
-        <sc-if value="{{ m.l.podeTurma }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-secondary" onClick="{{ m.l.enviarTurma }}" style="min-height:52px;justify-content:center;gap:8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"></path></svg>Enviar para a passagem de turma</button></sc-if>
+        <sc-if value="{{ m.l.podeTurma }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-secondary" onClick="{{ m.l.enviarTurma }}" style="min-height:52px;justify-content:center;gap:8px">Turma</button></sc-if>
         <sc-if value="{{ m.l.paraTurma }}" hint-placeholder-val="{{ false }}"><div style="text-align:center;font-size:13px;color:color-mix(in srgb, var(--color-text) 62%, transparent)">{{ m.l.paraTurmaLabel }}</div></sc-if>
         <sc-if value="{{ m.l.reportado }}" hint-placeholder-val="{{ false }}"><div style="text-align:center;font-size:13px;color:color-mix(in srgb, var(--color-text) 62%, transparent)">{{ m.l.reportadoLabel }}</div></sc-if>
         <sc-if value="{{ m.l.podeAlertar }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-secondary" onClick="{{ m.l.alertar }}" style="min-height:52px;justify-content:center;border-color:var(--color-accent-700);color:var(--color-accent-700);gap:8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>Alertar todos os postos</button></sc-if>
@@ -2791,7 +2849,7 @@ class Component extends DCLogic {
     'estado': 'Situação da mudança no encerramento do período.',
     'monitoramento ou ação mitigadora': 'Como a mudança está sendo monitorada e quais barreiras compensatórias estão ativas.',
     'validade': 'Data-limite de validade da mudança. Vencida, a condição deve ser normalizada ou revalidada.',
-    'tipo de alteração': 'Natureza da alteração operacional feita no período (variável fora do usual, rodízio, by-pass, bloqueio, malha em manual).',
+    'tipo de alteração': 'Desvio ou alteração do período. Lista baseada nas palavras-guia do HAZOP (fluxo, pressão, temperatura e nível maior/menor, sem fluxo, fluxo reverso, composição) e nas alterações operacionais usuais; aceita texto livre ou “Não aplicável”.',
     'condição ou valor': 'Valor ou posição atual (setpoint, abertura, vazão, pressão) que caracteriza a alteração.',
     'motivo': 'Razão técnica da condição — por que o item está assim e sob qual orientação.',
     'status': 'Estado operacional do item no encerramento do período. Ao mudar o status, a data de última alteração é carimbada automaticamente.',
@@ -2933,13 +2991,11 @@ class Component extends DCLogic {
     var estado = {
       num: '4', key: 'estado',
       title: turma ? 'Alterações de estado operacional que permanecem' : 'Alteração de estado operacional dos processos e equipamentos',
-      hint: 'Tipo: variável de processo fora do usual · rodízio de equipamento · válvula de controle em by-pass · válvula bloqueada · malha em manual.',
+      hint: 'Tipo de alteração: escolha um desvio de referência (palavras-guia do HAZOP — mais/menos/sem/reverso aplicadas a fluxo, pressão, temperatura, nível e composição), uma alteração operacional (rodízio, by-pass, válvula bloqueada, malha em manual), “Não aplicável” — ou digite livremente.',
       clearLabel: turma ? 'Sem alteração remanescente' : 'Sem alteração relevante no período',
       panels: [t('p', [
         c('Sistema / TAG', 'text', { list: 'dl-sist', w: '16%', req: true }),
-        c('Tipo de alteração', 'select', {
-          options: ['Variável de processo fora do usual', 'Rodízio de equipamento', 'Válvula de controle em by-pass', 'Válvula bloqueada', 'Malha em manual'], w: '15%', req: true
-        }),
+        c('Tipo de alteração', 'text', { list: 'dl-tipoalt', w: '17%', req: true, ph: 'Selecione ou digite' }),
         c('Condição ou valor', 'text', { w: '13%', req: true }),
         c('Motivo', 'area'),
         c('Atenção para ' + Prox, 'area', { req: true })
@@ -2949,13 +3005,13 @@ class Component extends DCLogic {
     var disp = {
       num: '5', key: 'disponibilidade', hideable: true,
       title: turma ? 'Disponibilidade dos principais sistemas ao final da escala' : 'Disponibilidade dos principais sistemas',
-      hint: (ehControle ? 'Sala de controle: os sistemas dos postos Óleo, Gás e Água são herdados automaticamente das passagens de cada posto (validadas ou em elaboração) e só podem ser alterados aqui com justificativa. ' : '') + 'Nota 5 — todo item Inoperante, Manutenção ou Limitado exige detalhamento na segunda tabela. Status inicial “Não comissionado” enquanto a unidade estiver em construção.',
+      hint: (ehControle ? 'Sala de controle: os sistemas dos postos Óleo, Gás e Água são herdados automaticamente das passagens de cada posto (validadas ou em elaboração) e só podem ser alterados aqui com justificativa. ' : '') + 'Status importados da passagem anterior do posto: confira e confirme item a item (☐ Confirmar) ou o grupo inteiro (☐ Confirmar grupo). A inclusão ou retirada de sistemas da lista é feita pela administração local ou do sistema. Nota 5 — todo item Inoperante, Manutenção ou Limitado exige detalhamento na segunda tabela. Status inicial “Não comissionado” enquanto a unidade estiver em construção.',
       panels: [
         fixo('st', [
           c('Sistema / Equipamento', 'label'),
           c('Status', 'select', { options: this.ST_SIST, w: '230px', req: true, stamp: 2 }),
           c('Última alteração de estado', 'datetime', { w: '170px' })
-        ], this.princPosto(), { addable: true, sync: true, grupo: true, title: ehControle ? 'Sistemas sob responsabilidade direta da sala de controle' : '' }),
+        ], this.princPosto(), { addable: true, sync: true, grupo: true, confirmar: true, semRemover: true, title: ehControle ? 'Sistemas sob responsabilidade direta da sala de controle' : '' }),
         t('det', [
           c('Sistema / TAG', 'text', { list: 'dl-sist', w: '17%', req: true }),
           c('Desde', 'datetime', { w: '150px', req: true }),
@@ -2980,23 +3036,24 @@ class Component extends DCLogic {
 
     var pocos = {
       num: '6', key: 'pocos', title: 'Poços produtores e injetores',
-      hint: 'Status e alinhamento ao final do período.',
+      hint: 'Status e alinhamento ao final do período. Os dados vêm da passagem anterior — confira a condição real de cada poço e confirme item a item (☐ Confirmar); alterar o status ou o alinhamento também confirma o poço.',
       panels: [
-        fixo('prod', [c('Poço', 'label'), c('Status', 'select', { options: this.ST_POCO, w: '230px', req: true }), c('Alinhamento', 'select', { options: this.ALINH, w: '210px', req: true })], this.PROD, { title: 'Poços produtores', addable: true, sync: true }),
-        fixo('inj', [c('Poço', 'label'), c('Status', 'select', { options: this.ST_POCO, w: '230px', req: true }), c('Injeção', 'select', { options: ['Água', 'Gás'], w: '210px', req: true })], this.INJ, { title: 'Poços injetores', addable: true, sync: true })
+        fixo('prod', [c('Poço', 'label'), c('Status', 'select', { options: this.ST_POCO, w: '230px', req: true }), c('Alinhamento', 'select', { options: this.ALINH, w: '210px', req: true })], this.PROD, { title: 'Poços produtores', addable: true, sync: true, confirmar: true }),
+        fixo('inj', [c('Poço', 'label'), c('Status', 'select', { options: this.ST_POCO, w: '230px', req: true }), c('Injeção', 'select', { options: ['Água', 'Gás'], w: '210px', req: true })], this.INJ, { title: 'Poços injetores', addable: true, sync: true, confirmar: true })
       ]
     };
 
+    var notificar = this.ehEmb(posto) ? 'SUEMB e o COEMB' : 'SUPROD e o COPROD';
     var meio = {
-      num: '7', key: 'ambiente', title: 'Meio ambiente e descartes',
-      hint: 'TOG e temperatura de descarte (overboard). Em observações, registrar o valor de referência e, em caso de desvio, a ação tomada e o registro (NM / anomalia / comunicação ao órgão ambiental).',
-      clearLabel: 'Dentro dos limites de referência',
+      num: '7', key: 'ambiente', title: 'Meio ambiente e descartes', amb: true, notificar: notificar,
+      hint: 'Informe o TOG da água produzida e a temperatura do descarte overboard. Referências: TOG ≤ 29,00 mg/L (≈ ppm) — Resolução CONAMA 393/2007, art. 5º (média mensal; máximo diário 42 mg/L); temperatura inferior a 40,00 °C — Resolução CONAMA 430/2011, art. 16, I, “b” (40,00 °C ou mais já é desvio); cumprimento fiscalizado pelo IBAMA no licenciamento ambiental federal. TOG até 29,00 e temperatura abaixo de 40,00 são classificados automaticamente como “Dentro do limite”; fora disso, como “Desvio” — notifique imediatamente o ' + notificar + ' e registre em Observações a notificação e a ação tomada.',
       panels: [fixo('p', [
         c('Parâmetro', 'label'),
-        c('Valor medido', 'text', { w: '120px', req: true }),
-        c('Situação', 'select', { options: ['Dentro do limite', 'Desvio'], w: '150px', req: true }),
+        c('Valor medido', 'text', { w: '120px', req: true, ph: '0,00' }),
+        c('Situação', 'label', { w: '160px' }),
         c('Observações', 'area')
-      ], ['TOG — água produzida (mg/L)', 'Temperatura de descarte overboard (°C)'], { evidence: true, desvio: true })]
+      ], ['TOG — água produzida (mg/L)', 'Temperatura de descarte overboard (°C)'], { evidence: true, desvio: true }),
+      { pid: 'obs', kind: 'text', req: 'none', title: 'Informações adicionais (opcional)', placeholder: 'Texto livre sobre meio ambiente e descartes — ex.: horário da amostragem, tendência observada, comunicação ao órgão ambiental, ações em andamento.' }]
     };
 
     var integ = {
@@ -3174,7 +3231,7 @@ class Component extends DCLogic {
   // ---------- revisão assistida (Chat Petrobras — ilustrativo) ----------
   aiCampo(chave, get, set) {
     var self = this;
-    var on = !!(this.state.aiOn || {})[chave];
+    var on = (this.state.aiOn || {})[chave] !== false;
     var txt = String(get() || '').trim();
     return {
       aiLabel: 'Assistência Chat Petrobras:',
@@ -3190,7 +3247,27 @@ class Component extends DCLogic {
         self.setState({ aiOn: m });
         if (!on && String(get() || '').trim().length >= 12) self.abrirRevisao(chave, get, set);
       },
-      aiRun: function () { self.abrirRevisao(chave, get, set); }
+      aiRun: function () { self.abrirRevisao(chave, get, set); },
+      aiBlur: self.aiAuto(chave, get, set)
+    };
+  }
+
+  // Revisão automática ao concluir a digitação (sair do campo): roda uma vez por versão do texto.
+  _revVisto = {};
+  aiAuto(chave, get, set) {
+    var self = this;
+    return function (e) {
+      if ((self.state.aiOn || {})[chave] === false) return;
+      var rel = e && e.relatedTarget;
+      if (rel && rel.closest && rel.closest('[data-ai]')) return;
+      setTimeout(function () {
+        if (typeof document !== 'undefined' && document.hasFocus && !document.hasFocus()) return;
+        if (self.state.rev || !self.podeEditar()) return;
+        var t = String(get() || '').trim();
+        if (t.length < 12 || self._revVisto[chave] === t) return;
+        self._revVisto[chave] = t;
+        self.abrirRevisao(chave, get, set);
+      }, 120);
     };
   }
 
@@ -3198,6 +3275,16 @@ class Component extends DCLogic {
     var self = this;
     var orig = String(get() || '').trim();
     if (orig.length < 12) { this.flash('Escreva o texto antes de solicitar a revisão.'); return; }
+    var set0 = set, gen = this._docGen || 0;
+    set = function (v) {
+      self._revVisto[chave] = String(v || '').trim();
+      if ((self._docGen || 0) === gen) { set0(v); return; }
+      // A passagem foi atualizada por outro membro durante a revisão: localiza o mesmo campo pelo texto original.
+      var pp = String(chave).split('/'), ci = pp.length >= 4 ? Number(pp[3]) : (pp.length === 3 ? 2 : 0), sd = self.doc && self.doc[self.tipo()] && self.doc[self.tipo()][pp[0]];
+      var alvo = sd && sd.panels && (sd.panels[pp[1]] || []).filter(function (r) { return String((r.c || [])[ci] || '').trim() === orig; })[0];
+      if (alvo) { alvo.c[ci] = v; self.commit(); } else self.flash('O campo foi alterado por outro membro durante a revisão — confira o texto e revise novamente.');
+    };
+    this._revVisto[chave] = orig;
     this.setState({ rev: { chave: chave, orig: orig, novo: '', notas: [], loading: true, ok: false, set: set } });
     clearTimeout(this._revT);
     var meu = ++this._revSeq;
@@ -3272,13 +3359,122 @@ class Component extends DCLogic {
   nuvemAtualizou() {
     this._usr = null; this._param = null; this._abertas = null;
     try { this.aplicarRefs(); } catch (e) { /* ignora */ }
+    try { this.recarregarDocAberto(); } catch (e) { /* ignora */ }
     var arq = this.lsGet(this.ARQ, []); arq = Array.isArray(arq) ? arq.filter(function (a) { return a && a.store && a.header; }) : [];
     this.setState({ arquivo: arq, tick: (this.state.tick || 0) + 1 });
+  }
+
+  // A passagem aberta na tela é substituída pela versão gravada (já mesclada com as edições dos demais membros):
+  // sem isso, a próxima gravação local reescrevia a cópia antiga e apagava, por exemplo, a conclusão declarada por outro operador.
+  recarregarDocAberto() {
+    var d = this.doc; if (!d || d._placeholder || !d.id) return;
+    var id = d.id, ext = this.recarregarAbertas().filter(function (x) { return x.id === id; })[0];
+    if (!ext || ext === d) return;
+    var self = this, eu = this.state.user, antes = {}, avisos = [];
+    (d.equipe || []).forEach(function (m) { antes[m.u] = m; });
+    (ext.equipe || []).forEach(function (m) {
+      if (eu && m.u === eu.user) return;
+      var a = antes[m.u];
+      if (!a) avisos.push(self.nomeCurto(m.n) + (m.concluido ? ' entrou na passagem e declarou a conclusão do seu escopo' : ' entrou na passagem'));
+      else if (m.concluido && !a.concluido) avisos.push(self.nomeCurto(m.n) + ' declarou o preenchimento do seu escopo como concluído');
+    });
+    if (ext.status === 'emitida' && d.status !== 'emitida') avisos.push('a passagem foi emitida');
+    this.doc = ext; delete this._snaps[id]; this._docGen = (this._docGen || 0) + 1; this.ensure();
+    if (avisos.length) {
+      var eq = ext.equipe || [], pend = eq.filter(function (m) { return !m.concluido; });
+      this.flash(avisos.join(' · ') + (eq.length && !pend.length ? ' — todos concluíram; a passagem pode ser fechada.' : (pend.length ? ' — aguardando: ' + pend.map(function (m) { return self.nomeCurto(m.n); }).join(', ') + '.' : '')));
+      this.vibrar(40);
+    }
+  }
+
+  // ---------- cópia de segurança local (IndexedDB) das passagens em elaboração ----------
+  // Protege contra recarregar a página, fechar o navegador ou falta de espaço no armazenamento local (~5 MB).
+  rascDb() {
+    var self = this;
+    return new Promise(function (res) {
+      if (self._rdb) return res(self._rdb);
+      if (!window.indexedDB) return res(null);
+      try { var rq = window.indexedDB.open('bz-rascunhos', 1); rq.onupgradeneeded = function () { rq.result.createObjectStore('d'); }; rq.onsuccess = function () { self._rdb = rq.result; res(self._rdb); }; rq.onerror = function () { res(null); }; } catch (e) { res(null); }
+    });
+  }
+  espelharRascunho(d, ja, pendente) {
+    if (!d || !d.id || d._placeholder) return;
+    var self = this, lista = this.ABERTAS, k = lista + '|' + d.id;
+    var grava = function () {
+      self._espPend = null; var json; try { json = JSON.stringify(d); } catch (e) { return; }
+      self.rascDb().then(function (db) { if (!db) return; try { db.transaction('d', 'readwrite').objectStore('d').put({ lista: lista, id: d.id, em: d.atualizadoEm || '', pendente: !!pendente, json: json }, k); } catch (e) { /* ignora */ } });
+    };
+    clearTimeout(this._espT); this._espPend = grava;
+    if (ja) grava(); else this._espT = setTimeout(grava, 250);
+  }
+  apagarRascunho(id, lista) { var k = (lista || this.ABERTAS) + '|' + id; this.rascDb().then(function (db) { if (db) { try { db.transaction('d', 'readwrite').objectStore('d').delete(k); } catch (e) { /* ignora */ } } }); }
+  restaurarRascunhos() {
+    var self = this;
+    return this.rascDb().then(function (db) {
+      if (!db) return;
+      return new Promise(function (res) {
+        var out = [];
+        try { var rq = db.transaction('d').objectStore('d').openCursor(); rq.onsuccess = function () { var c = rq.result; if (c) { out.push({ key: c.key, v: c.value }); c.continue(); } else res(out); }; rq.onerror = function () { res(out); }; } catch (e) { res(out); }
+      }).then(function (recs) {
+        var porLista = {}, apagar = [], limite = Date.now() - 72 * 3600000, n = 0;
+        recs.forEach(function (x) {
+          var v = x.v || {}, d = null; try { d = JSON.parse(v.json); } catch (e) { d = null; }
+          var fim = d && d.header && d.header.fim ? new Date(d.header.fim).getTime() : 0;
+          if (!d || !d.id || !v.lista || d.status === 'emitida' || (fim && fim < limite)) { apagar.push(x.key); return; }
+          (porLista[v.lista] = porLista[v.lista] || []).push({ key: x.key, d: d, pendente: !!v.pendente });
+        });
+        Object.keys(porLista).forEach(function (lk) {
+          var l = self.lsGet(lk, []); if (!Array.isArray(l)) l = [];
+          var fora = {};
+          var arq = self.lsGet(lk.replace('abertas-v1', 'arquivo-v1'), []), lix = self.lsGet(lk.replace('abertas-v1', 'lixeira-v1'), []);
+          (Array.isArray(arq) ? arq : []).forEach(function (a) { if (a) fora[a.codigo || a.id] = 1; });
+          (Array.isArray(lix) ? lix : []).forEach(function (x) { if (x && x.dado) fora[x.dado.id || x.codigo] = 1; });
+          var mud = [], mem = [];
+          porLista[lk].forEach(function (it) {
+            var d = it.d; if (fora[d.id]) { apagar.push(it.key); return; }
+            var i = -1; for (var q = 0; q < l.length; q++) if (l[q] && l[q].id === d.id) { i = q; break; }
+            if (i >= 0) { if (l[i].status === 'emitida') { apagar.push(it.key); return; } if (it.pendente && (d.atualizadoEm || '') > (l[i].atualizadoEm || '')) { l[i] = d; mud.push(d); } }
+            else if (it.pendente) { l.unshift(d); mud.push(d); }
+          });
+          if (!mud.length) return;
+          n += mud.length;
+          try { window.localStorage.setItem(lk, JSON.stringify(l)); } catch (e) { self._rascMem = self._rascMem || {}; self._rascMem[lk] = mud; }
+        });
+        apagar.forEach(function (k) { try { db.transaction('d', 'readwrite').objectStore('d').delete(k); } catch (e) { /* ignora */ } });
+        if (n) { self._abertas = null; self._rascRest = n; }
+      });
+    });
+  }
+  // Libera espaço do armazenamento local: cópias-base da sincronização e passagens de exemplo (dados de demonstração).
+  liberarEspaco() {
+    var n = 0;
+    try { for (var i = window.localStorage.length - 1; i >= 0; i--) { var k = window.localStorage.key(i); if (k && k.indexOf('bzn-base:') === 0) { window.localStorage.removeItem(k); n++; } } } catch (e) { /* ignora */ }
+    var arq = this.state.arquivo || [], semEx = arq.filter(function (a) { return !a.exemplo; });
+    if (semEx.length !== arq.length && this.persistArquivo(semEx)) { this.state.arquivo = semEx; this.setState({ arquivo: semEx }); n++; }
+    return n;
+  }
+  gravarAbertasSeguro(l, doc) {
+    if (this.gravarAbertas(l)) return true;
+    this.liberarEspaco();
+    if (this.gravarAbertas(l)) { this.flash('Espaço do navegador liberado (exemplos de demonstração removidos) — passagem gravada.'); return true; }
+    if (doc && doc.id) {
+      this._rascMem = this._rascMem || {};
+      var mem = this._rascMem[this.ABERTAS] || (this._rascMem[this.ABERTAS] = []), i = -1;
+      for (var k = 0; k < mem.length; k++) if (mem[k].id === doc.id) { i = k; break; }
+      if (i >= 0) mem[i] = doc; else mem.push(doc);
+    }
+    if (!this._avisoEsp || Date.now() - this._avisoEsp > 60000) { this._avisoEsp = Date.now(); this.flash('Espaço do navegador esgotado — a passagem continua protegida na cópia de segurança deste aparelho (não se perde ao recarregar), mas não sincroniza com a equipe até liberar espaço. Exclua passagens antigas do arquivo.'); }
+    return false;
   }
 
   componentDidMount() {
     var self = this;
     if (!this._nuvemOk) { this._nuvemOk = true; this.nuvemIniciar().then(function () { self.componentDidMount(); }, function () { self.componentDidMount(); }); return; }
+    if (!this._rascOk) { this._rascOk = true; this.restaurarRascunhos().then(function () { self.componentDidMount(); }, function () { self.componentDidMount(); }); return; }
+    this._onHide = function () { if (self._espPend) self._espPend(); };
+    window.addEventListener('pagehide', this._onHide);
+    window.addEventListener('beforeunload', this._onHide);
+    document.addEventListener('visibilitychange', this._onHide);
     this.montarTooltip();
     this._medir = function () { self.medirHeader(); var mb = self.detectarMob(); if (mb !== self.state.mob) self.setState({ mob: mb }); };
     this._onKey = function (e) { self.onKeyGlobal(e); };
@@ -3334,12 +3530,13 @@ class Component extends DCLogic {
     // Em campo, retoma automaticamente a passagem em que o operador estava (evita reabrir pelo Início a cada desbloqueio do aparelho).
     if (this.state.user && !this.state.user.un) { this.setState({ user: this.state.user }); return; }
     var retomar = null;
-    if (this.state.mob && this.state.user) {
+    if (this._rascRest) { var nR = this._rascRest; this._rascRest = 0; setTimeout(function () { self.flash(nR + (nR === 1 ? ' passagem em elaboração recuperada' : ' passagens em elaboração recuperadas') + ' da cópia de segurança deste aparelho.'); }, 600); }
+    if (this.state.user) {
       var ult = this.lsGet(this.ULTIMA, '');
       var uid = this.state.user.user;
       retomar = this.recarregarAbertas().filter(function (d) { return d.id === ult && d.status !== 'emitida' && (d.equipe || []).some(function (mm) { return mm.u === uid; }); })[0] || null;
     }
-    if (retomar) { this.doc = retomar; this.ensure(); this.setState({ view: 'form', user: this.state.user, mv: 'pass', mStack: [] }); return; }
+    if (retomar) { this.doc = retomar; this.ensure(); this.tocarSessao(); this.setState({ view: 'form', user: this.state.user, mv: 'pass', mStack: [] }); return; }
     if (this.state.user && this.papel() !== 'operador') { this.tocarSessao(); this.purgarLixeira(); this.setState({ view: 'admin', aTab: 'painel', user: this.state.user }); this.verificarIntegridade(); return; }
     if (this.state.user) this.tocarSessao();
     this.setState({ view: 'menu', user: this.state.user });
@@ -3373,6 +3570,7 @@ class Component extends DCLogic {
     window.removeEventListener('resize', this._medir);
     window.removeEventListener('storage', this._onStorage);
     window.removeEventListener('keydown', this._onKey);
+    window.removeEventListener('pagehide', this._onHide); window.removeEventListener('beforeunload', this._onHide); document.removeEventListener('visibilitychange', this._onHide);
     if (this._mq && this._mq.removeEventListener) this._mq.removeEventListener('change', this._onMq);
     document.documentElement.removeAttribute('data-noite');
     this.pararScan(); this.soltarWake();
@@ -3425,9 +3623,12 @@ class Component extends DCLogic {
   lerAbertas() {
     var l = [];
     try { l = JSON.parse(window.localStorage.getItem(this.ABERTAS) || '[]'); } catch (e) { l = []; }
-    return Array.isArray(l) ? l.filter(function (d) { return d && d.id && d.header; }) : [];
+    l = Array.isArray(l) ? l.filter(function (d) { return d && d.id && d.header; }) : [];
+    var mem = this._rascMem && this._rascMem[this.ABERTAS];
+    if (mem && mem.length) mem.forEach(function (d) { var i = -1; for (var k = 0; k < l.length; k++) if (l[k].id === d.id) { i = k; break; } if (i < 0) l.unshift(d); else if ((d.atualizadoEm || '') > (l[i].atualizadoEm || '')) l[i] = d; });
+    return l;
   }
-  gravarAbertas(l) { try { window.localStorage.setItem(this.ABERTAS, JSON.stringify(l)); return true; } catch (e) { return false; } }
+  gravarAbertas(l) { try { window.localStorage.setItem(this.ABERTAS, JSON.stringify(l)); if (this._rascMem) delete this._rascMem[this.ABERTAS]; return true; } catch (e) { return false; } }
   abertas() { if (!this._abertas) this._abertas = this.lerAbertas(); return this._abertas; }
   recarregarAbertas() { this._abertas = this.lerAbertas(); return this._abertas; }
   serie(tipo, posto, ano) { return this.unSlug(this.un()) + '-' + this.coordDe(posto) + '-' + (tipo === 'Turma' ? 'TM' : 'TN') + '-' + (this.POSTO_COD[posto] || 'GEN') + '-' + ano; }
@@ -3459,7 +3660,7 @@ class Component extends DCLogic {
     if (i < 0) { if (this.doc.status !== 'emitida') l.unshift(this.doc); else this.doc = null; return l; }
     var ext = l[i];
     if (ext !== this.doc) {
-      if (ext.atualizadoEm && (!this.doc.atualizadoEm || ext.atualizadoEm > this.doc.atualizadoEm)) { this.doc = ext; delete this._snaps[id]; this.ensure(); }
+      if (ext.atualizadoEm && (!this.doc.atualizadoEm || ext.atualizadoEm > this.doc.atualizadoEm)) { this.doc = ext; delete this._snaps[id]; this._docGen = (this._docGen || 0) + 1; this.ensure(); }
       else l[i] = this.doc;
     }
     return l;
@@ -3499,7 +3700,8 @@ class Component extends DCLogic {
       var doc = { id: cod, codigo: cod, serie: s, seq: n, tipo: tipo, posto: posto, coord: this.coordDe(posto), periodoKey: p.key, periodoNome: p.nome,
         criadoEm: c.em, criadoPorU: c.u, criadoPorN: c.n, atualizadoEm: c.em, status: 'aberta', header: h, Turno: {}, Turma: {}, equipe: [], log: [] };
       this.abertas().unshift(doc);
-      if (!this.gravarAbertas(this.abertas())) this.flash('Espaço local esgotado — a passagem foi criada só nesta sessão. Exclua passagens antigas do arquivo.');
+      var gravouN = this.gravarAbertasSeguro(this.abertas(), doc);
+      this.espelharRascunho(doc, true, !gravouN);
       this.doc = doc;
       this.ensure();
       this.lsSet(this.ULTIMA, doc.id);
@@ -3898,6 +4100,7 @@ class Component extends DCLogic {
   tocarSecao(key) {
     var store = this.doc[this.tipo()], sd = store && store[key];
     if (!sd) return;
+    if (sd.concluido) { delete sd.concluido; this.flash('Bloco reaberto pela alteração — clique em “Concluir preenchimento do bloco” ao terminar.'); }
     var c = this.carimbo();
     sd.autor = c;
     var L = this.logs(), ult = L[L.length - 1];
@@ -4020,6 +4223,7 @@ class Component extends DCLogic {
     var self = this;
     this.schema(tipo).forEach(function (s) {
       var sd = store[s.key] || (store[s.key] = { clear: false, panels: {} });
+      if (!s.clearLabel && sd.clear) sd.clear = false;
       s.panels.forEach(function (p) {
         var sync = !!(p.fixed && p.sync);
         var rows = sd.panels[p.pid];
@@ -4037,6 +4241,7 @@ class Component extends DCLogic {
         if (sync) rows = self.sincronizaFixas(p, s, sd, rows);
         sd.panels[p.pid] = rows;
       });
+      if (s.amb) (sd.panels.p || []).forEach(function (r) { self.avaliarAmb(r); });
     });
     if (this.doc.id && !this.doc._placeholder) {
       this.consumirAlertas();
@@ -4455,7 +4660,8 @@ class Component extends DCLogic {
       var l = this.abertas(), i = -1;
       for (var k = 0; k < l.length; k++) if (l[k].id === this.doc.id) { i = k; break; }
       if (i >= 0) l[i] = this.doc; else l.unshift(this.doc);
-      if (!this.gravarAbertas(l)) this.flash('Espaço local esgotado — reduza imagens anexadas ou exclua passagens antigas do arquivo.');
+      var gravou = this.gravarAbertasSeguro(l, this.doc);
+      this.espelharRascunho(this.doc, false, !gravou);
       this.tirarSnap();
     }
     var now = new Date();
@@ -4563,8 +4769,12 @@ class Component extends DCLogic {
         if (faltando) issues.push(label + faltando + ' campo(s) obrigatório(s) em branco na tabela.');
         if (p.desvio) {
           rows.forEach(function (r) {
-            if (r.c[2] === 'Desvio' && String(r.c[3] || '').trim() === '') issues.push('“' + r.c[0] + '”: desvio registrado sem observação — informe a ação tomada e o registro.');
+            if (r.c[2] === 'Desvio' && String(r.c[3] || '').trim() === '') issues.push('“' + r.c[0] + '”: acima do limite de referência — registre em Observações a notificação ao ' + (s.notificar || 'SUPROD e o COPROD') + ' e a ação tomada.');
           });
+        }
+        if (p.confirmar) {
+          var semConf = rows.filter(function (r) { return !r.herd && String(r.c[0] || '').trim() && !r.conf; }).length;
+          if (semConf) issues.push(label + semConf + ' item(ns) sem confirmação da condição — confira e confirme item a item (☐ Confirmar).');
         }
         return;
       }
@@ -4584,7 +4794,60 @@ class Component extends DCLogic {
       }
       if (p.max && used.length > p.max) issues.push('Máximo de ' + p.max + ' itens neste bloco.');
     });
+    if (!issues.length && this.concluivel(s) && !sd.concluido) issues.push(this.MSG_CONC);
     return issues;
+  }
+  MSG_CONC = 'Preenchimento do bloco não concluído — revise os itens e clique em “Concluir preenchimento do bloco”.';
+  // Blocos com lista aberta (1 ou N itens) exigem a declaração explícita de conclusão do preenchimento.
+  concluivel(s) { return s.panels.some(function (p) { return (p.kind === 'table' && p.addable && !p.fixed && !p.dep && !p.herdado && !p.herdadoDet) || p.kind === 'notes'; }); }
+  confPronto(p, r) { return p.cols.every(function (c, ci) { return !c.req || c.type === 'label' || c.type === 'elapsed' || String(r.c[ci] || '').trim() !== ''; }); }
+  pedirConfGrupo(s, g) {
+    if (!this.podeEditar()) { this.flash('Vincule-se à passagem para confirmar.'); return; }
+    var self = this, p = (s.panels.filter(function (x) { return x.confirmar && (self.rows(s.key, x.pid) || []).indexOf(g.rows[0]) >= 0; })[0]) || s.panels.filter(function (x) { return x.confirmar; })[0];
+    var todos = g.rows.filter(function (r) { return !r.herd && String(r.c[0] || '').trim() && !r.conf; });
+    var pend = p ? todos.filter(function (r) { return self.confPronto(p, r); }) : todos;
+    if (!pend.length) { if (todos.length) this.flash('Preencha os campos obrigatórios (ex.: status) dos itens do grupo antes de confirmar.'); return; }
+    if (pend.length < todos.length) this.flash((todos.length - pend.length) + ' item(ns) sem status ficam de fora da confirmação em bloco.');
+    this.setState({ gConf: { rows: pend, n: pend.length, grupo: g.nome, sec: s.title } });
+  }
+  confGrupoInfo(p, g) {
+    var alvo = p.confirmar ? g.rows.filter(function (r) { return !r.herd && String(r.c[0] || '').trim(); }) : [], ok = alvo.filter(function (r) { return r.conf; }).length;
+    return { tem: alvo.length > 0, pend: alvo.length - ok, txt: ok + ' de ' + alvo.length + ' confirmados' + (alvo.length && ok === alvo.length ? ' ✓' : ''), cor: ok < alvo.length ? 'var(--color-accent-700)' : 'color-mix(in srgb, var(--color-text) 55%, transparent)' };
+  }
+  concluirSecao(s) {
+    if (!this.podeEditar()) { this.flash('Vincule-se à passagem para concluir o bloco.'); return; }
+    var sd = this.doc[this.tipo()][s.key]; if (!sd) return;
+    var self = this, pend = this.checkSection(s).filter(function (x) { return x !== self.MSG_CONC; });
+    if (pend.length) { this.setState({ showIssues: true }); this.flash('Antes de concluir o bloco: ' + pend[0] + (pend.length > 1 ? ' (+' + (pend.length - 1) + ')' : '')); return; }
+    sd.concluido = this.carimbo();
+    this.registrar('Concluiu o preenchimento do bloco', s.title);
+    this.save(); this.forceUpdate(); this.vibrar(20);
+    this.flash('“' + s.title + '” concluído — bloco pronto para o fechamento da passagem.');
+  }
+  reabrirSecao(s) {
+    if (!this.podeEditar()) return;
+    var sd = this.doc[this.tipo()][s.key]; if (!sd || !sd.concluido) return;
+    delete sd.concluido; this.registrar('Reabriu o preenchimento do bloco', s.title);
+    this.save(); this.forceUpdate();
+  }
+  // Meio ambiente: classificação automática pelos limites de referência (CONAMA 393/2007 e 430/2011).
+  avaliarAmb(r, avisar) {
+    var lbl = String(r.c[0] || ''), lim = /TOG/i.test(lbl) ? 29 : (/temperatura/i.test(lbl) ? 40 : null);
+    if (lim == null) return;
+    var raw = String(r.c[1] || '').replace(/\s/g, '').replace(',', '.').replace(/[^\d.\-]/g, '');
+    var v = raw === '' ? NaN : Number(raw), antes = r.c[2];
+    r.c[2] = isNaN(v) ? '' : ((lim === 40 ? v < lim : v <= lim) ? 'Dentro do limite' : 'Desvio');
+    if (avisar && r.c[2] === 'Desvio' && antes !== 'Desvio') {
+      var quem = this.ehEmb(this.doc && this.doc.header ? this.doc.header.posto : '') ? 'SUEMB e o COEMB' : 'SUPROD e o COPROD';
+      this.setState({ ambAviso: lbl.replace(/\s*\(.*\)$/, '') + ': ' + String(r.c[1]).trim() + (/TOG/i.test(lbl) ? ' mg/L' : ' °C') + ' — fora do limite de referência: ' + (lim === 29 ? '29,00 mg/L (CONAMA 393/2007)' : 'inferior a 40,00 °C (CONAMA 430/2011)') + '. Notifique imediatamente o ' + quem + ' e registre em Observações a notificação (horário e destinatário) e a ação tomada.' });
+      this.vibrar(60);
+    }
+  }
+  statusAmb(s) {
+    var rows = this.rows(s.key, 'p') || [];
+    var desv = rows.filter(function (r) { return r.c[2] === 'Desvio'; });
+    return { ok: rows.length > 0 && rows.every(function (r) { return r.c[2] === 'Dentro do limite'; }), desvio: desv.length > 0,
+      txt: desv.length ? desv.map(function (r) { return r.c[0] + ': ' + r.c[1]; }).join(' · ') + ' — fora do limite de referência. Notifique imediatamente o ' + (s.notificar || 'SUPROD e o COPROD') + ' e registre em Observações a notificação e a ação tomada.' : '' };
   }
 
   alturaHeader() {
@@ -4713,7 +4976,7 @@ class Component extends DCLogic {
           var pr = sd.panels[p.pid] || [];
           if (p.kind === 'text') {
             var v = pr.length ? String(pr[0].c[0] || '').trim() : '';
-            if (v) panels.push({ isText: true, isTable: false, hasTitle: false, title: '', text: v, hasImgs: false, imgs: [] });
+            if (v) panels.push({ isText: true, isTable: false, hasTitle: !!p.title, title: p.title || '', text: v, hasImgs: false, imgs: [] });
             return;
           }
           var usadas = pr.filter(function (r) { return self.filled(p, r); });
@@ -5146,6 +5409,10 @@ class Component extends DCLogic {
   renderVals() {
     var self = this;
     var loginVals = {
+      gConfOn: !!this.state.gConf, gConfN: this.state.gConf ? this.state.gConf.n + (this.state.gConf.n === 1 ? ' item' : ' itens') : '', gConfGrupo: this.state.gConf ? this.state.gConf.grupo : '',
+      gConfCancel: function () { self.setState({ gConf: null }); },
+      gConfOk: function () { var g = self.state.gConf; if (!g) return; var cb = self.carimbo(); g.rows.forEach(function (r) { if (!r.conf) { r.conf = cb; r.confBloco = true; } }); self.registrar('Confirmou em bloco ' + g.n + ' item(ns)', g.sec + ' › ' + g.grupo); self.setState({ gConf: null }); self.commit(); self.flash('Grupo “' + g.grupo + '” confirmado em bloco (' + g.n + ' itens) — registrado no histórico.'); },
+      ambAvisoOn: !!this.state.ambAviso, ambAvisoTxt: this.state.ambAviso || '', ambAvisoOk: function () { self.setState({ ambAviso: null }); },
       deslogado: !this.state.user, logado: !!this.state.user && !!this.state.user.un, escolherUn: !!this.state.user && !this.state.user.un,
       unOpcoes: (function () {
         var eu = self.state.user; if (!eu || eu.un) return [];
@@ -5268,8 +5535,8 @@ class Component extends DCLogic {
             var aiD = self.aiCampo(dk + '/2', function () { return r.c[2] || ''; }, function (v) { r.c[2] = v; self.commit(); });
             var aiA = self.aiCampo(dk + '/3', function () { return r.c[3] || ''; }, function (v) { r.c[3] = v; self.commit(); });
             return {
-              aiDescLabel: aiD.aiLabel, aiDescState: aiD.aiState, aiDescStateColor: aiD.aiStateColor, aiDescBg: aiD.aiBg, aiDescTitle: aiD.aiTitle, aiDescShowRun: aiD.aiShowRun, aiDescToggle: aiD.aiToggle, aiDescRun: aiD.aiRun,
-              aiAcaoLabel: aiA.aiLabel, aiAcaoState: aiA.aiState, aiAcaoStateColor: aiA.aiStateColor, aiAcaoBg: aiA.aiBg, aiAcaoTitle: aiA.aiTitle, aiAcaoShowRun: aiA.aiShowRun, aiAcaoToggle: aiA.aiToggle, aiAcaoRun: aiA.aiRun,
+              aiDescLabel: aiD.aiLabel, aiDescState: aiD.aiState, aiDescStateColor: aiD.aiStateColor, aiDescBg: aiD.aiBg, aiDescTitle: aiD.aiTitle, aiDescShowRun: aiD.aiShowRun, aiDescToggle: aiD.aiToggle, aiDescRun: aiD.aiRun, aiDescBlur: aiD.aiBlur,
+              aiAcaoLabel: aiA.aiLabel, aiAcaoState: aiA.aiState, aiAcaoStateColor: aiA.aiStateColor, aiAcaoBg: aiA.aiBg, aiAcaoTitle: aiA.aiTitle, aiAcaoShowRun: aiA.aiShowRun, aiAcaoToggle: aiA.aiToggle, aiAcaoRun: aiA.aiRun, aiAcaoBlur: aiA.aiBlur,
               idx: ri + 1,
               locked: travada, aberto: !travada,
               rotulo: origem ? self.origemLabel(origem) : (travada ? 'Registro concluído' : 'Novo registro complementar'),
@@ -5364,19 +5631,21 @@ class Component extends DCLogic {
               tip: tipV, tipCursor: tipV ? 'help' : 'default',
               isStatic: c.type === 'label' || c.type === 'elapsed' || travada,
               shown: c.type === 'label' ? bruto : (c.type === 'elapsed' ? decor : mostrado),
-              staticColor: c.type === 'elapsed'
+              staticColor: (s.amb && ci === 2 && bruto === 'Desvio') ? RED : c.type === 'elapsed'
                 ? (decor === '—' ? 'color-mix(in srgb, var(--color-text) 40%, transparent)' : 'var(--color-accent-700)')
                 : (c.type === 'label' ? 'inherit' : (bruto ? 'inherit' : 'color-mix(in srgb, var(--color-text) 40%, transparent)')),
               isLabel: c.type === 'label',
               isText: c.type === 'text' && !travada, isArea: c.type === 'area' && !travada,
               isSelect: c.type === 'select' && !travada, isDate: c.type === 'date' && !travada, isDT: c.type === 'datetime' && !travada,
               value: r.c[ci] || '', options: c.options || [], optionsEl: c.type === 'select' ? self.optionsEl(c.options || []) : null, list: c.list || undefined,
-              ph: '', w: c.w || 'auto',
+              ph: c.ph || '', w: c.w || 'auto',
               dataValue: campoCel.valor, setData: campoCel.onChange,
               set: function (e) {
                 var novo = e.target.value;
                 if (c.stamp != null && novo !== r.c[ci]) r.c[c.stamp] = self.agoraISO();
                 r.c[ci] = novo;
+                if (p.confirmar && ci > 0) r.conf = self.carimbo();
+                if (s.amb && p.pid === 'p' && ci === 1) self.avaliarAmb(r, true);
                 self.commit();
               },
               mic: function () {
@@ -5404,7 +5673,7 @@ class Component extends DCLogic {
             temOrigem: !!r.origem, origemLabel: r.origem ? self.origemLabel(r.origem) : '',
             alertado: !!alertado, alertadoLabel: alertado ? 'Alertado · ' + self.fmtHoraISO(alertado.em).slice(-5) : '', alertaDesatualizado: alertaDesatualizado, reenviar: function () { self.abrirAlerta(s.key, p.pid, r.rid); },
             autorTip: r.autor ? 'Item concluído por ' + self.fmtCarimbo(r.autor) : '',
-            bg: pendConf ? RFILL2 : r.herd ? (r.herd.rascunho ? 'color-mix(in srgb, var(--color-accent) 6%, transparent)' : 'transparent') : (travada ? 'color-mix(in srgb, var(--color-text) 4%, transparent)' : 'transparent'),
+            bg: (pendConf || (pAlerta && p.confirmar && !r.conf && !r.herd && String(r.c[0] || '').trim())) ? RFILL2 : r.herd ? (r.herd.rascunho ? 'color-mix(in srgb, var(--color-accent) 6%, transparent)' : 'transparent') : (travada ? 'color-mix(in srgb, var(--color-text) 4%, transparent)' : 'transparent'),
             showAttach: !!p.evidence && !travada,
             showConfirm: itemizavel && !travada && self.filled(p, r),
             confirmar: function () {
@@ -5421,7 +5690,13 @@ class Component extends DCLogic {
               if (itemizavel && !rows.some(function (x) { return !x.ok; })) rows.unshift(self.blank(p));
               self.commit();
             },
-            attach: function () { self.pickFile(s.key, p.pid, ri); }
+            attach: function () { self.pickFile(s.key, p.pid, ri); },
+            podeDel: !!p.addable && !(p.semRemover && (String(r.c[0] || '').trim() || !self.permite('usuarios'))),
+            temConf: !!p.confirmar && !r.herd && !!String(r.c[0] || '').trim(), conf: !!r.conf,
+            confLabel: r.conf ? '☑ Confirmado' : '☐ Confirmar',
+            confTip: r.conf ? 'Condição confirmada por ' + self.fmtCarimbo(r.conf) + ' — clique para desfazer' : 'Confirme que conferiu a condição atual deste item (importada da passagem anterior)',
+            confBg: r.conf ? 'var(--color-accent-200)' : 'transparent', confBd: r.conf ? 'var(--color-accent-700)' : (pAlerta ? RED : 'var(--color-divider)'), confCor: r.conf ? 'var(--color-accent-900)' : 'inherit',
+            confToggle: function () { if (!podeEd) { self.flash('Vincule-se à passagem para confirmar.'); return; } if (r.conf) delete r.conf; else { if (!self.confPronto(p, r)) { self.flash('Preencha os campos obrigatórios (ex.: status) antes de confirmar “' + r.c[0] + '”.'); return; } r.conf = self.carimbo(); } self.commit(); }
           };
         });
         var prev = p.inherit ? self.prevPend() : [];
@@ -5435,12 +5710,15 @@ class Component extends DCLogic {
             var nc = g.rows.filter(function (r) { return (r.c[1] || 'Não comissionado') === 'Não comissionado'; }).length;
             var exc = g.rows.filter(function (r) { return r.c[1] && ['Não comissionado', 'Operacional'].indexOf(r.c[1]) < 0; }).map(function (r) { return r.c[1]; });
             var resumo = {}; exc.forEach(function (x) { resumo[x] = (resumo[x] || 0) + 1; });
-            out.push({ isGroup: true, isRow: false, grupoLabel: g.nome, grupoN: g.rows.length + (g.rows.length === 1 ? ' item' : ' itens'), grupoInfo: nc + ' não comissionado(s)' + (exc.length ? ' · ' + Object.keys(resumo).map(function (k) { return resumo[k] + ' ' + k.toLowerCase(); }).join(', ') : ''),
+            var gci = self.confGrupoInfo(p, g);
+            out.push({ temGConf: gci.tem, podeGConf: gci.pend > 0 && podeEd, gConfTxt: gci.txt, gConfCor: gci.cor, gConf: function () { self.pedirConfGrupo(s, g); },
+              isGroup: true, isRow: false, grupoLabel: g.nome, grupoN: g.rows.length + (g.rows.length === 1 ? ' item' : ' itens'), grupoInfo: nc + ' não comissionado(s)' + (exc.length ? ' · ' + Object.keys(resumo).map(function (k) { return resumo[k] + ' ' + k.toLowerCase(); }).join(', ') : ''),
               aberto: !fechado, seta: fechado ? '▸' : '▾', toggle: function () { var m = Object.assign({}, self.state.gFechado || {}); m[gk] = !m[gk]; self.setState({ gFechado: m }); }, cells: [], showActions: false, temHerd: false });
             if (!fechado) g.rows.forEach(function (r, i) { var v = viewPorRow[r.rid || rowsVis.indexOf(r)]; if (v) out.push(v); });
           });
           rowViews = out;
         }
+        var confAlvo = p.confirmar ? rows.filter(function (r) { return !r.herd && String(r.c[0] || '').trim(); }) : [], confOk = confAlvo.filter(function (r) { return r.conf; }).length;
         var totalRows = rows.length, ncTotal = rows.filter(function (r) { return (r.c[1] || 'Não comissionado') === 'Não comissionado'; }).length;
         var fechadosAgora = Object.keys(self.state.gFechado || {}).filter(function (k) { return k.indexOf(buscaKey + '/') === 0 && self.state.gFechado[k]; }).length;
         return {
@@ -5455,7 +5733,7 @@ class Component extends DCLogic {
               wrap: (c.w && c.w.indexOf('px') > 0) ? 'nowrap' : 'normal'
             };
           }),
-          rows: rowViews, addable: !!p.addable && !p.herdado && !p.herdadoDet, evidence: !!p.evidence,
+          rows: rowViews, addable: !!p.addable && !p.herdado && !p.herdadoDet && !(p.semRemover && !self.permite('usuarios')), evidence: !!p.evidence,
           agrupado: agrupado, herdado: !!p.herdado, herdadoDet: !!p.herdadoDet, colSpan: p.cols.length + 1,
           busca: busca ? (self.state.pBusca[buscaKey] || '') : '', setBusca: function (e) { var m = Object.assign({}, self.state.pBusca || {}); m[buscaKey] = e.target.value; self.setState({ pBusca: m }); },
           resumoStatus: agrupado || p.herdado ? ncTotal + ' de ' + totalRows + ' não comissionado(s)' + (busca ? ' · ' + rowsVis.length + ' na busca' : '') : '',
@@ -5467,6 +5745,8 @@ class Component extends DCLogic {
           podeMontar: !!p.montar && podeEd, montar: function () { self.montarComposicao(); },
           inherit: function () { self.inheritPendencias(s.key, p.pid); },
           showHint: !!p.hint && mostrarDicas, hint: p.hint || '',
+          temConfResumo: !!p.confirmar && confAlvo.length > 0, confResumoCor: confOk < confAlvo.length ? 'var(--color-accent-700)' : 'color-mix(in srgb, var(--color-text) 55%, transparent)',
+          confResumo: confOk + ' de ' + confAlvo.length + ' confirmados nesta passagem' + (confOk < confAlvo.length ? ' — os dados vêm da passagem anterior: confira a condição real e confirme item a item.' : ' ✓'),
           textValue: '', placeholder: '', micIcon: '', micBg: 'transparent'
         };
       });
@@ -5474,7 +5754,15 @@ class Component extends DCLogic {
       var ant = self.ultimaPassagem();
       var prevDados = ant ? self.linhasAnteriores(ant, s) : null;
       var podeImportar = !!prevDados && (prevDados.total > 0 || prevDados.clear);
+      var concl = self.concluivel(s) && !sd.clear && !sd.hidden, pendSC = iss.filter(function (x) { return x !== self.MSG_CONC; }), amb = s.amb ? self.statusAmb(s) : null;
       return {
+        concluido: concl && !!sd.concluido, concluidoLabel: sd.concluido ? 'Preenchimento concluído · ' + self.fmtCarimbo(sd.concluido) : '',
+        temBarraConc: concl && (podeEd || !!sd.concluido), temConcluir: concl && !sd.concluido && podeEd, podeReabrir: concl && !!sd.concluido && podeEd,
+        concluirClass: pendSC.length ? 'btn btn-secondary' : 'btn btn-primary',
+        concluirTip: pendSC.length ? 'Antes de concluir, resolva: ' + pendSC.join(' · ') : 'Declara que todas as informações pertinentes a este bloco foram incluídas — o bloco fica pronto para o fechamento da passagem.',
+        concluirHint: pendSC.length ? pendSC.length + ' pendência(s) a resolver antes de concluir.' : 'Inclua quantos itens forem necessários e clique para declarar o preenchimento do bloco concluído.',
+        concluir: function () { self.concluirSecao(s); }, reabrir: function () { self.reabrirSecao(s); },
+        ambOk: !!(amb && amb.ok), ambDesvio: !!(amb && amb.desvio), ambDesvioTxt: amb ? amb.txt : '',
         anchor: 'sec-' + s.key, title: s.title,
         canImport: podeImportar,
         importTitle: podeImportar
@@ -6547,6 +6835,10 @@ class Component extends DCLogic {
         toggleClear: function (e) { sd.clear = e.target.checked; self.commit(); self.vibrar(12); },
         canImport: podeImportar, doImport: function () { self.importarAnterior(sec); },
         issues: iss[sec.key] || [], temIssues: (iss[sec.key] || []).length > 0,
+        temConcluir: self.concluivel(sec) && !sd.clear && !sd.concluido && pode, concluido: self.concluivel(sec) && !sd.clear && !!sd.concluido, podeReabrir: !!sd.concluido && pode,
+        concluidoLabel: sd.concluido ? 'Preenchimento concluído · ' + self.fmtCarimbo(sd.concluido) : '',
+        concluir: function () { self.concluirSecao(sec); }, reabrir: function () { self.reabrirSecao(sec); },
+        ambDesvio: !!(sec.amb && self.statusAmb(sec).desvio), ambDesvioTxt: sec.amb ? self.statusAmb(sec).txt : '',
         showPanels: !sd.clear,
         nota: function () { var p0 = sec.panels[0]; self.abrirNota({ sid: sec.key, pid: p0 ? p0.pid : '' }); },
         panels: sec.panels.map(function (p) {
@@ -6556,12 +6848,12 @@ class Component extends DCLogic {
             var setT = function (v) { if (!rows[0]) rows.push(self.blank(p)); rows[0].c[0] = v; rows[0].autor = self.carimbo(); self.commit(); };
             var dk = sec.key + '/' + p.pid;
             return { isText: true, isRows: false, title: p.title || '', hasTitle: !!p.title, textValue: getT(), placeholder: p.placeholder || '', setText: function (e) { setT(e.target.value); },
-              mic: function () { self.dictKey = dk; self.mic(getT, setT); }, micAtivo: st.dict === dk, micBg: st.dict === dk ? 'var(--color-accent-200)' : 'transparent', revisar: function () { self.abrirRevisao(dk, getT, setT); }, rows: [], addable: false };
+              mic: function () { self.dictKey = dk; self.mic(getT, setT); }, micAtivo: st.dict === dk, micBg: st.dict === dk ? 'var(--color-accent-200)' : 'transparent', revisar: function () { self.abrirRevisao(dk, getT, setT); }, aiBlur: self.aiAuto(dk, getT, setT), rows: [], addable: false };
           }
           var itemizavel = !!p.addable && !p.fixed;
           var depAtiva = !p.dep || self.depActive(sec.key, p);
           return {
-            isText: false, isRows: true, title: p.title || '', hasTitle: !!p.title, addable: !!p.addable, textValue: '', dep: !!p.dep && !depAtiva,
+            isText: false, isRows: true, title: p.title || '', hasTitle: !!p.title, addable: !!p.addable && !(p.semRemover && !self.permite('usuarios')), textValue: '', dep: !!p.dep && !depAtiva,
             add: function () {
               var vazia = rows.filter(function (x) { return !x.ok && !self.filled(p, x); })[0];
               if (vazia) { if (!vazia.rid) vazia.rid = self.novoRid(); self.goM('linha', { mSid: sec.key, mPid: p.pid, mRid: vazia.rid }); return; }
@@ -6571,7 +6863,7 @@ class Component extends DCLogic {
               var lista = rows.map(function (r) {
                 if (!r.rid) r.rid = self.novoRid();
                 var res = self.resumoLinha(p, r), fotos = (r.imgs || []).length + (r.img && !(r.imgs || []).length ? 1 : 0);
-                return { isGroup: false, isRow: true, primario: res.primario, secundario: (r.herd ? (r.c[3] || '') + ' · ' : '') + res.secundario, vazio: res.vazio, locked: (itemizavel && !!r.ok) || !!r.herd, temFotos: fotos > 0, fotos: fotos + (fotos === 1 ? ' mídia' : ' mídias'),
+                return { isGroup: false, isRow: true, primario: res.primario, secundario: (r.herd ? (r.c[3] || '') + ' · ' : '') + res.secundario + (p.confirmar && !r.herd && String(r.c[0] || '').trim() ? (r.conf ? ' · confirmado' : ' · A CONFIRMAR') : ''), vazio: res.vazio, locked: (itemizavel && !!r.ok) || !!r.herd, temFotos: fotos > 0, fotos: fotos + (fotos === 1 ? ' mídia' : ' mídias'),
                   cor: res.vazio ? 'color-mix(in srgb, var(--color-text) 45%, transparent)' : 'inherit', herd: !!r.herd, alertado: !!r.alertado, ehAlerta: !!r.origem, alertaTag: r.origem ? self.nivelTag(r.origem) : '',
                   go: function () { self.goM('linha', { mSid: sec.key, mPid: p.pid, mRid: r.rid }); } };
               });
@@ -6581,7 +6873,9 @@ class Component extends DCLogic {
               self.gruposDe(rows).forEach(function (g) {
                 var gk = sec.key + '/' + p.pid + '/' + g.k, aberto = !!abertos[gk];
                 var nc = g.rows.filter(function (r) { return (r.c[1] || 'Não comissionado') === 'Não comissionado'; }).length;
-                out.push({ isGroup: true, isRow: false, primario: g.nome, secundario: g.rows.length + ' itens · ' + nc + ' não comissionado(s)' + (g.rows.length - nc ? ' · ' + (g.rows.length - nc) + ' com outro status' : ''), seta: aberto ? '▾' : '▸',
+                var gciM = self.confGrupoInfo(p, g);
+                out.push({ podeGConf: gciM.pend > 0 && pode, gPend: gciM.pend, gPendTxt: '☐ Confirmar grupo (' + gciM.pend + (gciM.pend === 1 ? ' pendente)' : ' pendentes)'), gConf: function () { self.pedirConfGrupo(sec, g); },
+                  isGroup: true, isRow: false, primario: g.nome, secundario: g.rows.length + ' itens · ' + nc + ' não comissionado(s)' + (g.rows.length - nc ? ' · ' + (g.rows.length - nc) + ' com outro status' : ''), seta: aberto ? '▾' : '▸',
                   go: function () { var m = Object.assign({}, self.state.gAbertoM || {}); m[gk] = !m[gk]; self.setState({ gAbertoM: m }); } });
                 if (aberto) g.rows.forEach(function (r) { out.push(porRid[r.rid]); });
               });
@@ -6597,14 +6891,17 @@ class Component extends DCLogic {
       var p = pan, r = row, rows2 = this.rows(sec.key, p.pid), ri = rows2.indexOf(r);
       var itemiz = !!p.addable && !p.fixed, travada = (itemiz && !!r.ok) || !!r.herd;
       m.l = {
-        rotulo: (pan.title || sec.title), locked: travada, podeConcluir: itemiz && !travada && self.filled(p, r), podeRemover: !!p.addable, podeFotos: true,
+        rotulo: (pan.title || sec.title), locked: travada, podeConcluir: itemiz && !travada && self.filled(p, r), podeRemover: !!p.addable && !(p.semRemover && String(r.c[0] || '').trim()), podeFotos: true,
+        temConf: !!p.confirmar && !r.herd && !!String(r.c[0] || '').trim(), conf: !!r.conf, confBg: r.conf ? 'var(--color-accent-200)' : 'transparent',
+        confLabel: r.conf ? '☑ Condição confirmada — tocar para desfazer' : '☐ Confirmar a condição deste item',
+        confToggle: function () { if (!pode) { self.flash('Vincule-se à passagem para confirmar.'); return; } if (r.conf) delete r.conf; else { if (!self.confPronto(p, r)) { self.flash('Preencha os campos obrigatórios antes de confirmar.'); return; } r.conf = self.carimbo(); } self.commit(); self.vibrar(15); },
         concluir: function () { r.ok = true; r.autor = self.carimbo(); rows2.splice(ri, 1); rows2.push(r); if (!rows2.some(function (x) { return !x.ok; })) rows2.unshift(self.blank(p)); self.commit(); self.vibrar(25); self.backM(); },
         editar: function () { r.ok = false; self.commit(); },
         remover: function () { if (!window.confirm('Remover este item?')) return; (r.imgs || []).forEach(function (im) { if (im.mid) self.midiaDel(im.mid); }); rows2.splice(ri, 1); if (!rows2.length) rows2.push(self.blank(p)); if (itemiz && !rows2.some(function (x) { return !x.ok; })) rows2.unshift(self.blank(p)); self.commit(); self.backM(); },
         campos: p.cols.map(function (c, ci) {
           var dk = sec.key + '/' + p.pid + '/' + ri + '/' + ci, v = r.c[ci] || '';
           var get = function () { return r.c[ci] || ''; };
-          var set = function (nv) { if (c.stamp != null && nv !== r.c[ci]) r.c[c.stamp] = self.agoraISO(); r.c[ci] = nv; self.commit(); };
+          var set = function (nv) { if (c.stamp != null && nv !== r.c[ci]) r.c[c.stamp] = self.agoraISO(); r.c[ci] = nv; if (p.confirmar && ci > 0) r.conf = self.carimbo(); if (sec.amb && p.pid === 'p' && ci === 1) self.avaliarAmb(r, true); self.commit(); };
           var t = c.type;
           var opts = c.options || (p.kind === 'notes' ? (ci === 0 ? p.categorias : ci === 7 ? p.relevancias : null) : null);
           if (opts && t === 'select') { /* ok */ } else if (opts) t = 'select';
@@ -6619,7 +6916,7 @@ class Component extends DCLogic {
             set: function (e) { set(e.target.value); },
             mic: function () { self.dictKey = dk; self.mic(get, set); }, micAtivo: st.dict === dk, micLabel: st.dict === dk ? '■ Parar' : 'Ditar', micBg: st.dict === dk ? 'var(--color-accent-200)' : 'transparent',
             podeScan: escan, scan: function () { self.abrirScan(set); },
-            revisar: function () { self.abrirRevisao(dk, get, set); },
+            revisar: function () { self.abrirRevisao(dk, get, set); }, aiBlur: t === 'area' ? self.aiAuto(dk, get, set) : undefined,
             nota: function () { self.abrirNota({ sid: sec.key, pid: p.pid, rid: r.rid, ci: ci }); }
           };
         }),
@@ -6808,7 +7105,7 @@ class Component extends DCLogic {
       var l = this.lsGet(this.USR, null), agora = new Date().toISOString();
       if (!Array.isArray(l) || !l.length) {
         var outras = this.UNIDADES.filter(function (u) { return u !== 'P-83'; });
-        l = this.USERS_SEED.map(function (x) { return { u: x.u, n: x.n, f: x.f, m: x.m || '', un: 'P-83', uns: x.t ? outras.slice() : [], acesso: x.a || 'posto', posto: x.p || '', estV: 2, papel: 'operador', senha: '1234', ativo: true, criadoEm: agora }; });
+        l = this.USERS_SEED.map(function (x) { return { u: x.u, n: x.n, f: x.f, m: x.m || '', un: 'P-83', uns: x.t ? outras.slice() : [], acesso: x.a || 'posto', posto: x.p || '', estV: 2, estOp: 1, papel: 'operador', senha: '1234', ativo: true, criadoEm: agora }; });
         l.unshift({ u: 'ADMIN', n: 'Administrador do sistema', f: 'ADMINISTRAÇÃO', un: '', uns: [], papel: 'admin', acesso: 'geop', senha: 'admin1234', ativo: true, criadoEm: agora });
         this.DEMO_ADM.forEach(function (x) { l.splice(1, 0, Object.assign({ uns: [], acesso: 'geop', estV: 2, ativo: true, criadoEm: agora }, x)); });
         this.lsSet(this.USR, l);
@@ -6817,8 +7114,10 @@ class Component extends DCLogic {
         var porU = {}; l.forEach(function (x) { porU[x.u] = x; }); var mudou = false, outrasU = this.UNIDADES.filter(function (u) { return u !== 'P-83'; });
         this.USERS_SEED.forEach(function (x) {
           var e = porU[x.u];
-          if (!e) { l.push({ u: x.u, n: x.n, f: x.f, m: x.m || '', un: 'P-83', uns: x.t ? outrasU.slice() : [], acesso: x.a || 'posto', posto: x.p || '', estV: 2, papel: 'operador', senha: '1234', ativo: true, criadoEm: agora }); mudou = true; return; }
+          if (!e) { l.push({ u: x.u, n: x.n, f: x.f, m: x.m || '', un: 'P-83', uns: x.t ? outrasU.slice() : [], acesso: x.a || 'posto', posto: x.p || '', estV: 2, estOp: 1, papel: 'operador', senha: '1234', ativo: true, criadoEm: agora }); mudou = true; return; }
           if (e.estV !== 2) { e.acesso = x.a || 'posto'; e.posto = x.p || ''; if (x.f) e.f = x.f; e.estV = 2; mudou = true; }
+          // Operadores de produção (TÉC. OPERAÇÃO): perfil operador e acesso apenas ao posto da planilha Equipe P83 — aplicado uma vez.
+          if (x.f === 'TÉC. OPERAÇÃO' && e.estOp !== 1) { e.acesso = 'posto'; e.posto = x.p || e.posto; e.papel = 'operador'; e.un = 'P-83'; e.f = x.f; e.estOp = 1; mudou = true; }
           // Chaves com acesso a todas as unidades do campo (t: 1).
           if (x.t) { if (!Array.isArray(e.uns)) e.uns = []; outrasU.forEach(function (u) { if (u !== (e.un || 'P-83') && e.uns.indexOf(u) < 0) { e.uns.push(u); mudou = true; } }); }
           if (!e.m && x.m) { e.m = x.m; mudou = true; }
@@ -6890,6 +7189,8 @@ class Component extends DCLogic {
     if (info.nivel === 'geplat') return est.map(nome);
     if (info.nivel === 'coord') return est.filter(function (x) { return x.p === meu || (x.coord === info.coord && (x.nivel === 'sup' || x.nivel === 'exec')); }).map(nome);
     if (info.nivel === 'sup') return est.filter(function (x) { return x.p === meu || (x.nivel === 'exec' && x.sup === meu); }).map(nome);
+    // Operadores de produção: somente o posto em que estão lotados (planilha Equipe P83). Embarcação mantém o rodízio entre seus postos.
+    if (info.rod === 'PROD') return [meu];
     return est.filter(function (x) { return x.p === meu || (x.nivel === 'exec' && info.rod && x.rod === info.rod); }).map(nome);
   }
   postosPermitidos() { return this.postosAcesso(); }
@@ -7056,7 +7357,7 @@ class Component extends DCLogic {
     var c = this.carimbo(), dado = null;
     if (item.origem === 'abertas') {
       var l = this.recarregarAbertas(); dado = l.filter(function (x) { return x.id === item.id; })[0];
-      this.gravarAbertas(l.filter(function (x) { return x.id !== item.id; })); this._abertas = null;
+      this.gravarAbertas(l.filter(function (x) { return x.id !== item.id; })); this._abertas = null; this.apagarRascunho(item.id);
       if (this.doc && this.doc.id === item.id) this.doc = null;
     } else {
       dado = this.state.arquivo.filter(function (x) { return x.id === item.id; })[0];
@@ -7341,7 +7642,10 @@ class Component extends DCLogic {
     var lista = novos.concat(this.state.arquivo.filter(function (a) { return !a.exemplo; }));
     // Limite de ~5 MB por site no navegador: se não couber tudo, grava os exemplos mais recentes que couberem.
     var resto = this.state.arquivo.filter(function (a) { return !a.exemplo; }), cabem = novos.length;
-    while (cabem > 0 && !this.persistArquivo(novos.slice(0, cabem).concat(resto))) cabem = Math.max(0, cabem - 4);
+    var folga = function () { try { window.localStorage.setItem('bzn-sonda', new Array(700001).join('x')); window.localStorage.removeItem('bzn-sonda'); return true; } catch (e) { try { window.localStorage.removeItem('bzn-sonda'); } catch (e2) { /* ignora */ } return false; } };
+    // Mantém ~1,4 MB livres para as passagens reais em elaboração (antes os exemplos ocupavam o limite e impediam gravar o rascunho).
+    while (cabem > 0 && (!this.persistArquivo(novos.slice(0, cabem).concat(resto)) || !folga())) cabem = Math.max(0, cabem - 4);
+    if (!cabem) this.persistArquivo(resto);
     if (!cabem) { this.flash('Espaço local insuficiente para gravar os exemplos — exclua passagens antigas do arquivo ou esvazie a lixeira.'); return; }
     if (cabem < novos.length) { total = cabem; lista = novos.slice(0, cabem).concat(resto); this.flash('Espaço do navegador limitado: ' + cabem + ' de ' + novos.length + ' passagens de exemplo gravadas (as mais recentes).'); }
     this.setState({ arquivo: lista });
@@ -7421,7 +7725,7 @@ class Component extends DCLogic {
           if (cp0) rows.push(row(p, [cp0.n, cp0.u, ts(0).slice(0, 10), posto === 'COPROD' ? 'assume na troca de turma' : 'único COPROD a bordo'], true));
           rows.unshift(self.blank(p)); sd.panels[p.pid] = rows; return;
         }
-        if (p.kind === 'text') { rows.push(row(p, [B.panorama()])); }
+        if (p.kind === 'text') { rows.push(row(p, [sec.key === 'ambiente' ? '' : B.panorama()])); }
         else if (p.kind === 'notes') { var nn = 1 + rnd(2); for (var a = 0; a < nn; a++) rows.push(row(p, B.compl(), true)); rows.unshift(self.blank(p)); }
         else if (p.fixed) {
           p.fixed.forEach(function (lab, li) {
