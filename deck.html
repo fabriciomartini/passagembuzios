@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<style data-omelette-injected>html,body{background:transparent}</style><script data-omelette-injected>(()=>{{const n=new URLSearchParams(location.search).get("theme");if(n==="light"||n==="dark"){document.documentElement.dataset.theme=n}}{if(new URLSearchParams(location.search).get("_omthumb")==="1"){const n=(f)=>{const g=f.focus;if(!g)return;f.focus=function(h){g.call(this,{...h,preventScroll:true})}};n(HTMLElement.prototype);n(SVGElement.prototype);if(typeof MathMLElement!=="undefined"){n(MathMLElement.prototype)}const d=(f)=>{f.removeAttribute("autofocus");f.inert=true;if(!(f instanceof HTMLElement))f.removeAttribute("tabindex")};const p=(f)=>{if(f.hasAttribute("autofocus"))d(f);for(const g of f.querySelectorAll("[autofocus]")){d(g)}};p(document.documentElement);new MutationObserver((f)=>{for(const g of f){for(const h of g.addedNodes){if(h.nodeType===1)p(h)}}}).observe(document,{childList:true,subtree:true})}}{const n=()=>{try{if(document.querySelector('meta[name="color-scheme"]'))return;const d=getComputedStyle(document.documentElement).getPropertyValue("color-scheme").trim();if(d&&d!=="normal")return;const p=(y)=>{if(!y)return null;const m=getComputedStyle(y).backgroundColor.match(/^rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)(?:[,\s/]+([\d.]+%?))?\s*\)$/);if(!m)return null;const w=m[4]==null?1:parseFloat(m[4])/(m[4].endsWith("%")?100:1);if(w<0.99)return null;return[+m[1],+m[2],+m[3]]};const f=p(document.body)||p(document.documentElement);if(!f)return;const g=(y)=>{const m=y/255;return m<=0.04045?m/12.92:((m+0.055)/1.055)**2.4};const h=0.2126*g(f[0])+0.7152*g(f[1])+0.0722*g(f[2]);document.documentElement.style.setProperty("color-scheme",h<0.4?"dark":"light")}catch{}};if(document.readyState==="complete")n();else window.addEventListener("load",n)}var I=["https://claude.ai","https://preview.claude.ai","https://f25be535-04c5-4c8c-9d6a-1381c5805da8.claudeusercontent.com"];var B=true;var K=false;var C=()=>{};if(K===true){try{const n=setTimeout.bind(window);const d=1e4;const p=15;const f=1e4;const g=120000;const h=200;const y=(o)=>{try{let r;if(typeof o==="string")r=o;else if(o instanceof URL)r=o.href;else if(typeof Request!=="undefined"&&o instanceof Request)r=o.url;else return null;if(!r)return null;const l=document.baseURI;const i=new URL(r,l);if(i.protocol!=="http:"&&i.protocol!=="https:")return null;if(i.origin!==new URL(l).origin)return null;return i.origin+i.pathname}catch{return null}};const m=new Map;const w=(o)=>{let r=m.get(o);if(!r){if(m.size>=h){const l=m.keys().next().value;if(l!==undefined)m.delete(l)}r={fails:[],until:0,cooldown:f,hard:false};m.set(o,r)}return r};const R=(o)=>{const r=m.get(o);return r!==undefined&&r.until>Date.now()};const O=(o,r)=>{const l=Date.now();const i=w(o);if(r)i.hard=true;if(i.until>l)return;i.fails.push(l);while(i.fails.length>0&&i.fails[0]<=l-d)i.fails.shift();if(i.fails.length>=p){i.until=l+i.cooldown;if(i.hard)i.cooldown=Math.min(i.cooldown*2,g);i.fails.length=0;try{n(()=>{try{S(true)}catch{}},i.until-l+100)}catch{}console.warn("[omelette] asset circuit breaker: pausing requests to "+o+" for "+Math.round((i.until-l)/1000)+"s after "+p+" failures in "+d/1000+"s")}};const e=(o)=>{m.delete(o)};const t=100;const a=new WeakMap;const u=new Set;let s=null;const S=(o)=>{for(const r of Array.from(u)){try{const l=a.get(r);if(l===undefined){u.delete(r);continue}if(o){const i=y(l);if(i!==null&&R(i))continue}a.delete(r);u.delete(r);if(s!==null)s.call(r,l)}catch{}}};C=()=>{try{m.clear();S(false)}catch{}};document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")C()});const _=window.fetch;if(typeof _==="function"){const o=function(...r){let l=null;try{l=y(r[0])}catch{}if(l!==null&&R(l)){let c;try{if(r[1]&&r[1].signal!==undefined){c=r[1].signal||undefined}else if(typeof Request!=="undefined"&&r[0]instanceof Request){c=r[0].signal||undefined}}catch{c=undefined}return new Promise((k,b)=>{const E=()=>{try{return c.reason!==undefined?c.reason:new DOMException("The operation was aborted.","AbortError")}catch{return new DOMException("The operation was aborted.","AbortError")}};try{if(c&&c.aborted){b(E());return}}catch{}let T=false;const j=()=>{if(T)return;T=true;b(E())};try{if(c)c.addEventListener("abort",j,{once:true})}catch{}n(()=>{if(T)return;T=true;try{if(c)c.removeEventListener("abort",j)}catch{}let L;try{L=new Response(null,{status:429,statusText:"Too Many Requests",headers:{"Retry-After":"10"}})}catch{L={ok:false,status:429}}k(L)},250)})}const i=_.apply(window,r);if(l!==null){const c=l;i.then((k)=>{try{if(k.ok)e(c);else if(k.status===401||k.status===403||k.status===404||k.status===429){O(c,k.status!==404)}}catch{}},()=>{})}return i};window.fetch=o}const v=Object.getOwnPropertyDescriptor(HTMLImageElement.prototype,"src");if(v!==undefined&&v.set!==undefined&&v.get!==undefined){const o=v.set;s=o;Object.defineProperty(HTMLImageElement.prototype,"src",{configurable:true,enumerable:v.enumerable,get:v.get,set(r){const l=`${r}`;try{const i=y(l);if(i!==null&&R(i)){a.set(this,l);if(u.size<t)u.add(this);return}}catch{}try{a.delete(this);u.delete(this)}catch{}o.call(this,l)}})}try{const o=HTMLImageElement.prototype.setAttribute;HTMLImageElement.prototype.setAttribute=function(r,l){if(arguments.length<2){o.apply(this,arguments);return}if(typeof r==="string"&&r.toLowerCase()==="src"){const i=`${l}`;try{const c=y(i);if(c!==null&&R(c)){a.set(this,i);if(u.size<t)u.add(this);return}a.delete(this);u.delete(this)}catch{}o.call(this,r,i);return}o.call(this,r,l)}}catch{}window.addEventListener("error",(o)=>{try{const r=o.target;if(r instanceof HTMLImageElement){const l=y(r.currentSrc||r.src||"");if(l!==null)O(l,true)}}catch{}},true);window.addEventListener("load",(o)=>{try{const r=o.target;if(r instanceof HTMLImageElement){const l=y(r.currentSrc||r.src||"");if(l!==null)e(l);const i=a.get(r);if(i!==undefined){let c=false;try{c=new URL(i,document.baseURI).href===new URL(r.currentSrc||r.src||"",document.baseURI).href}catch{c=false}if(c){a.delete(r);u.delete(r)}}}}catch{}},true)}catch{}}var J=30000;var G=3000;document.addEventListener("DOMContentLoaded",()=>{const n=window.Babel;const d="om-src-id";if(n&&n.registerPlugin&&!(n.availablePlugins&&n.availablePlugins[d])){n.registerPlugin(d,({types:h})=>({visitor:{JSXOpeningElement(y,m){const w=y.node;if(w.name&&w.name.type==="JSXMemberExpression")return;for(let t=0;t<w.attributes.length;t++){const a=w.attributes[t];if(a.type==="JSXAttribute"&&a.name&&a.name.name==="data-om-id")return}const R=m.file&&m.file.opts&&m.file.opts.filename||"?";const O=w.loc&&w.loc.start;const e=`jsx:${R}:${w.start??0}:${O?O.line:0}:${O?O.column+1:0}`;w.attributes.push(h.jsxAttribute(h.jsxIdentifier("data-om-id"),h.stringLiteral(e)))}}}))}const p="om-text-extract";let f=false;if(B&&n&&n.registerPlugin&&!(n.availablePlugins&&n.availablePlugins[p])){const h=window.React;if(h&&h.useSyncExternalStore&&h.createElement){f=true;const y={};const m=new Set;let w=0;window.__omTextO=y;window.__omTextSet=(e)=>{for(const t in e){const a=e[t];if(a==null)delete y[t];else y[t]=a}w++;m.forEach((t)=>t())};const R=(e)=>{m.add(e);return()=>m.delete(e)};const O=()=>w;window.__OmT=function e(t){h.useSyncExternalStore(R,O,O);return h.createElement("span",{"data-om-text":t.i,className:"__om-t"},t.i in y?y[t.i]:t.children)};n.registerPlugin(p,({types:e})=>{const t={style:1,script:1,noscript:1,textarea:1,title:1,option:1,text:1,tspan:1,textPath:1};const a={placeholder:1,alt:1,title:1,label:1,"aria-label":1,"aria-description":1,"aria-placeholder":1};const u=(o,r)=>e.logicalExpression("??",e.memberExpression(e.logicalExpression("||",e.memberExpression(e.identifier("window"),e.identifier("__omTextO")),e.objectExpression([])),e.stringLiteral(o),true),r);const s=(o)=>o.file&&o.file.opts&&o.file.opts.filename||"?";const S=(o)=>o.file&&o.file.code||"";const _=(o,r)=>{const l=(c)=>c&&c.start!=null&&c.end!=null&&(c.type==="StringLiteral"||c.type==="TemplateLiteral"&&c.expressions.length===0)?[c.start,c.end]:null;const i=l(r);if(i)return i;if(r&&r.type==="Identifier"){const c=o.scope.getBinding(r.name);if(c&&c.constant&&c.path.node.type==="VariableDeclarator"){return l(c.path.node.init)}}return null};const v=(o,r,l)=>{const i=o.node;let c=false;const k=(E,T)=>{c=true;return e.jsxElement(e.jsxOpeningElement(e.jsxIdentifier("__OmT"),[e.jsxAttribute(e.jsxIdentifier("i"),e.stringLiteral(E))],false),e.jsxClosingElement(e.jsxIdentifier("__OmT")),[T],false)};const b=i.children.map((E)=>{if(E.type==="JSXText"){if(E.start==null||E.end==null)return E;const T=l.slice(E.start,E.end);const j=T.length-T.trimStart().length;const L=T.length-T.trimEnd().length;if(j+L>=T.length)return E;return k(`txt:${r}:${E.start+j}:${E.end-L}`,E)}if(E.type==="JSXExpressionContainer"){const T=_(o,E.expression);if(T)return k(`str:${r}:${T[0]}:${T[1]}`,E)}return E});if(c)i.children=b};return{visitor:{JSXOpeningElement(o,r){const l=o.node;const i=s(r);const c={};for(let k=0;k<l.attributes.length;k++){const b=l.attributes[k];if(b.type!=="JSXAttribute"||!b.name)continue;const E=b.name.name;if(!a[E])continue;if(!b.value||b.value.type!=="StringLiteral")continue;if(b.value.start==null||b.value.end==null)continue;const T=`txt:${i}:${b.value.start}:${b.value.end}`;c[E]=T;b.value=e.jsxExpressionContainer(u(T,e.stringLiteral(b.value.value)))}if(Object.keys(c).length){l.attributes.push(e.jsxAttribute(e.jsxIdentifier("data-om-text-attrs"),e.stringLiteral(JSON.stringify(c))))}},JSXElement(o,r){const l=o.node.openingElement;const i=l&&l.name&&l.name.name;if(i==="__OmT")return;if(typeof i==="string"&&t[i])return;v(o,s(r),S(r))},JSXFragment(o,r){v(o,s(r),S(r))}}}})}}const g=f?["transform-react-jsx-source",d,p]:["transform-react-jsx-source",d];document.querySelectorAll('script[type="text/babel"],script[type="text/jsx"]').forEach((h,y)=>{const m=h.getAttribute("data-plugins")||"";const w=g.filter((R)=>m.indexOf(R)<0);if(w.length){h.setAttribute("data-plugins",m?`${m},${w.join(",")}`:w.join(","))}if(!h.hasAttribute("data-filename")){h.setAttribute("data-filename",h.getAttribute("src")||`inline-${y}`)}})});var A=window.parent;var U="not editable here — open the project in the Claude Design editor to save";var W=()=>Promise.resolve({persisted:false,noHost:true,reason:U});var H=W;var M="data/storage.json";var z=()=>{try{const n=new URL(document.baseURI);const d=n.pathname.match(/\/projects\/([^/]+)\/serve\//);if(d)return d[1];return n.hostname.split(".")[0]||""}catch{return location.hostname.split(".")[0]||""}};var Z=()=>{try{const n=new URL(document.baseURI);const d=n.pathname.indexOf("/serve/");if(d>=0)return n.origin+n.pathname.slice(0,d+"/serve/".length)+M}catch{}return"./"+M};var x=null;var N=()=>{if(!x){x=fetch(Z(),{cache:"no-store"}).then((n)=>{if(n.ok)return n.text();return n.status===404?"":null}).catch(()=>null).then((n)=>{if(n===null){x=null;return null}const d=new Map;if(!n)return d;let p;try{p=JSON.parse(n)}catch{console.warn("[omelette.storage] "+M+" is not valid JSON; treating the store as unreadable so a save cannot overwrite the "+"hand-edited bytes. Fix the JSON (or delete the file) to re-enable persistence.");x=null;return null}if(p===null||typeof p!=="object"||Array.isArray(p)){console.warn("[omelette.storage] "+M+" doesn't hold a JSON object; treating the store as unreadable so a save cannot "+"overwrite the hand-edited bytes. Make the top level a JSON object to re-enable persistence.");x=null;return null}const f=p;if("data"in f){const g=f.data;if(g===null||typeof g!=="object"||Array.isArray(g)){console.warn("[omelette.storage] "+M+' has a "data" field that is not a JSON object; treating the store as unreadable so a '+'save cannot overwrite the hand-edited bytes. Make "data" a JSON object to re-enable persistence.');x=null;return null}const h=f._meta;const y=h!==null&&typeof h==="object"?h.project:undefined;if(typeof y==="string"&&y!==""&&y!==z())return d;for(const m of Object.keys(g))d.set(m,g[m]);return d}for(const g of Object.keys(f)){if(g!=="_meta")d.set(g,f[g])}return d})}return x};var F=(n)=>H(M,JSON.stringify({_meta:{project:z(),version:1},data:Object.fromEntries(n)},null,2));var D=Promise.resolve();var $=(n)=>{const d=D.then(n);D=d.then(()=>{return},()=>{return});return d};var V=/sk-(?:ant-)?[A-Za-z0-9_-]{16,}|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{20,}|xox[a-z]-[A-Za-z0-9][A-Za-z0-9-]{9,}|AIza[0-9A-Za-z_-]{30,}|-----BEGIN [A-Z ]*PRIVATE KEY-----/;var Y=/password|passwd|secret|api[_-]?key|access[_-]?token|auth[_-]?token|credential/i;var Q=(n,d,p)=>{if(V.test(d)||Y.test(n)&&typeof p==="string"&&p.length>=8){console.warn('[omelette.storage] the value for "'+n+'" looks like a credential. The storage file is a plaintext project file — visible to '+"everyone with project access and copied when the project is duplicated. Do not store secrets here.")}};var q={persisted:false,reason:"could not load the existing store — not overwriting it"};var X={persisted:false,reason:"stored value changed since a failed read — re-read this key before saving"};var P=new Set;var ee={get:(n)=>{if(typeof n!=="string"){return Promise.reject(new TypeError("storage.get: key must be a string"))}return $(N).then((d)=>{if(d===null){P.add(n);return null}P.delete(n);if(!d.has(n))return null;const p=d.get(n);return p==null?null:JSON.parse(JSON.stringify(p))})},set:(n,d)=>{if(typeof n!=="string"){return Promise.reject(new TypeError("storage.set: key must be a string"))}let p;try{p=JSON.stringify(d)}catch(g){return Promise.reject(new TypeError("storage.set: value must be JSON-serializable ("+String(g)+")"))}if(p===undefined){return Promise.reject(new TypeError("storage.set: value must be JSON-serializable"))}Q(n,p,d);const f=JSON.parse(p);return $(()=>N().then((g)=>{if(g===null)return q;if(P.has(n)){if(g.has(n))return X;P.delete(n)}g.set(n,f);return F(g)}))},delete:(n)=>{if(typeof n!=="string"){return Promise.reject(new TypeError("storage.delete: key must be a string"))}return $(()=>N().then((d)=>{if(d===null)return q;if(P.has(n)){if(d.has(n))return X;P.delete(n)}d.delete(n);return F(d)}))},keys:()=>$(N).then((n)=>n===null?[]:Array.from(n.keys()))};window.omelette={writeFile:(n,d)=>H(n,d).then((p)=>{if(!p.persisted&&!p.noHost){throw new Error(p.reason||"write failed")}}),storage:ee};if(A&&A!==window){const n=(e,t)=>{try{A.postMessage({__omelette_log:true,type:e,data:t},"*")}catch{}};["log","warn","error"].forEach((e)=>{const t=console[e];console[e]=(...a)=>{const u=a.map((s)=>{try{return typeof s==="object"?JSON.stringify(s):String(s)}catch{try{return String(s)}catch{return"[unstringifiable]"}}}).join(" ");n(e,u);t.apply(console,a)}});window.addEventListener("error",(e)=>{const t=e.target;if(t&&t!==window&&t.tagName){const a=t.src||t.href||"";n("resource_error",`${t.tagName} failed to load: ${a}`)}else{n("error",`${e.message||"Unknown error"} at ${e.filename||"?"}:${e.lineno||0}:${e.colno||0}`)}},true);window.addEventListener("unhandledrejection",(e)=>{const t=e.reason;const a=t instanceof Error?`${t.message} ${t.stack}`:String(t);n("error",`Unhandled rejection: ${a}`)});window.addEventListener("click",(e)=>{if(e.defaultPrevented||e.button!==0)return;if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;const t=e.composedPath?e.composedPath():[];const a=["button","input","select","textarea","summary","label"];let u=null;for(const v of t){if(!(v instanceof Element))continue;if(v.localName==="a"){if(!(v instanceof HTMLAnchorElement))return;u=v;break}if(a.indexOf(v.localName)!==-1)return}if(!u)return;if(u.isContentEditable)return;const s=u.closest("[contenteditable]");if(s&&s.getAttribute("contenteditable")!=="false")return;const S=(u.getAttribute("target")||"_self").toLowerCase();if(S!=="_self"&&S!=="_top"&&S!=="_parent")return;let _;try{_=new URL(u.href)}catch{return}if(_.protocol!=="http:"&&_.protocol!=="https:")return;if(location.origin==="null")return;if(_.origin===location.origin)return;e.preventDefault();window.open(_.href,"_blank","noopener,noreferrer")});const d=()=>{try{A.postMessage({type:"omelette:height",height:document.documentElement.scrollHeight},"*")}catch{}};if(window.ResizeObserver)new ResizeObserver(d).observe(document.documentElement);const p=()=>{d();if(!document.querySelector('script[type="text/babel"],script[type="text/jsx"]'))return;const e=()=>document.getElementById("root")||document.querySelector("body > div[id]");const t=e()?.firstElementChild??null;let a=0;const u=()=>{const s=e();if(s&&s.firstElementChild!==t||++a>30){d();return}setTimeout(u,100)};setTimeout(u,100)};if(document.readyState==="complete")p();else window.addEventListener("load",p);const f={};let g=0;const h=(e)=>new Promise((t,a)=>{if(!I.length){a(new Error("claude.complete: no parent origin"));return}const u=`c${++g}`;const s=()=>setTimeout(()=>{delete f[u];a(new Error(`claude.complete: no data for ${J/1000}s`))},J);const S=s();f[u]={resolve:t,reject:a,text:"",t:S,arm:s};try{for(const _ of I){A.postMessage({__om_api:true,id:u,body:e},_)}}catch(_){clearTimeout(S);delete f[u];a(_)}});const y=8;const m=async(e,t)=>{if(!Array.isArray(e.messages)){throw new Error("claude.complete: tools require a messages array")}const a=e.messages.slice();const u={...e,tools:e.tools.map((_)=>{if(_===null||typeof _!=="object")return _;const v={};for(const o of Object.keys(_)){if(typeof _[o]!=="function")v[o]=_[o]}return v})};const s=u.tool_choice;const S=s!=null&&(s.type==="any"||s.type==="tool")?{...u,tool_choice:s.disable_parallel_tool_use!==undefined?{type:"auto",disable_parallel_tool_use:s.disable_parallel_tool_use}:{type:"auto"}}:u;for(let _=0;_<y;_++){const v=await h({..._===0?u:S,messages:a});const o=v.message;const r=o&&Array.isArray(o.content)?o.content:null;const l=r?r.filter((c)=>c?.type==="tool_use"):[];if(o?.stop_reason!=="tool_use"||l.length===0){return v.text}const i=[];for(const c of l){const k=t.get(c.name);if(!k){i.push({type:"tool_result",tool_use_id:c.id,content:`no handler for tool "${c.name}"`,is_error:true});continue}try{const b=await k(c.input);const E=typeof b==="string"?b:O(b)??"";i.push({type:"tool_result",tool_use_id:c.id,content:E})}catch(b){i.push({type:"tool_result",tool_use_id:c.id,content:String(b?.message??b??"tool handler failed"),is_error:true})}}a.push({role:"assistant",content:r},{role:"user",content:i})}throw new Error(`claude.complete: exceeded ${y} tool turns`)};window.claude={complete(e){const t=e;if(t!==null&&typeof t==="object"&&Array.isArray(t.tools)&&t.tools.some((a)=>a!==null&&typeof a==="object"&&typeof a.run==="function")){const a=new Map;for(const u of t.tools){if(u!==null&&typeof u==="object"&&typeof u.run==="function"){a.set(String(u.name),u.run)}}return m(t,a)}return h(e).then((a)=>a.text)}};const w={};let R=0;H=(e,t)=>new Promise((a)=>{if(!I.length){a({persisted:false,noHost:true,reason:U});return}const u=`f${++R}`;const s=setTimeout(()=>{delete w[u];a({persisted:false,noHost:true,reason:U})},G);w[u]={settle:a,t:s};try{for(const S of I){A.postMessage({__om_file:true,id:u,op:"write",path:e,content:t},S)}}catch{clearTimeout(s);delete w[u];a({persisted:false,noHost:true,reason:U})}});const O=(e)=>{try{return JSON.stringify(e)}catch{return JSON.stringify(String(e))}};window.addEventListener("message",(e)=>{if(I.indexOf(e.origin)<0)return;if(e.source!==A)return;const t=e.data;if(!t)return;if(t.type==="omelette-preview-refresh"){if(typeof t.token!=="string"||!/^[0-9a-f.-]+(\.(rc|pr-[0-9]+))?(\.[0-9]+\.[0-9a-f]{16})?$/.test(t.token))return;const s=Math.max(1,Math.floor((t.expiresAt||0)-Date.now()/1000));document.cookie="__Host-omelette-preview="+t.token+"; Path=/; Secure; SameSite=None; Partitioned; Max-Age="+s;C();return}if(t.__om_file_r){const s=w[t.id];if(!s)return;clearTimeout(s.t);delete w[t.id];s.settle(t.ok?{persisted:true}:{persisted:false,reason:t.error||"write failed"});return}if(t.__om_api_r){const s=f[t.id];if(!s)return;if(t.error!=null){clearTimeout(s.t);delete f[t.id];s.reject(new Error(t.error));return}if(t.chunk!=null){clearTimeout(s.t);s.t=s.arm();s.text+=t.chunk;return}if(t.done){clearTimeout(s.t);delete f[t.id];s.resolve({text:t.text!=null?t.text:s.text,message:t.message});return}return}if(!t.__om_eval)return;const a=t;const u=(s)=>{e.source.postMessage({...s,__om_eval_r:1,id:a.id},e.origin)};try{const s=(0,eval)(a.code);if(s&&typeof s.then==="function"){s.then((S)=>u({ok:1,v:O(S)}),(S)=>u({ok:0,e:String(S)}))}else{u({ok:1,v:O(s)})}}catch(s){u({ok:0,e:String(s)})}})}})();
+</script>
+
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <script src="./support.js"></script>
@@ -705,13 +708,13 @@ deck-stage[data-baselines] .slide::after {
   <section class="slide content" data-screen-label="05" data-label="Os postos" data-speaker-notes="A estrutura segue a lotação real da P-83: cada coordenação tem coordenador, supervisores e executantes; GEOP e engenheiros de base acessam sem elaborar.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>01 · Contexto e motivação</span></div>
-    <h2 class="slide-title">Vinte postos em quatro coordenações</h2>
+    <h2 class="slide-title">Vinte e dois postos em quatro coordenações</h2>
     <table class="table rise dense">
       <thead><tr><th class="w1">Coordenação</th><th class="w1">Coordenador</th><th class="w1">Supervisão</th><th>Executantes</th></tr></thead>
       <tbody>
         <tr><td class="key">Gerência</td><td>GEPLAT</td><td>—</td><td>GEOP e engenheiros de base acessam, sem elaborar</td></tr>
         <tr><td class="key">Produção</td><td>COPROD</td><td>SUPROD</td><td>Controle · Óleo · Gás · Água</td></tr>
-        <tr><td class="key">Manutenção</td><td>COMAN</td><td>SUMEC · SUEIN</td><td>Mecânica · Elétrica · Instrumentação · Automação</td></tr>
+        <tr><td class="key">Manutenção</td><td>COMAN</td><td>SUMEC · SUEIN</td><td>Operação Elétrica · Operação Mecânica (turno) · Manutenção Mecânica · Elétrica · Instrumentação · Automação (turma)</td></tr>
         <tr><td class="key">Embarcação</td><td>COEMB</td><td>SUEMB</td><td>Controle Embarcação · Convés · TLT</td></tr>
       </tbody>
     </table>
@@ -738,7 +741,7 @@ deck-stage[data-baselines] .slide::after {
     <h2 class="slide-title">O que existe hoje</h2>
     <div class="cols cols-3 rise">
       <div><h3>Versão P-83 — origem</h3><p>O protótipo nasceu na P-83 e segue publicado como referência, congelado. A versão Búzios parte dele e estende a todas as unidades do campo.</p></div>
-      <div><h3>Versão Búzios — escritório</h3><p>Nove FPSOs, quatro coordenações e vinte postos, base de dados compartilhada online, acesso por nível hierárquico, modelos A-1 e C-1, equipe e autoria, conclusão por bloco, confirmação dos dados herdados, reportes e envio à turma, cópia de segurança do rascunho, arquivo, administração e feedback.</p></div>
+      <div><h3>Versão Búzios — escritório</h3><p>Nove FPSOs, quatro coordenações e vinte e dois postos, base de dados compartilhada online, acesso por nível hierárquico, modelos A-1, B-1 e C-1, equipe e autoria, atenção imediata por marcação, captura automática de status via OPC-UA, conclusão por bloco, confirmação dos dados herdados, reportes e envio à turma, cópia de segurança do rascunho, arquivo, administração e feedback.</p></div>
       <div><h3>Versão Búzios — campo</h3><p>A mesma aplicação em modo celular: passagem por blocos, fotos e vídeos, notas de voz, anotação sobre foto, leitura de TAG e ronda.</p></div>
     </div>
     <div class="page-foot" aria-hidden="true"></div>
@@ -867,16 +870,46 @@ deck-stage[data-baselines] .slide::after {
   <section class="slide content" data-screen-label="16" data-label="Modelos do procedimento" data-speaker-notes="Os blocos seguem os anexos do PE-3BUZ-00130; a passagem de turma acrescenta o panorama consolidado da escala.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>02 · Arquitetura e fundamentos</span></div>
-    <h2 class="slide-title">Três formulários, um por natureza de trabalho</h2>
+    <h2 class="slide-title">Três anexos, um por natureza de trabalho</h2>
     <div class="cols cols-3 rise">
       <div><h3>Anexo A-1</h3><p>GEPLAT, coordenadores, TLT e fiscais. Atenção imediata, degradação de segurança, eventos administrativos e auditorias, anomalias, operações críticas, mudanças temporárias e disponibilidade de sistemas.</p></div>
-      <div><h3>Anexo C-1</h3><p>Manutenção mecânica, elétrica, instrumentação e automação. Anomalias e medidas adotadas, manutenções não concluídas e mudanças temporárias. Supervisores acrescentam disponibilidade.</p></div>
-      <div><h3>Operação</h3><p>Produção e Embarcação: o formulário completo de turno e turma. A Embarcação usa os mesmos blocos, sem poços, com lista própria de equipamentos a configurar.</p></div>
+      <div><h3>Anexo C-1</h3><p>Equipes nas atividades de manutenção (mecânica e elétrica) e Instrumentação e Automação, que não fazem turno: só passagem de turma semanal. Anomalias e medidas adotadas, manutenções não concluídas e mudanças temporárias.</p></div>
+      <div><h3>Anexo B-1 · operação</h3><p>Turno e turma de quem opera: Produção, Embarcação, Operação Elétrica, Operação Mecânica, SUEIN e SUMEC. Na Embarcação e na manutenção sai o bloco de poços; na manutenção sai também o de meio ambiente.</p></div>
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
+  <section class="slide content" data-screen-label="17" data-label="Organização da manutenção" data-speaker-notes="Cada grupo tem cerca de cinco eletricistas e cinco mecânicos; parte deles fica em turno ininterrupto e parte na manutenção. O posto escolhido na tela de início define o formulário.">
+    <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+    <div class="kicker"><span>02 · Arquitetura e fundamentos</span></div>
+    <h2 class="slide-title">Manutenção: quem passa o quê</h2>
+    <table class="table rise dense">
+      <thead><tr><th class="w3">Equipe</th><th class="w1">Turno diário</th><th class="w1">Turma semanal</th><th>Posto no sistema</th></tr></thead>
+      <tbody>
+        <tr><td class="key">Eletricistas em turno ininterrupto</td><td>B-1</td><td>B-1</td><td>Operação Elétrica · disponibilidade com a lista dos sistemas elétricos</td></tr>
+        <tr><td class="key">Eletricistas na manutenção</td><td>—</td><td>C-1</td><td>Manutenção Elétrica · para a equipe que embarca</td></tr>
+        <tr><td class="key">Mecânicos em turno ininterrupto</td><td>B-1</td><td>B-1</td><td>Operação Mecânica · facilidades não elétricas</td></tr>
+        <tr><td class="key">Mecânicos na manutenção</td><td>—</td><td>C-1</td><td>Manutenção Mecânica</td></tr>
+        <tr><td class="key">SUEIN · SUMEC</td><td>B-1</td><td>B-1</td><td>Disponibilidade herdada da Operação Elétrica / Mecânica</td></tr>
+        <tr><td class="key">Instrumentação · Automação</td><td>—</td><td>C-1</td><td>Sem regime de turno</td></tr>
+      </tbody>
+    </table>
+    <div class="page-foot" aria-hidden="true"></div>
+  </section>
+  <section class="slide split" data-screen-label="18" data-label="Tela · Postos da manutenção" data-speaker-notes="A escolha do posto define o modelo. Ninguém precisa trocar de lotação ao alternar entre turno e manutenção.">
+    <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+    <div class="split-copy">
+      <div class="kicker"><span>02 · Arquitetura e fundamentos</span></div>
+      <h2 class="slide-title">Dois postos para o mesmo eletricista</h2>
+      <p class="note text-muted">O eletricista lotado na Manutenção Elétrica vê também a Operação Elétrica, por rodízio. Na Operação Elétrica ele inicia o turno ou a turma (B-1); na Manutenção Elétrica, só a turma (C-1).</p>
+    </div>
+    <figure class="split-figure shot blueprint rise">
+      <image-slot id="shot-postos-man" shape="rect" fit="contain" src="screenshots/deck/19-equipes.jpg" placeholder="Print: postos Manutenção Elétrica e Operação Elétrica no Início" role="img" aria-label="Print: postos Manutenção Elétrica e Operação Elétrica no Início"></image-slot>
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+    </figure>
+    <div class="page-foot" aria-hidden="true"></div>
+  </section>
 
-  <section class="slide content" data-screen-label="17" data-label="Nove unidades" data-speaker-notes="A mesma aplicação atende o campo inteiro; o que separa as unidades é a lotação do usuário e o espaço de dados de cada FPSO.">
+  <section class="slide content" data-screen-label="19" data-label="Nove unidades" data-speaker-notes="A mesma aplicação atende o campo inteiro; o que separa as unidades é a lotação do usuário e o espaço de dados de cada FPSO.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>02 · Arquitetura e fundamentos</span></div>
     <h2 class="slide-title">Nove FPSOs, uma aplicação</h2>
@@ -888,7 +921,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="18" data-label="Lotação e acesso" data-speaker-notes="Regra central da versão Búzios: ninguém edita passagens de uma unidade em que não esteja lotado, salvo acesso concedido pelo ADM do sistema.">
+  <section class="slide content" data-screen-label="20" data-label="Lotação e acesso" data-speaker-notes="Regra central da versão Búzios: ninguém edita passagens de uma unidade em que não esteja lotado, salvo acesso concedido pelo ADM do sistema.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>02 · Arquitetura e fundamentos</span></div>
     <h2 class="slide-title">Lotação, acesso adicional e troca de unidade</h2>
@@ -901,7 +934,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide split" data-screen-label="19" data-label="Tela · Escolha da unidade" data-speaker-notes="Tela exibida só para quem tem acesso a mais de uma unidade.">
+  <section class="slide split" data-screen-label="21" data-label="Tela · Escolha da unidade" data-speaker-notes="Tela exibida só para quem tem acesso a mais de uma unidade.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>02 · Arquitetura e fundamentos</span></div>
@@ -915,7 +948,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide split" data-screen-label="20" data-label="Tela · Usuários por unidade" data-speaker-notes="Visão do administrador local da P-83: só vê quem atua na P-83, com acesso e papel de cada chave.">
+  <section class="slide split" data-screen-label="22" data-label="Tela · Usuários por unidade" data-speaker-notes="Visão do administrador local da P-83: só vê quem atua na P-83, com acesso e papel de cada chave.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>02 · Arquitetura e fundamentos</span></div>
@@ -929,7 +962,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="21" data-label="Sessão e segurança" data-speaker-notes="Senhas em texto no navegador são aceitáveis no protótipo, não em produção — item explícito da parte 4.">
+  <section class="slide content" data-screen-label="23" data-label="Sessão e segurança" data-speaker-notes="Senhas em texto no navegador são aceitáveis no protótipo, não em produção — item explícito da parte 4.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>02 · Arquitetura e fundamentos</span></div>
     <h2 class="slide-title">Sessão, bloqueios e rastreio</h2>
@@ -943,7 +976,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="22" data-label="Escritório e campo" data-speaker-notes="Mesmo documento, mesmas regras: o que se preenche no campo aparece no escritório ao abrir a mesma passagem.">
+  <section class="slide content" data-screen-label="24" data-label="Escritório e campo" data-speaker-notes="Mesmo documento, mesmas regras: o que se preenche no campo aparece no escritório ao abrir a mesma passagem.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>02 · Arquitetura e fundamentos</span></div>
     <h2 class="slide-title">Duas interfaces, um código</h2>
@@ -954,7 +987,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="23" data-label="Requisitos e limites" data-speaker-notes="Ser transparente aqui evita que o avaliador descubra os limites sozinho.">
+  <section class="slide content" data-screen-label="25" data-label="Requisitos e limites" data-speaker-notes="Ser transparente aqui evita que o avaliador descubra os limites sozinho.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>02 · Arquitetura e fundamentos</span></div>
     <h2 class="slide-title">O que é preciso e o que ainda não faz</h2>
@@ -969,7 +1002,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide divider on-photo" data-screen-label="24" data-label="03 Funcionalidades em detalhe" data-speaker-notes="Uma folha por recurso. Se o avaliador quiser navegar ao vivo, cada folha diz como acionar.">
+  <section class="slide divider on-photo" data-screen-label="26" data-label="03 Funcionalidades em detalhe" data-speaker-notes="Uma folha por recurso. Se o avaliador quiser navegar ao vivo, cada folha diz como acionar.">
     <figure class="photo-ground duotone" aria-hidden="true"><img src="assets/p83-noite.jpg" alt=""></figure>
     <i class="page-corner tl"></i><i class="page-corner tr"></i><i class="page-corner bl"></i><i class="page-corner br"></i>
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
@@ -977,7 +1010,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide split" data-screen-label="25" data-label="Tela · Início" data-speaker-notes="Início do operador do Óleo (P-83): turno vigente, semana da turma e a passagem de turno já aberta, pronta para entrar e vincular-se.">
+  <section class="slide split" data-screen-label="27" data-label="Tela · Início" data-speaker-notes="Início do operador do Óleo (P-83): turno vigente, semana da turma e a passagem de turno já aberta, pronta para entrar e vincular-se.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>03 · Funcionalidades</span></div>
@@ -991,7 +1024,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="26" data-label="Início e passagens abertas" data-speaker-notes="Mostrar o contador de blocos completos e o carimbo de quem está vinculado.">
+  <section class="slide content" data-screen-label="28" data-label="Início e passagens abertas" data-speaker-notes="Mostrar o contador de blocos completos e o carimbo de quem está vinculado.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Criar, abrir e acompanhar passagens</h2>
@@ -1004,7 +1037,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="27" data-label="Estrutura do formulário" data-speaker-notes="A ordem e os títulos seguem o PE-3BUZ-00130; a passagem de Turma troca o texto dos blocos para a leitura de escala.">
+  <section class="slide content" data-screen-label="29" data-label="Estrutura do formulário" data-speaker-notes="A ordem e os títulos seguem o PE-3BUZ-00130; a passagem de Turma troca o texto dos blocos para a leitura de escala.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Os blocos do procedimento, em tela</h2>
@@ -1026,7 +1059,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide split" data-screen-label="28" data-label="Tela · Formulário" data-speaker-notes="Disponibilidade com os status vindos da passagem anterior: contador de confirmados, grupo de sistemas com “Confirmar grupo” e confirmação por linha.">
+  <section class="slide split" data-screen-label="30" data-label="Tela · Formulário" data-speaker-notes="Disponibilidade com os status vindos da passagem anterior: contador de confirmados, grupo de sistemas com “Confirmar grupo” e confirmação por linha.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>03 · Funcionalidades</span></div>
@@ -1040,7 +1073,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="29" data-label="Campos e validações" data-speaker-notes="Demonstrar a lista de pendências ao tentar emitir com um bloco incompleto.">
+  <section class="slide content" data-screen-label="31" data-label="Campos e validações" data-speaker-notes="Demonstrar a lista de pendências ao tentar emitir com um bloco incompleto.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Campos, listas e validações</h2>
@@ -1053,7 +1086,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="30" data-label="Equipe e autoria" data-speaker-notes="A rastreabilidade linha a linha é a resposta ao “quem escreveu isto?”.">
+  <section class="slide content" data-screen-label="32" data-label="Equipe e autoria" data-speaker-notes="A rastreabilidade linha a linha é a resposta ao “quem escreveu isto?”.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Equipe, vínculo e diário de edições</h2>
@@ -1066,7 +1099,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="31" data-label="Herança automática" data-speaker-notes="É o recurso que elimina a recópia manual.">
+  <section class="slide content" data-screen-label="33" data-label="Herança automática" data-speaker-notes="É o recurso que elimina a recópia manual.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Herança entre períodos e postos</h2>
@@ -1078,7 +1111,7 @@ deck-stage[data-baselines] .slide::after {
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
-  <section class="slide split" data-screen-label="32" data-label="Tela · Sobrescrever herdado" data-speaker-notes="O status herdado do posto de origem não muda; a sala de controle registra a própria leitura com justificativa.">
+  <section class="slide split" data-screen-label="34" data-label="Tela · Sobrescrever herdado" data-speaker-notes="O status herdado do posto de origem não muda; a sala de controle registra a própria leitura com justificativa.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>03 · Funcionalidades</span></div>
@@ -1092,7 +1125,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="33" data-label="Registros complementares e conclusão" data-speaker-notes="Ponto sensível na avaliação: mostrar que texto livre continua possível, mas estruturado.">
+  <section class="slide content" data-screen-label="35" data-label="Registros complementares e conclusão" data-speaker-notes="Ponto sensível na avaliação: mostrar que texto livre continua possível, mas estruturado.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Registros complementares e conclusão</h2>
@@ -1104,7 +1137,7 @@ deck-stage[data-baselines] .slide::after {
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
-  <section class="slide split" data-screen-label="34" data-label="Tela · Declaração de conclusão" data-speaker-notes="Dois passos: aviso das pendências e confirmação explícita.">
+  <section class="slide split" data-screen-label="36" data-label="Tela · Declaração de conclusão" data-speaker-notes="Dois passos: aviso das pendências e confirmação explícita.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>03 · Funcionalidades</span></div>
@@ -1117,7 +1150,7 @@ deck-stage[data-baselines] .slide::after {
     </figure>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
-  <section class="slide content" data-screen-label="35" data-label="Conclusão por bloco" data-speaker-notes="O clique é o que define que o bloco terminou — não a quantidade de itens.">
+  <section class="slide content" data-screen-label="37" data-label="Conclusão por bloco" data-speaker-notes="O clique é o que define que o bloco terminou — não a quantidade de itens.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Conclusão do preenchimento por bloco</h2>
@@ -1129,7 +1162,7 @@ deck-stage[data-baselines] .slide::after {
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
-  <section class="slide split" data-screen-label="36" data-label="Tela · Bloco concluído" data-speaker-notes="Bloco de atenção imediata concluído: marca no título e carimbo de quem concluiu, com opção de reabrir.">
+  <section class="slide split" data-screen-label="38" data-label="Tela · Bloco concluído" data-speaker-notes="Bloco de atenção imediata concluído: marca no título e carimbo de quem concluiu, com opção de reabrir.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>03 · Funcionalidades</span></div>
@@ -1142,7 +1175,7 @@ deck-stage[data-baselines] .slide::after {
     </figure>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
-  <section class="slide content" data-screen-label="37" data-label="Confirmação dos dados herdados" data-speaker-notes="Evita a replicação automática sem conferência real da condição.">
+  <section class="slide content" data-screen-label="39" data-label="Confirmação dos dados herdados" data-speaker-notes="Evita a replicação automática sem conferência real da condição.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Confirmação item a item ou por grupo</h2>
@@ -1154,7 +1187,7 @@ deck-stage[data-baselines] .slide::after {
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
-  <section class="slide split" data-screen-label="38" data-label="Tela · Confirmação em bloco" data-speaker-notes="Mostrar que o aviso obriga a escolher entre voltar e conferir item a item ou declarar a conferência.">
+  <section class="slide split" data-screen-label="40" data-label="Tela · Confirmação em bloco" data-speaker-notes="Mostrar que o aviso obriga a escolher entre voltar e conferir item a item ou declarar a conferência.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>03 · Funcionalidades</span></div>
@@ -1167,7 +1200,7 @@ deck-stage[data-baselines] .slide::after {
     </figure>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
-  <section class="slide content" data-screen-label="39" data-label="Meio ambiente e descartes" data-speaker-notes="Citar as resoluções: CONAMA 393/2007 (TOG) e CONAMA 430/2011 (temperatura); fiscalização pelo IBAMA no licenciamento federal.">
+  <section class="slide content" data-screen-label="41" data-label="Meio ambiente e descartes" data-speaker-notes="Citar as resoluções: CONAMA 393/2007 (TOG) e CONAMA 430/2011 (temperatura); fiscalização pelo IBAMA no licenciamento federal.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Meio ambiente: limites de referência</h2>
@@ -1179,7 +1212,7 @@ deck-stage[data-baselines] .slide::after {
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
-  <section class="slide split" data-screen-label="40" data-label="Tela · Meio ambiente" data-speaker-notes="TOG de 31,50 mg/L acima de 29,00: confirmar o valor envia o item à passagem do SUPROD; corrigir limpa o campo.">
+  <section class="slide split" data-screen-label="42" data-label="Tela · Meio ambiente" data-speaker-notes="TOG de 31,50 mg/L acima de 29,00: confirmar o valor envia o item à passagem do SUPROD; corrigir limpa o campo.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>03 · Funcionalidades</span></div>
@@ -1192,7 +1225,7 @@ deck-stage[data-baselines] .slide::after {
     </figure>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
-  <section class="slide content" data-screen-label="41" data-label="Alteração de estado operacional" data-speaker-notes="As opções seguem as palavras-guia de HAZOP; texto livre cobre o que a lista não prevê.">
+  <section class="slide content" data-screen-label="43" data-label="Alteração de estado operacional" data-speaker-notes="As opções seguem as palavras-guia de HAZOP; texto livre cobre o que a lista não prevê.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Tipos de alteração com base no HAZOP</h2>
@@ -1204,7 +1237,133 @@ deck-stage[data-baselines] .slide::after {
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
-  <section class="slide content" data-screen-label="42" data-label="Trabalho simultâneo e rascunho" data-speaker-notes="Corrigido após teste com dois operadores: a declaração de um não aparecia para o outro.">
+  <section class="slide content" data-screen-label="44" data-label="Atenção imediata por marcação" data-speaker-notes="O bloco 0 deixa de ser uma segunda digitação: o operador marca o que importa e o sistema mantém a cópia em dia.">
+    <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+    <div class="kicker"><span>03 · Funcionalidades</span></div>
+    <h2 class="slide-title">Atenção imediata sem reescrever</h2>
+    <div class="spec rise">
+      <div><h3>O que faz</h3><p>Qualquer item concluído em outro bloco é replicado em “Itens de atenção imediata” com um clique, vinculado à origem.</p></div>
+      <div><h3>Como acionar</h3><p>Botão “Atenção” na linha (disponível depois que o item é concluído ou preenchido) → item copiado no bloco 0. Clicar de novo retira.</p></div>
+      <div><h3>Regras e validações</h3><p>Conteúdo vem da origem; prioridade sugerida ALTA para segurança, integridade, meio ambiente, Inoperante, Indisponível ou Desvio — senão, MÉDIA. A cópia acompanha edições e exclusão da origem. Máximo de 5 itens.</p></div>
+      <div><h3>Onde fica registrado</h3><p>Link “↗ Bloco de origem” na cópia; marcações e retiradas no histórico da passagem.</p></div>
+    </div>
+    <div class="page-foot" aria-hidden="true"></div>
+  </section>
+  <section class="slide split" data-screen-label="45" data-label="Tela · Marcar atenção" data-speaker-notes="Inoperante entra como ALTA; Manutenção como MÉDIA. O botão leva de volta ao bloco de origem.">
+    <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+    <div class="split-copy">
+      <div class="kicker"><span>03 · Funcionalidades</span></div>
+      <h2 class="slide-title">Itens vinculados no bloco 0</h2>
+      <p class="note text-muted">Dois itens marcados na disponibilidade aparecem em “Itens de atenção imediata” com a prioridade sugerida. Só a prioridade é editável; o resto acompanha a origem.</p>
+    </div>
+    <figure class="split-figure shot blueprint rise">
+      <image-slot id="shot-atencao" shape="rect" fit="contain" src="screenshots/deck/25-atencao.jpg" placeholder="Print: itens de atenção imediata vinculados à disponibilidade" role="img" aria-label="Print: itens de atenção imediata vinculados à disponibilidade"></image-slot>
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+    </figure>
+    <div class="page-foot" aria-hidden="true"></div>
+  </section>
+  <section class="slide content" data-screen-label="46" data-label="Disponibilidade elétrica" data-speaker-notes="A coluna Configuração só aparece nos postos que têm painéis com essa informação.">
+    <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+    <div class="kicker"><span>03 · Funcionalidades</span></div>
+    <h2 class="slide-title">Sistemas elétricos e configuração</h2>
+    <div class="spec rise">
+      <div><h3>O que faz</h3><p>A Operação Elétrica recebe a lista “Sistemas da Elétrica”: 18 sistemas e 145 itens, cada sistema com uma linha de condição geral.</p></div>
+      <div><h3>Como acionar</h3><p>Bloco “Disponibilidade dos principais sistemas”: status por item, agrupado por sistema, com busca e confirmação em grupo.</p></div>
+      <div><h3>Regras e validações</h3><p>Painéis das distribuições essencial e normal exigem a configuração (L-A, L-B ou Duplo “I”). Inoperante, Indisponível, Manutenção e Limitado exigem detalhamento.</p></div>
+      <div><h3>Onde fica registrado</h3><p>Cadastro em equipamentos.js (editável em Administração › Listas de referência); mudança de status ou configuração carimba a última alteração de estado.</p></div>
+    </div>
+    <div class="page-foot" aria-hidden="true"></div>
+  </section>
+  <section class="slide split" data-screen-label="47" data-label="Tela · Disponibilidade elétrica" data-speaker-notes="Itens sem configuração mostram um traço; nos painéis, o campo é obrigatório quando o painel está em operação.">
+    <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+    <div class="split-copy">
+      <div class="kicker"><span>03 · Funcionalidades</span></div>
+      <h2 class="slide-title">Status e configuração por painel</h2>
+      <p class="note text-muted">Distribuições essencial e normal com a coluna Configuração. A data da última alteração de estado é carimbada a cada mudança.</p>
+    </div>
+    <figure class="split-figure shot blueprint rise">
+      <image-slot id="shot-disp-ele" shape="rect" fit="contain" src="screenshots/deck/20-disp-eletrica.jpg" placeholder="Print: disponibilidade da Operação Elétrica com a coluna Configuração" role="img" aria-label="Print: disponibilidade da Operação Elétrica com a coluna Configuração"></image-slot>
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+    </figure>
+    <div class="page-foot" aria-hidden="true"></div>
+  </section>
+  <section class="slide content" data-screen-label="48" data-label="Captura automática de status" data-speaker-notes="Na demonstração a leitura é simulada; servidor e nós OPC-UA são configurados na implantação.">
+    <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+    <div class="kicker"><span>03 · Funcionalidades</span></div>
+    <h2 class="slide-title">Status lidos da rede de automação</h2>
+    <div class="spec rise">
+      <div><h3>O que faz</h3><p>Busca na rede OPC-UA do topside o estado de cada equipamento e preenche o formulário.</p></div>
+      <div><h3>Como acionar</h3><p>Botão “Captura automática de status” no bloco de disponibilidade → varredura em cinco etapas, com barra de progresso, contadores, progresso por sistema e log de leitura.</p></div>
+      <div><h3>Regras e validações</h3><p>Captura Operando (sinal de operação ativo), Stand-by (desligado sem falha) e Inoperante (falha ou trip). Só atualiza itens que já estavam nesses três status; os demais continuam manuais.</p></div>
+      <div><h3>Onde fica registrado</h3><p>Resumo da última captura no bloco; histórico da passagem com cada mudança (de → para).</p></div>
+    </div>
+    <div class="page-foot" aria-hidden="true"></div>
+  </section>
+  <section class="slide split" data-screen-label="49" data-label="Tela · Varredura OPC-UA" data-speaker-notes="O operador vê que o sistema está trabalhando e pode cancelar antes da gravação — nada muda até a última etapa.">
+    <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+    <div class="split-copy">
+      <div class="kicker"><span>03 · Funcionalidades</span></div>
+      <h2 class="slide-title">Progresso da varredura</h2>
+      <p class="note text-muted">Conexão, resolução de tags, leitura, verificações e atualização: cada etapa com o seu estado, o percentual geral, o item em leitura e os contadores ao vivo.</p>
+    </div>
+    <figure class="split-figure shot blueprint rise">
+      <image-slot id="shot-opc-prog" shape="rect" fit="contain" src="screenshots/deck/21-opc-progresso.jpg" placeholder="Print: varredura OPC-UA em andamento" role="img" aria-label="Print: varredura OPC-UA em andamento"></image-slot>
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+    </figure>
+    <div class="page-foot" aria-hidden="true"></div>
+  </section>
+  <section class="slide split" data-screen-label="50" data-label="Tela · Resultado da varredura" data-speaker-notes="Discrepância não altera o status: é um conflito de informação a investigar.">
+    <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+    <div class="split-copy">
+      <div class="kicker"><span>03 · Funcionalidades</span></div>
+      <h2 class="slide-title">O que mudou e o que conflita</h2>
+      <p class="note text-muted">Ao final, a lista de status atualizados e, em destaque, as discrepâncias: equipamentos declarados fora de operação que a rede mostra operando.</p>
+    </div>
+    <figure class="split-figure shot blueprint rise">
+      <image-slot id="shot-opc-res" shape="rect" fit="contain" src="screenshots/deck/22-opc-resultado.jpg" placeholder="Print: resultado da varredura com discrepâncias" role="img" aria-label="Print: resultado da varredura com discrepâncias"></image-slot>
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+    </figure>
+    <div class="page-foot" aria-hidden="true"></div>
+  </section>
+  <section class="slide content" data-screen-label="51" data-label="Discrepâncias" data-speaker-notes="Um equipamento indisponível que aparece operando pode indicar falha de sinal ou de registro — nos dois casos alguém precisa olhar.">
+    <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+    <div class="kicker"><span>03 · Funcionalidades</span></div>
+    <h2 class="slide-title">Conflito entre o declarado e a rede</h2>
+    <div class="spec rise">
+      <div><h3>O que faz</h3><p>Marca os itens com status manual (Manutenção, Indisponível, Limitado, Em comissionamento, Não comissionado) que a rede indica como Operando.</p></div>
+      <div><h3>Como acionar</h3><p>Selo “⚠ Discrepância OPC-UA” na linha → “Verificar…” → status confirmado e descrição de como foi verificado.</p></div>
+      <div><h3>Regras e validações</h3><p>Verificação exige texto mínimo de 10 caracteres; o bloco não é concluído com discrepância pendente. Uma nova captura sem o conflito limpa o selo.</p></div>
+      <div><h3>Onde fica registrado</h3><p>Histórico da passagem; quadro de discrepâncias no PDF, verificadas ou não.</p></div>
+    </div>
+    <div class="page-foot" aria-hidden="true"></div>
+  </section>
+  <section class="slide split" data-screen-label="52" data-label="Tela · Discrepância na linha" data-speaker-notes="Painel declarado em manutenção, rede indicando operando.">
+    <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+    <div class="split-copy">
+      <div class="kicker"><span>03 · Funcionalidades</span></div>
+      <h2 class="slide-title">Linha marcada para verificação</h2>
+      <p class="note text-muted">A linha fica em vermelho com o selo de discrepância e o botão “Verificar…”. Os itens lidos sem conflito recebem a marca “OPC-UA”.</p>
+    </div>
+    <figure class="split-figure shot blueprint rise">
+      <image-slot id="shot-disc-linha" shape="rect" fit="contain" src="screenshots/deck/23-discrepancia-linha.jpg" placeholder="Print: linha com discrepância OPC-UA" role="img" aria-label="Print: linha com discrepância OPC-UA"></image-slot>
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+    </figure>
+    <div class="page-foot" aria-hidden="true"></div>
+  </section>
+  <section class="slide split" data-screen-label="53" data-label="Tela · Verificar estado real" data-speaker-notes="Se o status muda, a data da última alteração é carimbada; tudo vai para o histórico e para o PDF.">
+    <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+    <div class="split-copy">
+      <div class="kicker"><span>03 · Funcionalidades</span></div>
+      <h2 class="slide-title">Registro da verificação</h2>
+      <p class="note text-muted">Status declarado e leitura da rede lado a lado; o operador confirma o status real e descreve como verificou.</p>
+    </div>
+    <figure class="split-figure shot blueprint rise">
+      <image-slot id="shot-disc-ver" shape="rect" fit="contain" src="screenshots/deck/24-discrepancia-verificar.jpg" placeholder="Print: diálogo Verificar estado real" role="img" aria-label="Print: diálogo Verificar estado real"></image-slot>
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+    </figure>
+    <div class="page-foot" aria-hidden="true"></div>
+  </section>
+  <section class="slide content" data-screen-label="54" data-label="Trabalho simultâneo e rascunho" data-speaker-notes="Corrigido após teste com dois operadores: a declaração de um não aparecia para o outro.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Edição simultânea e proteção do rascunho</h2>
@@ -1217,7 +1376,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide split" data-screen-label="43" data-label="Tela · Alerta" data-speaker-notes="Alerta aberto a partir de um item de atenção imediata do Óleo, nível Atenção, destinado a Controle, Gás e Água.">
+  <section class="slide split" data-screen-label="55" data-label="Tela · Alerta" data-speaker-notes="Alerta aberto a partir de um item de atenção imediata do Óleo, nível Atenção, destinado a Controle, Gás e Água.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>03 · Funcionalidades</span></div>
@@ -1231,7 +1390,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="44" data-label="Alerta aos demais postos" data-speaker-notes="Os níveis foram acrescentados para evitar que tudo chegue como crítico.">
+  <section class="slide content" data-screen-label="56" data-label="Alerta aos demais postos" data-speaker-notes="Os níveis foram acrescentados para evitar que tudo chegue como crítico.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Alerta aos demais postos</h2>
@@ -1244,7 +1403,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="45" data-label="Reportar à supervisão" data-speaker-notes="Junto com os alertas, forma a cadeia posto → supervisão → coordenação.">
+  <section class="slide content" data-screen-label="57" data-label="Reportar à supervisão" data-speaker-notes="Junto com os alertas, forma a cadeia posto → supervisão → coordenação.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Reportar à supervisão</h2>
@@ -1256,7 +1415,7 @@ deck-stage[data-baselines] .slide::after {
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
-  <section class="slide split" data-screen-label="46" data-label="Tela · Reportar" data-speaker-notes="O item cai no mesmo bloco da passagem do SUPROD, aberto para revisão.">
+  <section class="slide split" data-screen-label="58" data-label="Tela · Reportar" data-speaker-notes="O item cai no mesmo bloco da passagem do SUPROD, aberto para revisão.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>03 · Funcionalidades</span></div>
@@ -1269,7 +1428,7 @@ deck-stage[data-baselines] .slide::after {
     </figure>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
-  <section class="slide content" data-screen-label="47" data-label="Envio compulsório" data-speaker-notes="Diferença para o reporte comum: aqui não há escolha — a regra do procedimento obriga o encaminhamento.">
+  <section class="slide content" data-screen-label="59" data-label="Envio compulsório" data-speaker-notes="Diferença para o reporte comum: aqui não há escolha — a regra do procedimento obriga o encaminhamento.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Envio compulsório à supervisão</h2>
@@ -1281,7 +1440,7 @@ deck-stage[data-baselines] .slide::after {
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
-  <section class="slide split" data-screen-label="48" data-label="Tela · Integridade" data-speaker-notes="Resposta Sim em qualquer subitem de integridade dispara o alerta.">
+  <section class="slide split" data-screen-label="60" data-label="Tela · Integridade" data-speaker-notes="Resposta Sim em qualquer subitem de integridade dispara o alerta.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>03 · Funcionalidades</span></div>
@@ -1294,7 +1453,7 @@ deck-stage[data-baselines] .slide::after {
     </figure>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
-  <section class="slide split" data-screen-label="49" data-label="Tela · Integridade no campo" data-speaker-notes="O mesmo alerta no modo campo, tema noturno.">
+  <section class="slide split" data-screen-label="61" data-label="Tela · Integridade no campo" data-speaker-notes="O mesmo alerta no modo campo, tema noturno.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>03 · Funcionalidades</span></div>
@@ -1308,7 +1467,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="50" data-label="Enviar para a turma" data-speaker-notes="Reduz o trabalho da passagem semanal: o que já foi escrito no turno não é redigitado.">
+  <section class="slide content" data-screen-label="62" data-label="Enviar para a turma" data-speaker-notes="Reduz o trabalho da passagem semanal: o que já foi escrito no turno não é redigitado.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Do turno para a turma, sem redigitar</h2>
@@ -1320,7 +1479,7 @@ deck-stage[data-baselines] .slide::after {
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
-  <section class="slide split" data-screen-label="51" data-label="Tela · Enviar para a turma" data-speaker-notes="O botão Turma, sem seta, abre este diálogo.">
+  <section class="slide split" data-screen-label="63" data-label="Tela · Enviar para a turma" data-speaker-notes="O botão Turma, sem seta, abre este diálogo.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>03 · Funcionalidades</span></div>
@@ -1334,20 +1493,20 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="52" data-label="Turno sem ocorrências" data-speaker-notes="Na manutenção a passagem de turno é facultativa; a declaração deixa rastro sem obrigar um documento vazio.">
+  <section class="slide content" data-screen-label="64" data-label="Turno sem ocorrências" data-speaker-notes="Recurso mantido para perfis configurados com turno facultativo; com a reorganização da manutenção, nenhum posto padrão usa mais.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Um clique quando não houve o que passar</h2>
     <div class="spec rise">
-      <div><h3>O que faz</h3><p>Executantes da manutenção declaram que o turno transcorreu sem evento ou ocorrência que justifique a passagem de serviço.</p></div>
+      <div><h3>O que faz</h3><p>Executantes de postos com turno facultativo declaram que o turno transcorreu sem evento ou ocorrência que justifique a passagem de serviço.</p></div>
       <div><h3>Como acionar</h3><p>No Início, cartão do posto → “Turno sem ocorrências” → confirmar. “Desfazer declaração” fica disponível para quem declarou.</p></div>
-      <div><h3>Regras e validações</h3><p>Só para postos com turno facultativo e sem passagem aberta no período; a passagem ainda pode ser elaborada depois, se surgir um fato.</p></div>
+      <div><h3>Regras e validações</h3><p>Só para postos com turno facultativo (perfil criado pela administração) e sem passagem aberta no período. Desde a reorganização da manutenção, nenhum posto padrão é facultativo: quem está em turno usa o B-1 todo dia.</p></div>
       <div><h3>Onde fica registrado</h3><p>Lista bz-semocorr-v1 (posto, período, chave, hora) e log do sistema; o cartão mostra quem declarou e quando.</p></div>
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="53" data-label="Passagem única da Embarcação" data-speaker-notes="Atende a prática de bordo: em alguns turnos Controle e Convés fazem um documento só.">
+  <section class="slide content" data-screen-label="65" data-label="Passagem única da Embarcação" data-speaker-notes="Atende a prática de bordo: em alguns turnos Controle e Convés fazem um documento só.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Controle Embarcação e Convés: juntos ou separados</h2>
@@ -1360,7 +1519,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="54" data-label="Revisão assistida" data-speaker-notes="Dizer explicitamente: “simulada”. A integração real depende de decisão sobre o Chat Petrobras.">
+  <section class="slide content" data-screen-label="66" data-label="Revisão assistida" data-speaker-notes="Dizer explicitamente: “simulada”. A integração real depende de decisão sobre o Chat Petrobras.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Revisão assistida de texto (ilustrativa)</h2>
@@ -1372,7 +1531,7 @@ deck-stage[data-baselines] .slide::after {
     </div>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
-  <section class="slide split" data-screen-label="55" data-label="Tela · Revisão assistida" data-speaker-notes="Texto digitado sem acentuação e incompleto; a revisão propõe a versão corrigida e aponta o que falta.">
+  <section class="slide split" data-screen-label="67" data-label="Tela · Revisão assistida" data-speaker-notes="Texto digitado sem acentuação e incompleto; a revisão propõe a versão corrigida e aponta o que falta.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>03 · Funcionalidades</span></div>
@@ -1386,7 +1545,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="56" data-label="Ditado e ajuda" data-speaker-notes="Recurso de conveniência — não é requisito do procedimento.">
+  <section class="slide content" data-screen-label="68" data-label="Ditado e ajuda" data-speaker-notes="Recurso de conveniência — não é requisito do procedimento.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Ditado por voz e ajuda contextual</h2>
@@ -1399,7 +1558,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide split" data-screen-label="57" data-label="Tela · Campo" data-speaker-notes="Modo campo em tablet, tema noturno: bloco Disponibilidade com as pendências de confirmação e o botão Confirmar grupo com alvo grande.">
+  <section class="slide split" data-screen-label="69" data-label="Tela · Campo" data-speaker-notes="Modo campo em tablet, tema noturno: bloco Disponibilidade com as pendências de confirmação e o botão Confirmar grupo com alvo grande.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>03 · Funcionalidades</span></div>
@@ -1413,7 +1572,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="58" data-label="Fotos e vídeos" data-speaker-notes="Explicar a separação miniatura × plena: mantém o rascunho leve e o backup pequeno.">
+  <section class="slide content" data-screen-label="70" data-label="Fotos e vídeos" data-speaker-notes="Explicar a separação miniatura × plena: mantém o rascunho leve e o backup pequeno.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Fotos e vídeos</h2>
@@ -1426,7 +1585,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="59" data-label="Anotação sobre a foto" data-speaker-notes="Pequeno recurso, muito pedido pelos operadores.">
+  <section class="slide content" data-screen-label="71" data-label="Anotação sobre a foto" data-speaker-notes="Pequeno recurso, muito pedido pelos operadores.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Anotar sobre a foto</h2>
@@ -1439,7 +1598,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="60" data-label="Notas de campo" data-speaker-notes="Fluxo “capturar agora, estruturar depois”.">
+  <section class="slide content" data-screen-label="72" data-label="Notas de campo" data-speaker-notes="Fluxo “capturar agora, estruturar depois”.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Notas de campo e nota de áudio</h2>
@@ -1452,7 +1611,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="61" data-label="TAG e ronda" data-speaker-notes="Depende da lista de equipamentos por posto estar completa (ver Referências).">
+  <section class="slide content" data-screen-label="73" data-label="TAG e ronda" data-speaker-notes="Depende da lista de equipamentos por posto estar completa (ver Referências).">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Leitura de TAG e ronda por área</h2>
@@ -1465,7 +1624,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="62" data-label="Ajustes de campo" data-speaker-notes="Não afetam o documento; só a ergonomia.">
+  <section class="slide content" data-screen-label="74" data-label="Ajustes de campo" data-speaker-notes="Não afetam o documento; só a ergonomia.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Ajustes do modo campo</h2>
@@ -1478,7 +1637,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide split" data-screen-label="63" data-label="Tela · Relatório" data-speaker-notes="Pré-visualização com marca “não oficial”: equipe e declarações, quadro de atenção imediata e blocos na ordem do procedimento.">
+  <section class="slide split" data-screen-label="75" data-label="Tela · Relatório" data-speaker-notes="Pré-visualização com marca “não oficial”: equipe e declarações, quadro de atenção imediata e blocos na ordem do procedimento.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>03 · Funcionalidades</span></div>
@@ -1491,8 +1650,39 @@ deck-stage[data-baselines] .slide::after {
     </figure>
     <div class="page-foot" aria-hidden="true"></div>
   </section>
+  <section class="slide split" data-screen-label="76" data-label="Tela · Cores da disponibilidade" data-speaker-notes="Uma linha de resumo antes da tabela lista tudo o que mudou no turno.">
+    <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+    <div class="split-copy">
+      <div class="kicker"><span>03 · Funcionalidades</span></div>
+      <h2 class="slide-title">Leitura rápida no PDF</h2>
+      <p class="note text-muted">Status coloridos por criticidade, com símbolo; a célula “Última alteração de estado” fica em azul-aço escuro quando a mudança foi neste turno, e o nome do equipamento em negrito.</p>
+    </div>
+    <figure class="split-figure shot blueprint rise">
+      <image-slot id="shot-rel-cores" shape="rect" fit="contain" src="screenshots/deck/26-relatorio-cores.jpg" placeholder="Print: disponibilidade no PDF com cores e alterações do turno" role="img" aria-label="Print: disponibilidade no PDF com cores e alterações do turno"></image-slot>
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+    </figure>
+    <div class="page-foot" aria-hidden="true"></div>
+  </section>
+  <section class="slide content" data-screen-label="77" data-label="Cores por estado" data-speaker-notes="Matiz e símbolo juntos: o PDF continua legível impresso em preto e branco e para quem não distingue vermelho e verde.">
+    <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+    <div class="kicker"><span>03 · Funcionalidades</span></div>
+    <h2 class="slide-title">Cor por estado e criticidade</h2>
+    <table class="table rise dense">
+      <thead><tr><th class="w1">Símbolo</th><th class="w3">Status</th><th class="w1">Criticidade</th><th>Por quê</th></tr></thead>
+      <tbody>
+        <tr><td class="key">✕ ⊘</td><td>Inoperante · Indisponível</td><td>Crítico</td><td>Vermelho: perda de função; primeiro lugar para onde o olho vai</td></tr>
+        <tr><td class="key">▲</td><td>Manutenção</td><td>Alto</td><td>Laranja: fora de serviço com intervenção em andamento</td></tr>
+        <tr><td class="key">◐</td><td>Limitado</td><td>Moderado</td><td>Amarelo: opera com restrição</td></tr>
+        <tr><td class="key">◇</td><td>Em comissionamento</td><td>Planejado</td><td>Lilás: fora de operação por plano, sem alarme</td></tr>
+        <tr><td class="key">○ ●</td><td>Stand-by · Operando</td><td>Disponível · Normal</td><td>Azul e verde claros: estados normais com pouco peso visual</td></tr>
+        <tr><td class="key">–</td><td>Não comissionado · N/A</td><td>—</td><td>Sem cor</td></tr>
+        <tr><td class="key">◆</td><td>Alterado neste turno</td><td>—</td><td>Azul-aço escuro com texto branco na última alteração: cor que nenhum status usa</td></tr>
+      </tbody>
+    </table>
+    <div class="page-foot" aria-hidden="true"></div>
+  </section>
 
-  <section class="slide content" data-screen-label="64" data-label="Relatório e emissão" data-speaker-notes="O PDF é o documento de trabalho; o APLAT segue como registro oficial.">
+  <section class="slide content" data-screen-label="78" data-label="Relatório e emissão" data-speaker-notes="O PDF é o documento de trabalho; o APLAT segue como registro oficial.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Relatório, emissão e protocolo</h2>
@@ -1505,7 +1695,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="65" data-label="Arquivo e histórico" data-speaker-notes="Base para a rastreabilidade histórica pedida no contexto.">
+  <section class="slide content" data-screen-label="79" data-label="Arquivo e histórico" data-speaker-notes="Base para a rastreabilidade histórica pedida no contexto.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Arquivo e histórico</h2>
@@ -1518,7 +1708,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide split" data-screen-label="66" data-label="Tela · Feedback" data-speaker-notes="Feedback preenchido durante a passagem: o contexto (usuário, tela, documento, dispositivo) entra sozinho no rodapé.">
+  <section class="slide split" data-screen-label="80" data-label="Tela · Feedback" data-speaker-notes="Feedback preenchido durante a passagem: o contexto (usuário, tela, documento, dispositivo) entra sozinho no rodapé.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>03 · Funcionalidades</span></div>
@@ -1532,7 +1722,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="67" data-label="Feedback e sugestões" data-speaker-notes="Fecha o ciclo com os usuários durante o piloto.">
+  <section class="slide content" data-screen-label="81" data-label="Feedback e sugestões" data-speaker-notes="Fecha o ciclo com os usuários durante o piloto.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Feedback e sugestões dos usuários</h2>
@@ -1545,7 +1735,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide split" data-screen-label="68" data-label="Tela · Administração" data-speaker-notes="Painel do ADM do sistema: passagens em elaboração, emitidas no mês, usuários ativos, alertas de integridade, feedback e últimas ações.">
+  <section class="slide split" data-screen-label="82" data-label="Tela · Administração" data-speaker-notes="Painel do ADM do sistema: passagens em elaboração, emitidas no mês, usuários ativos, alertas de integridade, feedback e últimas ações.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="split-copy">
       <div class="kicker"><span>03 · Funcionalidades</span></div>
@@ -1559,7 +1749,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="69" data-label="Admin · Painel e Usuários" data-speaker-notes="O cadastro é sincronizado com a planilha de chaves a cada carga.">
+  <section class="slide content" data-screen-label="83" data-label="Admin · Painel e Usuários" data-speaker-notes="O cadastro é sincronizado com a planilha de chaves a cada carga.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Administração · Painel e Usuários</h2>
@@ -1572,7 +1762,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="70" data-label="Admin · Passagens e Log" data-speaker-notes="Nada se apaga sem passar pela lixeira e pelo log.">
+  <section class="slide content" data-screen-label="84" data-label="Admin · Passagens e Log" data-speaker-notes="Nada se apaga sem passar pela lixeira e pelo log.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Administração · Passagens, lixeira e log</h2>
@@ -1585,7 +1775,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="71" data-label="Admin · Parâmetros e Referências" data-speaker-notes="As listas de referência são o que a operação precisa conferir antes do piloto.">
+  <section class="slide content" data-screen-label="85" data-label="Admin · Parâmetros e Referências" data-speaker-notes="As listas de referência são o que a operação precisa conferir antes do piloto.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Administração · Parâmetros, avisos e referências</h2>
@@ -1598,7 +1788,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="72" data-label="Admin · Perfis e postos" data-speaker-notes="Abre o sistema para equipes que não estão na lotação da plataforma, sem mexer no código.">
+  <section class="slide content" data-screen-label="86" data-label="Admin · Perfis e postos" data-speaker-notes="Abre o sistema para equipes que não estão na lotação da plataforma, sem mexer no código.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Novos perfis na unidade</h2>
@@ -1611,7 +1801,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="73" data-label="Admin · Manutenção e Exemplos" data-speaker-notes="Para a avaliação: gerar exemplos, navegar, remover — sem sujar dados reais.">
+  <section class="slide content" data-screen-label="87" data-label="Admin · Manutenção e Exemplos" data-speaker-notes="Para a avaliação: gerar exemplos, navegar, remover — sem sujar dados reais.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>03 · Funcionalidades</span></div>
     <h2 class="slide-title">Administração · Manutenção, backup e exemplos</h2>
@@ -1624,7 +1814,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide divider on-photo" data-screen-label="74" data-label="04 Caminhos de continuidade" data-speaker-notes="Dois caminhos honestos. O protótipo já entrega valor em ambos; a diferença é onde o registro oficial vive.">
+  <section class="slide divider on-photo" data-screen-label="88" data-label="04 Caminhos de continuidade" data-speaker-notes="Dois caminhos honestos. O protótipo já entrega valor em ambos; a diferença é onde o registro oficial vive.">
     <figure class="photo-ground duotone" aria-hidden="true"><img src="assets/p83-topo.jpg" alt=""></figure>
     <i class="page-corner tl"></i><i class="page-corner tr"></i><i class="page-corner bl"></i><i class="page-corner br"></i>
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
@@ -1632,7 +1822,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="75" data-label="Opção A" data-speaker-notes="O que falta é infraestrutura, não funcionalidade: o modelo de dados e as regras já estão prontos.">
+  <section class="slide content" data-screen-label="89" data-label="Opção A" data-speaker-notes="O que falta é infraestrutura, não funcionalidade: o modelo de dados e as regras já estão prontos.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>04 · Caminhos de continuidade</span></div>
     <h2 class="slide-title">A · Aplicativo independente</h2>
@@ -1645,7 +1835,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="76" data-label="Opção B" data-speaker-notes="Requer alinhamento com o time do APLAT sobre API e formato; o protótipo já guarda o endpoint como parâmetro de envio.">
+  <section class="slide content" data-screen-label="90" data-label="Opção B" data-speaker-notes="Requer alinhamento com o time do APLAT sobre API e formato; o protótipo já guarda o endpoint como parâmetro de envio.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>04 · Caminhos de continuidade</span></div>
     <h2 class="slide-title">B · Integração ao APLAT</h2>
@@ -1658,7 +1848,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="77" data-label="Comparativo" data-speaker-notes="Não há resposta única; a tabela é para a decisão do corpo técnico.">
+  <section class="slide content" data-screen-label="91" data-label="Comparativo" data-speaker-notes="Não há resposta única; a tabela é para a decisão do corpo técnico.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>04 · Caminhos de continuidade</span></div>
     <h2 class="slide-title">A × B, lado a lado</h2>
@@ -1675,7 +1865,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="78" data-label="Piloto sugerido" data-speaker-notes="Roteiro de piloto que serve aos dois caminhos.">
+  <section class="slide content" data-screen-label="92" data-label="Piloto sugerido" data-speaker-notes="Roteiro de piloto que serve aos dois caminhos.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>04 · Caminhos de continuidade</span></div>
     <h2 class="slide-title">Piloto sugerido, comum às duas opções</h2>
@@ -1689,7 +1879,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide cover on-photo" data-screen-label="79" data-label="Decisão" data-speaker-notes="Pedido concreto ao corpo técnico: avaliar o protótipo com o roteiro do anexo e recomendar o caminho.">
+  <section class="slide cover on-photo" data-screen-label="93" data-label="Decisão" data-speaker-notes="Pedido concreto ao corpo técnico: avaliar o protótipo com o roteiro do anexo e recomendar o caminho.">
     <figure class="photo-ground duotone" aria-hidden="true"><img src="assets/p83-noite.jpg" alt=""></figure>
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker k-right"><span>Avaliação técnica · Campo de Búzios</span></div>
@@ -1697,7 +1887,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="pin-bottom meta"><span>Protótipo em avaliação · Fabricio Martini · Bruno Samel</span></div>
   </section>
 
-  <section class="slide divider on-photo" data-screen-label="80" data-label="A Anexos" data-speaker-notes="Glossário, mapa de navegação e roteiro guiado para o avaliador percorrer tudo sozinho.">
+  <section class="slide divider on-photo" data-screen-label="94" data-label="A Anexos" data-speaker-notes="Glossário, mapa de navegação e roteiro guiado para o avaliador percorrer tudo sozinho.">
     <figure class="photo-ground duotone" aria-hidden="true"><img src="assets/p83-helideck-dia.jpg" alt=""></figure>
     <i class="page-corner tl"></i><i class="page-corner tr"></i><i class="page-corner bl"></i><i class="page-corner br"></i>
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
@@ -1705,7 +1895,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="81" data-label="Glossário" data-speaker-notes="Consulta rápida para quem não é da operação.">
+  <section class="slide content" data-screen-label="95" data-label="Glossário" data-speaker-notes="Consulta rápida para quem não é da operação.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>Anexos</span></div>
     <h2 class="slide-title">Glossário</h2>
@@ -1730,7 +1920,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="82" data-label="Mapa de navegação" data-speaker-notes="Cada seta é um toque ou clique; nenhuma tela exige mais que dois níveis para voltar ao Início.">
+  <section class="slide content" data-screen-label="96" data-label="Mapa de navegação" data-speaker-notes="Cada seta é um toque ou clique; nenhuma tela exige mais que dois níveis para voltar ao Início.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>Anexos</span></div>
     <h2 class="slide-title">Mapa de navegação</h2>
@@ -1741,7 +1931,7 @@ deck-stage[data-baselines] .slide::after {
     <div class="page-foot" aria-hidden="true"></div>
   </section>
 
-  <section class="slide content" data-screen-label="83" data-label="Roteiro de teste" data-speaker-notes="Dez passos cobrem os recursos e as regras multiunidade; para recomeçar, use “Limpar dados da demonstração” na página de entrada.">
+  <section class="slide content" data-screen-label="97" data-label="Roteiro de teste" data-speaker-notes="Dez passos cobrem os recursos e as regras multiunidade; para recomeçar, use “Limpar dados da demonstração” na página de entrada.">
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker"><span>Anexos</span></div>
     <h2 class="slide-title">Roteiro guiado de avaliação</h2>
@@ -1758,6 +1948,21 @@ deck-stage[data-baselines] .slide::after {
         <tr><td class="key">8</td><td>Entrar como RTWC (operador P-83)</td><td>Entra direto na P-83, sem escolha de unidade</td></tr>
         <tr><td class="key">9</td><td>Entrar como ADM80 (admin local)</td><td>Usuários, log e feedback só da P-80</td></tr>
         <tr><td class="key">10</td><td>Entrar como ADMIN: dar acesso adicional a uma chave</td><td>Coluna Unidade; filtro por FPSO; mudança no log</td></tr>
+      </tbody>
+    </table>
+    <div class="page-foot" aria-hidden="true"></div>
+  </section>
+  <section class="slide content" data-screen-label="98" data-label="Roteiro de teste · manutenção" data-speaker-notes="Quatro passos para a reorganização da manutenção, a captura OPC-UA, as discrepâncias e as cores do PDF.">
+    <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+    <div class="kicker"><span>Anexos</span></div>
+    <h2 class="slide-title">Roteiro · manutenção e OPC-UA</h2>
+    <table class="table rise dense">
+      <thead><tr><th class="w1">Passo</th><th class="w3">O que fazer</th><th>O que observar</th></tr></thead>
+      <tbody>
+        <tr><td class="key">11</td><td>Entrar como RLG3 (TM Elétrica)</td><td>Manutenção Elétrica só com turma (C-1); Operação Elétrica com turno e turma (B-1)</td></tr>
+        <tr><td class="key">12</td><td>Iniciar o turno da Operação Elétrica; informar alguns status e a configuração dos painéis; rodar a captura automática</td><td>Varredura com progresso; só Operando, Stand-by e Inoperante mudam; discrepâncias em vermelho</td></tr>
+        <tr><td class="key">13</td><td>Verificar uma discrepância; marcar “Atenção” num item Inoperante</td><td>Verificação no histórico; item no bloco 0 com prioridade ALTA</td></tr>
+        <tr><td class="key">14</td><td>Pré-visualizar o relatório</td><td>Status com cor e símbolo; ◆ “neste turno” na última alteração; quadro de discrepâncias</td></tr>
       </tbody>
     </table>
     <div class="page-foot" aria-hidden="true"></div>

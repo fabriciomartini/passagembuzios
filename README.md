@@ -19,7 +19,15 @@ Primeira publicação: Settings → Pages → Source: *Deploy from a branch* →
 ## Base de dados compartilhada (Supabase)
 `nuvem.js` sincroniza usuários, passagens, arquivo e parâmetros com o Supabase (carga ao abrir, envio ~1 s após cada alteração, atualização a cada 8 s, fila local quando offline). Criar a tabela uma única vez executando `supabase-buzios.sql` no SQL Editor.
 
-## Novidades desta versão (out/2026)
+## Novidades desta versão (19/out/2026)
+- Manutenção reorganizada conforme o PE-3BUZ-00130: Operação Elétrica e Operação Mecânica (turno ininterrupto) com passagens de turno e turma no Anexo B-1; Manutenção Elétrica/Mecânica, Instrumentação e Automação só com passagem de turma (Anexo C-1); SUEIN e SUMEC no B-1, com a disponibilidade herdada da operação.
+- Disponibilidade da Operação Elétrica com a lista “Sistemas da Elétrica” (145 itens) e coluna Configuração (L-A / L-B / Duplo “I”) nos painéis das distribuições essencial e normal. Novo status “Indisponível”; “Operacional” passa a “Operando”.
+- Captura automática de status (OPC-UA): varredura com progresso por etapa e por sistema; atualiza só Operando / Stand-by / Inoperante; alerta de discrepância quando a rede indica Operando em item declarado fora de operação, com verificação registrada. Leitura simulada na demonstração.
+- PDF: status coloridos por criticidade, com símbolo, e destaque da última alteração de estado ocorrida no turno.
+- Itens de atenção imediata por marcação (botão “Atenção”), vinculados ao item de origem.
+- Deck técnico com 98 slides e novas capturas.
+
+## Versão anterior (out/2026)
 - Barra lateral do formulário com rolagem própria.
 - Conclusão do preenchimento por bloco nos blocos de lista aberta; edição posterior reabre o bloco.
 - Poços e Disponibilidade importados da passagem anterior, com confirmação item a item ou por grupo (aviso de atenção na confirmação em bloco; item só confirma com status preenchido). Inclusão de sistemas restrita aos administradores; remoção retirada.
