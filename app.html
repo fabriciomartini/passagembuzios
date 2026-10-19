@@ -1143,6 +1143,17 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                       </div>
                     </sc-if>
                     <sc-if value="{{ p.temDiscs }}" hint-placeholder-val="{{ false }}"><div role="alert" style="padding:8px 12px;border:2px solid oklch(0.55 0.19 25);color:oklch(0.45 0.17 25);font-size:13px;line-height:1.45;text-wrap:pretty">{{ p.discResumo }}</div></sc-if>
+                    <sc-if value="{{ p.podeEplab }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;align-items:center;gap:var(--space-3);flex-wrap:wrap;padding:10px 12px;border:1px solid var(--color-divider)">
+                        <button type="button" class="btn btn-primary" onClick="{{ p.eplab }}" title="Busca no EPLab os últimos resultados liberados de todas as análises deste bloco" style="gap:8px;white-space:nowrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31"></path><path d="M14 9.3V1.99"></path><path d="M8.5 2h7"></path><path d="M14 9.3a6.5 6.5 0 1 1-4 0"></path><path d="M5.52 16h12.96"></path></svg>Captura EPLab</button>
+                        <div style="flex:1;min-width:240px;display:flex;flex-direction:column;gap:2px">
+                          <span style="font-size:12.5px;line-height:1.45;color:color-mix(in srgb, var(--color-text) 66%, transparent);text-wrap:pretty">Traz do EPLab o último resultado e a data da análise de cada ponto, em todos os programas abaixo. Itens que falharem ficam marcados para preenchimento manual; todos os campos continuam editáveis.</span>
+                          <sc-if value="{{ p.temEplabUlt }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--color-accent-700)">{{ p.eplabUlt }}</span></sc-if>
+                        </div>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ p.temFalhas }}" hint-placeholder-val="{{ false }}"><div role="alert" style="padding:8px 12px;border:2px solid oklch(0.55 0.19 25);color:oklch(0.45 0.17 25);font-size:13px;line-height:1.45;text-wrap:pretty">{{ p.falhasResumo }}</div></sc-if>
+                    <sc-if value="{{ p.temPrazo }}" hint-placeholder-val="{{ false }}"><div role="status" style="padding:8px 12px;border:2px solid {{ p.prazoBd }};font-size:13px;line-height:1.45;text-wrap:pretty">{{ p.prazoResumo }}</div></sc-if>
                     <sc-if value="{{ p.agrupado }}" hint-placeholder-val="{{ false }}">
                       <div style="display:flex;align-items:center;gap:var(--space-3);flex-wrap:wrap">
                         <input class="input" style="max-width:320px;min-height:32px;font-size:13px" value="{{ p.busca }}" onChange="{{ p.setBusca }}" placeholder="Buscar TAG, nome ou status">
@@ -1671,6 +1682,13 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                 <div style="font-size:12.5px;line-height:1.45;color:color-mix(in srgb, var(--color-text) 62%, transparent);text-wrap:pretty">Lê Operando / Stand-by / Inoperante na rede OPC-UA. Status manuais não são alterados.</div>
               </sc-if>
               <sc-if value="{{ p.temDiscs }}" hint-placeholder-val="{{ false }}"><div role="alert" style="padding:10px 12px;border:2px solid oklch(0.55 0.19 25);color:oklch(0.45 0.17 25);font-size:14px;line-height:1.45;text-wrap:pretty">{{ p.discResumo }}</div></sc-if>
+              <sc-if value="{{ p.podeEplab }}" hint-placeholder-val="{{ false }}">
+                <button type="button" class="btn btn-primary" onClick="{{ p.eplab }}" style="min-height:52px;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31"></path><path d="M14 9.3V1.99"></path><path d="M8.5 2h7"></path><path d="M14 9.3a6.5 6.5 0 1 1-4 0"></path><path d="M5.52 16h12.96"></path></svg>Captura EPLab</button>
+                <div style="font-size:12.5px;line-height:1.45;color:color-mix(in srgb, var(--color-text) 62%, transparent);text-wrap:pretty">Busca no EPLab os últimos resultados de todas as análises deste bloco. Todos os campos continuam editáveis.</div>
+              </sc-if>
+              <sc-if value="{{ p.temFalhas }}" hint-placeholder-val="{{ false }}"><div role="alert" style="padding:8px 12px;border:2px solid oklch(0.55 0.19 25);color:oklch(0.45 0.17 25);font-size:14px;line-height:1.45;text-wrap:pretty">{{ p.falhasResumo }}</div></sc-if>
+              <sc-if value="{{ p.temPrazo }}" hint-placeholder-val="{{ false }}"><div role="status" style="padding:8px 12px;border:2px solid {{ p.prazoBd }};font-size:14px;line-height:1.45;text-wrap:pretty">{{ p.prazoResumo }}</div></sc-if>
+
               <div style="display:flex;flex-direction:column;gap:8px">
                 <sc-for list="{{ p.rows }}" as="r" hint-placeholder-count="2">
                   <sc-if value="{{ r.isGroup }}" hint-placeholder-val="{{ false }}">
@@ -2237,13 +2255,13 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
   </sc-if>
   <sc-if value="{{ opcOn }}" hint-placeholder-val="{{ false }}">
     <div class="dialog-backdrop" style="position:fixed;inset:0;z-index:420;display:flex;align-items:center;justify-content:center;padding:var(--space-4)">
-      <div class="dialog blueprint" role="dialog" aria-modal="true" aria-label="Captura automática de status" style="max-width:760px;width:100%;max-height:92vh;overflow-y:auto;overflow-x:hidden;padding:var(--space-6);background:var(--color-bg);box-sizing:border-box">
+      <div class="dialog blueprint" role="dialog" aria-modal="true" aria-label="{{ opc.titulo }}" style="max-width:760px;width:100%;max-height:92vh;overflow-y:auto;overflow-x:hidden;padding:var(--space-6);background:var(--color-bg);box-sizing:border-box">
         <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
         <div style="display:flex;align-items:baseline;gap:var(--space-3);flex-wrap:wrap">
-          <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">Disponibilidade dos principais sistemas · OPC-UA</div>
+          <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">{{ opc.kicker }}</div>
           <span style="margin-left:auto;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">{{ opc.url }}</span>
         </div>
-        <div class="dialog-title" style="font-family:var(--font-heading);font-size:24px;line-height:1.1;margin-top:4px">Captura automática de status</div>
+        <div class="dialog-title" style="font-family:var(--font-heading);font-size:24px;line-height:1.1;margin-top:4px">{{ opc.titulo }}</div>
         <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:var(--space-4)">
           <sc-for list="{{ opc.etapas }}" as="e" hint-placeholder-count="5">
             <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
@@ -2261,7 +2279,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
             <span style="font-size:12px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">{{ opc.lidosTxt }}</span>
           </div>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:6px;margin-top:var(--space-4)">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(108px,1fr));gap:6px;margin-top:var(--space-4)">
           <sc-for list="{{ opc.contadores }}" as="k" hint-placeholder-count="6">
             <div style="border:1px solid {{ k.bd }};padding:8px 10px;display:flex;flex-direction:column;gap:2px">
               <span style="font-family:var(--font-heading);font-size:24px;line-height:1;font-variant-numeric:tabular-nums;color:{{ k.cor }}">{{ k.v }}</span>
@@ -2269,7 +2287,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
             </div>
           </sc-for>
         </div>
-        <div style="margin-top:var(--space-4);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 58%, transparent)">Varredura por sistema</div>
+        <div style="margin-top:var(--space-4);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 58%, transparent)">{{ opc.gruposTitulo }}</div>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:4px 14px;margin-top:6px;max-height:150px;overflow-y:auto;flex:none">
           <sc-for list="{{ opc.grupos }}" as="g" hint-placeholder-count="4">
             <div style="display:grid;grid-template-columns:minmax(0,1fr) 56px 44px;align-items:center;gap:6px;font-size:12px">
@@ -2286,17 +2304,17 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
           <sc-if value="{{ opc.temDiscs }}" hint-placeholder-val="{{ false }}">
             <div role="alert" style="margin-top:var(--space-4);border:2px solid oklch(0.55 0.19 25);padding:10px 12px;display:flex;flex-direction:column;gap:6px">
               <span style="font-family:var(--font-heading);font-size:17px;color:oklch(0.45 0.17 25)">⚠ {{ opc.discTitulo }}</span>
-              <span style="font-size:13px;line-height:1.45;text-wrap:pretty">A rede de automação indica OPERANDO em equipamentos declarados fora de operação. É um conflito de informação: o status não foi alterado — verifique o estado real de cada item e registre a verificação.</span>
+              <span style="font-size:13px;line-height:1.45;text-wrap:pretty">{{ opc.discTxt }}</span>
               <sc-for list="{{ opc.discs }}" as="d" hint-placeholder-count="0">
                 <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-top:1px solid color-mix(in srgb, oklch(0.55 0.19 25) 35%, transparent);padding-top:6px">
                   <span style="flex:1;min-width:200px;font-size:13px;line-height:1.35">{{ d.label }}</span>
-                  <span style="font-size:12px;white-space:nowrap">Declarado <strong>{{ d.declarado }}</strong> · rede <strong style="color:oklch(0.45 0.17 25)">OPERANDO</strong></span>
+                  <span style="font-size:12px;color:oklch(0.45 0.17 25)">{{ d.det }}</span>
                 </div>
               </sc-for>
             </div>
           </sc-if>
           <sc-if value="{{ opc.temMud }}" hint-placeholder-val="{{ false }}">
-            <div style="margin-top:var(--space-4);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 58%, transparent)">Status atualizados pela captura</div>
+            <div style="margin-top:var(--space-4);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 58%, transparent)">{{ opc.mudTitulo }}</div>
             <div style="display:flex;flex-direction:column;margin-top:4px;max-height:170px;overflow-y:auto;flex:none">
               <sc-for list="{{ opc.mud }}" as="u" hint-placeholder-count="0">
                 <div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--color-divider);font-size:13px;flex-wrap:wrap">
@@ -2306,9 +2324,20 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
               </sc-for>
             </div>
           </sc-if>
-          <sc-if value="{{ opc.semMud }}" hint-placeholder-val="{{ false }}"><div style="margin-top:var(--space-4);font-size:13px;color:color-mix(in srgb, var(--color-text) 64%, transparent)">Nenhum status capturável mudou desde a passagem anterior — os itens lidos foram marcados como confirmados via OPC-UA.</div></sc-if>
+          <sc-if value="{{ opc.semMud }}" hint-placeholder-val="{{ false }}"><div style="margin-top:var(--space-4);font-size:13px;color:color-mix(in srgb, var(--color-text) 64%, transparent)">{{ opc.semMudTxt }}</div></sc-if>
+          <sc-if value="{{ opc.temVenc }}" hint-placeholder-val="{{ false }}">
+            <div role="status" style="margin-top:var(--space-4);border:2px solid oklch(0.5 0.12 75);padding:10px 12px;display:flex;flex-direction:column;gap:6px">
+              <span style="font-family:var(--font-heading);font-size:17px">{{ opc.vencTitulo }}</span>
+              <sc-for list="{{ opc.venc }}" as="d" hint-placeholder-count="0">
+                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-top:1px solid var(--color-divider);padding-top:6px">
+                  <span style="flex:1;min-width:200px;font-size:13px;line-height:1.35">{{ d.label }}</span>
+                  <span style="font-size:12px">{{ d.det }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
         </sc-if>
-        <p style="margin:var(--space-4) 0 0;font-size:11.5px;line-height:1.45;color:color-mix(in srgb, var(--color-text) 56%, transparent);text-wrap:pretty">Capturáveis: Operando (sinal de operação ativo), Stand-by (desligado sem falha) e Inoperante (falha ou trip). Demais status não têm sinal na rede e continuam manuais. Demonstração com leitura simulada — o servidor e os nós OPC-UA são configurados na implantação.</p>
+        <p style="margin:var(--space-4) 0 0;font-size:11.5px;line-height:1.45;color:color-mix(in srgb, var(--color-text) 56%, transparent);text-wrap:pretty">{{ opc.nota }}</p>
         <div class="dialog-actions" style="display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6);flex-wrap:wrap">
           <sc-if value="{{ opc.rodando }}" hint-placeholder-val="{{ true }}"><button class="btn btn-secondary" type="button" onClick="{{ opcCancelar }}" disabled="{{ opc.travado }}">Cancelar varredura</button></sc-if>
           <sc-if value="{{ opc.done }}" hint-placeholder-val="{{ false }}"><button class="btn btn-primary" type="button" onClick="{{ opcFechar }}">{{ opc.fecharLabel }}</button></sc-if>
@@ -2964,11 +2993,15 @@ class Component extends DCLogic {
   ST_OPC = ['Operando', 'Stand-by', 'Inoperante'];
   ST_DET = ['Inoperante', 'Indisponível', 'Manutenção', 'Limitado'];
   POSTOS_LISTA_MAN = ['Operação Elétrica', 'Operação Mecânica'];
+  TANQUES = ['TQ-5115501S — Água destilada BB', 'TQ-5115501P — Água destilada BE', 'TQ-5115502S — Água doce BB', 'TQ-5115502P — Água doce BE', 'TQ-5133501S — Diesel recebimento BB', 'TQ-5133501P — Diesel recebimento BE', 'TQ-5133502S — Diesel serviço BB', 'TQ-5133502P — Diesel serviço BE'];
+  LEITURAS = ['Overboard sea water — temperatura de descarte (°C)', 'Produção das UDs (m³)', 'Descarte sewage — totalizador (m³)'];
+  ANALISES = [{"t":"Água potável — cloro","per":"Diária","dias":1,"rows":["Header · Cloro livre (mg/L)","Cozinha · Cloro livre (mg/L)"]},{"t":"Água potável — cloro, cor e turbidez","per":"Semanal","dias":7,"rows":["Header · Cloro livre (mg/L)","Header · Cor (uH)","Header · Turbidez (NTU)","Cozinha · Cloro livre (mg/L)","Cozinha · Cor (uH)","Cozinha · Turbidez (NTU)"]},{"t":"Água destilada pós-cloradora","per":"Semanal","dias":7,"rows":["Cloro livre (mg/L)","Cloreto (mg/L)","pH"]},{"t":"Água destilada produzida nas UDs","per":"Semanal","dias":7,"rows":["UD-A · Cloro livre (mg/L)","UD-A · Cloreto (mg/L)","UD-A · pH","UD-A · Ferro (mg/L)","UD-B · Cloro livre (mg/L)","UD-B · Cloreto (mg/L)","UD-B · pH","UD-B · Ferro (mg/L)","UD-C · Cloro livre (mg/L)","UD-C · Cloreto (mg/L)","UD-C · pH","UD-C · Ferro (mg/L)","UD-D · Cloro livre (mg/L)","UD-D · Cloreto (mg/L)","UD-D · pH","UD-D · Ferro (mg/L)","UD-E · Cloro livre (mg/L)","UD-E · Cloreto (mg/L)","UD-E · pH","UD-E · Ferro (mg/L)","UD-F · Cloro livre (mg/L)","UD-F · Cloreto (mg/L)","UD-F · pH","UD-F · Ferro (mg/L)"]},{"t":"Água quente da acomodação — boiler AQA","per":"Semanal","dias":7,"rows":["Cloro livre (mg/L)","Cloreto (mg/L)","pH","Ferro (mg/L)"]},{"t":"Água gelada — AGL","per":"2× por semana","dias":4,"rows":["Nitrito (mg/L)","Cloreto (mg/L)","Salinidade (ppm)","pH"]},{"t":"Água de resfriamento — ARL","per":"2× por semana","dias":4,"rows":["Nitrito (mg/L)","Cloreto (mg/L)","Salinidade (ppm)","pH"]},{"t":"Diesel — teor de água","per":"Mensal","dias":31,"rows":["BCI-A · Karl Fischer (ppm)","BCI-A · Água (% v/v)","BCI-B · Karl Fischer (ppm)","BCI-B · Água (% v/v)","BCI-C · Karl Fischer (ppm)","BCI-C · Água (% v/v)","BCI-D · Karl Fischer (ppm)","BCI-D · Água (% v/v)","ADG · Karl Fischer (ppm)","ADG · Água (% v/v)","EDG · Karl Fischer (ppm)","EDG · Água (% v/v)","HDG-A · Karl Fischer (ppm)","HDG-A · Água (% v/v)","HDG-B · Karl Fischer (ppm)","HDG-B · Água (% v/v)","TQ diesel start air EDG · Karl Fischer (ppm)","TQ diesel start air EDG · Água (% v/v)","TQ diesel start air HDG · Karl Fischer (ppm)","TQ diesel start air HDG · Água (% v/v)","TQ recebimento BB · Karl Fischer (ppm)","TQ recebimento BB · Água (% v/v)","TQ recebimento BE · Karl Fischer (ppm)","TQ recebimento BE · Água (% v/v)","TQ serviço BB · Karl Fischer (ppm)","TQ serviço BB · Água (% v/v)","TQ serviço BE · Karl Fischer (ppm)","TQ serviço BE · Água (% v/v)"]},{"t":"Bilge tank","per":"Semanal","dias":7,"rows":["Sulfeto de hidrogênio — H₂S (ppm)"]},{"t":"Efluentes sanitários — pH e SST","per":"Semanal","dias":7,"rows":["Unidade A · pH","Unidade A · SST (mg/L)","Unidade B · pH","Unidade B · SST (mg/L)"]},{"t":"Efluentes sanitários — DQO e OD","per":"Quinzenal","dias":15,"rows":["Unidade A · DQO entrada (mg/L)","Unidade A · DQO saída (mg/L)","Unidade A · Oxigênio dissolvido (mg/L)","Unidade B · DQO entrada (mg/L)","Unidade B · DQO saída (mg/L)","Unidade B · Oxigênio dissolvido (mg/L)"]}];
+  EPLAB_URL = 'EPLab · integração TIC';
   OPC_URL = 'opc.tcp://topside-opc:4840';
   normSt(v) { return v === 'Operacional' ? 'Operando' : (v || ''); }
   cfgOpts(label) { var i = this.infoEquip(label); return (i && i.cfg) || []; }
   temCfg(posto) { var self = this; return (this.SIST_POSTO[posto] || []).some(function (l) { return self.cfgOpts(l).length; }); }
-  nomeGrupo(info) { return /^EL/.test(info.sop) ? info.sopNome : info.sop + ' · ' + info.sopNome; }
+  nomeGrupo(info) { return /^(EL|MC)/.test(info.sop) ? info.sopNome : info.sop + ' · ' + info.sopNome; }
   // Postos cujos sistemas são herdados automaticamente na disponibilidade (sala de controle, gestão da produção e supervisões B-1 da manutenção).
   herdaDe(posto) {
     if (posto === 'Controle') return ['Óleo', 'Gás', 'Água'];
@@ -3182,7 +3215,7 @@ class Component extends DCLogic {
     var disp = {
       num: '5', key: 'disponibilidade', hideable: true,
       title: turma ? 'Disponibilidade dos principais sistemas ao final da escala' : 'Disponibilidade dos principais sistemas',
-      hint: (ehControle ? 'Sala de controle: os sistemas dos postos Óleo, Gás e Água são herdados automaticamente das passagens de cada posto (validadas ou em elaboração) e só podem ser alterados aqui com justificativa. ' : '') + 'Status importados da passagem anterior do posto: confira e confirme item a item (☐ Confirmar) ou o grupo inteiro (☐ Confirmar grupo). A inclusão ou retirada de sistemas da lista é feita pela administração local ou do sistema. Nota 5 — todo item Inoperante, Indisponível, Manutenção ou Limitado exige detalhamento na segunda tabela. Status inicial “Não comissionado” enquanto a unidade estiver em construção. “Captura automática de status” lê na rede OPC-UA do topside os sinais Operando, Stand-by e Inoperante e atualiza só os itens que já estavam nesses três status; os demais continuam manuais e são conferidos quanto a discrepâncias.' + (cfgCol ? ' Painéis com configuração do sistema (L-A / L-B / Duplo “I”) exigem a coluna Configuração.' : ''),
+      hint: (ehControle ? 'Sala de controle: os sistemas dos postos Óleo, Gás e Água são herdados automaticamente das passagens de cada posto (validadas ou em elaboração) e só podem ser alterados aqui com justificativa. ' : '') + 'Status importados da passagem anterior do posto: confira e confirme item a item (☐ Confirmar) ou o grupo inteiro (☐ Confirmar grupo). A inclusão ou retirada de sistemas da lista é feita pela administração local ou do sistema. Nota 5 — todo item Inoperante, Indisponível, Manutenção ou Limitado exige detalhamento na segunda tabela. Status inicial “Não comissionado” enquanto a unidade estiver em construção. “Captura automática de status” lê na rede OPC-UA do topside os sinais Operando, Stand-by e Inoperante e atualiza só os itens que já estavam nesses três status; os demais continuam manuais e são conferidos quanto a discrepâncias.' + (cfgCol ? ' Itens com configuração (L-A / L-B / Duplo “I” nos painéis elétricos; Automático / Manual nas válvulas de controle) exigem a coluna Configuração.' : ''),
       panels: [
         fixo('st', [
           c('Sistema / Equipamento', 'label'),
@@ -3354,6 +3387,20 @@ class Component extends DCLogic {
     var panoA = { num: '1', key: 'panorama', title: 'Panorama consolidado da escala',
       hint: 'Consolidação dos fatos relevantes da escala — não é somatório das passagens de turno. Use “Enviar para a turma” nas passagens de turno para trazer itens prontos. Até 8 linhas.',
       panels: [{ pid: 'p', kind: 'text', req: 'any', placeholder: 'Principais eventos, mudanças de cenário e o que a próxima turma encontra ao assumir.' }] };
+    var invBlocos = [];
+    if (this.postoInfo(posto).inv) {
+      invBlocos.push({ num: '0', key: 'tancagem', title: turma ? 'Tancagem e leituras ao final da escala' : 'Tancagem e leituras operacionais',
+        hint: 'Alinhamento e volume de cada tanque no encerramento do período. Os dados vêm da passagem anterior: atualize o volume e confirme item a item (☐ Confirmar). Tanque não alinhado deve ter o motivo em Observação.',
+        panels: [
+          fixo('tq', [c('Tanque', 'label', { w: '32%' }), c('Alinhamento', 'select', { options: ['Alinhado', 'Não alinhado'], w: '150px', req: true }), c('Volume (m³)', 'text', { w: '120px', req: true, ph: '0,0' }), c('Observação', 'area')], this.TANQUES, { sync: true, confirmar: true, tanque: true, title: 'Tanques de água doce e diesel' }),
+          fixo('lt', [c('Leitura', 'label', { w: '40%' }), c('Valor', 'text', { w: '120px', req: true, ph: '0,0' }), c('Observação', 'area')], this.LEITURAS, { sync: true, title: 'Leituras e totalizadores no encerramento do período' })
+        ] });
+      invBlocos.push({ num: '0', key: 'quimica', hideable: true, title: 'Qualidade de inventários — análises químicas',
+        hint: 'Último resultado de cada ponto e parâmetro, com a data da análise. “Captura EPLab” busca os resultados lançados no EPLab; qualquer campo continua editável à mão (falha na captura ou resultado ainda não lançado). O prazo segue a periodicidade de cada programa: amarelo quando falta menos de ¼ do intervalo, vermelho quando o intervalo máximo entre análises é excedido (diária 24 h, 2× por semana 4 dias, semanal 7, quinzenal 15, mensal 31). Resultados da passagem anterior são mantidos.',
+        panels: this.ANALISES.map(function (g, i) {
+          return fixo('q' + i, [c('Ponto / parâmetro', 'label', { w: '26%' }), c('Resultado', 'text', { w: '100px', ph: '0,00' }), c('Data da análise', 'datetime', { w: '150px' }), c('Prazo', 'label', { w: '200px' }), c('Origem', 'label', { w: '190px' })], g.rows, { sync: true, req: 'none', eplab: true, eplabPrim: i === 0, dias: g.dias, per: g.per, title: g.t + ' · ' + g.per });
+        }) });
+    }
     var modelo = this.postoInfo(posto).modelo, pre = turma ? [atencao, panoA] : [atencao];
     if (posto && modelo === 'A1') return this.renumera(pre.concat([degA1, eventos, anomA1, opcrit, gm, dispA1, compl]));
     if (modelo === 'C1') return this.renumera(pre.concat([anomC1, manut, gmC1, compl]));
@@ -3364,7 +3411,7 @@ class Component extends DCLogic {
     if (ehGestao) { disp.panels = disp.panels.filter(function (p) { return p.herdado || p.herdadoDet; }); disp.hint = 'Sistemas dos quatro postos de operação herdados automaticamente das passagens de cada posto (validadas ou em elaboração).'; }
     else if (b1 && herda.length) { disp.panels = disp.panels.filter(function (p) { return p.herdado || p.herdadoDet; }); disp.hint = 'Sistemas do posto ' + herda.join(', ') + ' herdados automaticamente da passagem de turno do posto (validada ou em elaboração), com status, configuração e última alteração de estado. Alterações aqui exigem justificativa e ficam marcadas como sobrescritas.'; }
     var base = ehGestao ? [composicao, coprodBloco, atencao] : [atencao];
-    if (!turma) return this.renumera(semProd(base.concat([degrad, opcrit, gm, estado, pocos, meio, integ, pts, compl, disp])));
+    if (!turma) return this.renumera(semProd(base.concat([degrad, opcrit, gm, estado, pocos, meio, integ, pts, compl, disp]).concat(invBlocos)));
 
     var panorama = {
       num: '1', key: 'panorama', title: 'Panorama consolidado da escala',
@@ -3374,7 +3421,7 @@ class Component extends DCLogic {
         placeholder: 'Desempenho do período, principais eventos, mudanças de cenário e o que a próxima turma encontra ao assumir.'
       }]
     };
-    return this.renumera(semProd(base.concat([panorama, degrad].concat(ehCoprod ? [eventos, anomA1] : []).concat([opcrit, gm, estado, pocos, meio, integ, compl, disp]))));
+    return this.renumera(semProd(base.concat([panorama, degrad].concat(ehCoprod ? [eventos, anomA1] : []).concat([opcrit, gm, estado, pocos, meio, integ, compl, disp]).concat(invBlocos))));
   }
 
   // Monta a composição hierárquica a partir das equipes vinculadas às passagens do período.
@@ -5018,8 +5065,9 @@ class Component extends DCLogic {
         }
         if (p.cfgCol) {
           var semCfgN = rows.filter(function (r) { return self.cfgOpts(r.c[0]).length && ['Não comissionado', 'N/A', 'Em comissionamento'].indexOf(r.c[1]) < 0 && !String(r.c[3] || '').trim(); }).length;
-          if (semCfgN) issues.push(label + semCfgN + ' painel(is) sem configuração do sistema informada (L-A / L-B / Duplo “I”).');
+          if (semCfgN) issues.push(label + semCfgN + ' item(ns) sem configuração informada (ex.: L-A / L-B / Duplo “I”, Automático / Manual).');
         }
+        if (p.tanque) rows.forEach(function (r) { if (r.c[1] === 'Não alinhado' && !String(r.c[3] || '').trim()) issues.push('“' + r.c[0] + '”: tanque não alinhado — informe o motivo em Observação.'); });
         if (p.opc) {
           var discN = rows.filter(function (r) { return r.disc && !r.disc.ok; }).length;
           if (discN) issues.push(label + discN + ' discrepância(s) OPC-UA não verificada(s) — confira o estado real do equipamento e registre a verificação (⚠ Verificar).');
@@ -5349,9 +5397,10 @@ class Component extends DCLogic {
       },
       opcCancelar: function () { if (self._opc && self._opc.fase >= 4) return; if (self._opcT) { clearInterval(self._opcT); self._opcT = null; } self._opc = null; self.setState({ opcV: Date.now() }); self.flash('Varredura cancelada — nenhum status foi alterado.'); },
       opcFechar: function () { var x = self._opc; self._opc = null; self.setState({ opcV: Date.now() }); if (x && x.res && x.res.disc.length && !self.state.mob) self.goTo('sec-' + x.sid); },
-      opc: { url: this.OPC_URL, etapas: [], pct: 0, pctTxt: '0%', barW: '0%', atualTxt: '', lidosTxt: '', contadores: [], grupos: [], log: [], done: false, rodando: true, travado: false, temDiscs: false, discs: [], discTitulo: '', temMud: false, mud: [], semMud: false, fecharLabel: 'Fechar' }
+      opc: { kicker: '', titulo: '', gruposTitulo: '', discTxt: '', mudTitulo: '', semMudTxt: '', nota: '', temVenc: false, venc: [], vencTitulo: '', url: this.OPC_URL, etapas: [], pct: 0, pctTxt: '0%', barW: '0%', atualTxt: '', lidosTxt: '', contadores: [], grupos: [], log: [], done: false, rodando: true, travado: false, temDiscs: false, discs: [], discTitulo: '', temMud: false, mud: [], semMud: false, fecharLabel: 'Fechar' }
     };
     if (!o) return out;
+    if (o.kind === 'eplab') { out.opc = this.eplabView(o); return out; }
     var faixas = [[0, 8], [8, 18], [18, 82], [82, 94], [94, 100]], nomes = ['Conexão OPC-UA', 'Resolução de tags', 'Leitura de sinais', 'Verificações automáticas', 'Atualização do formulário'];
     var cont = { atual: 0, igual: 0, pres: 0, disc: 0, sem: 0 };
     o.itens.forEach(function (it) { var cl = self.opcClasse(it); if (cl === 'disc') { cont.disc++; cont.pres++; } else if (cl) cont[cl]++; });
@@ -5372,11 +5421,148 @@ class Component extends DCLogic {
       grupos: o.grupos.map(function (g) { return { nome: g.nome, w: (g.lidos / g.total * 100).toFixed(0) + '%', txt: g.lidos + '/' + g.total, cor: g.lidos === g.total ? 'var(--color-accent-700)' : 'var(--color-accent)' }; }),
       log: o.log.slice(-7), done: o.done, rodando: !o.done, travado: o.fase >= 4,
       temDiscs: !!(o.done && o.res && o.res.disc.length), discTitulo: o.res ? o.res.disc.length + (o.res.disc.length === 1 ? ' discrepância encontrada' : ' discrepâncias encontradas') : '',
-      discs: o.res ? o.res.disc.map(function (it) { return { label: it.label, declarado: it.antes }; }) : [],
+      discs: o.res ? o.res.disc.map(function (it) { return { label: it.label, declarado: it.antes, det: 'Declarado ' + it.antes + ' · rede OPERANDO' }; }) : [],
       temMud: !!(o.done && o.res && o.res.atual.length), mud: o.res ? o.res.atual.map(function (it) { return { label: it.label, de: it.antes, para: it.sinal }; }) : [],
       semMud: !!(o.done && o.res && !o.res.atual.length), fecharLabel: o.res && o.res.disc.length ? 'Verificar discrepâncias' : 'Fechar'
     };
+    Object.assign(out.opc, { kicker: 'Disponibilidade dos principais sistemas · OPC-UA', titulo: 'Captura automática de status', gruposTitulo: 'Varredura por sistema',
+      discTxt: 'A rede de automação indica OPERANDO em equipamentos declarados fora de operação. É um conflito de informação: o status não foi alterado — verifique o estado real de cada item e registre a verificação.',
+      mudTitulo: 'Status atualizados pela captura', semMudTxt: 'Nenhum status capturável mudou desde a passagem anterior — os itens lidos foram marcados como confirmados via OPC-UA.',
+      nota: 'Capturáveis: Operando (sinal de operação ativo), Stand-by (desligado sem falha) e Inoperante (falha ou trip). Demais status não têm sinal na rede e continuam manuais. Demonstração com leitura simulada — o servidor e os nós OPC-UA são configurados na implantação.', temVenc: false, venc: [], vencTitulo: '' });
     return out;
+  }
+
+  // ---------- análises químicas: prazos e captura EPLab ----------
+  prazoInfo(iso, dias, ref) {
+    if (!iso) return { st: 'sem', txt: 'Sem resultado' };
+    var t = new Date(iso).getTime(); if (isNaN(t)) return { st: 'sem', txt: 'Data inválida' };
+    var lim = t + dias * 86400000, rest = lim - ref, dl = new Date(lim), dd = this.pad(dl.getDate()) + '/' + this.pad(dl.getMonth() + 1) + (dias <= 1 ? ' ' + this.pad(dl.getHours()) + 'h' : '');
+    var fmt = function (ms) { var h = Math.abs(ms) / 3600000; return h < 48 ? Math.max(1, Math.round(h)) + ' h' : Math.round(h / 24) + ' d'; };
+    if (rest < 0) return { st: 'venc', txt: 'VENCIDA há ' + fmt(rest) + ' · máx. ' + (dias <= 1 ? '24 h' : dias + ' d') };
+    if (rest < dias * 86400000 * 0.25) return { st: 'warn', txt: 'Vence em ' + fmt(rest) + ' · até ' + dd };
+    return { st: 'ok', txt: 'Em dia · próxima até ' + dd };
+  }
+  prazoRows(p, rows, ref) {
+    var self = this; ref = ref || Date.now();
+    (rows || []).forEach(function (r) { var pi = self.prazoInfo(r.c[2], p.dias, ref); r.c[3] = pi.txt; r._pz = pi.st; if (String(r.c[1] || '').trim() && !r.c[4]) r.c[4] = 'Passagem anterior'; });
+  }
+  prazoResumo(rows, p) {
+    var v = rows.filter(function (r) { return r._pz === 'venc'; }).length, w = rows.filter(function (r) { return r._pz === 'warn'; }).length;
+    return (v ? '⚠ ' + v + ' parâmetro(s) com intervalo máximo entre análises excedido (' + p.per.toLowerCase() + ')' : '') + (v && w ? ' · ' : '') + (w ? w + ' a vencer em breve' : '') + ' — solicite a coleta ao laboratório e registre o novo resultado.';
+  }
+  eplabManual(r) { var eu = this.state.user; r.c[4] = 'Manual · ' + (eu ? this.nomeCurto(eu.nome) : '') + ' · ' + this.fmtHoraISO(new Date().toISOString()).slice(-5); delete r.eplabFalha; delete r.eplab; }
+  eplabIniciar(sid) {
+    if (!this.podeEditar()) { this.flash('Vincule-se à passagem para capturar os resultados.'); return; }
+    if (this._opcT) return;
+    var self = this, sec = this.schema(this.tipo()).filter(function (s) { return s.key === sid; })[0]; if (!sec) return;
+    var itens = [], grupos = [], gm = {};
+    sec.panels.forEach(function (p) {
+      if (!p.eplab) return;
+      var nome = p.title.split(' · ')[0]; gm[p.pid] = { nome: nome, total: 0, lidos: 0, falhas: 0 }; grupos.push(gm[p.pid]);
+      (self.rows(sid, p.pid) || []).forEach(function (r) { if (!String(r.c[0] || '').trim()) return; gm[p.pid].total++; itens.push({ r: r, p: p, pid: p.pid, label: nome + ' · ' + r.c[0], antesV: r.c[1] || '', antesD: r.c[2] || '', res: null }); });
+    });
+    if (!itens.length) { this.flash('Nenhum parâmetro para capturar.'); return; }
+    this._opc = { kind: 'eplab', sid: sid, itens: itens, grupos: grupos, gm: gm, fase: 0, pct: 0, i: 0, log: [], atual: '', t0: Date.now(), tf: Date.now(), done: false, res: null };
+    this.opcLog('Captura iniciada · ' + itens.length + ' parâmetros em ' + grupos.length + ' programas de monitoramento');
+    this._opcT = setInterval(function () { self.eplabTick(); }, 60);
+    this.setState({ opcV: Date.now() });
+  }
+  eplabValor(label) {
+    var R = [[/Cloro livre/, 0.2, 2, 2], [/Cor \(/, 1, 10, 0], [/Turbidez/, 0.1, 2, 2], [/Cloreto/, 5, 250, 1], [/pH/, 6.5, 8.5, 2], [/Ferro/, 0.01, 0.3, 3], [/Nitrito/, 300, 1200, 0], [/Salinidade/, 50, 500, 0], [/Fischer/, 50, 500, 0], [/v\/v/, 0.005, 0.05, 3], [/H₂S/, 0, 10, 1], [/SST/, 10, 80, 0], [/DQO entrada/, 300, 800, 0], [/DQO saída/, 50, 150, 0], [/Oxigênio/, 2, 6, 1]];
+    var m = R.filter(function (x) { return x[0].test(label); })[0] || [null, 0, 10, 2];
+    return (m[1] + Math.random() * (m[2] - m[1])).toFixed(m[3]).replace('.', ',');
+  }
+  eplabLer(it) {
+    var x = Math.random();
+    if (x < 0.035) return { falha: 'Amostra não localizada no EPLab para este ponto' };
+    if (x < 0.06) return { falha: 'Resultado pendente de liberação pelo laboratório' };
+    if (x < 0.07) return { falha: 'Tempo de resposta excedido na consulta' };
+    var dias = it.p.dias, ago = Math.random() < 0.1 ? dias * (1.1 + Math.random() * 0.8) : Math.random() * dias * 0.85;
+    var d = new Date(Date.now() - ago * 86400000); d.setMinutes(0); var iso = this.isoLocal(d);
+    if (it.antesD && iso <= it.antesD) return { igual: true };
+    return { v: this.eplabValor(it.r.c[0]), d: iso, am: 'AM-' + d.getFullYear() + '-' + (100000 + Math.floor(Math.random() * 899999)) };
+  }
+  eplabTick() {
+    var self = this, o = this._opc; if (!o) { clearInterval(this._opcT); this._opcT = null; return; }
+    var e = Date.now() - o.tf;
+    if (o.fase === 0) {
+      o.pct = Math.min(8, e / 900 * 8);
+      if (!o.l1 && e > 200) { o.l1 = 1; this.opcLog('Autenticando no EPLab com a conta de serviço da unidade'); }
+      if (!o.l2 && e > 550) { o.l2 = 1; this.opcLog('Sessão aberta · unidade ' + this.un() + ' · perfil somente leitura'); }
+      if (e >= 900) { o.fase = 1; o.tf = Date.now(); this.opcLog('Conectado ao EPLab'); }
+    } else if (o.fase === 1) {
+      o.pct = 8 + Math.min(10, e / 700 * 10);
+      if (e >= 700) { o.fase = 2; o.tf = Date.now(); this.opcLog('Consulta preparada · últimos resultados liberados por ponto de amostragem e parâmetro'); }
+    } else if (o.fase === 2) {
+      var passo = Math.max(1, Math.ceil(o.itens.length / 60));
+      for (var k = 0; k < passo && o.i < o.itens.length; k++) {
+        var it = o.itens[o.i++]; it.res = this.eplabLer(it); o.gm[it.pid].lidos++; if (it.res.falha) o.gm[it.pid].falhas++; o.atual = it.label;
+        this.opcLog(it.res.falha ? 'FALHA ' + it.label + ' — ' + it.res.falha : it.res.igual ? 'SEM NOVO ' + it.label : 'OK ' + it.res.am + ' · ' + it.label + ' → ' + it.res.v);
+      }
+      o.pct = 18 + 64 * (o.i / o.itens.length);
+      if (o.i >= o.itens.length) { o.fase = 3; o.tf = Date.now(); o.atual = ''; this.opcLog('Leitura concluída · verificando a periodicidade das análises'); }
+    } else if (o.fase === 3) {
+      o.pct = 82 + Math.min(12, e / 900 * 12);
+      if (!o.res) {
+        var res = { atual: [], igual: [], disc: [], venc: [] }, agora = Date.now();
+        o.itens.forEach(function (x) {
+          if (x.res.falha) res.disc.push(x); else if (x.res.igual) res.igual.push(x); else res.atual.push(x);
+          var dFinal = x.res.d || x.antesD, pz = self.prazoInfo(dFinal, x.p.dias, agora);
+          if (pz.st === 'venc') { x.pz = pz.txt; res.venc.push(x); }
+        });
+        this.opcLog('Verificação: ' + res.atual.length + ' resultado(s) novo(s) · ' + res.igual.length + ' sem novidade · ' + res.disc.length + ' falha(s) · ' + res.venc.length + ' com prazo excedido');
+        o.res = res;
+      }
+      if (e >= 900) { o.fase = 4; o.tf = Date.now(); }
+    } else if (o.fase === 4) {
+      o.pct = 94 + Math.min(6, e / 500 * 6);
+      if (e >= 500) { this.eplabAplicar(o); o.fase = 5; o.pct = 100; o.done = true; o.tEnd = Date.now(); clearInterval(this._opcT); this._opcT = null; }
+    }
+    this.setState({ opcV: Date.now() });
+  }
+  eplabAplicar(o) {
+    var self = this, res = o.res, cb = this.carimbo();
+    res.atual.forEach(function (it) { it.r.c[1] = it.res.v; it.r.c[2] = it.res.d; it.r.c[4] = 'EPLab · ' + it.res.am; it.r.eplab = { em: cb.em, am: it.res.am }; delete it.r.eplabFalha; });
+    res.igual.forEach(function (it) { delete it.r.eplabFalha; });
+    res.disc.forEach(function (it) { it.r.eplabFalha = { em: cb.em, motivo: it.res.falha }; it.r.c[4] = 'Falha EPLab — preencher manualmente'; });
+    o.itens.forEach(function (it) { self.prazoRows(it.p, [it.r]); });
+    var resumo = res.atual.length + ' atualizado(s) · ' + res.igual.length + ' sem resultado novo · ' + res.disc.length + ' falha(s) · ' + res.venc.length + ' com prazo excedido';
+    var sd = this.doc[this.tipo()][o.sid]; if (sd) sd.eplab = { em: cb.em, u: cb.u, n: cb.n, resumo: resumo };
+    this.registrar('Captura EPLab (análises químicas)', resumo + (res.disc.length ? ' · falhas: ' + res.disc.map(function (it) { return it.label; }).join('; ') : ''));
+    this.opcLog('Resultados aplicados ao formulário · ' + resumo);
+    this.commit();
+  }
+  eplabView(o) {
+    var self = this, faixas = [[0, 8], [8, 18], [18, 82], [82, 94], [94, 100]], nomes = ['Conexão EPLab', 'Consulta de amostras', 'Leitura de resultados', 'Verificação de prazos', 'Atualização do formulário'];
+    var c = { atual: 0, igual: 0, falha: 0 }; o.itens.forEach(function (it) { if (!it.res) return; if (it.res.falha) c.falha++; else if (it.res.igual) c.igual++; else c.atual++; });
+    var nv = o.res ? o.res.venc.length : 0, pct = Math.round(o.pct), RED = 'oklch(0.55 0.19 25)';
+    var frase = ['Conectando ao EPLab…', 'Preparando a consulta de amostras…', 'Lendo ' + (o.atual || 'resultados…'), 'Verificando a periodicidade das análises…', 'Aplicando os resultados ao formulário…', 'Captura concluída'][o.fase];
+    var falhas = o.res ? o.res.disc : [];
+    return {
+      kicker: 'Qualidade de inventários · EPLab', titulo: 'Captura EPLab', gruposTitulo: 'Captura por programa de monitoramento', url: this.EPLAB_URL,
+      pct: pct, pctTxt: pct + '%', barW: o.pct.toFixed(1) + '%', atualTxt: frase,
+      lidosTxt: o.i + ' de ' + o.itens.length + ' parâmetros consultados · ' + (((o.tEnd || Date.now()) - o.t0) / 1000).toFixed(1) + ' s',
+      etapas: nomes.map(function (n, i) { var a = faixas[i][0], b = faixas[i][1], w = Math.max(0, Math.min(1, (o.pct - a) / (b - a))); var feito = o.done || o.fase > i; return { num: '0' + (i + 1), nome: n, w: (feito ? 100 : w * 100).toFixed(0) + '%', estado: feito ? 'Concluído' : (o.fase === i ? 'Em andamento' : 'Aguardando'), cor: feito || o.fase === i ? 'var(--color-text)' : 'color-mix(in srgb, var(--color-text) 45%, transparent)' }; }),
+      contadores: [
+        { k: 'Parâmetros consultados', v: o.i + '/' + o.itens.length, cor: 'var(--color-text)', bd: 'var(--color-divider)' },
+        { k: 'Atualizados', v: String(c.atual), cor: 'var(--color-accent-700)', bd: 'var(--color-divider)' },
+        { k: 'Sem resultado novo', v: String(c.igual), cor: 'var(--color-text)', bd: 'var(--color-divider)' },
+        { k: 'Falhas — preencher à mão', v: String(c.falha), cor: c.falha ? 'oklch(0.45 0.17 25)' : 'var(--color-text)', bd: c.falha ? RED : 'var(--color-divider)' },
+        { k: 'Prazo excedido', v: o.res ? String(nv) : '—', cor: nv ? 'oklch(0.5 0.12 75)' : 'var(--color-text)', bd: nv ? 'oklch(0.5 0.12 75)' : 'var(--color-divider)' }
+      ],
+      grupos: o.grupos.map(function (g) { return { nome: g.nome, w: (g.lidos / g.total * 100).toFixed(0) + '%', txt: g.lidos + '/' + g.total, cor: g.falhas ? RED : (g.lidos === g.total ? 'var(--color-accent-700)' : 'var(--color-accent)') }; }),
+      log: o.log.slice(-7), done: o.done, rodando: !o.done, travado: o.fase >= 4,
+      temDiscs: !!(o.done && falhas.length), discTitulo: falhas.length + (falhas.length === 1 ? ' item não atualizado automaticamente' : ' itens não atualizados automaticamente'),
+      discTxt: 'Estes resultados não vieram do EPLab. O valor anterior foi mantido e o item ficou marcado para preenchimento manual — consulte o EPLab ou o laboratório e digite resultado e data.',
+      discs: falhas.map(function (it) { return { label: it.label, det: it.res.falha }; }),
+      temMud: !!(o.done && o.res && o.res.atual.length), mudTitulo: 'Resultados atualizados pela captura',
+      mud: o.res ? o.res.atual.map(function (it) { return { label: it.label, de: it.antesV || '—', para: it.res.v + ' · ' + self.fmtDT(it.res.d) }; }) : [],
+      semMud: !!(o.done && o.res && !o.res.atual.length), semMudTxt: 'Nenhum resultado novo no EPLab desde o último registro.',
+      temVenc: !!(o.done && nv), vencTitulo: nv + ' parâmetro(s) com intervalo máximo entre análises excedido',
+      venc: o.res ? o.res.venc.map(function (it) { return { label: it.label, det: it.pz }; }) : [],
+      nota: 'Busca o último resultado liberado de cada ponto e parâmetro, com a data da análise. Itens que falharem continuam editáveis para preenchimento manual. Demonstração com leitura simulada — a integração com o EPLab será configurada com a TIC na implantação.',
+      fecharLabel: falhas.length ? 'Fechar e preencher falhas' : 'Fechar'
+    };
   }
 
   // ---------- relatório ----------
@@ -5397,6 +5583,7 @@ class Component extends DCLogic {
       if (!declarado) {
         s.panels.forEach(function (p) {
           var pr = sd.panels[p.pid] || [];
+          if (p.eplab) self.prazoRows(p, pr, src.emitidoEm ? new Date(src.emitidoEm).getTime() : Date.now());
           if (p.kind === 'text') {
             var v = pr.length ? String(pr[0].c[0] || '').trim() : '';
             if (v) panels.push({ isText: true, isTable: false, hasTitle: !!p.title, title: p.title || '', text: v, hasImgs: false, imgs: [] });
@@ -5438,6 +5625,12 @@ class Component extends DCLogic {
             var cx = p.cols.map(function (c, i) {
               var v = String(r.c[i] || ''), t = c.type === 'elapsed' ? self.decorrido(r.c[c.from]) : (c.type === 'date' || c.type === 'datetime') ? self.fmtDT(v) : (v || '—');
               var o = { t: t, bg: 'transparent', cor: 'inherit', fw: '400' };
+              if (p.eplab) {
+                var pz = { venc: { bg: '#f6d5d3', cor: '#8a1c14', fw: '700' }, warn: { bg: '#faf0c2', cor: '#5f4900', fw: '600' }, ok: { bg: '#dff0e2', cor: '#1d5a2c', fw: '400' } }[r._pz];
+                if (i === 3 && pz) { o.bg = pz.bg; o.cor = pz.cor; o.fw = pz.fw; }
+                if (i === 4 && r.eplabFalha) { o.cor = '#8a1c14'; o.fw = '700'; }
+                return o;
+              }
               if (!stPan) return o;
               if (i === 0 && alt) { o.fw = '700'; }
               if (i === 1) { var k = self.stCor(self.normSt(v)); o.t = (k.sym ? k.sym + ' ' : '') + (self.normSt(v) || '—'); o.bg = k.bg; o.cor = k.cor; o.fw = k.fw; }
@@ -6052,6 +6245,7 @@ class Component extends DCLogic {
             cols: [], rows: [], textValue: '', placeholder: '', micIcon: '', micBg: 'transparent'
           };
         }
+        if (p.eplab) self.prazoRows(p, rows);
         var itemizavel = !!p.addable && !p.fixed;
         var buscaKey = s.key + '/' + p.pid, busca = String((self.state.pBusca || {})[buscaKey] || '').trim().toLowerCase();
         var rowsVis = busca ? rows.filter(function (r) { return String(r.c[0] || '').toLowerCase().indexOf(busca) >= 0 || String(r.c[1] || '').toLowerCase().indexOf(busca) >= 0; }) : rows;
@@ -6067,7 +6261,7 @@ class Component extends DCLogic {
             var cfgO = c.cfg ? self.cfgOpts(r.c[0]) : null, semCfg = !!c.cfg && !cfgO.length;
             var mostrado = (c.type === 'date' || c.type === 'datetime') ? (bruto ? self.fmtDT(bruto) : '—') : (bruto || '—');
             var campoCel = (c.type === 'date' || c.type === 'datetime')
-              ? self.campoData(dictKey, bruto, c.type === 'datetime', function (v) { r.c[ci] = v; self.commit(); })
+              ? self.campoData(dictKey, bruto, c.type === 'datetime', function (v) { r.c[ci] = v; if (p.eplab) self.eplabManual(r); self.commit(); })
               : { valor: '', onChange: function () {} };
             var decor = c.type === 'elapsed' ? self.decorrido(r.c[c.from]) : '';
             var ai = c.type === 'area'
@@ -6082,7 +6276,7 @@ class Component extends DCLogic {
               tip: tipV, tipCursor: tipV ? 'help' : 'default',
               isStatic: c.type === 'label' || c.type === 'elapsed' || semCfg || (travada && !(r.vinc && ci === 0 && podeEd)),
               shown: c.type === 'label' ? bruto : (c.type === 'elapsed' ? decor : mostrado),
-              staticColor: (s.amb && ci === 2 && bruto === 'Desvio') ? RED : c.type === 'elapsed'
+              staticColor: (p.eplab && ci === 3) ? ({ venc: RED, warn: 'oklch(0.5 0.12 75)', ok: 'var(--color-accent-700)' }[r._pz] || 'color-mix(in srgb, var(--color-text) 45%, transparent)') : (p.eplab && ci === 4 && r.eplabFalha) ? RED : (s.amb && ci === 2 && bruto === 'Desvio') ? RED : c.type === 'elapsed'
                 ? (decor === '—' ? 'color-mix(in srgb, var(--color-text) 40%, transparent)' : 'var(--color-accent-700)')
                 : (c.type === 'label' ? 'inherit' : (bruto ? 'inherit' : 'color-mix(in srgb, var(--color-text) 40%, transparent)')),
               isLabel: c.type === 'label',
@@ -6095,6 +6289,7 @@ class Component extends DCLogic {
                 var novo = e.target.value;
                 if (c.stamp != null && novo !== r.c[ci]) r.c[c.stamp] = self.agoraISO();
                 r.c[ci] = novo;
+                if (p.eplab && (ci === 1 || ci === 2)) self.eplabManual(r);
                 if (p.confirmar && ci > 0) r.conf = self.carimbo();
                 if (s.amb && p.pid === 'p' && ci === 1) self.avaliarAmb(r, false);
                 var simNovo = s.key === 'integridade' && p.pid === 'sub' && ci === 1 && novo === 'Sim';
@@ -6132,7 +6327,7 @@ class Component extends DCLogic {
             temVinc: !!r.vinc, vincLabel: r.vinc ? '↗ ' + r.vinc.titulo : '', irVinc: function () { if (r.vinc) self.goTo('sec-' + r.vinc.sid); },
             alertado: !!alertado, alertadoLabel: alertado ? 'Alertado · ' + self.fmtHoraISO(alertado.em).slice(-5) : '', alertaDesatualizado: alertaDesatualizado, reenviar: function () { self.abrirAlerta(s.key, p.pid, r.rid); },
             autorTip: r.autor ? 'Item concluído por ' + self.fmtCarimbo(r.autor) : '',
-            bg: (r.disc && !r.disc.ok) ? RFILL : (pendConf || (pAlerta && p.confirmar && !r.conf && !r.herd && String(r.c[0] || '').trim())) ? RFILL2 : r.herd ? (r.herd.rascunho ? 'color-mix(in srgb, var(--color-accent) 6%, transparent)' : 'transparent') : (travada ? 'color-mix(in srgb, var(--color-text) 4%, transparent)' : 'transparent'),
+            bg: (p.eplab && (r._pz === 'venc' || r.eplabFalha)) ? RFILL2 : (r.disc && !r.disc.ok) ? RFILL : (pendConf || (pAlerta && p.confirmar && !r.conf && !r.herd && String(r.c[0] || '').trim())) ? RFILL2 : r.herd ? (r.herd.rascunho ? 'color-mix(in srgb, var(--color-accent) 6%, transparent)' : 'transparent') : (travada ? 'color-mix(in srgb, var(--color-text) 4%, transparent)' : 'transparent'),
             showAttach: !!p.evidence && !travada,
             showConfirm: itemizavel && !travada && self.filled(p, r),
             confirmar: function () {
@@ -6181,7 +6376,11 @@ class Component extends DCLogic {
         var totalRows = rows.length, ncTotal = rows.filter(function (r) { return (r.c[1] || 'Não comissionado') === 'Não comissionado'; }).length;
         var fechadosAgora = Object.keys(self.state.gFechado || {}).filter(function (k) { return k.indexOf(buscaKey + '/') === 0 && self.state.gFechado[k]; }).length;
         return {
-          podeOpc: !!p.opc && podeEd && rows.length > 0, opc: function () { self.opcIniciar(s.key, p.pid); }, opcRodando: !!self._opc,
+          podeOpc: !!p.opc && podeEd && rows.length > 0, opc: function () { self.opcIniciar(s.key, p.pid); },
+          podeEplab: !!p.eplabPrim && podeEd, eplab: function () { self.eplabIniciar(s.key); }, temEplabUlt: !!(p.eplabPrim && sd.eplab), eplabUlt: (p.eplabPrim && sd.eplab) ? 'Última captura ' + self.fmtHoraISO(sd.eplab.em) + ' por ' + self.nomeCurto(sd.eplab.n) + ' — ' + sd.eplab.resumo : '',
+          temPrazo: !!p.eplab && rows.some(function (r) { return r._pz === 'venc' || r._pz === 'warn'; }), prazoCor: rows.some(function (r) { return r._pz === 'venc'; }) ? 'oklch(0.45 0.17 25)' : 'oklch(0.5 0.12 75)', prazoBd: rows.some(function (r) { return r._pz === 'venc'; }) ? 'oklch(0.55 0.19 25)' : 'oklch(0.5 0.12 75)',
+          prazoResumo: !p.eplab ? '' : self.prazoResumo(rows, p),
+          temFalhas: !!p.eplab && rows.some(function (r) { return r.eplabFalha; }), falhasResumo: !p.eplab ? '' : rows.filter(function (r) { return r.eplabFalha; }).length + ' item(ns) não atualizado(s) pela captura EPLab — preencha resultado e data manualmente (o valor anterior foi mantido).', opcRodando: !!self._opc,
           temOpcUlt: !!(p.opc && self.doc[tipo][s.key] && self.doc[tipo][s.key].opc), opcUlt: (p.opc && self.doc[tipo][s.key] && self.doc[tipo][s.key].opc) ? 'Última captura ' + self.fmtHoraISO(self.doc[tipo][s.key].opc.em) + ' por ' + self.nomeCurto(self.doc[tipo][s.key].opc.n) + ' — ' + self.doc[tipo][s.key].opc.resumo : '',
           temDiscs: !!p.opc && rows.some(function (r) { return r.disc && !r.disc.ok; }), discResumo: !p.opc ? '' : rows.filter(function (r) { return r.disc && !r.disc.ok; }).length + ' discrepância(s) entre o status declarado e a rede de automação: a rede indica OPERANDO em equipamento declarado como fora de operação. Verifique o estado real de cada item marcado com ⚠ e registre a verificação.',
           isTable: true, isText: false, hasTitle: !!p.title, title: p.title || '',
@@ -7312,10 +7511,14 @@ class Component extends DCLogic {
             return { isText: true, isRows: false, title: p.title || '', hasTitle: !!p.title, textValue: getT(), placeholder: p.placeholder || '', setText: function (e) { setT(e.target.value); },
               mic: function () { self.dictKey = dk; self.mic(getT, setT); }, micAtivo: st.dict === dk, micBg: st.dict === dk ? 'var(--color-accent-200)' : 'transparent', revisar: function () { self.abrirRevisao(dk, getT, setT); }, aiBlur: self.aiAuto(dk, getT, setT), rows: [], addable: false };
           }
-          var itemizavel = !!p.addable && !p.fixed;
+          if (p.eplab) self.prazoRows(p, rows);
+        var itemizavel = !!p.addable && !p.fixed;
           var depAtiva = !p.dep || self.depActive(sec.key, p);
           return {
             podeOpc: !!p.opc && pode && rows.length > 0, opc: function () { self.opcIniciar(sec.key, p.pid); },
+            podeEplab: !!p.eplabPrim && pode, eplab: function () { self.eplabIniciar(sec.key); },
+            temPrazo: !!p.eplab && rows.some(function (r) { return r._pz === 'venc' || r._pz === 'warn'; }), prazoResumo: !p.eplab ? '' : self.prazoResumo(rows, p), prazoBd: rows.some(function (r) { return r._pz === 'venc'; }) ? 'oklch(0.55 0.19 25)' : 'oklch(0.5 0.12 75)',
+            temFalhas: !!p.eplab && rows.some(function (r) { return r.eplabFalha; }), falhasResumo: !p.eplab ? '' : '⚠ ' + rows.filter(function (r) { return r.eplabFalha; }).length + ' item(ns) sem captura EPLab — abra e preencha manualmente.',
             temDiscs: !!p.opc && rows.some(function (r) { return r.disc && !r.disc.ok; }), discResumo: !p.opc ? '' : '⚠ ' + rows.filter(function (r) { return r.disc && !r.disc.ok; }).length + ' discrepância(s) OPC-UA — a rede indica OPERANDO em item declarado fora de operação. Abra cada item marcado e registre a verificação.',
             isText: false, isRows: true, title: p.title || '', hasTitle: !!p.title, addable: !!p.addable && !(p.semRemover && !self.permite('usuarios')), textValue: '', dep: !!p.dep && !depAtiva,
             add: function () {
@@ -7327,7 +7530,7 @@ class Component extends DCLogic {
               var lista = rows.map(function (r) {
                 if (!r.rid) r.rid = self.novoRid();
                 var res = self.resumoLinha(p, r), fotos = (r.imgs || []).length + (r.img && !(r.imgs || []).length ? 1 : 0);
-                return { isGroup: false, isRow: true, primario: res.primario, secundario: (r.disc && !r.disc.ok ? '⚠ DISCREPÂNCIA OPC-UA · ' : '') + (r.herd ? (r.c[r.c.length - 1] || '') + ' · ' : '') + res.secundario + (p.confirmar && !r.herd && String(r.c[0] || '').trim() ? (r.conf ? (r.conf.opc ? ' · lido via OPC-UA' : ' · confirmado') : ' · A CONFIRMAR') : ''), vazio: res.vazio, locked: (itemizavel && !!r.ok) || !!r.herd, temFotos: fotos > 0, fotos: fotos + (fotos === 1 ? ' mídia' : ' mídias'),
+                return { isGroup: false, isRow: true, primario: res.primario, secundario: (r.eplabFalha ? '⚠ FALHA EPLAB · ' : '') + (p.eplab && r._pz === 'venc' ? 'PRAZO VENCIDO · ' : '') + (r.disc && !r.disc.ok ? '⚠ DISCREPÂNCIA OPC-UA · ' : '') + (r.herd ? (r.c[r.c.length - 1] || '') + ' · ' : '') + res.secundario + (p.confirmar && !r.herd && String(r.c[0] || '').trim() ? (r.conf ? (r.conf.opc ? ' · lido via OPC-UA' : ' · confirmado') : ' · A CONFIRMAR') : ''), vazio: res.vazio, locked: (itemizavel && !!r.ok) || !!r.herd, temFotos: fotos > 0, fotos: fotos + (fotos === 1 ? ' mídia' : ' mídias'),
                   cor: res.vazio ? 'color-mix(in srgb, var(--color-text) 45%, transparent)' : 'inherit', herd: !!r.herd, alertado: !!r.alertado, ehAlerta: !!r.origem, alertaTag: r.origem ? self.nivelTag(r.origem) : '',
                   go: function () { self.goM('linha', { mSid: sec.key, mPid: p.pid, mRid: r.rid }); } };
               });
@@ -7371,7 +7574,7 @@ class Component extends DCLogic {
         campos: p.cols.map(function (c, ci) {
           var dk = sec.key + '/' + p.pid + '/' + ri + '/' + ci, v = r.c[ci] || '';
           var get = function () { return r.c[ci] || ''; };
-          var set = function (nv) { if (c.stamp != null && nv !== r.c[ci]) r.c[c.stamp] = self.agoraISO(); r.c[ci] = nv; if (p.confirmar && ci > 0) r.conf = self.carimbo(); if (sec.amb && p.pid === 'p' && ci === 1) self.avaliarAmb(r, false); var simN = sec.key === 'integridade' && p.pid === 'sub' && ci === 1 && nv === 'Sim'; self.commit(); if (simN) self.avisoIntegridade(r); };
+          var set = function (nv) { if (c.stamp != null && nv !== r.c[ci]) r.c[c.stamp] = self.agoraISO(); r.c[ci] = nv; if (p.eplab && (ci === 1 || ci === 2)) self.eplabManual(r); if (p.confirmar && ci > 0) r.conf = self.carimbo(); if (sec.amb && p.pid === 'p' && ci === 1) self.avaliarAmb(r, false); var simN = sec.key === 'integridade' && p.pid === 'sub' && ci === 1 && nv === 'Sim'; self.commit(); if (simN) self.avisoIntegridade(r); };
           var t = c.type;
           var opts = c.options || (p.kind === 'notes' ? (ci === 0 ? p.categorias : ci === 7 ? p.relevancias : null) : null);
           if (c.cfg) opts = self.cfgOpts(r.c[0]);
@@ -7622,7 +7825,7 @@ class Component extends DCLogic {
     { p: 'Água', cod: 'AGU', coord: 'PROD', nivel: 'exec', sup: 'SUPROD', modelo: 'OP', rod: 'PROD' },
     { p: 'COMAN', cod: 'COM', coord: 'MAN', nivel: 'coord', modelo: 'A1', tipos: ['Turma'], desc: 'Coordenação da manutenção — passagem de turma entre coordenadores' },
     { p: 'SUMEC', cod: 'SMC', coord: 'MAN', nivel: 'sup', modelo: 'B1', desc: 'Supervisor de mecânica — passagens de turno e de turma (Anexo B-1)' },
-    { p: 'Operação Mecânica', cod: 'OME', coord: 'MAN', nivel: 'exec', sup: 'SUMEC', modelo: 'B1', rod: 'MEC', desc: 'Mecânicos em turno operacional ininterrupto (facilidades não elétricas) — turno diário e turma semanal (Anexo B-1)' },
+    { p: 'Operação Mecânica', cod: 'OME', coord: 'MAN', nivel: 'exec', sup: 'SUMEC', modelo: 'B1', rod: 'MEC', inv: true, desc: 'Mecânicos em turno operacional ininterrupto (facilidades não elétricas) — turno diário e turma semanal (Anexo B-1)' },
     { p: 'Manutenção Mecânica', cod: 'MEC', coord: 'MAN', nivel: 'exec', sup: 'SUMEC', modelo: 'C1', tipos: ['Turma'], rod: 'MEC', desc: 'Mecânicos nas atividades de manutenção — só passagem de turma semanal (Anexo C-1)' },
     { p: 'SUEIN', cod: 'SEI', coord: 'MAN', nivel: 'sup', modelo: 'B1', desc: 'Supervisor de elétrica e instrumentação — passagens de turno e de turma (Anexo B-1)' },
     { p: 'Operação Elétrica', cod: 'OEL', coord: 'MAN', nivel: 'exec', sup: 'SUEIN', modelo: 'B1', rod: 'ELE', desc: 'Eletricistas em turno operacional ininterrupto — turno diário e turma semanal (Anexo B-1)' },

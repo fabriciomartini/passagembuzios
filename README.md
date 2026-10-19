@@ -24,8 +24,11 @@ Primeira publicação: Settings → Pages → Source: *Deploy from a branch* →
 - Disponibilidade da Operação Elétrica com a lista “Sistemas da Elétrica” (145 itens) e coluna Configuração (L-A / L-B / Duplo “I”) nos painéis das distribuições essencial e normal. Novo status “Indisponível”; “Operacional” passa a “Operando”.
 - Captura automática de status (OPC-UA): varredura com progresso por etapa e por sistema; atualiza só Operando / Stand-by / Inoperante; alerta de discrepância quando a rede indica Operando em item declarado fora de operação, com verificação registrada. Leitura simulada na demonstração.
 - PDF: status coloridos por criticidade, com símbolo, e destaque da última alteração de estado ocorrida no turno.
+- Operação Mecânica: lista de 193 equipamentos (15 sistemas) na disponibilidade, herdada pelo SUMEC; válvulas PV com modo Automático/Manual.
+- Bloco “Tancagem e leituras operacionais”: alinhamento e volume de 8 tanques e 3 leituras/totalizadores.
+- Bloco “Qualidade de inventários — análises químicas”: 11 programas, 86 parâmetros, prazo pela periodicidade (alerta amarelo/vermelho) e “Captura EPLab” com progresso e lista de falhas; edição manual sempre disponível. Leitura simulada na demonstração.
 - Itens de atenção imediata por marcação (botão “Atenção”), vinculados ao item de origem.
-- Deck técnico com 98 slides e novas capturas.
+- Deck técnico com 100 slides e novas capturas.
 
 ## Versão anterior (out/2026)
 - Barra lateral do formulário com rolagem própria.
