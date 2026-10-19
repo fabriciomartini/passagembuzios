@@ -27,6 +27,7 @@ Primeira publicação: Settings → Pages → Source: *Deploy from a branch* →
 - Operação Mecânica: lista de 193 equipamentos (15 sistemas) na disponibilidade, herdada pelo SUMEC; válvulas PV com modo Automático/Manual.
 - Bloco “Tancagem e leituras operacionais”: alinhamento e volume de 8 tanques e 3 leituras/totalizadores.
 - Bloco “Qualidade de inventários — análises químicas”: 11 programas, 86 parâmetros, prazo pela periodicidade (alerta amarelo/vermelho) e “Captura EPLab” com progresso e lista de falhas; edição manual sempre disponível. Leitura simulada na demonstração.
+- Itens de atenção imediata sem digitação: entram só pelo botão “!” nos demais blocos. Botões compactos: “!” (atenção), “T” (enviar para a turma), “✓” (confirmar); “Confirmar grupo” à direita do grupo. Disponibilidade dos principais sistemas sempre como último bloco.
 - Itens de atenção imediata por marcação (botão “Atenção”), vinculados ao item de origem.
 - Deck técnico com 100 slides e novas capturas.
 

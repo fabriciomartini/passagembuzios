@@ -665,7 +665,7 @@ deck-stage[data-baselines] .slide::after {
 <x-import component-from-global-scope="deck-stage" from="./deck-stage.js" width="1920" height="1080" hint-size="100%,100%">
 
   <section class="slide cover on-photo" data-screen-label="01" data-label="Capa" data-speaker-notes="Abertura: este material é o dossiê técnico da ferramenta. Ele deve permitir ao avaliador ler, entender e navegar pelo sistema sozinho.">
-    <figure class="photo-ground duotone" aria-hidden="true"><video data-clips="assets/p83-login.mp4, assets/p83-login-2.mp4, assets/p83-login-3.mp4" muted playsinline autoplay preload="auto"></video></figure>
+    <figure class="photo-ground duotone" aria-hidden="true"><video data-clips="assets/p83-login.webm, assets/p83-login-2.webm, assets/p83-login-3.webm" muted playsinline autoplay preload="auto"></video></figure>
     <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
     <div class="kicker k-right"><span>Avaliação técnica · Campo de Búzios</span></div>
     <div class="rise"><h1 class="display">Búzios</h1><p class="cover-sub cover-sub-a text-muted">Sistema de passagem de serviço</p><p class="cover-sub cover-sub-b text-muted">Dossiê técnico do protótipo para os nove FPSOs do campo: contexto, arquitetura multiunidade, cada funcionalidade em detalhe e os caminhos de continuidade — aplicativo independente ou integração ao APLAT.</p></div>
@@ -1243,7 +1243,7 @@ deck-stage[data-baselines] .slide::after {
     <h2 class="slide-title">Atenção imediata sem reescrever</h2>
     <div class="spec rise">
       <div><h3>O que faz</h3><p>Qualquer item concluído em outro bloco é replicado em “Itens de atenção imediata” com um clique, vinculado à origem.</p></div>
-      <div><h3>Como acionar</h3><p>Botão “Atenção” na linha (disponível depois que o item é concluído ou preenchido) → item copiado no bloco 0. Clicar de novo retira.</p></div>
+      <div><h3>Como acionar</h3><p>Botão “!” na linha (disponível depois que o item é concluído ou preenchido) → item copiado no bloco 0. Clicar de novo retira. O bloco 0 não aceita digitação.</p></div>
       <div><h3>Regras e validações</h3><p>Conteúdo vem da origem; prioridade sugerida ALTA para segurança, integridade, meio ambiente, Inoperante, Indisponível ou Desvio — senão, MÉDIA. A cópia acompanha edições e exclusão da origem. Máximo de 5 itens.</p></div>
       <div><h3>Onde fica registrado</h3><p>Link “↗ Bloco de origem” na cópia; marcações e retiradas no histórico da passagem.</p></div>
     </div>
@@ -1497,7 +1497,7 @@ deck-stage[data-baselines] .slide::after {
     <h2 class="slide-title">Do turno para a turma, sem redigitar</h2>
     <div class="spec rise">
       <div><h3>O que faz</h3><p>Leva um item registrado na passagem de turno para a passagem de turma do mesmo posto, na semana vigente.</p></div>
-      <div><h3>Como acionar</h3><p>Botão “Turma” na linha (ou “Enviar para a turma” nos registros complementares) → confirmar → enviar.</p></div>
+      <div><h3>Como acionar</h3><p>Botão “T” na linha (também nos registros complementares) → confirmar → enviar.</p></div>
       <div><h3>Regras e validações</h3><p>Entra no mesmo bloco quando ele existe na turma; senão, em registros complementares. Chega aberto para revisão, marcado “Trazido da passagem de turno”; alteração posterior oferece reenvio.</p></div>
       <div><h3>Onde fica registrado</h3><p>Marca “Na turma” na linha de origem; fila de entrega se a turma ainda não foi aberta; diário das duas passagens.</p></div>
     </div>
@@ -1985,7 +1985,7 @@ deck-stage[data-baselines] .slide::after {
       <tbody>
         <tr><td class="key">11</td><td>Entrar como RLG3 (TM Elétrica)</td><td>Manutenção Elétrica só com turma (C-1); Operação Elétrica com turno e turma (B-1)</td></tr>
         <tr><td class="key">12</td><td>Iniciar o turno da Operação Elétrica; informar alguns status e a configuração dos painéis; rodar a captura automática</td><td>Varredura com progresso; só Operando, Stand-by e Inoperante mudam; discrepâncias em vermelho</td></tr>
-        <tr><td class="key">13</td><td>Verificar uma discrepância; marcar “Atenção” num item Inoperante</td><td>Verificação no histórico; item no bloco 0 com prioridade ALTA</td></tr>
+        <tr><td class="key">13</td><td>Verificar uma discrepância; acionar “!” num item Inoperante</td><td>Verificação no histórico; item no bloco 0 com prioridade ALTA</td></tr>
         <tr><td class="key">14</td><td>Pré-visualizar o relatório</td><td>Status com cor e símbolo; ◆ “neste turno” na última alteração; quadro de discrepâncias</td></tr>
         <tr><td class="key">15</td><td>Entrar como E112 (TM Mecânica), iniciar o turno da Operação Mecânica e rodar a Captura EPLab</td><td>Progresso da captura; falhas marcadas para preenchimento manual; prazos em amarelo e vermelho</td></tr>
       </tbody>

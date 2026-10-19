@@ -1143,6 +1143,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                       </div>
                     </sc-if>
                     <sc-if value="{{ p.temDiscs }}" hint-placeholder-val="{{ false }}"><div role="alert" style="padding:8px 12px;border:2px solid oklch(0.55 0.19 25);color:oklch(0.45 0.17 25);font-size:13px;line-height:1.45;text-wrap:pretty">{{ p.discResumo }}</div></sc-if>
+                    <sc-if value="{{ p.temVazioAI }}" hint-placeholder-val="{{ false }}"><div style="padding:var(--space-4);border:1px dashed var(--color-divider);font-size:13px;line-height:1.5;color:color-mix(in srgb, var(--color-text) 64%, transparent);text-wrap:pretty">Nenhum item classificado. Para incluir, acione o botão <strong style="color:var(--color-accent-700)">!</strong> no item do bloco pertinente — ele é replicado aqui automaticamente. Sem itens a destacar, marque “Nada a destacar”.</div></sc-if>
                     <sc-if value="{{ p.podeEplab }}" hint-placeholder-val="{{ false }}">
                       <div style="display:flex;align-items:center;gap:var(--space-3);flex-wrap:wrap;padding:10px 12px;border:1px solid var(--color-divider)">
                         <button type="button" class="btn btn-primary" onClick="{{ p.eplab }}" title="Busca no EPLab os últimos resultados liberados de todas as análises deste bloco" style="gap:8px;white-space:nowrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31"></path><path d="M14 9.3V1.99"></path><path d="M8.5 2h7"></path><path d="M14 9.3a6.5 6.5 0 1 1-4 0"></path><path d="M5.52 16h12.96"></path></svg>Captura EPLab</button>
@@ -1175,17 +1176,19 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                         <sc-for list="{{ p.rows }}" as="r" hint-placeholder-count="2">
                           <sc-if value="{{ r.isGroup }}" hint-placeholder-val="{{ false }}">
                             <tr><td colSpan="{{ p.colSpan }}" style="padding:0;background:color-mix(in srgb, var(--color-text) 4%, transparent)">
-                              <button type="button" onClick="{{ r.toggle }}" style="width:100%;display:flex;align-items:center;gap:10px;min-height:38px;padding:4px 10px;background:transparent;border:0;cursor:pointer;text-align:left;font:inherit;color:var(--color-text)">
+                              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding-right:10px">
+                              <button type="button" onClick="{{ r.toggle }}" style="flex:1;min-width:240px;display:flex;align-items:center;gap:10px;min-height:38px;padding:4px 10px;background:transparent;border:0;cursor:pointer;text-align:left;font:inherit;color:var(--color-text)">
                                 <span style="font-family:var(--font-heading);font-size:14px;width:12px">{{ r.seta }}</span>
                                 <span style="font-family:var(--font-heading);font-size:15px;letter-spacing:0.02em">{{ r.grupoLabel }}</span>
                                 <span style="font-size:12px;color:color-mix(in srgb, var(--color-text) 58%, transparent)">{{ r.grupoN }} · {{ r.grupoInfo }}</span>
                               </button>
                               <sc-if value="{{ r.temGConf }}" hint-placeholder-val="{{ false }}">
-                                <div style="display:flex;align-items:center;gap:8px;padding:0 10px 6px 32px;flex-wrap:wrap">
+                                <div style="margin-left:auto;display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:4px 0;flex-wrap:wrap">
                                   <span style="font-size:12px;color:{{ r.gConfCor }}">{{ r.gConfTxt }}</span>
                                   <sc-if value="{{ r.podeGConf }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ r.gConf }}" title="Confirma de uma vez todos os itens pendentes deste grupo" style="height:26px;padding:0 9px;font-size:11.5px;border-color:var(--color-divider);white-space:nowrap">☐ Confirmar grupo</button></sc-if>
                                 </div>
                               </sc-if>
+                              </div>
                             </td></tr>
                           </sc-if>
                           <sc-if value="{{ r.isRow }}" hint-placeholder-val="{{ true }}">
@@ -1247,10 +1250,10 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                                     <span class="tag tag-outline" style="font-size:10px;height:28px;display:inline-flex;align-items:center">{{ r.reportadoLabel }}</span>
                                     <sc-if value="{{ r.reportDesatualizado }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ r.reenviarRep }}" title="O item mudou depois do reporte — reenviar" style="height:28px;padding:0 8px;font-size:11px;border-color:var(--color-divider)">Reenviar</button></sc-if>
                                   </sc-if>
-                                  <sc-if value="{{ r.podeTurma }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ r.enviarTurma }}" title="Enviar este item para a passagem de turma do posto — reaproveita o registro na consolidação semanal" style="height:28px;padding:0 8px;font-size:11px;gap:4px;border-color:var(--color-divider);white-space:nowrap">Turma</button></sc-if>
+                                  <sc-if value="{{ r.podeTurma }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ r.enviarTurma }}" title="Enviar para a passagem de turma — leva este item para a passagem de turma (semanal) do posto, sem redigitar; chega aberto para revisão" aria-label="Enviar para a passagem de turma" style="width:28px;height:28px;padding:0;justify-content:center;border-color:var(--color-divider);font-family:var(--font-heading);font-size:14px;font-weight:700">T</button></sc-if>
                                   <sc-if value="{{ r.paraTurma }}" hint-placeholder-val="{{ false }}"><span class="tag tag-outline" style="font-size:10px;height:28px;display:inline-flex;align-items:center;white-space:nowrap">{{ r.paraTurmaLabel }}</span><sc-if value="{{ r.turmaDesatualizado }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ r.reenviarTurma }}" title="O item mudou depois do envio — reenviar para a turma" style="height:28px;padding:0 8px;font-size:11px;border-color:var(--color-divider)">Reenviar</button></sc-if></sc-if>
-                                  <sc-if value="{{ r.podeAI }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ r.aiToggle }}" title="Classificar como atenção imediata — replica este item no bloco “Itens de atenção imediata”" style="height:28px;padding:0 8px;font-size:11px;gap:4px;border-color:var(--color-accent-700);color:var(--color-accent-700);white-space:nowrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>Atenção</button></sc-if>
-                                  <sc-if value="{{ r.aiMarcado }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ r.aiToggle }}" aria-pressed="true" title="Item replicado em “Itens de atenção imediata” — clique para retirar" style="height:28px;padding:0 8px;font-size:11px;gap:4px;border-color:var(--color-accent-700);background:var(--color-accent-200);color:var(--color-accent-900);white-space:nowrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>{{ r.aiLabel }}</button></sc-if>
+                                  <sc-if value="{{ r.podeAI }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ r.aiToggle }}" title="Atenção imediata — replica este item no bloco “Itens de atenção imediata”, vinculado (a cópia acompanha as alterações deste item)" aria-label="Classificar como atenção imediata" style="width:28px;height:28px;padding:0;justify-content:center;border-color:var(--color-accent-700);color:var(--color-accent-700)"><span aria-hidden="true" style="font-family:var(--font-heading);font-weight:700;font-size:16px;line-height:1">!</span></button></sc-if>
+                                  <sc-if value="{{ r.aiMarcado }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ r.aiToggle }}" aria-pressed="true" aria-label="Retirar de atenção imediata" title="{{ r.aiLabel }}" style="width:28px;height:28px;padding:0;justify-content:center;border-color:var(--color-accent-900);background:var(--color-accent-700);color:#ffffff"><span aria-hidden="true" style="font-family:var(--font-heading);font-weight:700;font-size:16px;line-height:1">!</span></button></sc-if>
                                   <sc-if value="{{ r.temVinc }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ r.irVinc }}" title="Item vinculado — o conteúdo acompanha o registro de origem; aqui só a prioridade é editável. Clique para ir ao bloco de origem." style="height:28px;padding:0 8px;font-size:11px;border-color:var(--color-accent-700);color:var(--color-accent-700);white-space:nowrap;max-width:220px;overflow:hidden;text-overflow:ellipsis">{{ r.vincLabel }}</button></sc-if>
                                   <sc-if value="{{ r.temOrigem }}" hint-placeholder-val="{{ false }}"><span class="tag tag-accent" title="{{ r.origemLabel }}" style="font-size:10px;height:28px;display:inline-flex;align-items:center;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.origemLabel }}</span></sc-if>
                                   <sc-if value="{{ r.podeAlertar }}" hint-placeholder-val="{{ false }}">
@@ -1264,7 +1267,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                                     <button type="button" class="btn btn-ghost" onClick="{{ r.attach }}" title="Anexar foto" style="width:28px;height:28px;padding:0;border-color:var(--color-divider)">⎘</button>
                                   </sc-if>
                                   <sc-if value="{{ r.temConf }}" hint-placeholder-val="{{ false }}">
-                                    <button type="button" class="btn btn-ghost" onClick="{{ r.confToggle }}" title="{{ r.confTip }}" aria-pressed="{{ r.conf }}" style="height:28px;padding:0 9px;font-size:11.5px;gap:5px;white-space:nowrap;border-color:{{ r.confBd }};background:{{ r.confBg }};color:{{ r.confCor }}">{{ r.confLabel }}</button>
+                                    <button type="button" class="btn btn-ghost" onClick="{{ r.confToggle }}" title="{{ r.confTip }}" aria-pressed="{{ r.conf }}" aria-label="{{ r.confTip }}" style="width:28px;height:28px;padding:0;justify-content:center;font-size:15px;font-weight:700;border-color:{{ r.confBd }};background:{{ r.confBg }};color:{{ r.confCor }}">{{ r.confLabel }}</button>
                                   </sc-if>
                                   <sc-if value="{{ r.showConfirm }}" hint-placeholder-val="{{ false }}">
                                     <button type="button" class="btn btn-primary" onClick="{{ r.confirmar }}" title="Concluir item" style="width:28px;height:28px;padding:0">✓</button>
@@ -1315,10 +1318,10 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                             <sc-if value="{{ n.alertado }}" hint-placeholder-val="{{ false }}"><span class="tag tag-accent" style="font-size:10px">{{ n.alertadoLabel }}</span></sc-if>
                             <sc-if value="{{ n.reportado }}" hint-placeholder-val="{{ false }}"><span class="tag tag-outline" style="font-size:10px">{{ n.reportadoLabel }}</span></sc-if>
                             <sc-if value="{{ n.podeReportar }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ n.reportar }}" style="height:28px;padding:0 10px;font-size:12px;border-color:var(--color-divider);gap:6px;white-space:nowrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"></path></svg>{{ n.reportarLabel }}</button></sc-if>
-                            <sc-if value="{{ n.podeTurma }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ n.enviarTurma }}" title="Enviar este registro para a passagem de turma do posto" style="height:28px;padding:0 10px;font-size:12px;border-color:var(--color-divider);gap:6px;white-space:nowrap">Turma</button></sc-if>
+                            <sc-if value="{{ n.podeTurma }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ n.enviarTurma }}" title="Enviar para a passagem de turma — leva este registro para a passagem de turma (semanal) do posto, sem redigitar" aria-label="Enviar para a passagem de turma" style="width:28px;height:28px;padding:0;justify-content:center;border-color:var(--color-divider);font-family:var(--font-heading);font-size:14px;font-weight:700">T</button></sc-if>
                             <sc-if value="{{ n.paraTurma }}" hint-placeholder-val="{{ false }}"><span class="tag tag-outline" style="font-size:10px">{{ n.paraTurmaLabel }}</span></sc-if>
-                            <sc-if value="{{ n.podeAI }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ n.aiToggle }}" title="Classificar como atenção imediata — replica este registro no bloco “Itens de atenção imediata”" style="height:28px;padding:0 10px;font-size:12px;border-color:var(--color-accent-700);color:var(--color-accent-700);gap:6px;white-space:nowrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>Atenção imediata</button></sc-if>
-                            <sc-if value="{{ n.aiMarcado }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ n.aiToggle }}" aria-pressed="true" title="Registro replicado em “Itens de atenção imediata” — clique para retirar" style="height:28px;padding:0 10px;font-size:12px;border-color:var(--color-accent-700);background:var(--color-accent-200);color:var(--color-accent-900);gap:6px;white-space:nowrap">{{ n.aiLabel }}</button></sc-if>
+                            <sc-if value="{{ n.podeAI }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ n.aiToggle }}" title="Atenção imediata — replica este registro no bloco “Itens de atenção imediata”, vinculado" aria-label="Classificar como atenção imediata" style="width:28px;height:28px;padding:0;justify-content:center;border-color:var(--color-accent-700);color:var(--color-accent-700)"><span aria-hidden="true" style="font-family:var(--font-heading);font-weight:700;font-size:16px;line-height:1">!</span></button></sc-if>
+                            <sc-if value="{{ n.aiMarcado }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ n.aiToggle }}" aria-pressed="true" aria-label="Retirar de atenção imediata" title="{{ n.aiLabel }}" style="width:28px;height:28px;padding:0;justify-content:center;border-color:var(--color-accent-900);background:var(--color-accent-700);color:#ffffff"><span aria-hidden="true" style="font-family:var(--font-heading);font-weight:700;font-size:16px;line-height:1">!</span></button></sc-if>
                             <sc-if value="{{ n.podeAlertar }}" hint-placeholder-val="{{ false }}">
                               <button type="button" class="btn btn-ghost" onClick="{{ n.alertar }}" title="Alertar todos os postos" style="height:28px;padding:0 10px;font-size:12px;border-color:var(--color-accent-700);color:var(--color-accent-700);gap:6px;white-space:nowrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>Alertar postos</button>
                             </sc-if>
@@ -1682,6 +1685,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                 <div style="font-size:12.5px;line-height:1.45;color:color-mix(in srgb, var(--color-text) 62%, transparent);text-wrap:pretty">Lê Operando / Stand-by / Inoperante na rede OPC-UA. Status manuais não são alterados.</div>
               </sc-if>
               <sc-if value="{{ p.temDiscs }}" hint-placeholder-val="{{ false }}"><div role="alert" style="padding:10px 12px;border:2px solid oklch(0.55 0.19 25);color:oklch(0.45 0.17 25);font-size:14px;line-height:1.45;text-wrap:pretty">{{ p.discResumo }}</div></sc-if>
+              <sc-if value="{{ p.temVazioAI }}" hint-placeholder-val="{{ false }}"><div style="padding:12px;border:1px dashed var(--color-divider);font-size:14px;line-height:1.5;color:color-mix(in srgb, var(--color-text) 64%, transparent);text-wrap:pretty">Nenhum item classificado. Para incluir, acione o botão <strong style="color:var(--color-accent-700)">!</strong> no item do bloco pertinente — ele é replicado aqui automaticamente. Sem itens a destacar, marque “Nada a destacar”.</div></sc-if>
               <sc-if value="{{ p.podeEplab }}" hint-placeholder-val="{{ false }}">
                 <button type="button" class="btn btn-primary" onClick="{{ p.eplab }}" style="min-height:52px;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31"></path><path d="M14 9.3V1.99"></path><path d="M8.5 2h7"></path><path d="M14 9.3a6.5 6.5 0 1 1-4 0"></path><path d="M5.52 16h12.96"></path></svg>Captura EPLab</button>
                 <div style="font-size:12.5px;line-height:1.45;color:color-mix(in srgb, var(--color-text) 62%, transparent);text-wrap:pretty">Busca no EPLab os últimos resultados de todas as análises deste bloco. Todos os campos continuam editáveis.</div>
@@ -1692,11 +1696,13 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
               <div style="display:flex;flex-direction:column;gap:8px">
                 <sc-for list="{{ p.rows }}" as="r" hint-placeholder-count="2">
                   <sc-if value="{{ r.isGroup }}" hint-placeholder-val="{{ false }}">
-                    <button type="button" onClick="{{ r.go }}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;min-height:56px;background:color-mix(in srgb, var(--color-text) 4%, transparent);border:0;border-bottom:1px solid var(--color-divider);cursor:pointer;text-align:left;font:inherit;color:var(--color-text)">
+                    <div style="display:flex;align-items:stretch;gap:8px;background:color-mix(in srgb, var(--color-text) 4%, transparent);border-bottom:1px solid var(--color-divider)">
+                    <button type="button" onClick="{{ r.go }}" style="flex:1;min-width:0;display:flex;align-items:center;gap:10px;padding:10px 12px;min-height:56px;background:transparent;border:0;cursor:pointer;text-align:left;font:inherit;color:var(--color-text)">
                       <span style="font-family:var(--font-heading);font-size:18px;width:14px">{{ r.seta }}</span>
                       <span style="flex:1;min-width:0"><span style="display:block;font-family:var(--font-heading);font-size:16px;line-height:1.2">{{ r.primario }}</span><span style="display:block;font-size:12px;margin-top:2px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">{{ r.secundario }}</span></span>
                     </button>
-                    <sc-if value="{{ r.podeGConf }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-secondary" onClick="{{ r.gConf }}" style="min-height:48px;justify-content:center;font-size:14px">{{ r.gPendTxt }}</button></sc-if>
+                    <sc-if value="{{ r.podeGConf }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-secondary" onClick="{{ r.gConf }}" style="flex:none;align-self:center;margin-right:8px;min-height:44px;max-width:46%;justify-content:center;font-size:13px;line-height:1.2;height:auto;padding:6px 10px;text-align:center">{{ r.gPendTxt }}</button></sc-if>
+                    </div>
                   </sc-if>
                   <sc-if value="{{ r.isRow }}" hint-placeholder-val="{{ true }}">
                   <button type="button" class="blueprint" onClick="{{ r.go }}" style="display:flex;align-items:center;gap:10px;padding:12px 14px;min-height:64px;background:transparent;border:1px solid var(--color-divider);cursor:pointer;text-align:left;font:inherit;color:var(--color-text)">
@@ -1791,15 +1797,15 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
       </div>
       <div style="display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--color-divider);padding-top:14px">
         <sc-if value="{{ m.l.podeConcluir }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-primary" onClick="{{ m.l.concluir }}" style="min-height:60px;justify-content:center;font-size:17px">✓ Concluir item</button></sc-if>
-        <sc-if value="{{ m.l.temConf }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-secondary" onClick="{{ m.l.confToggle }}" aria-pressed="{{ m.l.conf }}" style="min-height:60px;justify-content:center;font-size:16px;background:{{ m.l.confBg }}">{{ m.l.confLabel }}</button></sc-if>
+        <sc-if value="{{ m.l.temConf }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-secondary" onClick="{{ m.l.confToggle }}" aria-pressed="{{ m.l.conf }}" aria-label="{{ m.l.confTip }}" title="{{ m.l.confTip }}" style="min-height:60px;justify-content:center;font-size:26px;font-weight:700;background:{{ m.l.confBg }};color:{{ m.l.confCor }}">{{ m.l.confLabel }}</button></sc-if>
         <button type="button" class="btn btn-secondary" onClick="{{ m.l.nota }}" style="min-height:52px;justify-content:center">Nota rápida para este item</button>
         <sc-if value="{{ m.l.podeReportar }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-secondary" onClick="{{ m.l.reportar }}" style="min-height:52px;justify-content:center;gap:8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"></path></svg>{{ m.l.reportarLabel }}</button></sc-if>
-        <sc-if value="{{ m.l.podeTurma }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-secondary" onClick="{{ m.l.enviarTurma }}" style="min-height:52px;justify-content:center;gap:8px">Turma</button></sc-if>
+        <sc-if value="{{ m.l.podeTurma }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-secondary" onClick="{{ m.l.enviarTurma }}" title="Enviar para a passagem de turma (semanal) do posto, sem redigitar" aria-label="Enviar para a passagem de turma" style="min-height:52px;justify-content:center;font-family:var(--font-heading);font-size:22px;font-weight:700">T</button></sc-if>
         <sc-if value="{{ m.l.paraTurma }}" hint-placeholder-val="{{ false }}"><div style="text-align:center;font-size:13px;color:color-mix(in srgb, var(--color-text) 62%, transparent)">{{ m.l.paraTurmaLabel }}</div></sc-if>
         <sc-if value="{{ m.l.reportado }}" hint-placeholder-val="{{ false }}"><div style="text-align:center;font-size:13px;color:color-mix(in srgb, var(--color-text) 62%, transparent)">{{ m.l.reportadoLabel }}</div></sc-if>
         <sc-if value="{{ m.l.temVinc }}" hint-placeholder-val="{{ false }}"><div style="padding:10px 12px;border:1px solid var(--color-accent-700);font-size:13.5px;line-height:1.4;color:var(--color-accent-900);text-wrap:pretty">{{ m.l.vincLabel }}</div></sc-if>
-        <sc-if value="{{ m.l.podeAI }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-secondary" onClick="{{ m.l.aiToggle }}" style="min-height:52px;justify-content:center;border-color:var(--color-accent-700);color:var(--color-accent-700);gap:8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>Classificar como atenção imediata</button></sc-if>
-        <sc-if value="{{ m.l.aiMarcado }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-secondary" onClick="{{ m.l.aiToggle }}" aria-pressed="true" style="min-height:52px;justify-content:center;border-color:var(--color-accent-700);background:var(--color-accent-200);color:var(--color-accent-900)">{{ m.l.aiLabel }}</button></sc-if>
+        <sc-if value="{{ m.l.podeAI }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-secondary" onClick="{{ m.l.aiToggle }}" title="Atenção imediata — replica este item no bloco “Itens de atenção imediata”" aria-label="Classificar como atenção imediata" style="min-height:52px;justify-content:center;border-color:var(--color-accent-700);color:var(--color-accent-700)"><span aria-hidden="true" style="font-family:var(--font-heading);font-weight:700;font-size:26px;line-height:1">!</span></button></sc-if>
+        <sc-if value="{{ m.l.aiMarcado }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-secondary" onClick="{{ m.l.aiToggle }}" aria-pressed="true" aria-label="{{ m.l.aiLabel }}" title="{{ m.l.aiLabel }}" style="min-height:52px;justify-content:center;border-color:var(--color-accent-900);background:var(--color-accent-700);color:#ffffff"><span aria-hidden="true" style="font-family:var(--font-heading);font-weight:700;font-size:26px;line-height:1">!</span></button></sc-if>
         <sc-if value="{{ m.l.podeAlertar }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-secondary" onClick="{{ m.l.alertar }}" style="min-height:52px;justify-content:center;border-color:var(--color-accent-700);color:var(--color-accent-700);gap:8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>Alertar todos os postos</button></sc-if>
         <sc-if value="{{ m.l.alertado }}" hint-placeholder-val="{{ false }}"><div style="text-align:center;font-size:13px;color:var(--color-accent-700)">{{ m.l.alertadoLabel }}</div></sc-if>
         <sc-if value="{{ m.l.podeRemover }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ m.l.remover }}" style="min-height:52px;justify-content:center;border-color:var(--color-divider)">Remover item</button></sc-if>
@@ -3144,15 +3150,14 @@ class Component extends DCLogic {
     var atencao = {
       num: '0', key: 'atencao',
       title: turma ? 'Prioridades para a próxima escala' : 'Itens de atenção imediata',
-      hint: turma ? 'O que a próxima turma precisa tratar primeiro — máximo 5 itens.'
-        : 'O que quem assume precisa saber nos primeiros 15 minutos — máximo 5 itens. Itens já registrados em outros blocos não precisam ser reescritos: use o botão “Atenção” no item de origem e ele é replicado aqui, vinculado (o conteúdo acompanha a origem; aqui só a prioridade é ajustável).',
+      hint: (turma ? 'O que a próxima turma precisa tratar primeiro — máximo 5 itens.' : 'O que quem assume precisa saber nos primeiros 15 minutos — máximo 5 itens.') + ' Este bloco não recebe digitação: acione o botão “!” no item do bloco pertinente e ele é replicado aqui automaticamente, vinculado à origem (o conteúdo acompanha a origem; aqui só a prioridade é ajustável). Clique de novo no “!” para retirar.',
       clearLabel: 'Nada a destacar',
       panels: [t('p', [
         c('Prioridade', 'select', { options: ['ALTA', 'MÉDIA', 'INFO'], w: '92px', req: true }),
         c('Equipamento / Sistema', 'text', { list: 'dl-sist', w: '19%', req: true }),
         c('Situação', 'area', { w: '30%', req: true }),
         c('Ação requerida ' + proximo, 'area', { req: true })
-      ], { max: 5, evidence: true, hint: 'ALTA = risco à segurança, ao meio ambiente ou à continuidade operacional.' })]
+      ], { max: 5, semAdd: true, hint: 'ALTA = risco à segurança, ao meio ambiente ou à continuidade operacional.' })]
     };
 
     var degrad = {
@@ -3402,16 +3407,16 @@ class Component extends DCLogic {
         }) });
     }
     var modelo = this.postoInfo(posto).modelo, pre = turma ? [atencao, panoA] : [atencao];
-    if (posto && modelo === 'A1') return this.renumera(pre.concat([degA1, eventos, anomA1, opcrit, gm, dispA1, compl]));
+    if (posto && modelo === 'A1') return this.renumera(pre.concat([degA1, eventos, anomA1, opcrit, gm, compl, dispA1]));
     if (modelo === 'C1') return this.renumera(pre.concat([anomC1, manut, gmC1, compl]));
-    if (modelo === 'SUPMAN') return this.renumera(pre.concat([anomC1, manut, gmC1, dispA1, compl]));
+    if (modelo === 'SUPMAN') return this.renumera(pre.concat([anomC1, manut, gmC1, compl, dispA1]));
     // Embarcação: mesmo formulário da produção, sem o bloco de poços; equipamentos configurados depois.
     var emb = this.ehEmb(posto), b1 = modelo === 'B1', semProd = function (l) { return (emb || b1) ? l.filter(function (s) { return s.key !== 'pocos' && !(b1 && s.key === 'ambiente'); }) : l; };
 
     if (ehGestao) { disp.panels = disp.panels.filter(function (p) { return p.herdado || p.herdadoDet; }); disp.hint = 'Sistemas dos quatro postos de operação herdados automaticamente das passagens de cada posto (validadas ou em elaboração).'; }
     else if (b1 && herda.length) { disp.panels = disp.panels.filter(function (p) { return p.herdado || p.herdadoDet; }); disp.hint = 'Sistemas do posto ' + herda.join(', ') + ' herdados automaticamente da passagem de turno do posto (validada ou em elaboração), com status, configuração e última alteração de estado. Alterações aqui exigem justificativa e ficam marcadas como sobrescritas.'; }
     var base = ehGestao ? [composicao, coprodBloco, atencao] : [atencao];
-    if (!turma) return this.renumera(semProd(base.concat([degrad, opcrit, gm, estado, pocos, meio, integ, pts, compl, disp]).concat(invBlocos)));
+    if (!turma) return this.renumera(semProd(base.concat([degrad, opcrit, gm, estado, pocos, meio, integ, pts, compl]).concat(invBlocos).concat([disp])));
 
     var panorama = {
       num: '1', key: 'panorama', title: 'Panorama consolidado da escala',
@@ -3421,7 +3426,7 @@ class Component extends DCLogic {
         placeholder: 'Desempenho do período, principais eventos, mudanças de cenário e o que a próxima turma encontra ao assumir.'
       }]
     };
-    return this.renumera(semProd(base.concat([panorama, degrad].concat(ehCoprod ? [eventos, anomA1] : []).concat([opcrit, gm, estado, pocos, meio, integ, compl, disp]).concat(invBlocos))));
+    return this.renumera(semProd(base.concat([panorama, degrad].concat(ehCoprod ? [eventos, anomA1] : []).concat([opcrit, gm, estado, pocos, meio, integ, compl]).concat(invBlocos).concat([disp]))));
   }
 
   // Monta a composição hierárquica a partir das equipes vinculadas às passagens do período.
@@ -4934,14 +4939,13 @@ class Component extends DCLogic {
       if (!k) { L.splice(i, 1); tirou = true; continue; }
       x.c[1] = k.sist; x.c[2] = k.sit; x.c[3] = k.acao; x.vinc.titulo = k.titulo;
     }
-    if (tirou && !L.some(function (x) { return !x.ok; })) L.unshift(this.blank({ cols: [{}, {}, {}, {}] }));
+    
   }
   aiMarcar(sid, pid, rid) {
     if (!this.podeEditar()) { this.flash('Vincule-se à passagem para classificar itens como atenção imediata.'); return; }
     var L = this.aiLinhas(), ex = this.aiVinc(sid, pid, rid);
     if (ex) {
       L.splice(L.indexOf(ex), 1);
-      if (!L.some(function (x) { return !x.ok; })) L.unshift(this.blank({ cols: [{}, {}, {}, {}] }));
       this.registrar('Retirou item de atenção imediata', ex.c[1] || '');
       this.aiSinc(); this.save(); this.forceUpdate();
       this.flash('Item retirado de “Itens de atenção imediata”.'); return;
@@ -4952,7 +4956,6 @@ class Component extends DCLogic {
     var max = (pAt && pAt.max) || 5, usados = L.filter(function (x) { return pAt ? self.filled(pAt, x) : true; }).length;
     if (usados >= max) { this.flash('“Itens de atenção imediata” já tem ' + max + ' itens — retire um antes de classificar outro.'); return; }
     L.push({ rid: this.novoRid(), c: [k.prio, k.sist, k.sit, k.acao], ok: true, autor: this.carimbo(), img: null, imgs: [], vinc: { sid: sid, pid: pid, rid: rid, titulo: k.titulo } });
-    if (!L.some(function (x) { return !x.ok; })) L.unshift(this.blank({ cols: [{}, {}, {}, {}] }));
     var at = this.doc[this.tipo()].atencao; if (at.clear) at.clear = false; if (at.concluido) delete at.concluido;
     this.registrar('Classificou item como atenção imediata', k.titulo + ' → ' + k.sist);
     this.save(); this.forceUpdate();
@@ -6186,7 +6189,7 @@ class Component extends DCLogic {
               podeReportar: podeEd && !!completo && !!destRep && !(r.origem && r.origem.tipo === 'reporte') && !r.reportado, reportar: function () { self.abrirReporte(s.key, p.pid, r.rid); }, reportarLabel: destRep ? 'Reportar ao ' + destRep.posto : '',
               reportado: !!r.reportado, reportadoLabel: r.reportado ? 'Reportado ao ' + r.reportado.destino + ' · ' + self.fmtHoraISO(r.reportado.em).slice(-5) : '', reportDesatualizado: !!(r.reportado && r.reportado.sig !== self.rowSig(r)),
               podeTurma: podeEd && !!completo && !!destTur && !r.paraTurma, enviarTurma: function () { self.abrirReporte(s.key, p.pid, r.rid, 'turma'); },
-              podeAI: podeEd && self.aiAplica(s.key) && travada && !!completo && !aiVn, aiMarcado: !!aiVn, aiLabel: aiVn ? 'Atenção imediata · ' + aiVn.c[0] + ' ✕' : '',
+              podeAI: podeEd && self.aiAplica(s.key) && travada && !!completo && !aiVn, aiMarcado: !!aiVn, aiLabel: aiVn ? 'Em “Itens de atenção imediata” com prioridade ' + aiVn.c[0] + ' — clique para retirar' : '',
               aiToggle: function () { if (!r.rid) r.rid = self.novoRid(); self.aiMarcar(s.key, p.pid, r.rid); },
               paraTurma: !!r.paraTurma, paraTurmaLabel: r.paraTurma ? 'Na passagem de turma · ' + self.fmtHoraISO(r.paraTurma.em).slice(-5) : '', turmaDesatualizado: !!(r.paraTurma && r.paraTurma.sig !== self.rowSig(r)),
               autorLabel: r.autor ? 'Registrado por ' + self.fmtCarimbo(r.autor) : '',
@@ -6246,6 +6249,7 @@ class Component extends DCLogic {
           };
         }
         if (p.eplab) self.prazoRows(p, rows);
+        if (p.semAdd) for (var iAd = rows.length - 1; iAd >= 0; iAd--) if (!rows[iAd].vinc && !self.filled(p, rows[iAd])) rows.splice(iAd, 1);
         var itemizavel = !!p.addable && !p.fixed;
         var buscaKey = s.key + '/' + p.pid, busca = String((self.state.pBusca || {})[buscaKey] || '').trim().toLowerCase();
         var rowsVis = busca ? rows.filter(function (r) { return String(r.c[0] || '').toLowerCase().indexOf(busca) >= 0 || String(r.c[1] || '').toLowerCase().indexOf(busca) >= 0; }) : rows;
@@ -6322,7 +6326,7 @@ class Component extends DCLogic {
             podeTurma: podeEd && !r.herd && !!destTur && self.filled(p, r) && !r.paraTurma && s.key !== 'composicao' && s.key !== 'coprod', enviarTurma: function () { self.abrirReporte(s.key, p.pid, r.rid, 'turma'); },
             paraTurma: !!r.paraTurma, paraTurmaLabel: r.paraTurma ? 'Na turma · ' + self.fmtHoraISO(r.paraTurma.em).slice(-5) : '', turmaDesatualizado: !!(r.paraTurma && r.paraTurma.sig !== self.rowSig(r)), reenviarTurma: function () { self.abrirReporte(s.key, p.pid, r.rid, 'turma'); },
             temOrigem: !!r.origem, origemLabel: r.origem ? self.origemLabel(r.origem) : '',
-            podeAI: podeEd && self.aiAplica(s.key) && !p.herdadoDet && self.filled(p, r) && (!itemizavel || !!r.ok) && !aiV, aiMarcado: !!aiV, aiLabel: aiV ? 'Atenção imediata · ' + aiV.c[0] + ' ✕' : '',
+            podeAI: podeEd && self.aiAplica(s.key) && !p.herdadoDet && self.filled(p, r) && (!itemizavel || !!r.ok) && !aiV, aiMarcado: !!aiV, aiLabel: aiV ? 'Em “Itens de atenção imediata” com prioridade ' + aiV.c[0] + ' — clique para retirar' : '',
             aiToggle: function () { if (!r.rid) r.rid = self.novoRid(); self.aiMarcar(s.key, p.pid, r.rid); },
             temVinc: !!r.vinc, vincLabel: r.vinc ? '↗ ' + r.vinc.titulo : '', irVinc: function () { if (r.vinc) self.goTo('sec-' + r.vinc.sid); },
             alertado: !!alertado, alertadoLabel: alertado ? 'Alertado · ' + self.fmtHoraISO(alertado.em).slice(-5) : '', alertaDesatualizado: alertaDesatualizado, reenviar: function () { self.abrirAlerta(s.key, p.pid, r.rid); },
@@ -6347,9 +6351,9 @@ class Component extends DCLogic {
             attach: function () { self.pickFile(s.key, p.pid, ri); },
             podeDel: !!p.addable && !(p.semRemover && (String(r.c[0] || '').trim() || !self.permite('usuarios'))),
             temConf: !!p.confirmar && !r.herd && !!String(r.c[0] || '').trim(), conf: !!r.conf,
-            confLabel: r.conf ? (r.conf.opc ? '☑ OPC-UA' : '☑ Confirmado') : '☐ Confirmar',
-            confTip: r.conf ? (r.conf.opc ? 'Condição lida na rede OPC-UA — captura acionada por ' : 'Condição confirmada por ') + self.fmtCarimbo(r.conf) + ' — clique para desfazer' : 'Confirme que conferiu a condição atual deste item (importada da passagem anterior)',
-            confBg: r.conf ? 'var(--color-accent-200)' : 'transparent', confBd: r.conf ? 'var(--color-accent-700)' : (pAlerta ? RED : 'var(--color-divider)'), confCor: r.conf ? 'var(--color-accent-900)' : 'inherit',
+            confLabel: '✓',
+            confTip: r.conf ? (r.conf.opc ? 'Confirmado via OPC-UA — captura acionada por ' : 'Confirmado por ') + self.fmtCarimbo(r.conf) + ' — clique para desfazer' : 'Confirme que conferiu a condição atual deste item (importada da passagem anterior)',
+            confBg: r.conf ? 'var(--color-accent-700)' : 'transparent', confBd: r.conf ? 'var(--color-accent-900)' : (pAlerta ? RED : 'var(--color-divider)'), confCor: r.conf ? '#ffffff' : 'color-mix(in srgb, var(--color-text) 55%, transparent)',
             confToggle: function () { if (!podeEd) { self.flash('Vincule-se à passagem para confirmar.'); return; } if (r.conf) delete r.conf; else { if (!self.confPronto(p, r)) { self.flash('Preencha os campos obrigatórios (ex.: status) antes de confirmar “' + r.c[0] + '”.'); return; } r.conf = self.carimbo(); } self.commit(); }
           };
         });
@@ -6394,7 +6398,7 @@ class Component extends DCLogic {
               wrap: (c.w && c.w.indexOf('px') > 0) ? 'nowrap' : 'normal'
             };
           }),
-          rows: rowViews, addable: !!p.addable && !p.herdado && !p.herdadoDet && !(p.semRemover && !self.permite('usuarios')), evidence: !!p.evidence,
+          temVazioAI: !!p.semAdd && !rows.length, rows: rowViews, addable: !!p.addable && !p.semAdd && !p.herdado && !p.herdadoDet && !(p.semRemover && !self.permite('usuarios')), evidence: !!p.evidence,
           agrupado: agrupado, herdado: !!p.herdado, herdadoDet: !!p.herdadoDet, colSpan: p.cols.length + 1,
           busca: busca ? (self.state.pBusca[buscaKey] || '') : '', setBusca: function (e) { var m = Object.assign({}, self.state.pBusca || {}); m[buscaKey] = e.target.value; self.setState({ pBusca: m }); },
           resumoStatus: agrupado || p.herdado ? ncTotal + ' de ' + totalRows + ' não comissionado(s)' + (busca ? ' · ' + rowsVis.length + ' na busca' : '') : '',
@@ -7512,6 +7516,7 @@ class Component extends DCLogic {
               mic: function () { self.dictKey = dk; self.mic(getT, setT); }, micAtivo: st.dict === dk, micBg: st.dict === dk ? 'var(--color-accent-200)' : 'transparent', revisar: function () { self.abrirRevisao(dk, getT, setT); }, aiBlur: self.aiAuto(dk, getT, setT), rows: [], addable: false };
           }
           if (p.eplab) self.prazoRows(p, rows);
+        if (p.semAdd) for (var iAd = rows.length - 1; iAd >= 0; iAd--) if (!rows[iAd].vinc && !self.filled(p, rows[iAd])) rows.splice(iAd, 1);
         var itemizavel = !!p.addable && !p.fixed;
           var depAtiva = !p.dep || self.depActive(sec.key, p);
           return {
@@ -7520,7 +7525,7 @@ class Component extends DCLogic {
             temPrazo: !!p.eplab && rows.some(function (r) { return r._pz === 'venc' || r._pz === 'warn'; }), prazoResumo: !p.eplab ? '' : self.prazoResumo(rows, p), prazoBd: rows.some(function (r) { return r._pz === 'venc'; }) ? 'oklch(0.55 0.19 25)' : 'oklch(0.5 0.12 75)',
             temFalhas: !!p.eplab && rows.some(function (r) { return r.eplabFalha; }), falhasResumo: !p.eplab ? '' : '⚠ ' + rows.filter(function (r) { return r.eplabFalha; }).length + ' item(ns) sem captura EPLab — abra e preencha manualmente.',
             temDiscs: !!p.opc && rows.some(function (r) { return r.disc && !r.disc.ok; }), discResumo: !p.opc ? '' : '⚠ ' + rows.filter(function (r) { return r.disc && !r.disc.ok; }).length + ' discrepância(s) OPC-UA — a rede indica OPERANDO em item declarado fora de operação. Abra cada item marcado e registre a verificação.',
-            isText: false, isRows: true, title: p.title || '', hasTitle: !!p.title, addable: !!p.addable && !(p.semRemover && !self.permite('usuarios')), textValue: '', dep: !!p.dep && !depAtiva,
+            temVazioAI: !!p.semAdd && !rows.length, isText: false, isRows: true, title: p.title || '', hasTitle: !!p.title, addable: !!p.addable && !p.semAdd && !(p.semRemover && !self.permite('usuarios')), textValue: '', dep: !!p.dep && !depAtiva,
             add: function () {
               var vazia = rows.filter(function (x) { return !x.ok && !self.filled(p, x); })[0];
               if (vazia) { if (!vazia.rid) vazia.rid = self.novoRid(); self.goM('linha', { mSid: sec.key, mPid: p.pid, mRid: vazia.rid }); return; }
@@ -7530,7 +7535,7 @@ class Component extends DCLogic {
               var lista = rows.map(function (r) {
                 if (!r.rid) r.rid = self.novoRid();
                 var res = self.resumoLinha(p, r), fotos = (r.imgs || []).length + (r.img && !(r.imgs || []).length ? 1 : 0);
-                return { isGroup: false, isRow: true, primario: res.primario, secundario: (r.eplabFalha ? '⚠ FALHA EPLAB · ' : '') + (p.eplab && r._pz === 'venc' ? 'PRAZO VENCIDO · ' : '') + (r.disc && !r.disc.ok ? '⚠ DISCREPÂNCIA OPC-UA · ' : '') + (r.herd ? (r.c[r.c.length - 1] || '') + ' · ' : '') + res.secundario + (p.confirmar && !r.herd && String(r.c[0] || '').trim() ? (r.conf ? (r.conf.opc ? ' · lido via OPC-UA' : ' · confirmado') : ' · A CONFIRMAR') : ''), vazio: res.vazio, locked: (itemizavel && !!r.ok) || !!r.herd, temFotos: fotos > 0, fotos: fotos + (fotos === 1 ? ' mídia' : ' mídias'),
+                return { isGroup: false, isRow: true, primario: res.primario, secundario: (r.eplabFalha ? '⚠ FALHA EPLAB · ' : '') + (p.eplab && r._pz === 'venc' ? 'PRAZO VENCIDO · ' : '') + (r.disc && !r.disc.ok ? '⚠ DISCREPÂNCIA OPC-UA · ' : '') + (r.herd ? (r.c[r.c.length - 1] || '') + ' · ' : '') + res.secundario + (p.confirmar && !r.herd && String(r.c[0] || '').trim() ? (r.conf ? (r.conf.opc ? ' · ✓ OPC-UA' : ' · ✓ confirmado') : ' · A CONFIRMAR') : ''), vazio: res.vazio, locked: (itemizavel && !!r.ok) || !!r.herd, temFotos: fotos > 0, fotos: fotos + (fotos === 1 ? ' mídia' : ' mídias'),
                   cor: res.vazio ? 'color-mix(in srgb, var(--color-text) 45%, transparent)' : 'inherit', herd: !!r.herd, alertado: !!r.alertado, ehAlerta: !!r.origem, alertaTag: r.origem ? self.nivelTag(r.origem) : '',
                   go: function () { self.goM('linha', { mSid: sec.key, mPid: p.pid, mRid: r.rid }); } };
               });
@@ -7565,8 +7570,8 @@ class Component extends DCLogic {
         aiToggle: function () { if (!r.rid) r.rid = self.novoRid(); self.aiMarcar(sec.key, p.pid, r.rid); self.vibrar(20); },
         temVinc: !!r.vinc, vincLabel: r.vinc ? 'Vinculado ao bloco “' + r.vinc.titulo + '” — o conteúdo acompanha o registro de origem; aqui só a prioridade é editável.' : '',
         rotulo: (pan.title || sec.title), locked: travada && !r.vinc, podeConcluir: itemiz && !travada && self.filled(p, r), podeRemover: !!p.addable && !(p.semRemover && String(r.c[0] || '').trim()), podeFotos: true,
-        temConf: !!p.confirmar && !r.herd && !!String(r.c[0] || '').trim(), conf: !!r.conf, confBg: r.conf ? 'var(--color-accent-200)' : 'transparent',
-        confLabel: r.conf ? '☑ Condição confirmada — tocar para desfazer' : '☐ Confirmar a condição deste item',
+        temConf: !!p.confirmar && !r.herd && !!String(r.c[0] || '').trim(), conf: !!r.conf, confBg: r.conf ? 'var(--color-accent-700)' : 'transparent',
+        confLabel: '✓', confTip: r.conf ? 'Condição confirmada — tocar para desfazer' : 'Confirmar a condição deste item', confCor: r.conf ? '#ffffff' : 'inherit',
         confToggle: function () { if (!pode) { self.flash('Vincule-se à passagem para confirmar.'); return; } if (r.conf) delete r.conf; else { if (!self.confPronto(p, r)) { self.flash('Preencha os campos obrigatórios antes de confirmar.'); return; } r.conf = self.carimbo(); } self.commit(); self.vibrar(15); },
         concluir: function () { r.ok = true; r.autor = self.carimbo(); rows2.splice(ri, 1); rows2.push(r); if (!rows2.some(function (x) { return !x.ok; })) rows2.unshift(self.blank(p)); if (!(sec.key === 'integridade' && p.pid === 'des' && self.enviarCompulsorio('integridade', 'des', r))) self.commit(); self.vibrar(25); self.backM(); },
         editar: function () { r.ok = false; self.commit(); },
