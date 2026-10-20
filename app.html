@@ -1135,14 +1135,15 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                   <sc-if value="{{ p.isTable }}" hint-placeholder-val="{{ true }}">
                     <sc-if value="{{ p.podeOpc }}" hint-placeholder-val="{{ false }}">
                       <div style="display:flex;align-items:center;gap:var(--space-3);flex-wrap:wrap;padding:10px 12px;border:1px solid var(--color-divider)">
-                        <button type="button" class="btn btn-primary" onClick="{{ p.opc }}" title="Busca na rede OPC-UA do topside o status atual dos equipamentos (Operando / Stand-by / Inoperante)" style="gap:8px;white-space:nowrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"></path><circle cx="12" cy="12" r="2"></circle><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"></path><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path></svg>Captura automática de status</button>
+                        <button type="button" class="btn btn-primary" onClick="{{ p.opc }}" title="Busca na rede OPC-UA do topside o status atual dos equipamentos (Operando / Stand-by)" style="gap:8px;white-space:nowrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"></path><circle cx="12" cy="12" r="2"></circle><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"></path><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path></svg>Captura automática de status</button>
                         <div style="flex:1;min-width:240px;display:flex;flex-direction:column;gap:2px">
-                          <span style="font-size:12.5px;line-height:1.45;color:color-mix(in srgb, var(--color-text) 66%, transparent);text-wrap:pretty">Lê na rede de automação os sinais Operando, Stand-by e Inoperante. Atualiza só os itens que estavam nesses três status; Manutenção, Indisponível, Limitado, Em comissionamento e Não comissionado seguem manuais e são conferidos quanto a discrepância.</span>
+                          <span style="font-size:12.5px;line-height:1.45;color:color-mix(in srgb, var(--color-text) 66%, transparent);text-wrap:pretty">Lê na rede de automação os sinais Operando e Stand-by. Atualiza só os itens que estavam nesses dois status; Manutenção, Indisponível, Limitado, Em comissionamento e Não comissionado seguem manuais e são conferidos quanto a discrepância.</span>
                           <sc-if value="{{ p.temOpcUlt }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--color-accent-700)">{{ p.opcUlt }}</span></sc-if>
                         </div>
                       </div>
                     </sc-if>
                     <sc-if value="{{ p.temDiscs }}" hint-placeholder-val="{{ false }}"><div role="alert" style="padding:8px 12px;border:2px solid oklch(0.55 0.19 25);color:oklch(0.45 0.17 25);font-size:13px;line-height:1.45;text-wrap:pretty">{{ p.discResumo }}</div></sc-if>
+                    <sc-if value="{{ p.temDetPend }}" hint-placeholder-val="{{ false }}"><div role="alert" style="padding:8px 12px;border:2px solid oklch(0.55 0.19 25);color:oklch(0.45 0.17 25);font-size:13px;line-height:1.45;text-wrap:pretty">{{ p.detPendResumo }}</div></sc-if>
                     <sc-if value="{{ p.temVazioAI }}" hint-placeholder-val="{{ false }}"><div style="padding:var(--space-4);border:1px dashed var(--color-divider);font-size:13px;line-height:1.5;color:color-mix(in srgb, var(--color-text) 64%, transparent);text-wrap:pretty">Nenhum item classificado. Para incluir, acione o botão <strong style="color:var(--color-accent-700)">!</strong> no item do bloco pertinente — ele é replicado aqui automaticamente. Sem itens a destacar, marque “Nada a destacar”.</div></sc-if>
                     <sc-if value="{{ p.podeEplab }}" hint-placeholder-val="{{ false }}">
                       <div style="display:flex;align-items:center;gap:var(--space-3);flex-wrap:wrap;padding:10px 12px;border:1px solid var(--color-divider)">
@@ -1679,12 +1680,13 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
               </div>
             </sc-if>
             <sc-if value="{{ p.isRows }}" hint-placeholder-val="{{ true }}">
-              <sc-if value="{{ p.dep }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:color-mix(in srgb, var(--color-text) 60%, transparent);border:1px dashed var(--color-divider);padding:10px">Preencha a tabela anterior — este detalhamento só é exigido para itens Inoperante, Indisponível, Manutenção, Limitado ou “Sim”.</div></sc-if>
+              <sc-if value="{{ p.dep }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:color-mix(in srgb, var(--color-text) 60%, transparent);border:1px dashed var(--color-divider);padding:10px">Preencha a tabela anterior — este detalhamento só é exigido para itens Indisponível, Manutenção, Limitado ou “Sim”.</div></sc-if>
               <sc-if value="{{ p.podeOpc }}" hint-placeholder-val="{{ false }}">
                 <button type="button" class="btn btn-primary" onClick="{{ p.opc }}" style="min-height:52px;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"></path><circle cx="12" cy="12" r="2"></circle><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"></path><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path></svg>Captura automática de status</button>
-                <div style="font-size:12.5px;line-height:1.45;color:color-mix(in srgb, var(--color-text) 62%, transparent);text-wrap:pretty">Lê Operando / Stand-by / Inoperante na rede OPC-UA. Status manuais não são alterados.</div>
+                <div style="font-size:12.5px;line-height:1.45;color:color-mix(in srgb, var(--color-text) 62%, transparent);text-wrap:pretty">Lê Operando / Stand-by na rede OPC-UA. Status manuais não são alterados.</div>
               </sc-if>
               <sc-if value="{{ p.temDiscs }}" hint-placeholder-val="{{ false }}"><div role="alert" style="padding:10px 12px;border:2px solid oklch(0.55 0.19 25);color:oklch(0.45 0.17 25);font-size:14px;line-height:1.45;text-wrap:pretty">{{ p.discResumo }}</div></sc-if>
+              <sc-if value="{{ p.temDetPend }}" hint-placeholder-val="{{ false }}"><div role="alert" style="padding:10px 12px;border:2px solid oklch(0.55 0.19 25);color:oklch(0.45 0.17 25);font-size:14px;line-height:1.45;text-wrap:pretty">{{ p.detPendResumo }}</div></sc-if>
               <sc-if value="{{ p.temVazioAI }}" hint-placeholder-val="{{ false }}"><div style="padding:12px;border:1px dashed var(--color-divider);font-size:14px;line-height:1.5;color:color-mix(in srgb, var(--color-text) 64%, transparent);text-wrap:pretty">Nenhum item classificado. Para incluir, acione o botão <strong style="color:var(--color-accent-700)">!</strong> no item do bloco pertinente — ele é replicado aqui automaticamente. Sem itens a destacar, marque “Nada a destacar”.</div></sc-if>
               <sc-if value="{{ p.podeEplab }}" hint-placeholder-val="{{ false }}">
                 <button type="button" class="btn btn-primary" onClick="{{ p.eplab }}" style="min-height:52px;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31"></path><path d="M14 9.3V1.99"></path><path d="M8.5 2h7"></path><path d="M14 9.3a6.5 6.5 0 1 1-4 0"></path><path d="M5.52 16h12.96"></path></svg>Captura EPLab</button>
@@ -1742,6 +1744,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
       </sc-if>
       <sc-if value="{{ m.l.ehAlerta }}" hint-placeholder-val="{{ false }}"><div style="border:1px solid var(--color-accent-700);padding:10px 12px;font-size:13.5px;color:var(--color-accent-700)">{{ m.l.origemTexto }}</div></sc-if>
       <sc-if value="{{ m.l.temDisc }}" hint-placeholder-val="{{ false }}"><div role="alert" style="border:2px solid oklch(0.55 0.19 25);padding:10px 12px;display:flex;flex-direction:column;gap:8px"><span style="font-family:var(--font-heading);font-size:16px;color:oklch(0.45 0.17 25)">⚠ Discrepância OPC-UA</span><span style="font-size:14px;line-height:1.45;text-wrap:pretty">{{ m.l.discTexto }}</span><button type="button" class="btn btn-secondary" onClick="{{ m.l.discVerificar }}" style="min-height:48px;justify-content:center;border-color:oklch(0.55 0.19 25);color:oklch(0.45 0.17 25)">Registrar verificação</button></div></sc-if>
+              <sc-if value="{{ m.l.temDetPend }}" hint-placeholder-val="{{ false }}"><div role="alert" style="padding:10px 12px;border:2px solid oklch(0.55 0.19 25);color:oklch(0.45 0.17 25);font-size:14px;line-height:1.45;text-wrap:pretty">{{ m.l.detPendTxt }}</div></sc-if>
       <sc-for list="{{ m.l.campos }}" as="c" hint-placeholder-count="4">
         <div style="display:flex;flex-direction:column;gap:6px">
           <label style="font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 62%, transparent)">{{ c.label }}</label>
@@ -2995,16 +2998,16 @@ class Component extends DCLogic {
     'Poço de injeção WAG e produção satélite "S"', 'Poço de injeção WAG e produção satélite "T"',
     'Poço de injeção WAG e produção satélite "U"'
   ];
-  ST_SIST = ['Operando', 'Stand-by', 'Inoperante', 'Indisponível', 'Manutenção', 'Limitado', 'Em comissionamento', 'Não comissionado', 'N/A'];
-  ST_OPC = ['Operando', 'Stand-by', 'Inoperante'];
-  ST_DET = ['Inoperante', 'Indisponível', 'Manutenção', 'Limitado'];
+  ST_SIST = ['Operando', 'Stand-by', 'Indisponível', 'Manutenção', 'Limitado', 'Em comissionamento', 'Não comissionado', 'N/A'];
+  ST_OPC = ['Operando', 'Stand-by'];
+  ST_DET = ['Indisponível', 'Manutenção', 'Limitado'];
   POSTOS_LISTA_MAN = ['Operação Elétrica', 'Operação Mecânica'];
   TANQUES = ['TQ-5115501S — Água destilada BB', 'TQ-5115501P — Água destilada BE', 'TQ-5115502S — Água doce BB', 'TQ-5115502P — Água doce BE', 'TQ-5133501S — Diesel recebimento BB', 'TQ-5133501P — Diesel recebimento BE', 'TQ-5133502S — Diesel serviço BB', 'TQ-5133502P — Diesel serviço BE'];
   LEITURAS = ['Overboard sea water — temperatura de descarte (°C)', 'Produção das UDs (m³)', 'Descarte sewage — totalizador (m³)'];
   ANALISES = [{"t":"Água potável — cloro","per":"Diária","dias":1,"rows":["Header · Cloro livre (mg/L)","Cozinha · Cloro livre (mg/L)"]},{"t":"Água potável — cloro, cor e turbidez","per":"Semanal","dias":7,"rows":["Header · Cloro livre (mg/L)","Header · Cor (uH)","Header · Turbidez (NTU)","Cozinha · Cloro livre (mg/L)","Cozinha · Cor (uH)","Cozinha · Turbidez (NTU)"]},{"t":"Água destilada pós-cloradora","per":"Semanal","dias":7,"rows":["Cloro livre (mg/L)","Cloreto (mg/L)","pH"]},{"t":"Água destilada produzida nas UDs","per":"Semanal","dias":7,"rows":["UD-A · Cloro livre (mg/L)","UD-A · Cloreto (mg/L)","UD-A · pH","UD-A · Ferro (mg/L)","UD-B · Cloro livre (mg/L)","UD-B · Cloreto (mg/L)","UD-B · pH","UD-B · Ferro (mg/L)","UD-C · Cloro livre (mg/L)","UD-C · Cloreto (mg/L)","UD-C · pH","UD-C · Ferro (mg/L)","UD-D · Cloro livre (mg/L)","UD-D · Cloreto (mg/L)","UD-D · pH","UD-D · Ferro (mg/L)","UD-E · Cloro livre (mg/L)","UD-E · Cloreto (mg/L)","UD-E · pH","UD-E · Ferro (mg/L)","UD-F · Cloro livre (mg/L)","UD-F · Cloreto (mg/L)","UD-F · pH","UD-F · Ferro (mg/L)"]},{"t":"Água quente da acomodação — boiler AQA","per":"Semanal","dias":7,"rows":["Cloro livre (mg/L)","Cloreto (mg/L)","pH","Ferro (mg/L)"]},{"t":"Água gelada — AGL","per":"2× por semana","dias":4,"rows":["Nitrito (mg/L)","Cloreto (mg/L)","Salinidade (ppm)","pH"]},{"t":"Água de resfriamento — ARL","per":"2× por semana","dias":4,"rows":["Nitrito (mg/L)","Cloreto (mg/L)","Salinidade (ppm)","pH"]},{"t":"Diesel — teor de água","per":"Mensal","dias":31,"rows":["BCI-A · Karl Fischer (ppm)","BCI-A · Água (% v/v)","BCI-B · Karl Fischer (ppm)","BCI-B · Água (% v/v)","BCI-C · Karl Fischer (ppm)","BCI-C · Água (% v/v)","BCI-D · Karl Fischer (ppm)","BCI-D · Água (% v/v)","ADG · Karl Fischer (ppm)","ADG · Água (% v/v)","EDG · Karl Fischer (ppm)","EDG · Água (% v/v)","HDG-A · Karl Fischer (ppm)","HDG-A · Água (% v/v)","HDG-B · Karl Fischer (ppm)","HDG-B · Água (% v/v)","TQ diesel start air EDG · Karl Fischer (ppm)","TQ diesel start air EDG · Água (% v/v)","TQ diesel start air HDG · Karl Fischer (ppm)","TQ diesel start air HDG · Água (% v/v)","TQ recebimento BB · Karl Fischer (ppm)","TQ recebimento BB · Água (% v/v)","TQ recebimento BE · Karl Fischer (ppm)","TQ recebimento BE · Água (% v/v)","TQ serviço BB · Karl Fischer (ppm)","TQ serviço BB · Água (% v/v)","TQ serviço BE · Karl Fischer (ppm)","TQ serviço BE · Água (% v/v)"]},{"t":"Bilge tank","per":"Semanal","dias":7,"rows":["Sulfeto de hidrogênio — H₂S (ppm)"]},{"t":"Efluentes sanitários — pH e SST","per":"Semanal","dias":7,"rows":["Unidade A · pH","Unidade A · SST (mg/L)","Unidade B · pH","Unidade B · SST (mg/L)"]},{"t":"Efluentes sanitários — DQO e OD","per":"Quinzenal","dias":15,"rows":["Unidade A · DQO entrada (mg/L)","Unidade A · DQO saída (mg/L)","Unidade A · Oxigênio dissolvido (mg/L)","Unidade B · DQO entrada (mg/L)","Unidade B · DQO saída (mg/L)","Unidade B · Oxigênio dissolvido (mg/L)"]}];
   EPLAB_URL = 'EPLab · integração TIC';
   OPC_URL = 'opc.tcp://topside-opc:4840';
-  normSt(v) { return v === 'Operacional' ? 'Operando' : (v || ''); }
+  normSt(v) { return v === 'Operacional' ? 'Operando' : v === 'Inoperante' ? 'Indisponível' : (v || ''); }
   cfgOpts(label) { var i = this.infoEquip(label); return (i && i.cfg) || []; }
   temCfg(posto) { var self = this; return (this.SIST_POSTO[posto] || []).some(function (l) { return self.cfgOpts(l).length; }); }
   nomeGrupo(info) { return /^(EL|MC)/.test(info.sop) ? info.sopNome : info.sop + ' · ' + info.sopNome; }
@@ -3220,7 +3223,7 @@ class Component extends DCLogic {
     var disp = {
       num: '5', key: 'disponibilidade', hideable: true,
       title: turma ? 'Disponibilidade dos principais sistemas ao final da escala' : 'Disponibilidade dos principais sistemas',
-      hint: (ehControle ? 'Sala de controle: os sistemas dos postos Óleo, Gás e Água são herdados automaticamente das passagens de cada posto (validadas ou em elaboração) e só podem ser alterados aqui com justificativa. ' : '') + 'Status importados da passagem anterior do posto: confira e confirme item a item (☐ Confirmar) ou o grupo inteiro (☐ Confirmar grupo). A inclusão ou retirada de sistemas da lista é feita pela administração local ou do sistema. Nota 5 — todo item Inoperante, Indisponível, Manutenção ou Limitado exige detalhamento na segunda tabela. Status inicial “Não comissionado” enquanto a unidade estiver em construção. “Captura automática de status” lê na rede OPC-UA do topside os sinais Operando, Stand-by e Inoperante e atualiza só os itens que já estavam nesses três status; os demais continuam manuais e são conferidos quanto a discrepâncias.' + (cfgCol ? ' Itens com configuração (L-A / L-B / Duplo “I” nos painéis elétricos; Automático / Manual nas válvulas de controle) exigem a coluna Configuração.' : ''),
+      hint: (ehControle ? 'Sala de controle: os sistemas dos postos Óleo, Gás e Água são herdados automaticamente das passagens de cada posto (validadas ou em elaboração) e só podem ser alterados aqui com justificativa. ' : '') + 'Status importados da passagem anterior do posto: confira e confirme item a item (☐ Confirmar) ou o grupo inteiro (☐ Confirmar grupo). A inclusão ou retirada de sistemas da lista é feita pela administração local ou do sistema. Nota 5 — todo item Indisponível, Manutenção ou Limitado (status atribuídos só manualmente) gera automaticamente um registro na segunda tabela, com TAG e horário; complete o detalhamento de cada um para concluir o campo. Status inicial “Não comissionado” enquanto a unidade estiver em construção. “Captura automática de status” lê na rede OPC-UA do topside os sinais Operando e Stand-by e atualiza só os itens que já estavam nesses dois status; os demais continuam manuais e são conferidos quanto a discrepâncias.' + (cfgCol ? ' Itens com configuração (L-A / L-B / Duplo “I” nos painéis elétricos; Automático / Manual nas válvulas de controle) exigem a coluna Configuração.' : ''),
       panels: [
         fixo('st', [
           c('Sistema / Equipamento', 'label'),
@@ -3234,7 +3237,7 @@ class Component extends DCLogic {
           c('Nota de manutenção ou medida mitigadora', 'area', { req: true }),
           c('Previsão de retorno', 'datetime', { w: '150px' })
         ], {
-          title: 'Detalhamento dos itens Inoperante / Indisponível / Manutenção / Limitado', req: 'cond', evidence: true,
+          title: 'Detalhamento dos itens Indisponível / Manutenção / Limitado', req: 'cond', evidence: true,
           dep: { pid: 'st', ci: 1, values: this.ST_DET }
         })
       ].concat(herda.length ? herda.map(function (posto) {
@@ -3248,7 +3251,7 @@ class Component extends DCLogic {
         ]), [], { addable: false, sync: true, grupo: true, herdado: posto, cfgH: cfgH, req: 'none', title: 'Sistemas do posto ' + posto + ' — herdados da passagem do posto' });
       }).concat([fixo('hd', [
         c('Sistema / TAG', 'label'), c('Desde', 'datetime', { w: '150px' }), c('Motivo', 'label'), c('Nota de manutenção ou medida mitigadora', 'label'), c('Previsão de retorno', 'datetime', { w: '150px' }), c('Origem', 'label', { w: '22%' })
-      ], [], { addable: false, sync: true, herdadoDet: true, req: 'none', title: 'Detalhamento herdado dos postos (Inoperante / Indisponível / Manutenção / Limitado)' })]) : [])
+      ], [], { addable: false, sync: true, herdadoDet: true, req: 'none', title: 'Detalhamento herdado dos postos (Indisponível / Manutenção / Limitado)' })]) : [])
     };
 
     var pocos = {
@@ -4905,7 +4908,7 @@ class Component extends DCLogic {
     this.setState({ savedAt: hh });
   }
 
-  commit() { this.aiSinc(); this.carimbarAtivo(); this.save(); this.forceUpdate(); }
+  commit() { this.detSinc(); this.aiSinc(); this.carimbarAtivo(); this.save(); this.forceUpdate(); }
 
   rows(sid, pid) { return this.doc[this.tipo()][sid].panels[pid]; }
 
@@ -4929,6 +4932,40 @@ class Component extends DCLogic {
     if (!sist) sist = partes.length ? partes.shift().replace(/^[^:]+:\s*/, '') : s.title;
     var ref = (s.num ? s.num + '. ' : '') + s.title;
     return { sist: sist, sit: partes.join(' · ') || 'Detalhes no bloco “' + ref + '”.', acao: acao || 'Ver bloco “' + ref + '”.', prio: alto ? 'ALTA' : 'MÉDIA', titulo: ref };
+  }
+  detPend(r) { return !!(r && r.detDe && (!r.ok || [0, 1, 2, 3].some(function (i) { return !String(r.c[i] || '').trim(); }))); }
+  detPendTxt(rows) { var n = (rows || []).filter(this.detPend.bind(this)).length; return n ? '⚠ ' + n + (n === 1 ? ' item com status Indisponível / Manutenção / Limitado aguarda' : ' itens com status Indisponível / Manutenção / Limitado aguardam') + ' detalhamento. O registro já traz TAG e horário (“Desde”, editável); complete Motivo e Nota de manutenção ou medida mitigadora e conclua cada item (✓) para fechar o campo.' : ''; }
+  detSinc() {
+    var sd = this.doc && this.doc[this.tipo()] && this.doc[this.tipo()].disponibilidade, P = sd && sd.panels;
+    if (!P || !P.st || !P.det) return;
+    var self = this, st = P.st, det = P.det, nC = (det[0] && det[0].c && det[0].c.length) || 5;
+    st.forEach(function (r) {
+      if (r.c[1] === 'Inoperante') r.c[1] = 'Indisponível';
+      if (self.ST_DET.indexOf(r.c[1]) < 0) return;
+      if (!r.rid) r.rid = self.novoRid();
+      var d = det.filter(function (x) { return x.detDe === r.rid; })[0];
+      if (!d) {
+        var ie = self.infoEquip(r.c[0]), tag = (ie && ie.tag) || r.c[0];
+        d = det.filter(function (x) { return !x.detDe && (x.c[0] === tag || x.c[0] === r.c[0]); })[0];
+        if (d) d.detDe = r.rid;
+        else {
+          d = { c: [], img: null, imgs: [], rid: self.novoRid(), detDe: r.rid };
+          for (var k = 0; k < nC; k++) d.c.push('');
+          d.c[0] = tag; d.c[1] = r.c[2] || self.agoraISO();
+          var vz = det.filter(function (x) { return !x.ok && !x.detDe && !self.filled({ cols: [{}, {}, {}, {}, {}] }, x); })[0];
+          if (vz) det.splice(det.indexOf(vz), 1, d); else det.unshift(d);
+        }
+      }
+      d.detSt = r.c[1];
+    });
+    for (var i = det.length - 1; i >= 0; i--) {
+      var x = det[i]; if (!x.detDe) continue;
+      var src = st.filter(function (r) { return r.rid === x.detDe; })[0];
+      if (src && self.ST_DET.indexOf(src.c[1]) >= 0) continue;
+      if (!x.ok && !String(x.c[2] || '').trim() && !String(x.c[3] || '').trim() && !(x.imgs || []).length) det.splice(i, 1);
+      else { delete x.detDe; delete x.detSt; }
+    }
+    if (!det.length) { var b = { c: [], img: null, imgs: [] }; for (var j = 0; j < nC; j++) b.c.push(''); det.push(b); }
   }
   aiSinc() {
     var L = this.aiLinhas(); if (!L.length || !L.some(function (x) { return x.vinc; })) return;
@@ -5080,15 +5117,17 @@ class Component extends DCLogic {
       var used = self.panelRows(s.key, p);
       if (p.req === 'cond') {
         if (self.depActive(s.key, p) && used.length === 0) issues.push(label + 'obrigatório detalhar ao menos uma linha.');
+        used.forEach(function (r) { if (self.detPend(r)) issues.push('“' + r.c[0] + '” (' + (r.detSt || 'fora de operação') + '): complete o detalhamento — Motivo e Nota de manutenção ou medida mitigadora — e conclua o item (✓).'); });
       } else if (used.length === 0) {
         issues.push('Preencha ao menos uma linha ou marque “' + s.clearLabel + '”.');
       }
       used.forEach(function (r, idx) {
+        if (self.detPend(r)) return;
         var miss = p.cols.filter(function (c, i) { return c.req && String(r.c[i] || '').trim() === ''; }).map(function (c) { return c.label; });
         if (miss.length) issues.push(label + 'item ' + (idx + 1) + ' — falta: ' + miss.join(', ') + '.');
       });
       if ((p.addable && !p.fixed) || p.kind === 'notes') {
-        var abertos = used.filter(function (r) { return !r.ok; }).length;
+        var abertos = used.filter(function (r) { return !r.ok && !self.detPend(r); }).length;
         if (abertos) issues.push(label + abertos + ' item(ns) preenchido(s) sem confirmação — clique em ✓ para concluir.');
       }
       if (p.max && used.length > p.max) issues.push('Máximo de ' + p.max + ' itens neste bloco.');
@@ -5311,10 +5350,10 @@ class Component extends DCLogic {
     var x = Math.random(), a = it.antes;
     if (this.ST_OPC.indexOf(a) >= 0) {
       if (x < 0.84) return a;
-      return a === 'Operando' ? (x < 0.95 ? 'Stand-by' : 'Inoperante') : a === 'Stand-by' ? (x < 0.96 ? 'Operando' : 'Inoperante') : (x < 0.93 ? 'Stand-by' : 'Operando');
+      return a === 'Operando' ? 'Stand-by' : 'Operando';
     }
     if (a === 'Não comissionado' || a === 'N/A') return x < 0.02 ? 'Operando' : 'Sem sinal';
-    return x < 0.12 ? 'Operando' : (x < 0.6 ? 'Stand-by' : 'Inoperante');
+    return x < 0.12 ? 'Operando' : 'Stand-by';
   }
   opcClasse(it) {
     if (it.sinal == null) return '';
@@ -5437,7 +5476,7 @@ class Component extends DCLogic {
     Object.assign(out.opc, { kicker: 'Disponibilidade dos principais sistemas · OPC-UA', titulo: 'Captura automática de status', gruposTitulo: 'Varredura por sistema',
       discTxt: 'A rede de automação indica OPERANDO em equipamentos declarados fora de operação. É um conflito de informação: o status não foi alterado — verifique o estado real de cada item e registre a verificação.',
       mudTitulo: 'Status atualizados pela captura', semMudTxt: 'Nenhum status capturável mudou desde a passagem anterior — os itens lidos foram marcados como confirmados via OPC-UA.',
-      nota: 'Capturáveis: Operando (sinal de operação ativo), Stand-by (desligado sem falha) e Inoperante (falha ou trip). Demais status não têm sinal na rede e continuam manuais. Demonstração com leitura simulada — o servidor e os nós OPC-UA são configurados na implantação.', temVenc: false, venc: [], vencTitulo: '' });
+      nota: 'Capturáveis: Operando (sinal de operação ativo) e Stand-by (desligado). Demais status não têm sinal na rede e continuam manuais. Demonstração com leitura simulada — o servidor e os nós OPC-UA são configurados na implantação.', temVenc: false, venc: [], vencTitulo: '' });
     return out;
   }
 
@@ -5670,7 +5709,7 @@ class Component extends DCLogic {
             isTable: true, isText: false, hasTitle: !!p.title, title: p.title || '',
             cols: p.cols.map(function (c) { return c.label; }), rows: rows,
             hasImgs: imgs.length > 0, imgs: imgs,
-            temLegenda: stPan, legenda: stPan ? ['Inoperante', 'Indisponível', 'Manutenção', 'Limitado', 'Em comissionamento', 'Stand-by', 'Operando', 'Não comissionado'].map(function (k) { var x = self.stCor(k); return { sym: x.sym, nome: k + (k === 'Não comissionado' ? ' / N/A' : ''), bg: x.bg === 'transparent' ? '#ffffff' : x.bg, cor: x.cor }; }).concat([{ sym: '◆', nome: 'Estado alterado ' + neste, bg: '#17334f', cor: '#ffffff' }]) : [],
+            temLegenda: stPan, legenda: stPan ? ['Indisponível', 'Manutenção', 'Limitado', 'Em comissionamento', 'Stand-by', 'Operando', 'Não comissionado'].map(function (k) { var x = self.stCor(k); return { sym: x.sym, nome: k + (k === 'Não comissionado' ? ' / N/A' : ''), bg: x.bg === 'transparent' ? '#ffffff' : x.bg, cor: x.cor }; }).concat([{ sym: '◆', nome: 'Estado alterado ' + neste, bg: '#17334f', cor: '#ffffff' }]) : [],
             temAlterados: stPan && alterados.length > 0, alteradosTxt: alterados.length + (alterados.length === 1 ? ' item com estado alterado ' : ' itens com estado alterado ') + neste + ': ' + alterados.join(' · '),
             semAlterados: stPan && !alterados.length && !!iniP, semAlteradosTxt: 'Nenhum item com estado alterado ' + neste + '.',
             temDiscs: discsR.length > 0, discs: discsR,
@@ -6278,7 +6317,7 @@ class Component extends DCLogic {
               ? self.aiCampo(dictKey, function () { return r.c[ci] || ''; }, function (v) { r.c[ci] = v; self.commit(); })
               : {};
             var vazio = String(bruto).trim() === '' && c.type !== 'label' && c.type !== 'elapsed';
-            var falta = pAlerta && !r.herd && vazio && ((c.req && (p.req === 'all' || usado || semLinha)) || (p.desvio && ci === 3 && r.c[2] === 'Desvio') || (c.cfg && !semCfg && ['Não comissionado', 'N/A', 'Em comissionamento'].indexOf(r.c[1]) < 0));
+            var falta = (!!r.detDe && !r.herd && vazio && !!c.req) || pAlerta && !r.herd && vazio && ((c.req && (p.req === 'all' || usado || semLinha)) || (p.desvio && ci === 3 && r.c[2] === 'Desvio') || (c.cfg && !semCfg && ['Não comissionado', 'N/A', 'Em comissionamento'].indexOf(r.c[1]) < 0));
             var shownV = c.type === 'label' ? bruto : (c.type === 'elapsed' ? decor : mostrado);
             var tipV = (travada || c.type === 'label') && String(shownV).trim() && shownV !== '—' ? shownV + (r.autor ? '\n\nConcluído por ' + self.fmtCarimbo(r.autor) : '') : '';
             return Object.assign(ai, {
@@ -6392,7 +6431,7 @@ class Component extends DCLogic {
           prazoResumo: !p.eplab ? '' : self.prazoResumo(rows, p),
           temFalhas: !!p.eplab && rows.some(function (r) { return r.eplabFalha; }), falhasResumo: !p.eplab ? '' : rows.filter(function (r) { return r.eplabFalha; }).length + ' item(ns) não atualizado(s) pela captura EPLab — preencha resultado e data manualmente (o valor anterior foi mantido).', opcRodando: !!self._opc,
           temOpcUlt: !!(p.opc && self.doc[tipo][s.key] && self.doc[tipo][s.key].opc), opcUlt: (p.opc && self.doc[tipo][s.key] && self.doc[tipo][s.key].opc) ? 'Última captura ' + self.fmtHoraISO(self.doc[tipo][s.key].opc.em) + ' por ' + self.nomeCurto(self.doc[tipo][s.key].opc.n) + ' — ' + self.doc[tipo][s.key].opc.resumo : '',
-          temDiscs: !!p.opc && rows.some(function (r) { return r.disc && !r.disc.ok; }), discResumo: !p.opc ? '' : rows.filter(function (r) { return r.disc && !r.disc.ok; }).length + ' discrepância(s) entre o status declarado e a rede de automação: a rede indica OPERANDO em equipamento declarado como fora de operação. Verifique o estado real de cada item marcado com ⚠ e registre a verificação.',
+          temDetPend: rows.some(function (r) { return self.detPend(r); }), detPendResumo: self.detPendTxt(rows), temDiscs: !!p.opc && rows.some(function (r) { return r.disc && !r.disc.ok; }), discResumo: !p.opc ? '' : rows.filter(function (r) { return r.disc && !r.disc.ok; }).length + ' discrepância(s) entre o status declarado e a rede de automação: a rede indica OPERANDO em equipamento declarado como fora de operação. Verifique o estado real de cada item marcado com ⚠ e registre a verificação.',
           isTable: true, isText: false, hasTitle: !!p.title, title: p.title || '',
           cols: p.cols.map(function (c) {
             var aj = self.ajuda(c.label);
@@ -6410,7 +6449,7 @@ class Component extends DCLogic {
           resumoStatus: agrupado || p.herdado ? ncTotal + ' de ' + totalRows + ' não comissionado(s)' + (busca ? ' · ' + rowsVis.length + ' na busca' : '') : '',
           toggleTodos: function () { var m = Object.assign({}, self.state.gFechado || {}), fechar = fechadosAgora === 0; self.gruposDe(rows).forEach(function (g) { m[buscaKey + '/' + g.k] = fechar; }); self.setState({ gFechado: m }); },
           toggleTodosLabel: fechadosAgora === 0 ? 'Recolher grupos' : 'Expandir grupos',
-          notaHerdado: p.herdado ? 'Status e datas vêm da passagem de ' + p.herdado + ' do mesmo período (validada ou em elaboração); sem ela, da última emitida do posto. Alterações aqui exigem justificativa e ficam marcadas como sobrescritas.' : (p.herdadoDet ? 'Linhas de detalhamento registradas pelos postos para itens Inoperante, Manutenção ou Limitado.' : ''),
+          notaHerdado: p.herdado ? 'Status e datas vêm da passagem de ' + p.herdado + ' do mesmo período (validada ou em elaboração); sem ela, da última emitida do posto. Alterações aqui exigem justificativa e ficam marcadas como sobrescritas.' : (p.herdadoDet ? 'Linhas de detalhamento registradas pelos postos para itens Indisponível, Manutenção ou Limitado.' : ''),
           add: function () { rows.unshift(self.blank(p)); self.commit(); },
           canInherit: !!p.inherit && prev.length > 0, inheritCount: prev.length,
           podeMontar: !!p.montar && podeEd, montar: function () { self.montarComposicao(); },
@@ -7530,7 +7569,7 @@ class Component extends DCLogic {
             podeEplab: !!p.eplabPrim && pode, eplab: function () { self.eplabIniciar(sec.key); },
             temPrazo: !!p.eplab && rows.some(function (r) { return r._pz === 'venc' || r._pz === 'warn'; }), prazoResumo: !p.eplab ? '' : self.prazoResumo(rows, p), prazoBd: rows.some(function (r) { return r._pz === 'venc'; }) ? 'oklch(0.55 0.19 25)' : 'oklch(0.5 0.12 75)',
             temFalhas: !!p.eplab && rows.some(function (r) { return r.eplabFalha; }), falhasResumo: !p.eplab ? '' : '⚠ ' + rows.filter(function (r) { return r.eplabFalha; }).length + ' item(ns) sem captura EPLab — abra e preencha manualmente.',
-            temDiscs: !!p.opc && rows.some(function (r) { return r.disc && !r.disc.ok; }), discResumo: !p.opc ? '' : '⚠ ' + rows.filter(function (r) { return r.disc && !r.disc.ok; }).length + ' discrepância(s) OPC-UA — a rede indica OPERANDO em item declarado fora de operação. Abra cada item marcado e registre a verificação.',
+            temDetPend: rows.some(function (r) { return self.detPend(r); }), detPendResumo: self.detPendTxt(rows), temDiscs: !!p.opc && rows.some(function (r) { return r.disc && !r.disc.ok; }), discResumo: !p.opc ? '' : '⚠ ' + rows.filter(function (r) { return r.disc && !r.disc.ok; }).length + ' discrepância(s) OPC-UA — a rede indica OPERANDO em item declarado fora de operação. Abra cada item marcado e registre a verificação.',
             temVazioAI: !!p.semAdd && !rows.length, isText: false, isRows: true, title: p.title || '', hasTitle: !!p.title, addable: !!p.addable && !p.semAdd && !(p.semRemover && !self.permite('usuarios')), textValue: '', dep: !!p.dep && !depAtiva,
             add: function () {
               var vazia = rows.filter(function (x) { return !x.ok && !self.filled(p, x); })[0];
@@ -7541,7 +7580,7 @@ class Component extends DCLogic {
               var lista = rows.map(function (r) {
                 if (!r.rid) r.rid = self.novoRid();
                 var res = self.resumoLinha(p, r), fotos = (r.imgs || []).length + (r.img && !(r.imgs || []).length ? 1 : 0);
-                return { isGroup: false, isRow: true, primario: res.primario, secundario: (r.eplabFalha ? '⚠ FALHA EPLAB · ' : '') + (p.eplab && r._pz === 'venc' ? 'PRAZO VENCIDO · ' : '') + (r.disc && !r.disc.ok ? '⚠ DISCREPÂNCIA OPC-UA · ' : '') + (r.herd ? (r.c[r.c.length - 1] || '') + ' · ' : '') + res.secundario + (p.confirmar && !r.herd && String(r.c[0] || '').trim() ? (r.conf ? (r.conf.opc ? ' · ✓ OPC-UA' : ' · ✓ confirmado') : ' · A CONFIRMAR') : ''), vazio: res.vazio, locked: (itemizavel && !!r.ok) || !!r.herd, temFotos: fotos > 0, fotos: fotos + (fotos === 1 ? ' mídia' : ' mídias'),
+                return { isGroup: false, isRow: true, primario: res.primario, secundario: (r.eplabFalha ? '⚠ FALHA EPLAB · ' : '') + (p.eplab && r._pz === 'venc' ? 'PRAZO VENCIDO · ' : '') + (r.disc && !r.disc.ok ? '⚠ DISCREPÂNCIA OPC-UA · ' : '') + (self.detPend(r) ? '⚠ DETALHAR (' + (r.detSt || '') + ') · ' : '') + (r.herd ? (r.c[r.c.length - 1] || '') + ' · ' : '') + res.secundario + (p.confirmar && !r.herd && String(r.c[0] || '').trim() ? (r.conf ? (r.conf.opc ? ' · ✓ OPC-UA' : ' · ✓ confirmado') : ' · A CONFIRMAR') : ''), vazio: res.vazio, locked: (itemizavel && !!r.ok) || !!r.herd, temFotos: fotos > 0, fotos: fotos + (fotos === 1 ? ' mídia' : ' mídias'),
                   cor: res.vazio ? 'color-mix(in srgb, var(--color-text) 45%, transparent)' : 'inherit', herd: !!r.herd, alertado: !!r.alertado, ehAlerta: !!r.origem, alertaTag: r.origem ? self.nivelTag(r.origem) : '',
                   go: function () { self.goM('linha', { mSid: sec.key, mPid: p.pid, mRid: r.rid }); } };
               });
@@ -7570,7 +7609,7 @@ class Component extends DCLogic {
       var itemiz = !!p.addable && !p.fixed, travada = (itemiz && !!r.ok) || !!r.herd;
       var aiVm = self.aiVinc(sec.key, p.pid, r.rid);
       m.l = {
-        temDisc: !!(r.disc && !r.disc.ok), discTexto: r.disc ? self.discTexto(r) : '', discVerificar: function () { self.discAbrir(sec.key, p.pid, r); },
+        temDetPend: self.detPend(r), detPendTxt: '⚠ Registro criado automaticamente — status ' + (r.detSt || '') + '. TAG e “Desde” já preenchidos (o horário pode ser ajustado); complete os campos marcados e conclua o item.', temDisc: !!(r.disc && !r.disc.ok), discTexto: r.disc ? self.discTexto(r) : '', discVerificar: function () { self.discAbrir(sec.key, p.pid, r); },
         podeAI: pode && self.aiAplica(sec.key) && !p.herdadoDet && self.filled(p, r) && (!itemiz || !!r.ok) && !aiVm, aiMarcado: !!aiVm,
         aiLabel: aiVm ? 'Em atenção imediata (' + aiVm.c[0] + ') — tocar para retirar' : '',
         aiToggle: function () { if (!r.rid) r.rid = self.novoRid(); self.aiMarcar(sec.key, p.pid, r.rid); self.vibrar(20); },
@@ -7594,7 +7633,7 @@ class Component extends DCLogic {
           var mostrado = (t === 'date' || t === 'datetime') ? (v ? self.fmtDT(v) : '—') : (t === 'elapsed' ? self.decorrido(r.c[c.from]) : (v || '—'));
           var escan = t === 'text' && /tag|equipamento|sistema|local|operação/i.test(c.label);
           return {
-            label: c.label + (c.req ? ' *' : ''), help: self.ajuda(c.label) || '', temHelp: !!self.ajuda(c.label),
+            label: c.label + (c.req ? ' *' : '') + (r.detDe && c.req && !String(v).trim() ? ' — preencher' : ''), help: self.ajuda(c.label) || '', temHelp: !!self.ajuda(c.label),
             isStatic: estatico, shown: mostrado, isText: t === 'text' && !estatico, isArea: t === 'area' && !estatico, isSelect: t === 'select' && !estatico,
             isDate: t === 'date' && !estatico, isDT: t === 'datetime' && !estatico,
             value: v, options: opts || [], inputMode: self.inputModeDe(c.label), list: c.list || undefined,
@@ -8428,7 +8467,7 @@ class Component extends DCLogic {
         } else {
           var qtd = { atencao: 1 + rnd(3), degradacao: rnd(3) === 0 ? 0 : 1, operacoes: 1 + rnd(2), gm: rnd(2), estado: 1 + rnd(2), det: 0, des: 0, pts: 1 + rnd(3), pendencias: 0, eventos: 0, anomalias: 0, manutencoes: 0, dispa1: 0 }[sec.key === 'disponibilidade' || sec.key === 'integridade' ? p.pid : sec.key];
           if (qtd == null) qtd = 1;
-          if (p.pid === 'det') { var stRows = store[sec.key] && store[sec.key].panels.st ? store[sec.key].panels.st.filter(function (r) { return ['Inoperante', 'Manutenção', 'Limitado'].indexOf(r.c[1]) >= 0; }) : []; stRows.forEach(function (r) { rows.push(row(p, B.det(r.c[0], r.c[2]), true)); }); }
+          if (p.pid === 'det') { var stRows = store[sec.key] && store[sec.key].panels.st ? store[sec.key].panels.st.filter(function (r) { return ['Indisponível', 'Manutenção', 'Limitado'].indexOf(r.c[1]) >= 0; }) : []; stRows.forEach(function (r) { rows.push(row(p, B.det(r.c[0], r.c[2]), true)); }); }
           else if (p.pid === 'des') { var subSim = store[sec.key] && store[sec.key].panels.sub ? store[sec.key].panels.sub.filter(function (r) { return r.c[1] === 'Sim'; }) : []; subSim.forEach(function () { rows.push(row(p, B.des(), true)); }); }
           else if (sec.key === 'pendencias') {
             (pendAnt || []).forEach(function (pv) { var cp = pv.slice(); if (rnd(4) === 0) cp[5] = 'NORMALIZADO'; else if (rnd(2)) cp[5] = 'EM TRATAMENTO'; rows.push(row(p, cp, true)); });
