@@ -5444,9 +5444,15 @@ class Component extends DCLogic {
     if (d.ok) return 'Rede OPC-UA indicou Operando com status declarado ' + d.declarado + ' — verificado por ' + this.fmtCarimbo(d.ok) + ': ' + (d.ok.nota || '') + ' (status confirmado: ' + (d.ok.status || r.c[1]) + ').';
     return 'Status declarado: ' + d.declarado + ' · a rede OPC-UA indica OPERANDO (leitura de ' + this.fmtHoraISO(d.em) + '). Conflito de informação — verifique o estado real do equipamento.';
   }
+  discResolver(r, como) {
+    if (!r || !r.disc || r.disc.ok) return;
+    var nota = como === 'corr' ? 'status corrigido no formulário' : 'status declarado confirmado pelo operador';
+    r.disc.ok = Object.assign({}, this.carimbo(), { nota: nota, status: r.c[1] }); r.conf = r.conf || this.carimbo();
+    this.registrar('Verificou discrepância OPC-UA', r.c[0] + ' — declarado ' + r.disc.declarado + ', rede Operando → ' + nota + ': ' + (r.c[1] || '—'));
+  }
   discAbrir(sid, pid, r) {
     if (!this.podeEditar()) { this.flash('Vincule-se à passagem para registrar a verificação.'); return; }
-    if (!r.rid) r.rid = this.novoRid();
+    if (!r.rid) { r.rid = this.novoRid(); this.commit(); }
     this.setState({ discVer: { sid: sid, pid: pid, rid: r.rid, label: r.c[0], declarado: r.disc ? r.disc.declarado : r.c[1], status: this.normSt(r.c[1]), nota: '' } });
   }
   opcVals() {
@@ -5459,7 +5465,7 @@ class Component extends DCLogic {
       discConfirmar: function () {
         var v = self.state.discVer; if (!v) return;
         var nota = String(v.nota || '').trim(); if (nota.length < 10) { self.flash('Descreva como o estado foi verificado (mínimo 10 caracteres).'); return; }
-        var r = (self.rows(v.sid, v.pid) || []).filter(function (x) { return x.rid === v.rid; })[0]; if (!r || !r.disc) { self.setState({ discVer: null }); return; }
+        var rs = self.rows(v.sid, v.pid) || [], r = rs.filter(function (x) { return x.rid === v.rid; })[0] || rs.filter(function (x) { return x.disc && !x.disc.ok && x.c[0] === v.label; })[0]; if (!r || !r.disc) { self.setState({ discVer: null }); self.flash('Item não encontrado — a passagem foi atualizada. Abra a verificação novamente.'); return; }
         var cb = self.carimbo();
         if (v.status && v.status !== r.c[1]) { r.c[1] = v.status; r.c[2] = self.agoraISO(); }
         r.disc.ok = Object.assign({}, cb, { nota: nota, status: r.c[1] }); r.conf = cb;
@@ -6362,7 +6368,7 @@ class Component extends DCLogic {
                 if (c.stamp != null && novo !== r.c[ci]) r.c[c.stamp] = self.agoraISO();
                 r.c[ci] = novo;
                 if (p.eplab && (ci === 1 || ci === 2)) self.eplabManual(r);
-                if (p.confirmar && ci > 0) r.conf = self.carimbo();
+                if (p.confirmar && ci > 0) r.conf = self.carimbo(); if (p.opc && ci === 1) self.discResolver(r, 'corr');
                 if (s.amb && p.pid === 'p' && ci === 1) self.avaliarAmb(r, false);
                 var simNovo = s.key === 'integridade' && p.pid === 'sub' && ci === 1 && novo === 'Sim';
                 self.commit();
@@ -6422,7 +6428,7 @@ class Component extends DCLogic {
             confLabel: '✓',
             confTip: r.conf ? (r.conf.opc ? 'Confirmado via OPC-UA — captura acionada por ' : 'Confirmado por ') + self.fmtCarimbo(r.conf) + ' — clique para desfazer' : 'Confirme que conferiu a condição atual deste item (importada da passagem anterior)',
             confBg: r.conf ? 'var(--color-accent-700)' : 'transparent', confBd: r.conf ? 'var(--color-accent-900)' : (pAlerta ? RED : 'var(--color-divider)'), confCor: r.conf ? '#ffffff' : 'color-mix(in srgb, var(--color-text) 55%, transparent)',
-            confToggle: function () { if (!podeEd) { self.flash('Vincule-se à passagem para confirmar.'); return; } if (r.conf) delete r.conf; else { if (!self.confPronto(p, r)) { self.flash('Preencha os campos obrigatórios (ex.: status) antes de confirmar “' + r.c[0] + '”.'); return; } r.conf = self.carimbo(); } self.commit(); }
+            confToggle: function () { if (!podeEd) { self.flash('Vincule-se à passagem para confirmar.'); return; } if (r.conf) delete r.conf; else { if (!self.confPronto(p, r)) { self.flash('Preencha os campos obrigatórios (ex.: status) antes de confirmar “' + r.c[0] + '”.'); return; } r.conf = self.carimbo(); if (p.opc) self.discResolver(r, 'conf'); } self.commit(); }
           };
         });
         var prev = p.inherit ? self.prevPend() : [];
@@ -7640,14 +7646,14 @@ class Component extends DCLogic {
         rotulo: (pan.title || sec.title), locked: travada && !r.vinc, podeConcluir: itemiz && !travada && self.filled(p, r), podeRemover: !!p.addable && !(p.semRemover && String(r.c[0] || '').trim()), podeFotos: true,
         temConf: !!p.confirmar && !r.herd && !!String(r.c[0] || '').trim(), conf: !!r.conf, confBg: r.conf ? 'var(--color-accent-700)' : 'transparent',
         confLabel: '✓', confTip: r.conf ? 'Condição confirmada — tocar para desfazer' : 'Confirmar a condição deste item', confCor: r.conf ? '#ffffff' : 'inherit',
-        confToggle: function () { if (!pode) { self.flash('Vincule-se à passagem para confirmar.'); return; } if (r.conf) delete r.conf; else { if (!self.confPronto(p, r)) { self.flash('Preencha os campos obrigatórios antes de confirmar.'); return; } r.conf = self.carimbo(); } self.commit(); self.vibrar(15); },
+        confToggle: function () { if (!pode) { self.flash('Vincule-se à passagem para confirmar.'); return; } if (r.conf) delete r.conf; else { if (!self.confPronto(p, r)) { self.flash('Preencha os campos obrigatórios antes de confirmar.'); return; } r.conf = self.carimbo(); if (p.opc) self.discResolver(r, 'conf'); } self.commit(); self.vibrar(15); },
         concluir: function () { r.ok = true; r.autor = self.carimbo(); rows2.splice(ri, 1); rows2.push(r); if (!rows2.some(function (x) { return !x.ok; })) rows2.unshift(self.blank(p)); if (!(sec.key === 'integridade' && p.pid === 'des' && self.enviarCompulsorio('integridade', 'des', r))) self.commit(); self.vibrar(25); self.backM(); },
         editar: function () { r.ok = false; self.commit(); },
         remover: function () { self.confirmar({ titulo: 'Remover este item?', rotulo: pan.title || sec.title, ctx: String(r.c[0] || '').trim() || 'Item sem preenchimento', ok: 'Remover item', nativo: 'Remover este item?' }, function () { (r.imgs || []).forEach(function (im) { if (im.mid) self.midiaDel(im.mid); }); rows2.splice(ri, 1); if (!rows2.length) rows2.push(self.blank(p)); if (itemiz && !rows2.some(function (x) { return !x.ok; })) rows2.unshift(self.blank(p)); self.commit(); self.backM(); }); },
         campos: p.cols.map(function (c, ci) {
           var dk = sec.key + '/' + p.pid + '/' + ri + '/' + ci, v = r.c[ci] || '';
           var get = function () { return r.c[ci] || ''; };
-          var set = function (nv) { if (c.stamp != null && nv !== r.c[ci]) r.c[c.stamp] = self.agoraISO(); r.c[ci] = nv; if (p.eplab && (ci === 1 || ci === 2)) self.eplabManual(r); if (p.confirmar && ci > 0) r.conf = self.carimbo(); if (sec.amb && p.pid === 'p' && ci === 1) self.avaliarAmb(r, false); var simN = sec.key === 'integridade' && p.pid === 'sub' && ci === 1 && nv === 'Sim'; self.commit(); if (simN) self.avisoIntegridade(r); };
+          var set = function (nv) { if (c.stamp != null && nv !== r.c[ci]) r.c[c.stamp] = self.agoraISO(); r.c[ci] = nv; if (p.eplab && (ci === 1 || ci === 2)) self.eplabManual(r); if (p.confirmar && ci > 0) r.conf = self.carimbo(); if (p.opc && ci === 1) self.discResolver(r, 'corr'); if (sec.amb && p.pid === 'p' && ci === 1) self.avaliarAmb(r, false); var simN = sec.key === 'integridade' && p.pid === 'sub' && ci === 1 && nv === 'Sim'; self.commit(); if (simN) self.avisoIntegridade(r); };
           var t = c.type;
           var opts = c.options || (p.kind === 'notes' ? (ci === 0 ? p.categorias : ci === 7 ? p.relevancias : null) : null);
           if (c.cfg) opts = self.cfgOpts(r.c[0]);
