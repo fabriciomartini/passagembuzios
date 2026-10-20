@@ -5402,7 +5402,7 @@ class Component extends DCLogic {
     res.atual.forEach(function (it) { it.r.c[1] = it.sinal; it.r.c[2] = agora; it.r.conf = op; limpa(it.r); });
     res.igual.forEach(function (it) { it.r.conf = op; limpa(it.r); });
     res.pres.forEach(function (it) { if (it.sinal !== 'Operando') limpa(it.r); });
-    res.disc.forEach(function (it) { it.r.disc = { em: cb.em, sinal: 'Operando', declarado: it.antes }; });
+    res.disc.forEach(function (it) { it.r.disc = { em: cb.em, sinal: 'Operando', declarado: it.antes }; delete it.r.conf; delete it.r.confBloco; });
     var resumo = res.atual.length + ' atualizado(s) · ' + res.igual.length + ' sem alteração · ' + res.pres.length + ' preservado(s) · ' + res.disc.length + ' discrepância(s)';
     var sd = this.doc[this.tipo()][o.sid]; if (sd) sd.opc = { em: cb.em, u: cb.u, n: cb.n, resumo: resumo };
     this.registrar('Captura automática de status (OPC-UA)', resumo + (res.atual.length ? ' · ' + res.atual.map(function (it) { return (it.tag || it.label) + ': ' + it.antes + ' → ' + it.sinal; }).join('; ') : ''));
@@ -6094,7 +6094,7 @@ class Component extends DCLogic {
     var loginVals = {
       gConfOn: !!this.state.gConf, gConfN: this.state.gConf ? this.state.gConf.n + (this.state.gConf.n === 1 ? ' item' : ' itens') : '', gConfGrupo: this.state.gConf ? this.state.gConf.grupo : '',
       gConfCancel: function () { self.setState({ gConf: null }); },
-      gConfOk: function () { var g = self.state.gConf; if (!g) return; var cb = self.carimbo(); g.rows.forEach(function (r) { if (!r.conf) { r.conf = cb; r.confBloco = true; } }); self.registrar('Confirmou em bloco ' + g.n + ' item(ns)', g.sec + ' › ' + g.grupo); self.setState({ gConf: null }); self.commit(); self.flash('Grupo “' + g.grupo + '” confirmado em bloco (' + g.n + ' itens) — registrado no histórico.'); },
+      gConfOk: function () { var g = self.state.gConf; if (!g) return; var cb = self.carimbo(); g.rows.forEach(function (r) { if (!r.conf && !(r.disc && !r.disc.ok)) { r.conf = cb; r.confBloco = true; } }); self.registrar('Confirmou em bloco ' + g.n + ' item(ns)', g.sec + ' › ' + g.grupo); self.setState({ gConf: null }); self.commit(); self.flash('Grupo “' + g.grupo + '” confirmado em bloco (' + g.n + ' itens) — registrado no histórico.'); },
       ambAvisoOn: !!this.state.ambAviso,
       ambAvisoKicker: av.kicker || 'Meio ambiente · notificação imediata', ambAvisoTitulo: av.titulo || 'Valor fora do limite de referência', ambAvisoTxt: av.txt || '',
       ambAvisoTemNota: !!av.nota, ambAvisoNota: av.nota || '', ambAvisoOkLabel: av.okLabel || 'Ciente — vou notificar agora',
