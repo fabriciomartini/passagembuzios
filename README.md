@@ -1,6 +1,6 @@
 # Passagem de serviço — versão Búzios (demonstração)
 
-Conteúdo estático: `index.html` (página de entrada com chaves de teste), `app.html` (aplicativo), `deck.html` (apresentação técnica) e seus recursos.
+Conteúdo estático: `index.html` (página de entrada com chaves de teste), `app.html` (aplicativo — versão 2, design atual), `app-v1.html` (versão anterior, mesmos dados), `deck.html` (apresentação técnica) e seus recursos. `app-v2.html` e `index-v2.html` redirecionam para `app.html` e `index.html`.
 
 ## Como atualizar o GitHub
 1. Descompacte este pacote.
