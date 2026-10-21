@@ -1,6 +1,8 @@
 # Passagem de serviço — versão Búzios (demonstração)
 
-Conteúdo estático: `index.html` (página de entrada com chaves de teste), `app.html` (aplicativo — versão 2, design atual), `app-v1.html` (versão anterior, mesmos dados), `deck.html` (apresentação técnica) e seus recursos. `app-v2.html` e `index-v2.html` redirecionam para `app.html` e `index.html`.
+Versão oficial: **`app-v2.html`** (aplicativo — versão 2, identidade Petrobras) com entrada em **`index-v2.html`** — https://fabriciomartini.github.io/passagembuzios/app-v2.html
+
+Também no pacote: `index.html` e `app.html` (versão 1, design original — congelada, mesmos dados), `deck.html` (apresentação técnica) e seus recursos.
 
 ## Como atualizar o GitHub
 1. Descompacte este pacote.
@@ -19,7 +21,12 @@ Primeira publicação: Settings → Pages → Source: *Deploy from a branch* →
 ## Base de dados compartilhada (Supabase)
 `nuvem.js` sincroniza usuários, passagens, arquivo e parâmetros com o Supabase (carga ao abrir, envio ~1 s após cada alteração, atualização a cada 8 s, fila local quando offline). Criar a tabela uma única vez executando `supabase-buzios.sql` no SQL Editor.
 
-## Novidades desta versão (19/out/2026)
+## Versão 2 oficial (21/out/2026)
+- A versão 2 passa a ser a oficial, em `app-v2.html`. Todas as novas funcionalidades e correções entram nela.
+- Identidade Petrobras (Petrobras Sans, verde/amarelo, marca e selo INTERNA), prioridade ao uso em campo no celular, painéis de confirmação no celular e PDF revisado. Mesma lógica, regras, campos e dados da versão 1.
+- A versão 1 permanece em `app.html` sem alterações.
+
+## Novidades de 19/out/2026
 - Manutenção reorganizada conforme o PE-3BUZ-00130: Operação Elétrica e Operação Mecânica (turno ininterrupto) com passagens de turno e turma no Anexo B-1; Manutenção Elétrica/Mecânica, Instrumentação e Automação só com passagem de turma (Anexo C-1); SUEIN e SUMEC no B-1, com a disponibilidade herdada da operação.
 - Disponibilidade da Operação Elétrica com a lista “Sistemas da Elétrica” (145 itens) e coluna Configuração (L-A / L-B / Duplo “I”) nos painéis das distribuições essencial e normal. Novo status “Indisponível”; “Operacional” passa a “Operando”.
 - Captura automática de status (OPC-UA): varredura com progresso por etapa e por sistema; atualiza só Operando / Stand-by / Inoperante; alerta de discrepância quando a rede indica Operando em item declarado fora de operação, com verificação registrada. Leitura simulada na demonstração.
