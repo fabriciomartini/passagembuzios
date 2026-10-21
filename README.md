@@ -2,7 +2,7 @@
 
 Versão oficial: **`app-v2.html`** (aplicativo — versão 2, identidade Petrobras) com entrada em **`index-v2.html`** — https://fabriciomartini.github.io/passagembuzios/app-v2.html
 
-Também no pacote: `index.html` e `app.html` (versão 1, design original — congelada, mesmos dados), `deck.html` (apresentação técnica) e seus recursos.
+O endereço principal https://fabriciomartini.github.io/passagembuzios/ (`index.html`) abre a mesma entrada da versão 2. Também no pacote: `app.html` (versão 1, design original — congelada, mesmos dados), `deck.html` (apresentação técnica) e seus recursos.
 
 ## Como atualizar o GitHub
 1. Descompacte este pacote.
