@@ -174,66 +174,80 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
 </sc-if>
 <sc-if value="{{ deslogado }}" hint-placeholder-val="{{ true }}">
 <sc-if value="{{ mob }}" hint-placeholder-val="{{ false }}">
-<div data-sol="{{ solAttr }}" data-screen-label="Campo · Acesso" lang="pt-BR" style="position:relative;min-height:100vh;overflow:hidden;font-family:var(--font-body);background:var(--pb-bg);color:var(--pb-text);display:flex;flex-direction:column">
-  <img src="assets/petrobras-v2/egp-amarelo.svg" alt="" aria-hidden="true" style="position:absolute;width:600px;left:calc(100% - 179px);top:-79px;transform:rotate(-45deg);transform-origin:2.75% 24.3%;pointer-events:none">
-  <div style="position:relative;padding:calc(20px + env(safe-area-inset-top, 0px)) 20px 0;display:flex;flex-direction:column;gap:4px">
-    <img data-selo-dia="1" src="assets/petrobras-v2/marca-petrobras.svg" alt="Petrobras" style="height:22px;width:auto;align-self:flex-start;margin-bottom:28px">
-    <img data-selo-noite="1" src="assets/petrobras-v2/marca-petrobras-branca.svg" alt="Petrobras" style="height:22px;width:auto;align-self:flex-start;margin-bottom:28px">
-    <div style="font-size:14px;color:var(--pb-text-2)">Petrobras · Operação offshore</div>
-    <div style="font-size:56px;line-height:1;font-weight:700;margin-left:-0.03em">Búzios</div>
-    <div style="font-size:20px;line-height:1.25">Passagem de serviço · Campo</div>
+<div data-screen-label="Campo · Acesso" lang="pt-BR" style="position:relative;min-height:100vh;overflow:hidden;font-family:var(--font-body);background:#0b2a1c;color:#ffffff;display:flex;flex-direction:column">
+  <div style="position:absolute;left:0;right:0;top:0;height:430px;background:#0b2a1c url('assets/p83-topo.jpg') center/cover no-repeat"></div>
+  <div aria-hidden="true" style="position:absolute;left:0;right:0;top:0;height:430px;background:linear-gradient(180deg,rgba(0,40,22,.55) 0%,rgba(0,50,28,.82) 60%,#0b2a1c 100%)"></div>
+  <div style="position:relative;padding:calc(22px + env(safe-area-inset-top, 0px)) 20px 0;display:flex;flex-direction:column">
+    <img src="assets/petrobras-v2/marca-petrobras-branca.svg" alt="Petrobras" style="height:22px;width:auto;align-self:flex-start;margin-bottom:44px">
+    <span style="font-size:22px;font-weight:700;color:#fdc82f;line-height:1;padding-left:3px">Búzios</span>
+    <h1 style="margin:8px 0 0;font-size:54px;line-height:.95;font-weight:800;color:#ffffff">Passagem<br>de serviço</h1>
+    <p style="margin:10px 0 0;font-size:20px;font-weight:700">Turno e turma · campo</p>
+    <span style="display:block;width:40px;height:4px;background:#fdc82f;margin:16px 0 0"></span>
   </div>
-  <form onSubmit="{{ onLogin }}" style="position:relative;padding:28px 20px calc(24px + env(safe-area-inset-bottom, 0px));display:flex;flex-direction:column;gap:18px">
-    <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:15px;font-weight:700">Chave</span><input value="{{ loginUser }}" onChange="{{ setLoginUser }}" autoComplete="username" autoCapitalize="characters" autoCorrect="off" spellCheck="{{ false }}" enterKeyHint="next" inputMode="text" placeholder="URPQ" maxLength="{{ 8 }}" style="width:100%;box-sizing:border-box;border:1px solid var(--pb-field);border-radius:0;background:var(--pb-bg);color:var(--pb-text);padding:0 14px;font-family:var(--font-body);outline:none;min-height:56px;font-size:22px;letter-spacing:0.12em;text-transform:uppercase" style-focus="outline:2px solid var(--pb-green);outline-offset:2px"></label>
-    <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:15px;font-weight:700">Senha</span><input type="password" value="{{ loginPass }}" onChange="{{ setLoginPass }}" autoComplete="current-password" enterKeyHint="go" style="width:100%;box-sizing:border-box;border:1px solid var(--pb-field);border-radius:0;background:var(--pb-bg);color:var(--pb-text);padding:0 14px;font-family:var(--font-body);outline:none;min-height:56px;font-size:20px" style-focus="outline:2px solid var(--pb-green);outline-offset:2px"></label>
-    <label style="display:flex;align-items:center;gap:12px;min-height:48px;font-size:16px">
-      <input type="checkbox" checked="{{ loginKeep }}" onChange="{{ setLoginKeep }}" style="width:24px;height:24px;margin:0;accent-color:var(--pb-green)">
+  <form onSubmit="{{ onLogin }}" style="position:relative;margin:22px 16px 20px;background:#ffffff;color:#1d1f20;padding:20px 18px;border-top:6px solid #008542;display:flex;flex-direction:column;gap:12px">
+    <h2 style="margin:0;font-size:22px;line-height:1.15;font-weight:700;color:#1d1f20">Acesso ao sistema</h2>
+    <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:15px;font-weight:700">Chave</span><input value="{{ loginUser }}" onChange="{{ setLoginUser }}" autoComplete="username" autoCapitalize="characters" autoCorrect="off" spellCheck="{{ false }}" enterKeyHint="next" inputMode="text" placeholder="URPQ" maxLength="{{ 8 }}" style="width:100%;box-sizing:border-box;border-radius:0;background:#ffffff;color:#1d1f20;padding:0 14px;font-family:var(--font-body);outline:none;border:1px solid #75787b;min-height:56px;font-size:22px;letter-spacing:0.12em;text-transform:uppercase" style-focus="outline:2px solid #fdc82f;outline-offset:0"></label>
+    <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:15px;font-weight:700">Senha</span><input type="password" value="{{ loginPass }}" onChange="{{ setLoginPass }}" autoComplete="current-password" enterKeyHint="go" style="width:100%;box-sizing:border-box;border-radius:0;background:#ffffff;color:#1d1f20;padding:0 14px;font-family:var(--font-body);outline:none;border:1px solid #75787b;min-height:56px;font-size:20px" style-focus="outline:2px solid #fdc82f;outline-offset:0"></label>
+    <sc-if value="{{ loginErro }}" hint-placeholder-val="{{ false }}"><div role="alert" style="display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.4;font-weight:700"><span aria-hidden="true" style="flex:none;width:22px;height:22px;background:#ed8b00;color:#1d1f20;display:flex;align-items:center;justify-content:center;font-weight:800">!</span><span>{{ loginErro }}</span></div></sc-if>
+    <label style="display:flex;align-items:center;gap:12px;min-height:44px;font-size:16px">
+      <input type="checkbox" checked="{{ loginKeep }}" onChange="{{ setLoginKeep }}" style="width:24px;height:24px;margin:0;accent-color:#008542">
       <span>Manter sessão neste aparelho</span>
     </label>
-    <sc-if value="{{ loginErro }}" hint-placeholder-val="{{ false }}"><div role="alert" style="display:flex;gap:10px;align-items:flex-start;border:1.5px solid var(--pb-orange);padding:12px 14px;font-size:16px;line-height:1.4"><span aria-hidden="true" style="flex:none;width:22px;height:22px;background:var(--pb-orange);color:#1d1f20;display:flex;align-items:center;justify-content:center;font-weight:800">!</span><span>{{ loginErro }}</span></div></sc-if>
-    <button type="submit" style="min-height:56px;width:100%;border:0;border-radius:0;background:var(--pb-green);color:var(--pb-on-green);font-family:var(--font-body);font-size:19px;font-weight:700;cursor:pointer" style-hover="background:var(--pb-green-ink)" style-focus="outline:2px solid var(--pb-green);outline-offset:2px">Entrar</button>
-    <p style="margin:0;font-size:13px;line-height:1.5;color:var(--pb-text-2);text-wrap:pretty">Aparelhos Ex homologados (Smart-Ex 03, IS530.1, IS930.1, Tab-Ex 05). {{ efetivoLabel }} · autenticação local de demonstração.</p>
-    <div style="display:flex;justify-content:flex-end;padding-top:8px"><img data-selo-dia="1" src="assets/petrobras-v2/selo-interna.png" alt="Classificação da informação: interna" style="height:56px;width:auto;display:block"><img data-selo-noite="1" src="assets/petrobras-v2/selo-interna-branco.png" alt="Classificação da informação: interna" style="height:56px;width:auto"></div>
+    <button type="submit" style="min-height:56px;width:100%;border:0;border-radius:0;background:#008542;color:#ffffff;font-family:var(--font-body);font-size:19px;font-weight:700;cursor:pointer" style-hover="background:#006b35" style-focus="outline:2px solid #fdc82f;outline-offset:2px">Entrar</button>
+    <p style="margin:0;font-size:13px;line-height:1.5;color:#5f6265;text-wrap:pretty">{{ efetivoLabel }} · autenticação local de demonstração.</p>
   </form>
+  <footer style="position:relative;margin-top:auto;display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;padding:12px 16px calc(12px + env(safe-area-inset-bottom, 0px));background:rgba(0,0,0,.35);font-size:13px">
+    <span style="white-space:nowrap"><b style="font-size:20px;font-weight:800;margin-right:4px;font-variant-numeric:tabular-nums">{{ loginAgora }}</b> {{ loginHojeCurto }}</span>
+    <span style="flex:1;color:#fdc82f;font-weight:700;white-space:nowrap">{{ loginTurnoCurto }}</span>
+    <img src="assets/petrobras-v2/selo-interna-branco.png" alt="Classificação da informação: interna" style="height:34px;width:auto;display:block">
+    <span style="width:100%;font-size:12px;opacity:.9">Aparelhos Ex homologados (Smart-Ex 03, IS530.1, IS930.1, Tab-Ex 05) · versão 0 · Fabricio Martini e Bruno Samel</span>
+  </footer>
 </div>
 </sc-if>
 <sc-if value="{{ desk }}" hint-placeholder-val="{{ true }}">
-<div data-screen-label="Acesso" style="position:relative;min-height:100vh;overflow:hidden;background:#1d1f20;font-family:var(--font-body);color:#1d1f20">
-  <div style="position:absolute;inset:0;overflow:hidden">
+<div data-screen-label="Acesso" lang="pt-BR" style="position:relative;min-height:100vh;overflow:hidden;background:#0b2a1c;font-family:var(--font-body);color:#ffffff">
+  <div style="position:absolute;inset:0;overflow:hidden;background:#0b2a1c url('assets/p83-topo.jpg') center/cover no-repeat">
     <video ref="{{ videoRef }}" preload="auto" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
   </div>
-  
-<div style="position:relative;z-index:3;min-height:100vh;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,420px);gap:40px;align-items:end;padding:40px">
-    
-    <div aria-hidden="true"></div><form onSubmit="{{ onLogin }}" style="align-self:center;background:#ffffff;padding:32px;display:flex;flex-direction:column;gap:16px">
-      <div style="display:flex;flex-direction:column;gap:4px;padding-bottom:20px;margin-bottom:4px;border-bottom:1px solid #dcddde">
-        <img src="assets/petrobras-v2/marca-petrobras.svg" alt="Petrobras" style="height:26px;width:auto;align-self:flex-start;margin-bottom:18px">
-        <div style="font-size:14px;color:#5f6265">Petrobras · Operação offshore</div>
-        <div style="font-size:clamp(48px,4.6vw,64px);line-height:0.95;font-weight:700;margin-left:-0.03em">Búzios</div>
-        <div style="font-size:22px;line-height:1.2">Passagem de serviço</div>
-        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-size:13px;color:#5f6265"><span>Búzios</span><span style="white-space:nowrap">PE-3BUZ-00130 v02.01</span></div>
+  <div aria-hidden="true" style="position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(0,40,22,.92) 0%,rgba(0,60,32,.78) 34%,rgba(0,0,0,.25) 64%,rgba(0,0,0,.45) 100%),linear-gradient(0deg,rgba(0,0,0,.55) 0,rgba(0,0,0,0) 22%)"></div>
+  <div style="position:relative;z-index:3;min-height:100vh;display:flex;flex-direction:column">
+    <img src="assets/petrobras-v2/marca-petrobras-branca.svg" alt="Petrobras" style="height:26px;width:auto;align-self:flex-start;margin:40px clamp(24px,6.6vw,96px) 0">
+    <main style="flex:1;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(340px,420px);align-items:center;gap:clamp(32px,5.5vw,80px);padding:clamp(24px,5vh,56px) clamp(24px,6.6vw,96px) clamp(32px,6vh,64px)">
+      <div style="display:flex;flex-direction:column;min-width:0">
+        <span style="font-size:clamp(22px,2.2vw,32px);font-weight:700;color:#fdc82f;line-height:1;padding-left:6px">Búzios</span>
+        <h1 style="margin:14px 0 0;font-size:clamp(64px,7.8vw,112px);line-height:.92;font-weight:800;letter-spacing:-.01em;color:#ffffff">Passagem<br>de serviço</h1>
+        <p style="margin:20px 0 0;font-size:clamp(20px,2.1vw,30px);line-height:1.2;font-weight:700">Turno e turma · bordo</p>
+        <span style="display:block;width:64px;height:6px;background:#fdc82f;margin:22px 0"></span>
+        <ol aria-label="Fluxo do sistema" style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;font-size:17px;font-weight:700">
+          <li style="display:flex;align-items:center;padding:8px 14px 8px 0">Campo</li>
+          <li style="display:flex;align-items:center;padding:8px 14px 8px 0"><span style="width:22px;height:2px;background:#fdc82f;margin-right:14px"></span>Preenchimento</li>
+          <li style="display:flex;align-items:center;padding:8px 14px 8px 0"><span style="width:22px;height:2px;background:#fdc82f;margin-right:14px"></span>Emissão</li>
+          <li style="display:flex;align-items:center;padding:8px 14px 8px 0"><span style="width:22px;height:2px;background:#fdc82f;margin-right:14px"></span>APLAT e arquivo</li>
+        </ol>
       </div>
-      <h1 style="margin:0;font-size:28px;line-height:1.15;font-weight:700">Acesso</h1>
-      <p style="margin:0 0 4px;font-size:15px;line-height:1.45;color:#5f6265;text-wrap:pretty">Entre com sua chave individual para iniciar ou retomar uma passagem.</p>
-      <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:15px;font-weight:700">Chave</span><input value="{{ loginUser }}" onChange="{{ setLoginUser }}" autoComplete="username" placeholder="URPQ" maxLength="{{ 8 }}" style="width:100%;box-sizing:border-box;border:1px solid var(--pb-field);border-radius:0;background:var(--pb-bg);color:var(--pb-text);padding:0 14px;font-family:var(--font-body);outline:none;min-height:48px;font-size:17px;text-transform:uppercase;letter-spacing:0.06em" style-focus="outline:2px solid var(--pb-green);outline-offset:2px"></label>
-      <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:15px;font-weight:700">Senha</span><input type="password" value="{{ loginPass }}" onChange="{{ setLoginPass }}" autoComplete="current-password" style="width:100%;box-sizing:border-box;border:1px solid var(--pb-field);border-radius:0;background:var(--pb-bg);color:var(--pb-text);padding:0 14px;font-family:var(--font-body);outline:none;min-height:48px;font-size:17px" style-focus="outline:2px solid var(--pb-green);outline-offset:2px"></label>
-      <label style="display:flex;align-items:center;gap:10px;min-height:44px;font-size:15px;cursor:pointer">
-        <input type="checkbox" checked="{{ loginKeep }}" onChange="{{ setLoginKeep }}" style="width:20px;height:20px;margin:0;accent-color:#008542">
-        <span>Manter sessão nesta estação</span>
-      </label>
-      <sc-if value="{{ loginErro }}" hint-placeholder-val="{{ false }}"><div role="alert" style="display:flex;gap:10px;align-items:flex-start;border:1.5px solid var(--pb-orange);padding:12px 14px;font-size:15px;line-height:1.4"><span aria-hidden="true" style="flex:none;width:22px;height:22px;background:var(--pb-orange);color:#1d1f20;display:flex;align-items:center;justify-content:center;font-weight:800">!</span><span>{{ loginErro }}</span></div></sc-if>
-      <button type="submit" style="min-height:52px;width:100%;border:0;border-radius:0;background:#008542;color:#ffffff;font-family:var(--font-body);font-size:17px;font-weight:700;cursor:pointer" style-hover="background:#006b35" style-focus="outline:2px solid var(--pb-green);outline-offset:2px">Entrar</button>
-      <p style="margin:0;font-size:13px;line-height:1.5;color:#5f6265;text-wrap:pretty">{{ efetivoLabel }} · autenticação local de demonstração; a validação corporativa será configurada na integração.</p>
-      <div style="display:flex;align-items:flex-end;gap:16px;padding-top:16px;border-top:1px solid #dcddde">
-        <div style="flex:1;display:flex;flex-direction:column;gap:2px">
-          <div style="font-size:13px;color:#5f6265">Desenvolvimento</div>
-          <div style="font-size:16px;font-weight:700;line-height:1.3">Fabricio Martini · Bruno Samel</div>
-          <div style="font-size:13px;color:#5f6265">Versão 0 — prova de conceito</div>
-        </div>
-        <img src="assets/petrobras-v2/selo-interna.png" alt="Classificação da informação: interna" style="height:56px;width:auto">
-      </div>
-    </form>
-  </div></div>
+      <form onSubmit="{{ onLogin }}" style="background:#ffffff;color:#1d1f20;padding:34px;border-top:6px solid #008542;box-shadow:0 18px 50px rgba(0,0,0,.35);display:flex;flex-direction:column;gap:14px">
+        <h2 style="margin:0;font-size:24px;line-height:1.15;font-weight:700;color:#1d1f20">Acesso ao sistema</h2>
+        <p style="margin:-6px 0 2px;font-size:15px;line-height:1.45;color:#5f6265;text-wrap:pretty">Entre com sua chave para iniciar ou retomar uma passagem.</p>
+        <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:700">Chave</span><input value="{{ loginUser }}" onChange="{{ setLoginUser }}" autoComplete="username" placeholder="URPQ" maxLength="{{ 8 }}" style="width:100%;box-sizing:border-box;border-radius:0;background:#ffffff;color:#1d1f20;padding:0 14px;font-family:var(--font-body);outline:none;border:1px solid #75787b;min-height:52px;font-size:20px;text-transform:uppercase;letter-spacing:0.12em" style-focus="outline:2px solid #fdc82f;outline-offset:0"></label>
+        <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:700">Senha</span><input type="password" value="{{ loginPass }}" onChange="{{ setLoginPass }}" autoComplete="current-password" style="width:100%;box-sizing:border-box;border-radius:0;background:#ffffff;color:#1d1f20;padding:0 14px;font-family:var(--font-body);outline:none;border:1px solid #75787b;min-height:52px;font-size:20px" style-focus="outline:2px solid #fdc82f;outline-offset:0"></label>
+        <sc-if value="{{ loginErro }}" hint-placeholder-val="{{ false }}"><div role="alert" style="display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.4;font-weight:700"><span aria-hidden="true" style="flex:none;width:22px;height:22px;background:#ed8b00;color:#1d1f20;display:flex;align-items:center;justify-content:center;font-weight:800">!</span><span>{{ loginErro }}</span></div></sc-if>
+        <label style="display:flex;align-items:center;gap:10px;min-height:40px;font-size:15px;cursor:pointer">
+          <input type="checkbox" checked="{{ loginKeep }}" onChange="{{ setLoginKeep }}" style="width:20px;height:20px;margin:0;accent-color:#008542">
+          <span>Manter sessão nesta estação</span>
+        </label>
+        <button type="submit" style="min-height:54px;width:100%;border:0;border-radius:0;background:#008542;color:#ffffff;font-family:var(--font-body);font-size:18px;font-weight:700;cursor:pointer" style-hover="background:#006b35" style-focus="outline:2px solid #fdc82f;outline-offset:2px">Entrar</button>
+        <p style="margin:0;font-size:13px;line-height:1.5;color:#5f6265;text-wrap:pretty">{{ efetivoLabel }} · autenticação local de demonstração; a validação corporativa será configurada na integração.</p>
+      </form>
+    </main>
+    <footer style="display:flex;align-items:center;gap:12px 24px;flex-wrap:wrap;padding:14px clamp(24px,6.6vw,96px);background:rgba(0,0,0,.35);font-size:15px">
+      <span style="white-space:nowrap"><b style="font-size:22px;font-weight:800;margin-right:6px;font-variant-numeric:tabular-nums">{{ loginAgora }}</b> {{ loginHoje }}</span>
+      <span style="flex:1;color:#fdc82f;font-weight:700;white-space:nowrap">{{ loginTurno }}</span>
+      <span style="font-size:14px;opacity:.9">Desenvolvimento: Fabricio Martini e Bruno Samel</span>
+      <span style="font-size:14px;opacity:.9;white-space:nowrap">PE-3BUZ-00130 v02.01 · versão 0</span>
+      <img src="assets/petrobras-v2/selo-interna-branco.png" alt="Classificação da informação: interna" style="height:40px;width:auto;display:block">
+    </footer>
+  </div>
+</div>
 </sc-if>
 </sc-if>
 <sc-if value="{{ escolherUn }}" hint-placeholder-val="{{ false }}">
@@ -3816,7 +3830,7 @@ class Component extends DCLogic {
     window.addEventListener('storage', this._onStorage);
     this._onScrollM = function () { var c = (window.scrollY || 0) > 56; if (c !== !!self.state.mCompact) self.setState({ mCompact: c }); };
     window.addEventListener('scroll', this._onScrollM, { passive: true });
-    this._relogio = setInterval(function () { if (self.state.view === 'menu' && self.state.user) { self.sincronizarDoc(); self.setState({ tick: self.state.tick + 1 }); } if (self.state.user) { self.tocarSessao(); self.checarKick(); } }, 30000);
+    this._relogio = setInterval(function () { if (self.state.view === 'menu' && self.state.user) { self.sincronizarDoc(); self.setState({ tick: self.state.tick + 1 }); } if (self.state.user) { self.tocarSessao(); self.checarKick(); } else { self.setState({ tick: self.state.tick + 1 }); } }, 30000);
     try {
       if (!window.localStorage.getItem(this.PREV)) {
         window.localStorage.setItem(this.PREV, JSON.stringify([
@@ -6180,6 +6194,11 @@ class Component extends DCLogic {
       loginUser: this.state.loginUser, loginPass: this.state.loginPass,
       loginKeep: this.state.loginKeep, loginErro: this.state.loginErro,
       efetivoLabel: this.usuarios().filter(function (x) { return x.ativo !== false && (x.papel || 'operador') === 'operador'; }).length + ' chaves cadastradas no campo de Búzios',
+      loginAgora: (function () { var d = new Date(); return self.pad(d.getHours()) + ':' + self.pad(d.getMinutes()); })(),
+      loginHoje: (function () { var d = new Date(), ds = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']; return ds[d.getDay()] + ', ' + self.pad(d.getDate()) + '/' + self.pad(d.getMonth() + 1) + '/' + d.getFullYear(); })(),
+      loginHojeCurto: (function () { var d = new Date(), ds = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']; return ds[d.getDay()] + ', ' + self.pad(d.getDate()) + '/' + self.pad(d.getMonth() + 1); })(),
+      loginTurno: (function () { var t = self.turnoDe(new Date()); return 'Turno ' + t.nome.toLowerCase() + ' · troca às ' + self.pad(t.fim.getHours()) + ':' + self.pad(t.fim.getMinutes()); })(),
+      loginTurnoCurto: (function () { var t = self.turnoDe(new Date()); return t.nome + ' · troca ' + self.pad(t.fim.getHours()) + ':' + self.pad(t.fim.getMinutes()); })(),
       setLoginUser: function (e) { self.setState({ loginUser: e.target.value.toUpperCase(), loginErro: '' }); },
       setLoginPass: function (e) { self.setState({ loginPass: e.target.value, loginErro: '' }); },
       setLoginKeep: function (e) { self.setState({ loginKeep: e.target.checked }); },
