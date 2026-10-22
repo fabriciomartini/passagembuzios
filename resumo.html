@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style data-omelette-injected>html,body{background:transparent}</style><script data-omelette-injected>(()=>{{const n=new URLSearchParams(location.search).get("theme");if(n==="light"||n==="dark"){document.documentElement.dataset.theme=n}}{if(new URLSearchParams(location.search).get("_omthumb")==="1"){const n=(f)=>{const g=f.focus;if(!g)return;f.focus=function(h){g.call(this,{...h,preventScroll:true})}};n(HTMLElement.prototype);n(SVGElement.prototype);if(typeof MathMLElement!=="undefined"){n(MathMLElement.prototype)}const d=(f)=>{f.removeAttribute("autofocus");f.inert=true;if(!(f instanceof HTMLElement))f.removeAttribute("tabindex")};const p=(f)=>{if(f.hasAttribute("autofocus"))d(f);for(const g of f.querySelectorAll("[autofocus]")){d(g)}};p(document.documentElement);new MutationObserver((f)=>{for(const g of f){for(const h of g.addedNodes){if(h.nodeType===1)p(h)}}}).observe(document,{childList:true,subtree:true})}}{const n=()=>{try{if(document.querySelector('meta[name="color-scheme"]'))return;const d=getComputedStyle(document.documentElement).getPropertyValue("color-scheme").trim();if(d&&d!=="normal")return;const p=(y)=>{if(!y)return null;const m=getComputedStyle(y).backgroundColor.match(/^rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)(?:[,\s/]+([\d.]+%?))?\s*\)$/);if(!m)return null;const w=m[4]==null?1:parseFloat(m[4])/(m[4].endsWith("%")?100:1);if(w<0.99)return null;return[+m[1],+m[2],+m[3]]};const f=p(document.body)||p(document.documentElement);if(!f)return;const g=(y)=>{const m=y/255;return m<=0.04045?m/12.92:((m+0.055)/1.055)**2.4};const h=0.2126*g(f[0])+0.7152*g(f[1])+0.0722*g(f[2]);document.documentElement.style.setProperty("color-scheme",h<0.4?"dark":"light")}catch{}};if(document.readyState==="complete")n();else window.addEventListener("load",n)}var I=["https://claude.ai","https://preview.claude.ai","https://f25be535-04c5-4c8c-9d6a-1381c5805da8.claudeusercontent.com"];var B=true;var K=false;var C=()=>{};if(K===true){try{const n=setTimeout.bind(window);const d=1e4;const p=15;const f=1e4;const g=120000;const h=200;const y=(o)=>{try{let r;if(typeof o==="string")r=o;else if(o instanceof URL)r=o.href;else if(typeof Request!=="undefined"&&o instanceof Request)r=o.url;else return null;if(!r)return null;const l=document.baseURI;const i=new URL(r,l);if(i.protocol!=="http:"&&i.protocol!=="https:")return null;if(i.origin!==new URL(l).origin)return null;return i.origin+i.pathname}catch{return null}};const m=new Map;const w=(o)=>{let r=m.get(o);if(!r){if(m.size>=h){const l=m.keys().next().value;if(l!==undefined)m.delete(l)}r={fails:[],until:0,cooldown:f,hard:false};m.set(o,r)}return r};const R=(o)=>{const r=m.get(o);return r!==undefined&&r.until>Date.now()};const O=(o,r)=>{const l=Date.now();const i=w(o);if(r)i.hard=true;if(i.until>l)return;i.fails.push(l);while(i.fails.length>0&&i.fails[0]<=l-d)i.fails.shift();if(i.fails.length>=p){i.until=l+i.cooldown;if(i.hard)i.cooldown=Math.min(i.cooldown*2,g);i.fails.length=0;try{n(()=>{try{S(true)}catch{}},i.until-l+100)}catch{}console.warn("[omelette] asset circuit breaker: pausing requests to "+o+" for "+Math.round((i.until-l)/1000)+"s after "+p+" failures in "+d/1000+"s")}};const e=(o)=>{m.delete(o)};const t=100;const a=new WeakMap;const u=new Set;let s=null;const S=(o)=>{for(const r of Array.from(u)){try{const l=a.get(r);if(l===undefined){u.delete(r);continue}if(o){const i=y(l);if(i!==null&&R(i))continue}a.delete(r);u.delete(r);if(s!==null)s.call(r,l)}catch{}}};C=()=>{try{m.clear();S(false)}catch{}};document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")C()});const _=window.fetch;if(typeof _==="function"){const o=function(...r){let l=null;try{l=y(r[0])}catch{}if(l!==null&&R(l)){let c;try{if(r[1]&&r[1].signal!==undefined){c=r[1].signal||undefined}else if(typeof Request!=="undefined"&&r[0]instanceof Request){c=r[0].signal||undefined}}catch{c=undefined}return new Promise((k,b)=>{const E=()=>{try{return c.reason!==undefined?c.reason:new DOMException("The operation was aborted.","AbortError")}catch{return new DOMException("The operation was aborted.","AbortError")}};try{if(c&&c.aborted){b(E());return}}catch{}let T=false;const j=()=>{if(T)return;T=true;b(E())};try{if(c)c.addEventListener("abort",j,{once:true})}catch{}n(()=>{if(T)return;T=true;try{if(c)c.removeEventListener("abort",j)}catch{}let L;try{L=new Response(null,{status:429,statusText:"Too Many Requests",headers:{"Retry-After":"10"}})}catch{L={ok:false,status:429}}k(L)},250)})}const i=_.apply(window,r);if(l!==null){const c=l;i.then((k)=>{try{if(k.ok)e(c);else if(k.status===401||k.status===403||k.status===404||k.status===429){O(c,k.status!==404)}}catch{}},()=>{})}return i};window.fetch=o}const v=Object.getOwnPropertyDescriptor(HTMLImageElement.prototype,"src");if(v!==undefined&&v.set!==undefined&&v.get!==undefined){const o=v.set;s=o;Object.defineProperty(HTMLImageElement.prototype,"src",{configurable:true,enumerable:v.enumerable,get:v.get,set(r){const l=`${r}`;try{const i=y(l);if(i!==null&&R(i)){a.set(this,l);if(u.size<t)u.add(this);return}}catch{}try{a.delete(this);u.delete(this)}catch{}o.call(this,l)}})}try{const o=HTMLImageElement.prototype.setAttribute;HTMLImageElement.prototype.setAttribute=function(r,l){if(arguments.length<2){o.apply(this,arguments);return}if(typeof r==="string"&&r.toLowerCase()==="src"){const i=`${l}`;try{const c=y(i);if(c!==null&&R(c)){a.set(this,i);if(u.size<t)u.add(this);return}a.delete(this);u.delete(this)}catch{}o.call(this,r,i);return}o.call(this,r,l)}}catch{}window.addEventListener("error",(o)=>{try{const r=o.target;if(r instanceof HTMLImageElement){const l=y(r.currentSrc||r.src||"");if(l!==null)O(l,true)}}catch{}},true);window.addEventListener("load",(o)=>{try{const r=o.target;if(r instanceof HTMLImageElement){const l=y(r.currentSrc||r.src||"");if(l!==null)e(l);const i=a.get(r);if(i!==undefined){let c=false;try{c=new URL(i,document.baseURI).href===new URL(r.currentSrc||r.src||"",document.baseURI).href}catch{c=false}if(c){a.delete(r);u.delete(r)}}}}catch{}},true)}catch{}}var J=30000;var G=3000;document.addEventListener("DOMContentLoaded",()=>{const n=window.Babel;const d="om-src-id";if(n&&n.registerPlugin&&!(n.availablePlugins&&n.availablePlugins[d])){n.registerPlugin(d,({types:h})=>({visitor:{JSXOpeningElement(y,m){const w=y.node;if(w.name&&w.name.type==="JSXMemberExpression")return;for(let t=0;t<w.attributes.length;t++){const a=w.attributes[t];if(a.type==="JSXAttribute"&&a.name&&a.name.name==="data-om-id")return}const R=m.file&&m.file.opts&&m.file.opts.filename||"?";const O=w.loc&&w.loc.start;const e=`jsx:${R}:${w.start??0}:${O?O.line:0}:${O?O.column+1:0}`;w.attributes.push(h.jsxAttribute(h.jsxIdentifier("data-om-id"),h.stringLiteral(e)))}}}))}const p="om-text-extract";let f=false;if(B&&n&&n.registerPlugin&&!(n.availablePlugins&&n.availablePlugins[p])){const h=window.React;if(h&&h.useSyncExternalStore&&h.createElement){f=true;const y={};const m=new Set;let w=0;window.__omTextO=y;window.__omTextSet=(e)=>{for(const t in e){const a=e[t];if(a==null)delete y[t];else y[t]=a}w++;m.forEach((t)=>t())};const R=(e)=>{m.add(e);return()=>m.delete(e)};const O=()=>w;window.__OmT=function e(t){h.useSyncExternalStore(R,O,O);return h.createElement("span",{"data-om-text":t.i,className:"__om-t"},t.i in y?y[t.i]:t.children)};n.registerPlugin(p,({types:e})=>{const t={style:1,script:1,noscript:1,textarea:1,title:1,option:1,text:1,tspan:1,textPath:1};const a={placeholder:1,alt:1,title:1,label:1,"aria-label":1,"aria-description":1,"aria-placeholder":1};const u=(o,r)=>e.logicalExpression("??",e.memberExpression(e.logicalExpression("||",e.memberExpression(e.identifier("window"),e.identifier("__omTextO")),e.objectExpression([])),e.stringLiteral(o),true),r);const s=(o)=>o.file&&o.file.opts&&o.file.opts.filename||"?";const S=(o)=>o.file&&o.file.code||"";const _=(o,r)=>{const l=(c)=>c&&c.start!=null&&c.end!=null&&(c.type==="StringLiteral"||c.type==="TemplateLiteral"&&c.expressions.length===0)?[c.start,c.end]:null;const i=l(r);if(i)return i;if(r&&r.type==="Identifier"){const c=o.scope.getBinding(r.name);if(c&&c.constant&&c.path.node.type==="VariableDeclarator"){return l(c.path.node.init)}}return null};const v=(o,r,l)=>{const i=o.node;let c=false;const k=(E,T)=>{c=true;return e.jsxElement(e.jsxOpeningElement(e.jsxIdentifier("__OmT"),[e.jsxAttribute(e.jsxIdentifier("i"),e.stringLiteral(E))],false),e.jsxClosingElement(e.jsxIdentifier("__OmT")),[T],false)};const b=i.children.map((E)=>{if(E.type==="JSXText"){if(E.start==null||E.end==null)return E;const T=l.slice(E.start,E.end);const j=T.length-T.trimStart().length;const L=T.length-T.trimEnd().length;if(j+L>=T.length)return E;return k(`txt:${r}:${E.start+j}:${E.end-L}`,E)}if(E.type==="JSXExpressionContainer"){const T=_(o,E.expression);if(T)return k(`str:${r}:${T[0]}:${T[1]}`,E)}return E});if(c)i.children=b};return{visitor:{JSXOpeningElement(o,r){const l=o.node;const i=s(r);const c={};for(let k=0;k<l.attributes.length;k++){const b=l.attributes[k];if(b.type!=="JSXAttribute"||!b.name)continue;const E=b.name.name;if(!a[E])continue;if(!b.value||b.value.type!=="StringLiteral")continue;if(b.value.start==null||b.value.end==null)continue;const T=`txt:${i}:${b.value.start}:${b.value.end}`;c[E]=T;b.value=e.jsxExpressionContainer(u(T,e.stringLiteral(b.value.value)))}if(Object.keys(c).length){l.attributes.push(e.jsxAttribute(e.jsxIdentifier("data-om-text-attrs"),e.stringLiteral(JSON.stringify(c))))}},JSXElement(o,r){const l=o.node.openingElement;const i=l&&l.name&&l.name.name;if(i==="__OmT")return;if(typeof i==="string"&&t[i])return;v(o,s(r),S(r))},JSXFragment(o,r){v(o,s(r),S(r))}}}})}}const g=f?["transform-react-jsx-source",d,p]:["transform-react-jsx-source",d];document.querySelectorAll('script[type="text/babel"],script[type="text/jsx"]').forEach((h,y)=>{const m=h.getAttribute("data-plugins")||"";const w=g.filter((R)=>m.indexOf(R)<0);if(w.length){h.setAttribute("data-plugins",m?`${m},${w.join(",")}`:w.join(","))}if(!h.hasAttribute("data-filename")){h.setAttribute("data-filename",h.getAttribute("src")||`inline-${y}`)}})});var A=window.parent;var U="not editable here — open the project in the Claude Design editor to save";var W=()=>Promise.resolve({persisted:false,noHost:true,reason:U});var H=W;var M="data/storage.json";var z=()=>{try{const n=new URL(document.baseURI);const d=n.pathname.match(/\/projects\/([^/]+)\/serve\//);if(d)return d[1];return n.hostname.split(".")[0]||""}catch{return location.hostname.split(".")[0]||""}};var Z=()=>{try{const n=new URL(document.baseURI);const d=n.pathname.indexOf("/serve/");if(d>=0)return n.origin+n.pathname.slice(0,d+"/serve/".length)+M}catch{}return"./"+M};var x=null;var N=()=>{if(!x){x=fetch(Z(),{cache:"no-store"}).then((n)=>{if(n.ok)return n.text();return n.status===404?"":null}).catch(()=>null).then((n)=>{if(n===null){x=null;return null}const d=new Map;if(!n)return d;let p;try{p=JSON.parse(n)}catch{console.warn("[omelette.storage] "+M+" is not valid JSON; treating the store as unreadable so a save cannot overwrite the "+"hand-edited bytes. Fix the JSON (or delete the file) to re-enable persistence.");x=null;return null}if(p===null||typeof p!=="object"||Array.isArray(p)){console.warn("[omelette.storage] "+M+" doesn't hold a JSON object; treating the store as unreadable so a save cannot "+"overwrite the hand-edited bytes. Make the top level a JSON object to re-enable persistence.");x=null;return null}const f=p;if("data"in f){const g=f.data;if(g===null||typeof g!=="object"||Array.isArray(g)){console.warn("[omelette.storage] "+M+' has a "data" field that is not a JSON object; treating the store as unreadable so a '+'save cannot overwrite the hand-edited bytes. Make "data" a JSON object to re-enable persistence.');x=null;return null}const h=f._meta;const y=h!==null&&typeof h==="object"?h.project:undefined;if(typeof y==="string"&&y!==""&&y!==z())return d;for(const m of Object.keys(g))d.set(m,g[m]);return d}for(const g of Object.keys(f)){if(g!=="_meta")d.set(g,f[g])}return d})}return x};var F=(n)=>H(M,JSON.stringify({_meta:{project:z(),version:1},data:Object.fromEntries(n)},null,2));var D=Promise.resolve();var $=(n)=>{const d=D.then(n);D=d.then(()=>{return},()=>{return});return d};var V=/sk-(?:ant-)?[A-Za-z0-9_-]{16,}|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{20,}|xox[a-z]-[A-Za-z0-9][A-Za-z0-9-]{9,}|AIza[0-9A-Za-z_-]{30,}|-----BEGIN [A-Z ]*PRIVATE KEY-----/;var Y=/password|passwd|secret|api[_-]?key|access[_-]?token|auth[_-]?token|credential/i;var Q=(n,d,p)=>{if(V.test(d)||Y.test(n)&&typeof p==="string"&&p.length>=8){console.warn('[omelette.storage] the value for "'+n+'" looks like a credential. The storage file is a plaintext project file — visible to '+"everyone with project access and copied when the project is duplicated. Do not store secrets here.")}};var q={persisted:false,reason:"could not load the existing store — not overwriting it"};var X={persisted:false,reason:"stored value changed since a failed read — re-read this key before saving"};var P=new Set;var ee={get:(n)=>{if(typeof n!=="string"){return Promise.reject(new TypeError("storage.get: key must be a string"))}return $(N).then((d)=>{if(d===null){P.add(n);return null}P.delete(n);if(!d.has(n))return null;const p=d.get(n);return p==null?null:JSON.parse(JSON.stringify(p))})},set:(n,d)=>{if(typeof n!=="string"){return Promise.reject(new TypeError("storage.set: key must be a string"))}let p;try{p=JSON.stringify(d)}catch(g){return Promise.reject(new TypeError("storage.set: value must be JSON-serializable ("+String(g)+")"))}if(p===undefined){return Promise.reject(new TypeError("storage.set: value must be JSON-serializable"))}Q(n,p,d);const f=JSON.parse(p);return $(()=>N().then((g)=>{if(g===null)return q;if(P.has(n)){if(g.has(n))return X;P.delete(n)}g.set(n,f);return F(g)}))},delete:(n)=>{if(typeof n!=="string"){return Promise.reject(new TypeError("storage.delete: key must be a string"))}return $(()=>N().then((d)=>{if(d===null)return q;if(P.has(n)){if(d.has(n))return X;P.delete(n)}d.delete(n);return F(d)}))},keys:()=>$(N).then((n)=>n===null?[]:Array.from(n.keys()))};window.omelette={writeFile:(n,d)=>H(n,d).then((p)=>{if(!p.persisted&&!p.noHost){throw new Error(p.reason||"write failed")}}),storage:ee};if(A&&A!==window){const n=(e,t)=>{try{A.postMessage({__omelette_log:true,type:e,data:t},"*")}catch{}};["log","warn","error"].forEach((e)=>{const t=console[e];console[e]=(...a)=>{const u=a.map((s)=>{try{return typeof s==="object"?JSON.stringify(s):String(s)}catch{try{return String(s)}catch{return"[unstringifiable]"}}}).join(" ");n(e,u);t.apply(console,a)}});window.addEventListener("error",(e)=>{const t=e.target;if(t&&t!==window&&t.tagName){const a=t.src||t.href||"";n("resource_error",`${t.tagName} failed to load: ${a}`)}else{n("error",`${e.message||"Unknown error"} at ${e.filename||"?"}:${e.lineno||0}:${e.colno||0}`)}},true);window.addEventListener("unhandledrejection",(e)=>{const t=e.reason;const a=t instanceof Error?`${t.message} ${t.stack}`:String(t);n("error",`Unhandled rejection: ${a}`)});window.addEventListener("click",(e)=>{if(e.defaultPrevented||e.button!==0)return;if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;const t=e.composedPath?e.composedPath():[];const a=["button","input","select","textarea","summary","label"];let u=null;for(const v of t){if(!(v instanceof Element))continue;if(v.localName==="a"){if(!(v instanceof HTMLAnchorElement))return;u=v;break}if(a.indexOf(v.localName)!==-1)return}if(!u)return;if(u.isContentEditable)return;const s=u.closest("[contenteditable]");if(s&&s.getAttribute("contenteditable")!=="false")return;const S=(u.getAttribute("target")||"_self").toLowerCase();if(S!=="_self"&&S!=="_top"&&S!=="_parent")return;let _;try{_=new URL(u.href)}catch{return}if(_.protocol!=="http:"&&_.protocol!=="https:")return;if(location.origin==="null")return;if(_.origin===location.origin)return;e.preventDefault();window.open(_.href,"_blank","noopener,noreferrer")});const d=()=>{try{A.postMessage({type:"omelette:height",height:document.documentElement.scrollHeight},"*")}catch{}};if(window.ResizeObserver)new ResizeObserver(d).observe(document.documentElement);const p=()=>{d();if(!document.querySelector('script[type="text/babel"],script[type="text/jsx"]'))return;const e=()=>document.getElementById("root")||document.querySelector("body > div[id]");const t=e()?.firstElementChild??null;let a=0;const u=()=>{const s=e();if(s&&s.firstElementChild!==t||++a>30){d();return}setTimeout(u,100)};setTimeout(u,100)};if(document.readyState==="complete")p();else window.addEventListener("load",p);const f={};let g=0;const h=(e)=>new Promise((t,a)=>{if(!I.length){a(new Error("claude.complete: no parent origin"));return}const u=`c${++g}`;const s=()=>setTimeout(()=>{delete f[u];a(new Error(`claude.complete: no data for ${J/1000}s`))},J);const S=s();f[u]={resolve:t,reject:a,text:"",t:S,arm:s};try{for(const _ of I){A.postMessage({__om_api:true,id:u,body:e},_)}}catch(_){clearTimeout(S);delete f[u];a(_)}});const y=8;const m=async(e,t)=>{if(!Array.isArray(e.messages)){throw new Error("claude.complete: tools require a messages array")}const a=e.messages.slice();const u={...e,tools:e.tools.map((_)=>{if(_===null||typeof _!=="object")return _;const v={};for(const o of Object.keys(_)){if(typeof _[o]!=="function")v[o]=_[o]}return v})};const s=u.tool_choice;const S=s!=null&&(s.type==="any"||s.type==="tool")?{...u,tool_choice:s.disable_parallel_tool_use!==undefined?{type:"auto",disable_parallel_tool_use:s.disable_parallel_tool_use}:{type:"auto"}}:u;for(let _=0;_<y;_++){const v=await h({..._===0?u:S,messages:a});const o=v.message;const r=o&&Array.isArray(o.content)?o.content:null;const l=r?r.filter((c)=>c?.type==="tool_use"):[];if(o?.stop_reason!=="tool_use"||l.length===0){return v.text}const i=[];for(const c of l){const k=t.get(c.name);if(!k){i.push({type:"tool_result",tool_use_id:c.id,content:`no handler for tool "${c.name}"`,is_error:true});continue}try{const b=await k(c.input);const E=typeof b==="string"?b:O(b)??"";i.push({type:"tool_result",tool_use_id:c.id,content:E})}catch(b){i.push({type:"tool_result",tool_use_id:c.id,content:String(b?.message??b??"tool handler failed"),is_error:true})}}a.push({role:"assistant",content:r},{role:"user",content:i})}throw new Error(`claude.complete: exceeded ${y} tool turns`)};window.claude={complete(e){const t=e;if(t!==null&&typeof t==="object"&&Array.isArray(t.tools)&&t.tools.some((a)=>a!==null&&typeof a==="object"&&typeof a.run==="function")){const a=new Map;for(const u of t.tools){if(u!==null&&typeof u==="object"&&typeof u.run==="function"){a.set(String(u.name),u.run)}}return m(t,a)}return h(e).then((a)=>a.text)}};const w={};let R=0;H=(e,t)=>new Promise((a)=>{if(!I.length){a({persisted:false,noHost:true,reason:U});return}const u=`f${++R}`;const s=setTimeout(()=>{delete w[u];a({persisted:false,noHost:true,reason:U})},G);w[u]={settle:a,t:s};try{for(const S of I){A.postMessage({__om_file:true,id:u,op:"write",path:e,content:t},S)}}catch{clearTimeout(s);delete w[u];a({persisted:false,noHost:true,reason:U})}});const O=(e)=>{try{return JSON.stringify(e)}catch{return JSON.stringify(String(e))}};window.addEventListener("message",(e)=>{if(I.indexOf(e.origin)<0)return;if(e.source!==A)return;const t=e.data;if(!t)return;if(t.type==="omelette-preview-refresh"){if(typeof t.token!=="string"||!/^[0-9a-f.-]+(\.(rc|pr-[0-9]+))?(\.[0-9]+\.[0-9a-f]{16})?$/.test(t.token))return;const s=Math.max(1,Math.floor((t.expiresAt||0)-Date.now()/1000));document.cookie="__Host-omelette-preview="+t.token+"; Path=/; Secure; SameSite=None; Partitioned; Max-Age="+s;C();return}if(t.__om_file_r){const s=w[t.id];if(!s)return;clearTimeout(s.t);delete w[t.id];s.settle(t.ok?{persisted:true}:{persisted:false,reason:t.error||"write failed"});return}if(t.__om_api_r){const s=f[t.id];if(!s)return;if(t.error!=null){clearTimeout(s.t);delete f[t.id];s.reject(new Error(t.error));return}if(t.chunk!=null){clearTimeout(s.t);s.t=s.arm();s.text+=t.chunk;return}if(t.done){clearTimeout(s.t);delete f[t.id];s.resolve({text:t.text!=null?t.text:s.text,message:t.message});return}return}if(!t.__om_eval)return;const a=t;const u=(s)=>{e.source.postMessage({...s,__om_eval_r:1,id:a.id},e.origin)};try{const s=(0,eval)(a.code);if(s&&typeof s.then==="function"){s.then((S)=>u({ok:1,v:O(S)}),(S)=>u({ok:0,e:String(S)}))}else{u({ok:1,v:O(s)})}}catch(s){u({ok:0,e:String(s)})}})}})();
+</script>
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Deck" description="A twenty-one-slide presentation starter: cover, contents, dividers, columns, quadrants, a data table, SVG charts and timeline, bleed imagery, a quote and a close, on the theme's tokens" -->
+<helmet>
+<link rel="stylesheet" href="ds/industry/styles.css" />
+<style id="petrobras-sans">
+@font-face{font-family:"Petrobras Sans";src:url("assets/fonts/PetrobrasSans_Lt.ttf") format("truetype");font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:"Petrobras Sans";src:url("assets/fonts/PetrobrasSans_LtIt.ttf") format("truetype");font-weight:300;font-style:italic;font-display:swap}
+@font-face{font-family:"Petrobras Sans";src:url("assets/fonts/PetrobrasSans_Rg.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Petrobras Sans";src:url("assets/fonts/PetrobrasSans_It.ttf") format("truetype");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:"Petrobras Sans";src:url("assets/fonts/PetrobrasSans_Bd.ttf") format("truetype");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Petrobras Sans";src:url("assets/fonts/PetrobrasSans_BdIt.ttf") format("truetype");font-weight:700;font-style:italic;font-display:swap}
+@font-face{font-family:"Petrobras Sans";src:url("assets/fonts/PetrobrasSans_XBd.ttf") format("truetype");font-weight:800;font-style:normal;font-display:swap}
+@font-face{font-family:"Petrobras Sans";src:url("assets/fonts/PetrobrasSans_XBdIt.ttf") format("truetype");font-weight:800;font-style:italic;font-display:swap}
+:root,deck-stage{--font-heading:"Petrobras Sans",system-ui,sans-serif;--font-body:"Petrobras Sans",system-ui,sans-serif;--font-heading-weight:700}
+body{font-family:var(--font-body)}
+</style>
+<title>Búzios · Passagem de serviço — resumo em 5 slides</title>
+<script src="./ds-base.js"></script>
+<script src="./image-slot.js"></script>
+<style>
+/* Template scaffolding — slide layout and projection-scale sizing only; every
+   color, font, radius and shadow comes from ../../styles.css. Change one
+   number here to re-size the whole deck.
+   THE WHOLE-GRID DECK (review rounds 4-5, replacing the containers-only
+   reading at Barron's pick): the modular grid the blueprint grammar
+   implies is drawn in full on every slide — the Grid Systems cover reading
+   of the same direction. Type registers baseline-ON-rule, display sizes
+   step up hard (Müller-Brockmann size contrast), photographs become grid
+   objects, and the system's "+" registration marks keep marking what is
+   measured. The field is EQUAL-MARGINED — 120px from all four stage
+   edges — and nearly every element seats on a DRAWN rule (each seat's
+   comment carries its derivation). */
+deck-stage {
+  --type-display: 288px;  /* 140 → 288: the grid variant's size contrast */
+  --type-title: 96px;     /* 76 → 96 */
+  --type-subtitle: 40px;
+  --type-body: 34px;
+  --type-small: 28px;
+  --type-kicker: 24px;
+  --pad-x: 120px; /* round 2 (Barron): equal field margins — 120 on all four sides */
+  --page-foot-note: "Campo de Búzios · Passagem de serviço · Avaliação técnica"; /* the deck-wide imprint text (page furniture; see the PAGE FURNITURE note below) */
+  --pad-top: 96px;
+  --pad-bottom: 120px;
+  --baseline: 48px; /* grid unit — one default-text line: the 34px Barlow body at its ~1.41
+     deck leading (a compact sans). The field's bottom rule is the 20th gridline (960); in
+     this variant the cover/close meta seats a half-step ABOVE it, on the 936 cell-bottom
+     rule (see .pin-bottom), and 960 itself stays the hard vertical budget: the bleed's
+     note ends exactly ON it, the reviewed deck's own footer convention. */
+}
+
+.slide {
+  display: flex; flex-direction: column;
+  isolation: isolate; /* the slide is its own stacking context, so the board's
+     negative z-index (below) floors it above the slide's OWN background but
+     beneath every in-flow and positioned child — without isolation a negative
+     z-index would drop the board behind the slide background entirely, and
+     with z-index:auto a positioned board paints ABOVE in-flow ink (CSS paint
+     order), the opposite of the drawn-grid intent */
+  background: var(--color-bg); color: var(--color-text);
+  font-family: var(--font-body);
+  text-wrap: pretty; /* inherited: better breaks, no orphans on wrapped blocks */
+  padding: var(--pad-top) var(--pad-x) var(--pad-bottom);
+  print-color-adjust: exact; -webkit-print-color-adjust: exact;
+}
+
+/* — the board: the whole modular grid, drawn — */
+/* The variant's one big move. The field is equal-margined: 120px from every
+   stage edge (x 120..1800, y 120..960), so the frame reads symmetric and the
+   bottom rule IS the deck's established 960 footer/budget line. Columns:
+   four 384px modules with 48px gutters (pitch 432) — one baseline unit of
+   gutter, the Grid Systems cover's wider vertical doubling. Rows: seven
+   groups at pitch 120 (2.5 baseline units), each a 96px cell plus a 24px
+   caption row — the cover's doubled-line rhythm, every rule top on the
+   deck's 48/24px baseline lattice. Drawn as
+   border + four repeating gradients (origin border-box, so offsets count
+   from the field edge); zero-flow overlay like the reviewed deck's cells —
+   delete it and no baseline moves. Ink rules on paper; the dividers and
+   bleeds re-derive the rule color per ground (see below). Four "+" marks
+   register the field corners; content-anchored crosses stay on the
+   containers that keep them. */
+.board {
+  --board-rule: color-mix(in srgb, var(--color-divider) 50%, transparent); /* review
+     round 10 (Barron, pre-ship): the grid fades by half — scoped here so the
+     chart grids and timeline line (data furniture on the same divider token)
+     keep their full ink. The table has no rules of its own — the board rules
+     it — so its ruling fades with the board, a deliberate part of the fade. */
+  position: absolute; z-index: -1; /* beneath all content — see .slide's isolation
+     note. The bleed slide overrides this: there the board deliberately lies ON
+     the photograph, beneath the scrim (see .bleed .board) */
+  left: var(--pad-x); top: calc(2.5 * var(--baseline));
+  width: calc(1680px + 1px); height: calc(17.5 * var(--baseline) + 1px);
+  border: 1px solid var(--board-rule, var(--color-divider));
+  background-origin: border-box; background-clip: border-box;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(to bottom, var(--board-rule, var(--color-divider)) 0 1px, transparent 1px 120px),
+    repeating-linear-gradient(to bottom, transparent 0 96px, var(--board-rule, var(--color-divider)) 96px 97px, transparent 97px 120px),
+    repeating-linear-gradient(to right, var(--board-rule, var(--color-divider)) 0 1px, transparent 1px 432px),
+    repeating-linear-gradient(to right, transparent 0 384px, var(--board-rule, var(--color-divider)) 384px 385px, transparent 385px 432px);
+}
+
+/* — shared pieces — */
+/* Baseline grid: text sits on a 48px rhythm (--baseline) measured from the
+   slide's top edge. Snapped text blocks are trimmed to their cap and baseline
+   edges (text-box), so a block's bottom edge IS its last baseline and the next
+   block's first baseline lands N gridlines down with
+   margin-top: calc(N * var(--baseline) - 1cap). Compact rhythms (chart axes
+   and ticks) sit on the 24px half-step. Review the rhythm with ?baselines in
+   the URL, or press B (script in the helmet) — half-step lines draw
+   fainter than full ones. In this variant the board's rules are a subset of
+   the same lattice: row-group tops are full gridlines, cell bottoms are
+   half-steps, so "baseline on the rule" and "baseline on the grid" are one
+   statement. */
+.kicker {
+  position: absolute; top: calc(2 * var(--baseline) - 1cap); /* baseline on the reviewed
+     deck's own kicker line (96) — now half a unit ABOVE the field's 120 top rule,
+     so the rule and its corner crosses stay clean */
+  left: var(--pad-x); text-box: trim-both cap alphabetic;
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: var(--type-kicker); letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--color-accent);
+  font-feature-settings: "tnum" 1;
+}
+.k-right { left: auto; right: var(--pad-x); } /* the cover/close kicker rides the
+   top rule flush right — the Grid Systems cover's author line */
+.slide-title {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: var(--type-title); line-height: calc(2 * var(--baseline)); letter-spacing: 0; margin: 0;
+  margin-left: -0.052em; /* optical left alignment — measured for Barlow
+     Condensed SemiBold in the reviewed deck; em-scaled, so it holds at 96px */
+  text-box: trim-both cap alphabetic;
+}
+.pin-bottom { position: absolute; left: var(--pad-x); right: var(--pad-x); bottom: calc(var(--pad-bottom) + var(--baseline) / 2); } /* baseline
+   on the 936 caption rule — inside the field, clear of the 960 corner crosses;
+   the last caption row [936,960] is the imprint's band */
+.meta { display: flex; align-items: baseline; gap: 18px; font-size: var(--type-kicker); color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+.meta span { text-box: trim-both cap alphabetic; } /* baseline on the 936 caption rule — see .pin-bottom */
+
+/* PAGE FURNITURE — on by default. To remove the page numbers and footer
+   text deck-wide, add data-no-page-furniture to the deck's <x-import>
+   mount (a one-line tweak — it renders on the <deck-stage>); to change
+   the text, edit --page-foot-note in
+   the deck's token block. The imprint sits where this board documents its
+   imprint's band: flush left on the axis, baseline ON the 936 caption rule
+   (the last caption row [936,960] of the field), at the meta row's scale
+   and 55% ink, the number tabular. Carried by the content slides (hero,
+   quote, split and the half-bleeds included — on the half-bleeds it
+   follows the copy half, because small muted type cannot pass the
+   type-over-photography rule) AND by the dividers: a blueprint sheet
+   carries its imprint on every ground, so the dividers keep it with the
+   ink re-derived to the page-corner marks' 55% paper (measured against
+   the steel ground in the render audit). The cover and close keep their
+   meta rows on the same rule instead, and the full bleed's photograph
+   owns its edges. Every slide still counts, so the printed number stays
+   truthful to position. */
+deck-stage { counter-reset: page; }
+.slide { counter-increment: page; }
+.page-foot {
+  position: absolute; left: var(--pad-x); bottom: calc(var(--pad-bottom) + var(--baseline) / 2); /* baseline ON the 936 caption rule, like .pin-bottom */
+  font-size: var(--type-kicker);
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+  text-box: trim-both cap alphabetic; /* bottom edge = baseline */
+}
+.page-foot::before { content: counter(page) " · "; font-feature-settings: "tnum" 1; }
+.page-foot::after { content: var(--page-foot-note); }
+deck-stage[data-no-page-furniture] .page-foot, deck-stage[data-no-page-furniture] .page-head { display: none !important; }
+.divider .page-foot { color: color-mix(in srgb, var(--color-bg) 55%, transparent); } /* the imprint survives the steel sheet in the page corners' paper-alpha ink */
+.half-bleed:not(.flip) .page-foot { left: 984px; } /* the imprint follows the copy half, seated on column 3's rule — type never sits on the photograph (deck-templates.md law) */
+
+/* — cover and close — */
+/* The Grid Systems cover, in industry's inks: the full board behind a
+   display line seated baseline-ON-rule (row-group 5's top, y 600), with the
+   description split into two caption columns under it — a short left cell
+   on the axis, the long cell on column 2 — first baselines ON the 696
+   caption rule, clear of the display's descenders (~55px below 600). The
+   kicker rides flush right above the field; the meta sits on the last
+   caption rule (936), inside the field. Most of the grid stays empty on
+   purpose. */
+.cover { justify-content: flex-start; }
+.cover .rise { position: absolute; inset: 0 var(--pad-x); }
+.display {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: var(--type-display); line-height: calc(6 * var(--baseline)); letter-spacing: 0; margin: 0;
+  margin-left: -0.052em; /* optical left alignment, em-scaled — see .slide-title */
+  margin-top: calc(12.5 * var(--baseline) - 1cap); /* baseline exactly on the group-5 top rule (600) */
+  text-box: trim-both cap alphabetic;
+}
+.cover-sub { font-size: var(--type-small); line-height: var(--baseline); margin: 0;
+  position: absolute; left: 0; max-width: 768px;
+  top: calc(14.5 * var(--baseline) - 1cap); /* first baseline ON the 696 caption rule —
+     clear of the 288px display's descenders (~55px below 600) */
+  text-box: trim-both cap alphabetic; }
+.cover-sub-a { left: 0; max-width: 360px; }
+.cover-sub-b { left: 432px; max-width: 816px; } /* column 2's left edge (x 552) */
+
+/* — contents — */
+/* Contents as the cover's caption rows: no panel, no added rules — the
+   board IS the ruling. Each entry's baseline sits ON a caption rule
+   (456 / 576 / 696 / 816), the 24px caption row beneath reading as the
+   doubled line of the reference cover. Numbers hold the axis; labels start
+   on column 2 (x 552) — secondary starts in this deck always sit on a
+   column edge. */
+.toc { position: absolute; inset: 0 var(--pad-x); font-size: var(--type-subtitle); }
+.toc-row { position: absolute; left: 0; right: 0; }
+.toc-row > span { text-box: trim-both cap alphabetic; position: absolute; top: 0; }
+.toc-row > .toc-label { left: 432px; }
+.toc-num { font-size: var(--type-kicker); color: var(--color-accent); font-feature-settings: "tnum" 1; }
+.toc-row { top: calc(9.5 * var(--baseline)); } /* baseline on the 456 caption rule; the rows
+   re-seat below via nth-child so markup stays the reviewed deck's */
+.toc-row:nth-child(2) { top: calc(12 * var(--baseline)); }
+.toc-row:nth-child(3) { top: calc(14.5 * var(--baseline)); }
+.toc-row:nth-child(4) { top: calc(17 * var(--baseline)); }
+.toc-row > span { top: calc(-1cap); } /* each span trims to its cap; the row's
+   top IS the rule, so the baseline lands on it */
+
+/* — section dividers — */
+/* Dividers keep their own ground — the deep steel blueprint sheet — and the
+   variant draws the board through it in paper-alpha hairlines: the section
+   break is a fresh sheet of the same grid. Ghost numeral and title seat
+   baseline-ON-rule like everything else (ghost on 600, title on 816), both
+   flush on the axis; the "+" page corners keep their registration spots.
+   Contrast re-derived for the steel ground: paper type 12.6:1, ghost at
+   ~2.2:1 (a drawing showing through the sheet), board rules decorative at
+   9% paper (halved in round 10's pre-ship fade). */ /* seats: ghost baseline ON the group-5 top rule (600),
+   title ON the 816 caption rule — see each declaration */
+.divider { justify-content: flex-start; background: var(--color-accent-900); color: var(--color-bg); }
+.divider .board { --board-rule: color-mix(in srgb, var(--color-bg) 9%, transparent); } /* half of the pre-round-10 18% — the fade keeps the per-ground ratio */
+.divider .board > .corner { color: color-mix(in srgb, var(--color-bg) 55%, transparent); }
+.divider .rise { position: absolute; inset: 0 var(--pad-x); }
+.page-corner {
+  position: absolute; width: 15px; height: 15px;
+  color: color-mix(in srgb, var(--color-bg) 55%, transparent);
+}
+.page-corner::before, .page-corner::after { content: ""; position: absolute; background: currentColor; }
+.page-corner::before { left: 7px; top: 0; width: 1px; height: 100%; }
+.page-corner::after  { top: 7px; left: 0; width: 100%; height: 1px; }
+.page-corner.tl { top: 41px; left: 41px; }
+.page-corner.tr { top: 41px; right: 41px; }
+.page-corner.bl { bottom: 41px; left: 41px; }
+.page-corner.br { bottom: 41px; right: 41px; }
+
+/* — registration crosses (the cell-corner grammar, kept) — */
+.cell { position: absolute; border: 1px solid var(--color-divider); pointer-events: none; }
+.cell > .corner, .board > .corner { position: absolute; width: 15px; height: 15px; color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+.cell > .corner::before, .cell > .corner::after,
+.board > .corner::before, .board > .corner::after { content: ""; position: absolute; background: currentColor; }
+.cell > .corner::before, .board > .corner::before { left: 7px; top: 0; width: 1px; height: 100%; }
+.cell > .corner::after, .board > .corner::after  { top: 7px; left: 0; width: 100%; height: 1px; }
+.cell > .corner.tl, .board > .corner.tl { top: -8px; left: -8px; }
+.cell > .corner.tr, .board > .corner.tr { top: -8px; right: -8px; }
+.cell > .corner.bl, .board > .corner.bl { bottom: -8px; left: -8px; }
+.cell > .corner.br, .board > .corner.br { bottom: -8px; right: -8px; }
+/* -8px = the 7px arm offset + the 1px border: absolute offsets resolve from
+   the PADDING box, inside the border — each cross centers exactly on its
+   rule intersection, the reviewed deck's convention. */
+.ghost-num {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 480px; line-height: 1; letter-spacing: 0;
+  color: var(--color-accent-700);
+  position: absolute; top: calc(12.5 * var(--baseline) - 1cap); /* baseline on the
+     group-5 top rule (600) */
+  text-box: trim-both cap alphabetic;
+  margin-left: -0.036em; /* ghosts lead with "0" — optical value from the reviewed deck, em-scaled */
+}
+.divider .slide-title { position: absolute; top: calc(17 * var(--baseline) - 1cap); } /* baseline on the 816 caption rule */
+
+/* — content slides — */
+.content { padding-top: calc(5 * var(--baseline)); /* title baseline on the 5th gridline —
+   row 2's top rule (240), clear of the pinned kicker row */ }
+.content > .slide-title, .content > .chart-head { margin-top: -1cap; } /* cap-trimmed: the baseline, not the cap top, sits on the rule */
+.content > .bullets { margin-top: calc(2.5 * var(--baseline) - 1cap); } /* first baseline on
+   the group-3 top rule (360), one row group below the title's */
+.content > figure { margin-top: calc(2 * var(--baseline)); } /* svg top on the 336 caption
+   rule; the plots' axis line (svg y 360) lands ON the 696 caption rule */
+.content > .table { margin-top: calc(0.5 * var(--baseline)); } /* table top at 264: the 96px
+   header row closes its baseline ON the group-3 top rule (360) */
+.content > .chart-caption { margin-top: calc(2 * var(--baseline) - 1cap); }
+.bullets { display: flex; flex-direction: column; max-width: 1220px; margin: 0; padding: 0; list-style: none; font-size: var(--type-body); }
+.bullets li { position: relative; line-height: var(--baseline); text-box: trim-both cap alphabetic; }
+.bullets li + li { margin-top: calc(2.5 * var(--baseline) - 1cap); } /* one thought per
+   row group: single-line bullets seat on successive group-top rules
+   (360 / 480 / 600) — the variant's pitch (the reviewed deck: every other
+   gridline) */
+.bullets li::before, .bullets li::after { content: ""; position: absolute; background: var(--color-accent); }
+.bullets li::before { left: -37px; top: calc(0.5cap - 8px); width: 2px; height: 16px; }
+.bullets li::after  { left: -44px; top: calc(0.5cap - 1px); width: 16px; height: 2px; }
+
+/* — column layouts — */
+/* Columns are the board's own bays: the two-column setting takes two
+   modules per column (x 120 and 984, 816px each, the drawn 48px gutter
+   between), and the three-column setting takes one module apiece (x 120,
+   552, 984) leaving module 4 DELIBERATELY empty — the Grid Systems cover's
+   empty-cell statement; on a four-module board three equal full-width
+   columns cannot seat on drawn rules, so the grid wins and the measure
+   narrows (a module runs ≈21 characters of condensed head, ≈26 of small
+   note — notes, not essays). No rules are added: the board is the ruling.
+   Seats: head baselines ON the group-3 top rule (360), note baselines ON
+   the 456 caption rule, wrapped lines riding the 48px lattice below. */
+.cols { display: grid; column-gap: var(--baseline); margin-top: calc(2.5 * var(--baseline)); /* container top ON the group-3 rule; the cap term lives on the h3, where it resolves in the heading face (the two-family decks' -1cap lesson) */ }
+.cols-2 { grid-template-columns: 816px 816px; }
+.cols-3 { grid-template-columns: repeat(3, 384px); }
+.cols h3 { font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: var(--type-subtitle); line-height: var(--baseline); margin: 0;
+  margin-top: -1cap; /* baseline ON the group-3 top rule (360); 1cap in the h3's own face */
+  text-box: trim-both cap alphabetic; }
+.cols p { font-size: var(--type-small); line-height: var(--baseline); margin: 0;
+  margin-top: calc(2 * var(--baseline) - 1cap); /* first baseline ON the 456 caption rule */
+  text-box: trim-both cap alphabetic; }
+
+/* — quadrants — */
+/* The board IS the matrix — no division is drawn because every division
+   is already there: the vertical axis is the columns 2/3 gutter (center
+   960), the horizontal axis is the group-5 top rule (600). Cells are
+   two-module x two-row-group bays: heads seat their baselines ON the band
+   top rules (360 upper, 600 lower — the lower heads hang from the crossing
+   rule itself, the way every seated element does), one-liners ON the
+   caption rules below (456 / 696), wraps on the lattice. The axis pair
+   seats ON the group-7 top rule (840), left label on the axis, right label
+   flush right (the cover kicker's k-right precedent), one row group clear
+   of the 936 imprint. Left column = lower x; the y reading (top row
+   smaller work) is carried by the cell copy — a y pair has no seat that
+   doesn't fight the imprint band or the axis, so the horizontal pair does
+   the labeling (the shared-spec minimum). */
+.quad { display: grid; grid-template-columns: 816px 816px; column-gap: var(--baseline);
+  grid-template-rows: calc(5 * var(--baseline)) calc(5 * var(--baseline));
+  margin-top: calc(2.5 * var(--baseline)); /* matrix top = the group-3 top rule (360) */ }
+.quad h3 { font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: var(--type-subtitle); line-height: var(--baseline); margin: 0;
+  margin-top: -1cap; /* baseline ON the cell's band-top rule (360 / 600) */
+  text-box: trim-both cap alphabetic; }
+.quad p { font-size: var(--type-small); line-height: var(--baseline); margin: 0;
+  margin-top: calc(2 * var(--baseline) - 1cap); /* one-liner ON the caption rule (456 / 696) */
+  text-box: trim-both cap alphabetic; }
+.quad-axis { display: flex; justify-content: space-between;
+  margin-top: -1cap; /* label baselines ON the group-7 top rule (840) */
+  font-size: var(--type-kicker); letter-spacing: 0.08em; text-transform: uppercase;
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+.quad-axis span { text-box: trim-both cap alphabetic; }
+
+/* — data table (component class at projection scale) — */
+/* The board rules the table: the component's own hairlines are suppressed
+   (a variant style call — no rules are drawn twice) and the rows take the
+   board's 120px row groups ONE-PER-ROW, each row's text baseline ON its
+   caption rule (456 / 576 / 696 / 816), the header on the group-3 top rule
+   (360). Columns seat on the grid columns — Role on the axis, Value on
+   column 2 (552), ground on column 3 (984), Use on column 4 (1416) — and
+   the swatch hangs LEFT of the axis like every other mark, its bottom edge
+   on the row's rule. */
+.slide .table { max-width: 1680px; width: 1680px; font-size: 29px; font-feature-settings: "tnum" 1;
+  table-layout: fixed; border-collapse: collapse; }
+/* Column plan: three 432px columns — one grid module each — and the rest
+   to Use. Carried on the header row's cells (table-layout: fixed reads row
+   one) rather than a <colgroup>: the Design Component pipeline parses the
+   template outside a real <table> context, where col elements are dropped,
+   and a fixed-layout table without them would fall back to equal columns. */
+.slide .table th:nth-child(-n+3) { width: 432px; }
+.slide .table thead tr { height: calc(2 * var(--baseline)); }
+.slide .table tbody tr { height: calc(2.5 * var(--baseline)); } /* one board row group per data row */
+.slide .table th, .slide .table td {
+  text-box: trim-both cap alphabetic; text-align: left; font-weight: 400;
+  border: none; background: none; vertical-align: bottom;
+  padding: 0 24px calc(0.5 * var(--baseline)) 0;
+}
+.slide .table th { font-size: var(--type-kicker); }
+.slide .table thead th { padding-bottom: 0; } /* bottom-anchored: the header row closes ON the
+   group-3 top rule (360), each data row's LAST baseline sits 24px above its row's bottom —
+   on the caption rules 456 / 576 / 696 / 816 — and a wrapped cell grows upward into
+   its own cell instead of past the field (the vertical budget, kept by construction) */
+.slide .table tbody tr:hover { background: none; }
+.slide .table th:first-child, .slide .table td:first-child { padding-left: 0; position: relative; }
+.slide .table th:last-child, .slide .table td:last-child { padding-right: 0; }
+.slide .table .swatch { position: absolute; left: -72px; bottom: calc(0.5 * var(--baseline)); } /* hangs
+   left of the axis like every mark; bottom edge ON the row's rule */
+.swatch { display: inline-block; width: 48px; height: 48px; border-radius: 0; /* square-corner
+   doctrine; 48px = one grid unit, bottom edge on the row's rule */ box-shadow: var(--shadow-sm); }
+
+/* — hero figure — */
+/* The variant's loudest size contrast: the figure at 432px, flush on the
+   axis, baseline ON the group-5 top rule (600); the caption moves to column
+   3 (x 984), its first baseline ON the 696 caption rule — the number and
+   its note read corner-to-corner across the empty grid. */
+.hero { justify-content: flex-start; }
+.hero-num {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 432px; line-height: 1; letter-spacing: 0; margin: 0;
+  color: var(--color-accent);
+  position: absolute; left: var(--pad-x); top: calc(12.5 * var(--baseline) - 1cap);
+  text-box: trim-both cap alphabetic;
+  margin-left: -0.010em; /* leads with the near-bearingless "1" — reviewed value, em-scaled */
+}
+.hero-caption { font-size: var(--type-small); line-height: var(--baseline); margin: 0;
+  position: absolute; left: 984px; top: calc(14.5 * var(--baseline) - 1cap); max-width: 816px;
+  text-box: trim-both cap alphabetic; }
+
+/* — charts (static SVG on the tokens; no script, no chart library) — */
+/* The plots seat their anatomy ON drawn rules — svg top at 336 (a caption
+   rule), the x-axis ON the 696 caption rule, and the line chart's 10k
+   gridlines (120px apart, the row-group pitch) phased by the axis onto the
+   drawn caption rules (576 / 456). Bar x-geometry is derived for the 1680
+   field. The board's column rules pass behind the plots — the drawing
+   stays on its grid. */
+.chart { display: block; width: 100%; height: auto; overflow: visible; }
+.chart text {
+  font-family: var(--font-body); font-size: 24px;
+  fill: color-mix(in srgb, var(--color-text) 55%, transparent);
+  font-feature-settings: "tnum" 1;
+}
+.chart .grid, .chart .axis { stroke: var(--color-divider); stroke-width: 1; }
+.chart .bar { fill: none; stroke: var(--color-neutral-600); stroke-width: 1; }
+.chart .bar-hi { fill: var(--color-accent); stroke: none; }
+.chart .val { fill: color-mix(in srgb, var(--color-text) 70%, transparent); }
+.chart .ref { stroke: var(--color-accent-700); stroke-width: 1; stroke-dasharray: 8 8; }
+.chart .ref-label { fill: var(--color-accent-700); }
+.chart .hi-label { fill: var(--color-accent-700); }
+.chart .series-a, .key .series-a { stroke: var(--color-accent); stroke-width: 3; fill: none; }
+.chart .series-b, .key .series-b { stroke: var(--color-neutral-800); stroke-width: 3; fill: none; stroke-dasharray: 10 8; }
+.chart-caption { font-size: 25px; line-height: var(--baseline); max-width: 88ch; margin: 0; text-box: trim-both cap alphabetic; }
+.chart-head { display: flex; align-items: baseline; justify-content: space-between;
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: var(--type-title); }
+.chart-legend { display: flex; align-items: baseline; gap: 16px; font-family: var(--font-body); font-weight: 400; font-size: var(--type-kicker); color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+.chart-legend span { text-box: trim-both cap alphabetic; }
+.chart-legend .key { width: 60px; height: 4px; overflow: visible; position: relative; top: -7px; }
+.chart-legend .key:not(:first-child) { margin-left: 24px; }
+.chart .tl-line { stroke: var(--color-divider); stroke-width: 1; }
+.chart .tl-node { stroke: var(--color-neutral-600); stroke-width: 1.5; }
+.chart .tl-node-hi-fill { fill: var(--color-accent); }
+.chart .tl-node-hi { stroke: var(--color-bg); stroke-width: 1.5; }
+.chart .tl-date { fill: color-mix(in srgb, var(--color-text) 55%, transparent); letter-spacing: 0.08em; }
+.chart .tl-date-hi { fill: var(--color-accent-700); letter-spacing: 0.08em; }
+.chart .tl-label { fill: var(--color-text); font-size: 30px; font-family: var(--font-heading); font-weight: var(--font-heading-weight); }
+/* The timeline figure drops to the mid-field so its line sits ON the
+   group-4 top rule (480): svg top at 384, dates above, labels below, the
+   notes' baselines landing exactly ON the group-5 top rule (600). Node
+   pitch is 360 — milestone positions are data, not grid furniture. The
+   column-seated alternative (pitch 432, nodes on 120/552/984/1416/1800,
+   re-checked for the round-2 geometry) stays rejected: the fifth
+   milestone's ~340px notes would either overflow the stage or,
+   right-anchored, collide with the fourth's — and mixed anchoring
+   re-breaks the reviewed one-left-edge-per-milestone rule. */
+.fig-timeline { margin-top: calc(3 * var(--baseline)) !important; }
+
+/* — image slide — */
+/* The photograph becomes a grid object: columns 3-4 by row-groups 2-7
+   exactly (x 984..1800, y 240..936), the blueprint frame's "+" marks seated
+   on board intersections. The copy keeps the axis in columns 1-2. */
+.split { flex-direction: row; align-items: flex-start; gap: 0; padding-top: calc(5 * var(--baseline)); }
+.split-copy { flex: none; width: 768px; display: flex; flex-direction: column; }
+.split-copy .slide-title { margin-top: -1cap; }
+.split-copy .note { font-size: var(--type-small); line-height: var(--baseline); margin: calc(2.5 * var(--baseline) - 1cap) 0 0;
+  text-box: trim-both cap alphabetic; max-width: 768px; }
+.split-figure { position: absolute; left: 984px; top: calc(5 * var(--baseline)); width: 816px; height: calc(14.5 * var(--baseline)); margin: 0; }
+/* Screenshot figures: the frame hugs the capture's 1.71 aspect (816 × 480 =
+   ten grid units) instead of letterboxing a wide screen inside the tall
+   grid-object box, and seats on the group-3 top rule. */
+.split-figure.shot { top: calc(7.5 * var(--baseline)); height: calc(10 * var(--baseline)); }
+.split-figure image-slot { width: 100%; height: 100%; } /* the grid-object box (columns 3-4 ×
+   row-groups 2-7) does the framing; cover is the component's own default */
+.split-figure > .corner { pointer-events: none; } /* the registration crosses overlap the
+   slot by a few px — decorative marks must not eat its hover/drop events
+   (image-slot usage contract); scoped here rather than in styles.css, whose
+   .corner serves the whole system */
+
+/* — full-bleed image slide — */
+/* The board is drawn OVER the photograph in paper-alpha — the blueprint
+   laid onto the image — and UNDER the scrim, so the rules fade out exactly
+   where the type needs its measured ground. Type treatment unchanged from
+   the reviewed deck (it passes the type-over-photography rule): full-ink
+   note, kicker stepped to accent-700. */
+.bleed .board { --board-rule: color-mix(in srgb, var(--color-bg) 13%, transparent); /* half of the pre-round-10 25%, rounded to a whole step */
+  z-index: auto; /* the one slide where the board rides ABOVE its photograph:
+     DOM-order painting — after the positioned figure, before the positioned
+     scrim — so photo → board → scrim → copy stack as documented */ }
+.bleed .board > .corner { color: color-mix(in srgb, var(--color-bg) 55%, transparent); }
+.bleed-figure { position: absolute; inset: 0; margin: 0; }
+.bleed-figure image-slot { width: 100%; height: 100%; } /* framing is the component's (fit=cover default) */
+.bleed-scrim {
+  position: absolute; inset: 0; pointer-events: none; /* the slot beneath is interactive (hover controls, drops) — overlays must not eat its events (image-slot usage contract) */
+  background:
+    linear-gradient(to top,
+      color-mix(in srgb, var(--color-bg) 98%, transparent),
+      color-mix(in srgb, var(--color-bg) 95%, transparent) 24%,
+      color-mix(in srgb, var(--color-bg) 60%, transparent) 42%,
+      transparent 66%),
+    linear-gradient(to bottom,
+      color-mix(in srgb, var(--color-bg) 92%, transparent),
+      color-mix(in srgb, var(--color-bg) 80%, transparent) 12%,
+      transparent 26%);
+}
+.bleed-copy { position: absolute; left: var(--pad-x); right: var(--pad-x); bottom: var(--pad-bottom); pointer-events: none; } /* text over the slot — must not eat its hover/drop events */
+.bleed .kicker { color: var(--color-accent-700); pointer-events: none; /* sits on the photograph — same usage contract as the scrim */ }
+.bleed-copy .note {
+  font-size: var(--type-small); line-height: var(--baseline); max-width: 56ch;
+  margin: calc(2 * var(--baseline) - 1cap) 0 0;
+  text-box: trim-both cap alphabetic;
+  color: var(--color-text);
+} /* bottom-anchored block: the note's LAST baseline sits ON the field's 960
+   bottom rule; its earlier baselines (864/912) and the title's (768) ride the
+   48px lattice, not drawn rules — over a photograph the scrim, not the board,
+   is the ground (the board fades out beneath it) */
+
+/* — half-bleed image slides — */
+/* The photograph takes grid columns, not a raw half-stage: it bleeds to
+   three edges and stops at the gutter (base: columns 1-2, inner edge on
+   the 936 gutter rule; .flip mirrors to columns 3-4, starting exactly on
+   column 3's rule at 984), and the copy starts on a column rule — x 984
+   (column 3) for the base, the axis for the mirror. The board draws first,
+   the photograph covers its half. */
+.half-bleed { padding-top: calc(5 * var(--baseline)); }
+.half-bleed > .slide-title { margin-top: -1cap; max-width: 816px; }
+.half-bleed .note {
+  font-size: var(--type-small); line-height: var(--baseline); max-width: 816px;
+  margin: calc(2 * var(--baseline) - 1cap) 0 0;
+  text-box: trim-both cap alphabetic;
+}
+.half-bleed .bullets { margin-top: calc(2.5 * var(--baseline) - 1cap); max-width: 816px; }
+.half-bleed .bullets li + li { margin-top: calc(4 * var(--baseline) - 1cap); } /* items here
+   run up to two lines: the 4-unit gap from a two-line item's last baseline seats
+   each bullet's FIRST baseline back on a group-top rule (360 / 600 / 840), and a
+   one-line item simply leaves more air before the next */
+.half-bleed-figure { position: absolute; inset: 0 auto 0 0; width: 936px; margin: 0; }
+.half-bleed-figure image-slot { width: 100%; height: 100%; } /* framing is the component's (fit=cover default) */
+.half-bleed:not(.flip) > .slide-title { margin-left: calc(864px - 0.052em); } /* column 3 (x 984), preserving the optical shift */
+.half-bleed:not(.flip) .note,
+.half-bleed:not(.flip) .bullets { margin-left: 864px; }
+.half-bleed:not(.flip) .kicker { left: 984px; }
+.half-bleed.flip .half-bleed-figure { inset: 0 0 0 auto; width: 936px; }
+/* With the photograph ending on the 936 gutter rule and the copy on column
+   3 (984), the 48px gutter is the hanging margin: the crosses center on the
+   gutter's own centerline (x 960) with 16px of paper on either side —
+   "whatever sits behind them" now means the gutter itself. */
+.half-bleed:not(.flip) .bullets li::before { left: -25px; }
+.half-bleed:not(.flip) .bullets li::after  { left: -32px; }
+
+/* — quote — */
+/* Flush on the axis, airy MB leading: 64px poster lines on a two-unit
+   (96px) leading, first baseline ON the group-3 top rule (360; the deck's
+   copy sets in two lines, 360/456 — top rule and caption rule); the
+   attribution drops to the 696 caption rule — see the figcaption note. */
+.quote { justify-content: flex-start; }
+.quote .rise { position: absolute; inset: 0 var(--pad-x); }
+.quote blockquote {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 64px; line-height: calc(2 * var(--baseline)); letter-spacing: 0;
+  max-width: 1200px; margin: 0;
+  margin-top: calc(7.5 * var(--baseline) - 1cap); /* first baseline on the group-3 top rule (360) */
+  text-box: trim-both cap alphabetic;
+  text-indent: -0.316em; /* hang the opening “ (measured advance in the Condensed 600) */
+}
+.quote figcaption { font-size: var(--type-small); margin: 0;
+  position: absolute; top: calc(14.5 * var(--baseline) - 1cap); /* baseline on the 696
+     caption rule — a full row-group below the quote's two-line setting (360/456),
+     chosen for air over the nearer 576 rule; re-seat if the quote re-wraps */
+  text-box: trim-both cap alphabetic;
+  text-indent: -0.885em; /* hang the leading em-dash + space (measured advance in Barlow Regular) */ }
+
+/* — spec slides (feature sheets): the quad without its axis — row 1 heads on 360, row 2 heads on 600 — */
+.spec { display: grid; grid-template-columns: 816px 816px; column-gap: var(--baseline);
+  grid-template-rows: minmax(calc(4 * var(--baseline)), auto) auto; row-gap: var(--baseline); margin-top: calc(2.5 * var(--baseline)); }
+.spec h3 { font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: var(--type-kicker); letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent); line-height: var(--baseline); margin: 0; margin-top: -1cap; text-box: trim-both cap alphabetic; }
+.spec p { font-size: var(--type-small); line-height: var(--baseline); margin: 0; margin-top: calc(2 * var(--baseline) - 1cap); text-box: trim-both cap alphabetic; }
+/* — dense table: 72px header closing on the 336 caption rule, 60px rows (half a row group), ten rows ending on 936 — */
+.slide .table.dense { font-size: 24px; line-height: 28px; }
+.slide .table.dense thead tr { height: calc(1.5 * var(--baseline)); }
+.slide .table.dense tbody tr { height: 56px; }
+.slide .table.dense th, .slide .table.dense td { padding-bottom: 10px; }
+.slide .table.dense th:nth-child(-n+3) { width: auto; }
+.slide .table.dense th.w1 { width: 240px; } .slide .table.dense th.w2 { width: 432px; } .slide .table.dense th.w3 { width: 624px; }
+.slide .table.dense td.key { font-feature-settings: "tnum" 1; color: var(--color-accent-700); }
+.bullets.tight li + li { margin-top: calc(2 * var(--baseline) - 1cap); }
+.bullets.tight { max-width: 1500px; }
+
+/* — photographic grounds — */
+/* The cover carries the app's own login videos as its ground (the same three
+   clips, shuffled, one after another); the dividers and the close carry a
+   still of the P-83. Both are duotoned into the steel accent and covered by
+   a deep-steel scrim so paper type keeps ≥ 4.5:1; the board draws through in
+   paper-alpha like the divider sheet. */
+.photo-ground { position: absolute; inset: 0; margin: 0; z-index: 0; }
+.photo-ground video, .photo-ground img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.05); }
+.photo-ground::before { content: ""; position: absolute; inset: 0; z-index: 1; background: color-mix(in srgb, var(--color-accent-900) 78%, transparent); }
+.photo-ground::after { z-index: 1; }
+.cover.on-photo, .divider.on-photo { background: var(--color-accent-900); color: var(--color-bg); }
+.on-photo .board { z-index: 1; --board-rule: color-mix(in srgb, var(--color-bg) 9%, transparent); }
+.on-photo .board > .corner, .on-photo .page-corner { color: color-mix(in srgb, var(--color-bg) 55%, transparent); }
+.on-photo .rise, .on-photo .kicker, .on-photo .pin-bottom, .on-photo .page-foot { z-index: 2; }
+.on-photo .kicker { color: var(--color-accent-200); }
+.on-photo .text-muted, .on-photo .meta, .on-photo .page-foot { color: color-mix(in srgb, var(--color-bg) 78%, transparent); }
+.on-photo .ghost-num { color: color-mix(in srgb, var(--color-bg) 22%, transparent); }
+.half-bleed-figure.duotone img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Review aid: the baseline grid drawn as a hairline under every --baseline
+   step. Debug-only — toggled by ?baselines or the B key; not part of the look. */
+deck-stage[data-baselines] .slide::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    repeating-linear-gradient(to bottom,
+      color-mix(in srgb, var(--color-accent) 35%, transparent) 0 1px,
+      transparent 1px var(--baseline)),
+    repeating-linear-gradient(to bottom,
+      transparent 0 calc(var(--baseline) / 2),
+      color-mix(in srgb, var(--color-accent) 16%, transparent) calc(var(--baseline) / 2) calc(var(--baseline) / 2 + 1px),
+      transparent calc(var(--baseline) / 2 + 1px) var(--baseline));
+}
+
+/* Entrance — end-state is the base style; animate from hidden, gated on the
+   active slide and the motion preference, so print and reduced-motion are safe. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-deck-active] .rise { animation: rise 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } }
+}
+</style>
+<script>
+// Cover ground: the app's login clips, shuffled and played in sequence (muted, inline).
+(() => {
+  if (window.__p83CoverSeq) return; window.__p83CoverSeq = true;
+  const wire = (el) => {
+    if (el.__seq) return; el.__seq = true;
+    const clips = (el.dataset.clips || '').split(',').map(s => s.trim()).filter(Boolean);
+    let fila = [];
+    const proximo = () => {
+      if (!fila.length) { fila = clips.slice(); for (let i = fila.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [fila[i], fila[j]] = [fila[j], fila[i]]; } if (fila.length > 1 && fila[0] === el.dataset.ultimo) fila.push(fila.shift()); }
+      const src = fila.shift(); el.dataset.ultimo = src; el.src = src; el.load(); el.play().catch(() => {});
+    };
+    el.muted = true; el.defaultMuted = true; el.playsInline = true; el.setAttribute('muted', ''); el.setAttribute('playsinline', ''); el.loop = false;
+    el.addEventListener('ended', proximo); el.addEventListener('error', proximo);
+    proximo();
+  };
+  const scan = () => document.querySelectorAll('video[data-clips]').forEach(wire);
+  new MutationObserver(scan).observe(document.documentElement, { childList: true, subtree: true });
+  scan();
+})();
+// Review aid: baseline-grid overlay — add ?baselines to the URL, or press B to toggle.
+// This runs from <helmet>, before the deck renders, so the stage is looked up when it is
+// needed instead of captured up front; the window flag keeps a second evaluation of
+// this helmet script (a recreated script node) from binding the B key twice.
+(() => {
+  if (window.__deckBaselineAid) return;
+  window.__deckBaselineAid = true;
+  const stage = () => document.querySelector('deck-stage');
+  if (new URLSearchParams(location.search).has('baselines')) {
+    let tries = 600; // wait out the deck's first render (up to ~10s of frames)
+    const arm = () => { const s = stage(); if (s) s.setAttribute('data-baselines', ''); else if (tries-- > 0) requestAnimationFrame(arm); };
+    arm();
+  }
+  addEventListener('keydown', (e) => {
+    const t = e.target;
+    if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return; // typing guard, as in deck-stage's own keys
+    if ((e.key === 'b' || e.key === 'B') && !e.metaKey && !e.ctrlKey && !e.altKey) stage()?.toggleAttribute('data-baselines');
+  });
+})();
+</script>
+<style id="pb-v2-tokens">
+deck-stage, :root{--pb-bg:#ffffff;--pb-text:#1d1f20;--pb-text-2:#5f6265;--pb-line:#dcddde;--pb-line-2:#e6e7e8;--pb-field:#75787b;--pb-green:#008542;--pb-green-ink:#006b35;--pb-on-green:#ffffff;--pb-yellow:#fdc82f;--pb-on-yellow:#1d1f20;--pb-orange:#ed8b00;--pb-gray:#75787b;--pb-red:#c8102e;
+--color-bg:#ffffff;--color-surface:#ffffff;--color-text:#1d1f20;--color-divider:#dcddde;--color-on-dark:#ffffff;--color-accent:#008542;--color-accent-2:#008542;--color-accent-100:#e6f3ec;--color-accent-2-100:#e6f3ec;--color-accent-200:#cce7d9;--color-accent-2-200:#cce7d9;--color-accent-300:#99cfb3;--color-accent-2-300:#99cfb3;--color-accent-400:#4daa7b;--color-accent-2-400:#4daa7b;--color-accent-500:#008542;--color-accent-2-500:#008542;--color-accent-600:#00753a;--color-accent-2-600:#00753a;--color-accent-700:#006b35;--color-accent-2-700:#006b35;--color-accent-800:#005129;--color-accent-2-800:#005129;--color-accent-900:#003d1f;--color-accent-2-900:#003d1f;
+--color-neutral-100:#f4f4f5;--color-neutral-200:#e6e7e8;--color-neutral-300:#dcddde;--color-neutral-400:#b9bbbd;--color-neutral-500:#9a9c9e;--color-neutral-600:#75787b;--color-neutral-700:#5f6265;--color-neutral-800:#3d4043;--color-neutral-900:#1d1f20;
+--radius-sm:0;--radius-md:0;--radius-lg:0;--shadow-sm:none;--shadow-md:none;--shadow-lg:none}
+deck-stage .corner, deck-stage .page-corner{display:none !important}
+deck-stage .duotone img, deck-stage .duotone video{filter:grayscale(1) contrast(1.05)}
+deck-stage .btn-primary{border-radius:0}
+</style>
+</helmet>
+<x-import component-from-global-scope="deck-stage" from="./deck-stage.js" width="1920" height="1080" hint-size="100%,100%">
+
+  <section class="slide cover on-photo" data-screen-label="01" data-label="Capa" data-speaker-notes="Em cinco telas: o problema, a proposta, como funciona e o que pedimos. O dossiê técnico detalha cada recurso.">
+    <figure class="photo-ground duotone" aria-hidden="true"><video data-clips="assets/p83-login.webm, assets/p83-login-2.webm, assets/p83-login-3.webm" muted playsinline autoplay preload="auto"></video></figure>
+    <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+    <div class="kicker k-right"><span>Resumo da proposta · Campo de Búzios</span></div>
+    <div class="rise"><h1 class="display">Búzios</h1><p class="cover-sub cover-sub-a text-muted">Passagem de serviço estruturada</p><p class="cover-sub cover-sub-b text-muted">Uma aplicação para os nove FPSOs do campo que transforma o PE-3BUZ-00130 em formulário guiado, conectado à automação e ao laboratório, no escritório e no campo.</p></div>
+    <div class="pin-bottom meta"><span>Fabricio Martini · Bruno Samel</span><span>·</span><span>Outubro de 2026</span></div>
+  </section>
+
+  <section class="slide half-bleed" data-screen-label="02" data-label="O problema" data-speaker-notes="O procedimento é bom; as ferramentas de preenchimento e a dependência do computador é que geram falhas e retrabalho.">
+    <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+    <div class="kicker"><span>Resumo da proposta</span></div>
+    <h2 class="slide-title">A ferramenta falha</h2>
+    <figure class="half-bleed-figure duotone" aria-hidden="true"><img src="assets/p83-noite.jpg" alt=""></figure>
+    <ul class="bullets rise">
+      <li>O PE-3BUZ-00130 é seguido em aplicações pouco eficientes, sujeitas a falhas.</li>
+      <li>Só se elabora com computador na sala — nada é registrado em campo.</li>
+    </ul>
+    <div class="page-foot" aria-hidden="true"></div>
+  </section>
+
+  <section class="slide content" data-screen-label="03" data-label="A proposta" data-speaker-notes="Quatro ganhos; cada um tem uma família de recursos no dossiê técnico.">
+    <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+    <div class="kicker"><span>Resumo da proposta</span></div>
+    <h2 class="slide-title">Cada informação registrada uma vez, onde nasce</h2>
+    <div class="quad rise">
+      <div><h3>Padroniza</h3><p>Os blocos do procedimento viram campos, listas e tabelas com validação; a emissão só sai completa.</p></div>
+      <div><h3>Herda e replica</h3><p>Pendências e status passam ao período seguinte; a situação dos poços sai da sala de controle para todos os postos.</p></div>
+      <div><h3>Conecta</h3><p>Status lidos da rede OPC-UA e resultados do EPLab, com discrepâncias e prazos vencidos destacados.</p></div>
+      <div><h3>Rastreia</h3><p>Quem escreveu, confirmou ou alterou cada linha, com relatório pronto para o APLAT.</p></div>
+    </div>
+    <div class="page-foot" aria-hidden="true"></div>
+  </section>
+
+  <section class="slide split" data-screen-label="04" data-label="Como funciona" data-speaker-notes="Exemplo concreto: a captura automática encontrou um equipamento declarado fora de operação que a rede mostra operando — a confirmação fica bloqueada até alguém verificar.">
+    <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+    <div class="split-copy">
+      <div class="kicker"><span>Resumo da proposta</span></div>
+      <h2 class="slide-title">O sistema chama a atenção para o que importa</h2>
+      <p class="note text-muted">Nove unidades, vinte e dois postos e uma base compartilhada na nuvem. Quando a automação discorda do formulário, a linha fica destacada e só é confirmada depois da verificação — o mesmo vale para análises vencidas e poços sem confirmação do controle.</p>
+    </div>
+    <figure class="split-figure shot blueprint rise">
+      <image-slot id="r5-disp" shape="rect" fit="contain" src="screenshots/v2/s04-disponibilidade.jpg" placeholder="Print: disponibilidade com discrepância" role="img" aria-label="Print: disponibilidade com discrepância OPC-UA"></image-slot>
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+    </figure>
+    <div class="page-foot" aria-hidden="true"></div>
+  </section>
+
+  <section class="slide cover on-photo" data-screen-label="05" data-label="Próximo passo" data-speaker-notes="Pedido concreto: um piloto curto em um posto e a decisão de caminho com dados.">
+    <figure class="photo-ground duotone" aria-hidden="true"><img src="assets/p83-topo.jpg" alt=""></figure>
+    <div class="board" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+    <div class="kicker k-right"><span>Resumo da proposta · Próximo passo</span></div>
+    <div class="rise"><h2 class="display">Piloto</h2><p class="cover-sub text-muted">Duas semanas em um posto, em paralelo ao OneNote, com feedback semanal. Ao final, decidir entre aplicativo independente em ambiente Petrobras ou integração ao APLAT.</p></div>
+    <div class="pin-bottom meta"><span>app-v2 · fabriciomartini.github.io/passagembuzios</span></div>
+  </section>
+
+  
+
+</x-import>
+</x-dc>
+</body>
+</html>
