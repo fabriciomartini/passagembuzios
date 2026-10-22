@@ -3771,7 +3771,7 @@ class Component extends DCLogic {
   // ---------- dados ----------
   nuvemIniciar() {
     var self = this;
-    var carregar = window.bzNuvem ? Promise.resolve() : new Promise(function (res) { var s = document.createElement('script'); s.src = './nuvem.js?v=20261022e'; s.onload = res; s.onerror = res; document.head.appendChild(s); });
+    var carregar = window.bzNuvem ? Promise.resolve() : new Promise(function (res) { var s = document.createElement('script'); s.src = './nuvem.js?v=20261022f'; s.onload = res; s.onerror = res; document.head.appendChild(s); });
     return carregar.then(function () { if (!window.bzNuvem) return; window.bzNuvem.aoMudar(function (ks) { self.nuvemAtualizou(ks); }); return window.bzNuvem.pronto; });
   }
   nuvemAtualizou() {

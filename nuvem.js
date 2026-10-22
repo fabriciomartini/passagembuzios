@@ -5,10 +5,18 @@
   var URL = 'https://gjzxhpazddvayhneodpe.supabase.co/rest/v1/bz_kv';
   var KEY = 'sb_publishable_rz5DjrHTAkY0N3E49BMUmw_HNbcoJJV';
   var LOCAL = /^bz-(sessao|sol|noite|tema-manual|haptics|wake|ptt)-v\d/;
-  var ls = window.localStorage, P = Storage.prototype, rawSet = P.setItem, rawDel = P.removeItem;
+  var ls = window.localStorage, P = Storage.prototype, rawSet = P.setItem, rawDel = P.removeItem, rawGet = P.getItem;
   var aplicando = false;
+  // Armazenamento local cheio (~5 MB por domínio, compartilhado com outras aplicações do mesmo endereço):
+  // a chave bz-* que não couber fica em memória, continua legível pela aplicação e é enviada à nuvem normalmente.
+  var mem = {};
+  function gravarLocal(k, v) {
+    try { rawSet.call(ls, k, v); delete mem[k]; return true; }
+    catch (e) { if (!comp(k)) throw e; mem[k] = String(v); try { rawDel.call(ls, k); } catch (e2) { /* ignora */ } return false; }
+  }
+  P.getItem = function (k) { if (this === ls && Object.prototype.hasOwnProperty.call(mem, k)) return mem[k]; return rawGet.call(this, k); };
   function lsGet(k) { try { return ls.getItem(k); } catch (e) { return null; } }
-  function put(k, v) { aplicando = true; try { v === null ? rawDel.call(ls, k) : rawSet.call(ls, k, v); } catch (e) { /* cheio */ } aplicando = false; }
+  function put(k, v) { aplicando = true; try { if (v === null) { delete mem[k]; rawDel.call(ls, k); } else gravarLocal(k, v); } catch (e) { /* cheio */ } aplicando = false; }
   var CID = lsGet('bzn-cid') || (Math.random().toString(36).slice(2) + Date.now().toString(36)); put('bzn-cid', CID);
   try { for (var z = ls.length - 1; z >= 0; z--) { var kz = ls.key(z); if (kz && kz.indexOf('bzn-base:') === 0) { var kb = kz.slice(9), fq = {}; try { fq = JSON.parse(lsGet('bzn-fila') || '{}') || {}; } catch (e) {} if (!(kb in fq) || (lsGet(kz) || '').length >= 120000) rawDel.call(ls, kz); } } } catch (e) { /* ignora */ }
   var fila = {}; try { fila = JSON.parse(lsGet('bzn-fila') || '{}') || {}; } catch (e) { fila = {}; }
@@ -77,8 +85,8 @@
     if (!fila[k]) { fila[k] = 0; if (base[k] !== undefined && (base[k] === null || base[k].length < 120000)) put('bzn-base:' + k, base[k] === null ? '\u0000' : base[k]); }
     fila[k]++; salvarFila(); status('pendente'); agendar();
   }
-  P.setItem = function (k, v) { rawSet.call(this, k, v); if (this === ls) marcar(k); };
-  P.removeItem = function (k) { rawDel.call(this, k); if (this === ls) marcar(k); };
+  P.setItem = function (k, v) { if (this !== ls) return rawSet.call(this, k, v); gravarLocal(k, v); marcar(k); };
+  P.removeItem = function (k) { if (this === ls) delete mem[k]; rawDel.call(this, k); if (this === ls) marcar(k); };
 
   function agendar(ms) { clearTimeout(timer); timer = setTimeout(enviar, ms || 1200); }
   function baseDe(k) { if (base[k] !== undefined) return base[k]; var s = lsGet('bzn-base:' + k); return s === '\u0000' ? null : s; }
@@ -154,7 +162,8 @@
     if (!pill) return;
     pill.firstChild.style.background = COR[s];
     pill.lastChild.textContent = TXT[s];
-    pill.title = s === 'erro' ? erro : (s === 'ok' ? 'Dados compartilhados com todos os usuários' : '');
+    var nm = Object.keys(mem).length;
+    pill.title = s === 'erro' ? erro : (s === 'ok' ? 'Dados compartilhados com todos os usuários' + (nm ? ' · armazenamento local do navegador cheio: ' + nm + ' conjunto(s) de dados mantidos em memória e sincronizados direto com a nuvem' : '') : '');
   }
 
   var pronto = new Promise(function (res) {
@@ -183,6 +192,6 @@
     gravarLinhas: function (rows) {
       return (rows || []).reduce(function (pr, r) { return pr.then(function () { return req('POST', '?on_conflict=k', [{ k: r.k, v: r.v, autor: CID }], { Prefer: 'resolution=merge-duplicates,return=minimal' }); }); }, Promise.resolve());
     },
-    estado: function () { return { estado: estado, pendentes: Object.keys(fila).length, erro: erro }; }
+    estado: function () { return { estado: estado, pendentes: Object.keys(fila).length, erro: erro, emMemoria: Object.keys(mem) }; }
   };
 })();
