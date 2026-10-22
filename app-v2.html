@@ -471,11 +471,11 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
 
     <div class="blueprint" style="padding:var(--space-4);display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:var(--space-4);align-items:end">
       <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-      <div class="field" style="grid-column:span 2;min-width:0"><label>Buscar</label><input class="input" value="{{ fBusca }}" onChange="{{ setFBusca }}" placeholder="Posto, turma, nome, TAG ou texto do relatório"></div>
+      <div class="field" style="grid-column:span 2;min-width:0"><label>Buscar</label><input class="input" value="{{ fBusca }}" onChange="{{ setFBusca }}" type="search" placeholder="Código, posto, turma, nome, TAG ou texto — várias palavras, sem acento"></div>
       <div class="field"><label>Posto</label>
         <select class="input" value="{{ fPosto }}" onChange="{{ setFPosto }}">
           <option value="">Todos os postos</option>
-          <sc-for list="{{ postos }}" as="p" hint-placeholder-count="6"><option value="{{ p }}">{{ p }}</option></sc-for>
+          <sc-for list="{{ histPostos }}" as="p" hint-placeholder-count="6"><option value="{{ p }}">{{ p }}</option></sc-for>
         </select>
       </div>
       <div class="field"><label>Tipo</label>
@@ -493,7 +493,19 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
           <option value="antigas">Mais antigas primeiro</option>
         </select>
       </div>
-      <button class="btn btn-ghost" type="button" onClick="{{ limparFiltros }}" style="border-color:var(--color-divider);white-space:nowrap">Limpar filtros</button>
+      <div class="field"><label>Origem</label>
+        <select class="input" value="{{ fOrig }}" onChange="{{ setFOrig }}">
+          <option value="">Reais e exemplos</option>
+          <option value="real">Somente reais</option>
+          <option value="exemplo">Somente exemplos</option>
+        </select>
+      </div>
+      <button class="btn btn-ghost" type="button" onClick="{{ limparFiltros }}" disabled="{{ histSemFiltro }}" style="border-color:var(--color-divider);white-space:nowrap">Limpar filtros</button>
+      <div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <span style="font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:var(--pb-text-2)">Período</span>
+        <sc-for list="{{ histAtalhos }}" as="q" hint-placeholder-count="4"><button type="button" class="btn btn-ghost" onClick="{{ q.set }}" aria-pressed="{{ q.ativo }}" style="min-height:32px;padding:4px 10px;font-size:13px;border-color:{{ q.borda }};background:{{ q.bg }}">{{ q.label }}</button></sc-for>
+        <sc-if value="{{ histDatasInvertidas }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;color:var(--pb-text-2)">“De” é posterior a “Até” — o período foi considerado na ordem correta.</span></sc-if>
+      </div>
     </div>
 
     <sc-if value="{{ histVazio }}" hint-placeholder-val="{{ true }}">
@@ -520,6 +532,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                 <div style="min-width:0">
                   <div style="display:flex;align-items:baseline;gap:var(--space-3);flex-wrap:wrap">
                     <span class="tag tag-outline" style="flex:none">{{ it.tipoLabel }}</span>
+                    <sc-if value="{{ it.exemplo }}" hint-placeholder-val="{{ false }}"><span class="tag tag-neutral" style="flex:none">Exemplo</span></sc-if>
                     <span style="font-family:var(--font-heading);font-size:14px;letter-spacing:0.04em;color:var(--color-accent-700)">{{ it.codigo }}</span>
                     <span style="font-family:var(--font-heading);font-size:19px;line-height:1.1">{{ it.titulo }}</span>
                     <span style="font-size:12.5px;color:var(--pb-text-2)">{{ it.periodo }}</span>
@@ -910,7 +923,10 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
         <div class="blueprint" style="padding:var(--space-6);display:flex;flex-direction:column;gap:var(--space-4)"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
           <div style="font-family:var(--font-heading);font-size:22px">{{ adm.exemplosLabel }}</div>
           <p style="margin:0;font-size:13.5px;line-height:1.5;text-wrap:pretty">{{ adm.exemplosPlano }}</p>
-          <div style="display:flex;gap:var(--space-3);flex-wrap:wrap"><button type="button" class="btn btn-primary" onClick="{{ adm.gerarExemplos }}">Gerar exemplos</button><sc-if value="{{ adm.temExemplos }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ adm.removerExemplos }}" style="border-color:var(--color-divider)">Remover todos os exemplos</button></sc-if></div>
+          <sc-if value="{{ adm.exConfirmando }}" hint-placeholder-val="{{ false }}"><div role="alertdialog" aria-label="Confirmar" style="border:1.5px solid var(--color-accent-700);padding:var(--space-4);display:flex;flex-direction:column;gap:var(--space-3)"><div style="font-size:15px;line-height:1.5;font-weight:700;text-wrap:pretty">{{ adm.exPergunta }}</div><div style="display:flex;gap:var(--space-3);flex-wrap:wrap"><button type="button" class="btn btn-primary" onClick="{{ adm.exConfirmar }}">{{ adm.exConfirmarLabel }}</button><button type="button" class="btn btn-ghost" onClick="{{ adm.exCancelar }}" style="border-color:var(--color-divider)">Cancelar</button></div></div></sc-if>
+          <sc-if value="{{ adm.exLivre }}" hint-placeholder-val="{{ true }}"><div style="display:flex;gap:var(--space-3);flex-wrap:wrap"><button type="button" class="btn btn-primary" onClick="{{ adm.gerarExemplos }}" disabled="{{ adm.exGerando }}">{{ adm.exBtnLabel }}</button><sc-if value="{{ adm.temExemplos }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ adm.removerExemplos }}" disabled="{{ adm.exGerando }}" style="border-color:var(--color-divider)">Remover todos os exemplos</button></sc-if></div></sc-if>
+          <sc-if value="{{ adm.exTemResultado }}" hint-placeholder-val="{{ false }}"><div role="status" style="border:1.5px solid {{ adm.exResCor }};padding:var(--space-3) var(--space-4);font-size:14px;line-height:1.5;text-wrap:pretty">{{ adm.exResultado }}</div></sc-if>
+          <p style="margin:0;font-size:12px;line-height:1.5;color:var(--pb-text-2);text-wrap:pretty">{{ adm.exEspaco }}</p>
           <p style="margin:0;font-size:12px;line-height:1.5;color:var(--pb-text-2)">Os exemplos aparecem no Arquivo dos operadores e podem ser reabertos aqui para treinar o fluxo de correção.</p>
         </div>
       </sc-if>
@@ -1216,12 +1232,11 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                     <textarea class="input" style="min-height:150px;line-height:1.5;box-shadow:{{ p.ring }}" value="{{ p.textValue }}" onChange="{{ p.setText }}" onBlur="{{ p.aiBlur }}" placeholder="{{ p.placeholder }}"></textarea>
                     <sc-if value="{{ p.temAutor }}" hint-placeholder-val="{{ false }}"><div title="Registro automático e não editável" style="font-size:12px;color:var(--pb-text-2)">{{ p.autorLabel }}</div></sc-if>
                     <div style="display:flex;gap:6px;align-items:center;margin-top:4px">
-                      <button type="button" class="btn btn-ghost" data-ai="1" onClick="{{ p.aiToggle }}" style="height:24px;padding:0 9px;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;border-color:var(--color-divider);background:{{ p.aiBg }};gap:6px">
-                        <span title="{{ p.aiTitle }}" style="border-bottom:1px dotted currentColor;cursor:help">Assistência Chat Petrobras:</span>
-                        <span style="font-family:var(--font-heading);letter-spacing:0.04em;color:{{ p.aiStateColor }}">{{ p.aiState }}</span>
+                      <button type="button" class="btn btn-ghost" data-ai="1" onClick="{{ p.aiToggle }}" aria-pressed="{{ p.aiOnFlag }}" aria-label="Assistente de revisão de texto" style="height:24px;padding:0 7px;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;border-color:var(--color-divider);background:{{ p.aiBg }};gap:6px">
+                        <span title="{{ p.aiTitle }}" style="cursor:help">Assistente</span><span aria-hidden="true" style="width:22px;height:12px;box-sizing:border-box;border:1.5px solid {{ p.aiStateColor }};display:flex;justify-content:{{ p.aiKnob }};padding:1px;flex:none"><span style="width:7px;height:100%;background:{{ p.aiStateColor }}"></span></span>
                       </button>
                       <sc-if value="{{ p.aiShowRun }}" hint-placeholder-val="{{ false }}">
-                        <button type="button" class="btn btn-ghost" data-ai="1" onClick="{{ p.aiRun }}" title="Revisar agora com o Chat Petrobras" style="height:24px;padding:0 9px;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;border-color:var(--color-divider)">Revisar</button>
+                        <button type="button" class="btn btn-ghost" data-ai="1" onClick="{{ p.aiRun }}" title="Revisar agora com o Assistente" style="height:24px;padding:0 9px;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;border-color:var(--color-divider)">Revisar</button>
                       </sc-if>
                     </div>
                   </sc-if>
@@ -1310,12 +1325,11 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                                 <sc-if value="{{ cell.isArea }}" hint-placeholder-val="{{ false }}">
                                   <textarea class="input" style="min-height:34px;min-width:150px;width:100%;line-height:1.4" rows="2" value="{{ cell.value }}" onChange="{{ cell.set }}" onBlur="{{ cell.aiBlur }}" placeholder="{{ cell.ph }}"></textarea>
                                   <div style="display:flex;gap:5px;align-items:center;margin-top:3px">
-                                    <button type="button" class="btn btn-ghost" data-ai="1" onClick="{{ cell.aiToggle }}" style="height:21px;padding:0 7px;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;border-color:var(--color-divider);background:{{ cell.aiBg }};gap:5px">
-                                      <span title="{{ cell.aiTitle }}" style="border-bottom:1px dotted currentColor;cursor:help">Assistência Chat Petrobras:</span>
-                                      <span style="font-family:var(--font-heading);letter-spacing:0.04em;color:{{ cell.aiStateColor }}">{{ cell.aiState }}</span>
+                                    <button type="button" class="btn btn-ghost" data-ai="1" onClick="{{ cell.aiToggle }}" aria-pressed="{{ cell.aiOnFlag }}" aria-label="Assistente de revisão de texto" style="height:21px;padding:0 7px;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;border-color:var(--color-divider);background:{{ cell.aiBg }};gap:5px">
+                                      <span title="{{ cell.aiTitle }}" style="cursor:help">Assistente</span><span aria-hidden="true" style="width:22px;height:12px;box-sizing:border-box;border:1.5px solid {{ cell.aiStateColor }};display:flex;justify-content:{{ cell.aiKnob }};padding:1px;flex:none"><span style="width:7px;height:100%;background:{{ cell.aiStateColor }}"></span></span>
                                     </button>
                                     <sc-if value="{{ cell.aiShowRun }}" hint-placeholder-val="{{ false }}">
-                                      <button type="button" class="btn btn-ghost" data-ai="1" onClick="{{ cell.aiRun }}" title="Revisar agora com o Chat Petrobras" style="height:21px;padding:0 7px;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;border-color:var(--color-divider)">Revisar</button>
+                                      <button type="button" class="btn btn-ghost" data-ai="1" onClick="{{ cell.aiRun }}" title="Revisar agora com o Assistente" style="height:21px;padding:0 7px;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;border-color:var(--color-divider)">Revisar</button>
                                     </sc-if>
                                   </div>
                                 </sc-if>
@@ -1359,7 +1373,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                                     <sc-if value="{{ r.alertaDesatualizado }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ r.reenviar }}" title="O item mudou depois do alerta — reenviar aos demais postos" style="height:28px;padding:0 8px;font-size:12px;border-color:var(--color-accent-700);color:var(--color-accent-700)">Reenviar</button></sc-if>
                                   </sc-if>
                                   <sc-if value="{{ r.showAttach }}" hint-placeholder-val="{{ false }}">
-                                    <button type="button" class="btn btn-ghost" onClick="{{ r.attach }}" title="Anexar foto" style="width:28px;height:28px;padding:0;border-color:var(--color-divider)">⎘</button>
+                                    <button type="button" class="btn btn-ghost" onClick="{{ r.attach }}" title="Anexar foto" aria-label="Anexar foto" style="width:28px;height:28px;padding:0;border-color:var(--color-divider)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path><circle cx="12" cy="13" r="3"></circle></svg></button>
                                   </sc-if>
                                   <sc-if value="{{ r.temConf }}" hint-placeholder-val="{{ false }}">
                                     <button type="button" class="btn btn-ghost" onClick="{{ r.confToggle }}" title="{{ r.confTip }}" aria-pressed="{{ r.conf }}" aria-label="{{ r.confTip }}" style="width:28px;height:28px;padding:0;justify-content:center;font-size:15px;font-weight:700;border-color:{{ r.confBd }};background:{{ r.confBg }};color:{{ r.confCor }}">{{ r.confLabel }}</button>
@@ -1471,24 +1485,22 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                           <div class="field" style="margin-top:var(--space-3)"><label><span title="Fato, local, horário e condição atual. Evite siglas não usuais e não registre suposições." style="border-bottom:1px dotted color-mix(in srgb, var(--color-text) 45%, transparent);cursor:help">Descrição *</span></label>
                             <textarea class="input" style="min-height:96px;line-height:1.5" value="{{ n.descricao }}" onChange="{{ n.setDescricao }}" onBlur="{{ n.aiDescBlur }}" placeholder="Fato, local, horário e condição atual. Evite siglas não usuais."></textarea>
                             <div style="display:flex;gap:6px;align-items:center;margin-top:4px">
-                              <button type="button" class="btn btn-ghost" data-ai="1" onClick="{{ n.aiDescToggle }}" style="height:24px;padding:0 9px;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;border-color:var(--color-divider);background:{{ n.aiDescBg }};gap:6px">
-                                <span title="{{ n.aiDescTitle }}" style="border-bottom:1px dotted currentColor;cursor:help">Assistência Chat Petrobras:</span>
-                                <span style="font-family:var(--font-heading);letter-spacing:0.04em;color:{{ n.aiDescStateColor }}">{{ n.aiDescState }}</span>
+                              <button type="button" class="btn btn-ghost" data-ai="1" onClick="{{ n.aiDescToggle }}" aria-pressed="{{ n.aiDescOnFlag }}" aria-label="Assistente de revisão de texto" style="height:24px;padding:0 7px;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;border-color:var(--color-divider);background:{{ n.aiDescBg }};gap:6px">
+                                <span title="{{ n.aiDescTitle }}" style="cursor:help">Assistente</span><span aria-hidden="true" style="width:22px;height:12px;box-sizing:border-box;border:1.5px solid {{ n.aiDescStateColor }};display:flex;justify-content:{{ n.aiDescKnob }};padding:1px;flex:none"><span style="width:7px;height:100%;background:{{ n.aiDescStateColor }}"></span></span>
                               </button>
                               <sc-if value="{{ n.aiDescShowRun }}" hint-placeholder-val="{{ false }}">
-                                <button type="button" class="btn btn-ghost" data-ai="1" onClick="{{ n.aiDescRun }}" title="Revisar agora com o Chat Petrobras" style="height:24px;padding:0 9px;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;border-color:var(--color-divider)">Revisar</button>
+                                <button type="button" class="btn btn-ghost" data-ai="1" onClick="{{ n.aiDescRun }}" title="Revisar agora com o Assistente" style="height:24px;padding:0 9px;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;border-color:var(--color-divider)">Revisar</button>
                               </sc-if>
                             </div>
                           </div>
                           <div class="field" style="margin-top:var(--space-3)"><label><span title="O que a próxima equipe deve fazer, verificar ou acompanhar — de forma explícita." style="border-bottom:1px dotted color-mix(in srgb, var(--color-text) 45%, transparent);cursor:help">Encaminhamento / ação requerida</span></label>
                             <textarea class="input" style="min-height:64px;line-height:1.5" value="{{ n.acao }}" onChange="{{ n.setAcao }}" onBlur="{{ n.aiAcaoBlur }}" placeholder="O que a próxima equipe deve fazer, verificar ou acompanhar."></textarea>
                             <div style="display:flex;gap:6px;align-items:center;margin-top:4px">
-                              <button type="button" class="btn btn-ghost" data-ai="1" onClick="{{ n.aiAcaoToggle }}" style="height:24px;padding:0 9px;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;border-color:var(--color-divider);background:{{ n.aiAcaoBg }};gap:6px">
-                                <span title="{{ n.aiAcaoTitle }}" style="border-bottom:1px dotted currentColor;cursor:help">Assistência Chat Petrobras:</span>
-                                <span style="font-family:var(--font-heading);letter-spacing:0.04em;color:{{ n.aiAcaoStateColor }}">{{ n.aiAcaoState }}</span>
+                              <button type="button" class="btn btn-ghost" data-ai="1" onClick="{{ n.aiAcaoToggle }}" aria-pressed="{{ n.aiAcaoOnFlag }}" aria-label="Assistente de revisão de texto" style="height:24px;padding:0 7px;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;border-color:var(--color-divider);background:{{ n.aiAcaoBg }};gap:6px">
+                                <span title="{{ n.aiAcaoTitle }}" style="cursor:help">Assistente</span><span aria-hidden="true" style="width:22px;height:12px;box-sizing:border-box;border:1.5px solid {{ n.aiAcaoStateColor }};display:flex;justify-content:{{ n.aiAcaoKnob }};padding:1px;flex:none"><span style="width:7px;height:100%;background:{{ n.aiAcaoStateColor }}"></span></span>
                               </button>
                               <sc-if value="{{ n.aiAcaoShowRun }}" hint-placeholder-val="{{ false }}">
-                                <button type="button" class="btn btn-ghost" data-ai="1" onClick="{{ n.aiAcaoRun }}" title="Revisar agora com o Chat Petrobras" style="height:24px;padding:0 9px;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;border-color:var(--color-divider)">Revisar</button>
+                                <button type="button" class="btn btn-ghost" data-ai="1" onClick="{{ n.aiAcaoRun }}" title="Revisar agora com o Assistente" style="height:24px;padding:0 9px;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;border-color:var(--color-divider)">Revisar</button>
                               </sc-if>
                             </div>
                           </div>
@@ -1964,7 +1976,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
       </div>
       <button type="button" onClick="{{ m.n.salvar }}" class="btn-primary" style="min-height:60px;width:100%;box-sizing:border-box;border-radius:0;font-family:var(--font-body);font-size:17px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 14px;text-align:center;line-height:1.2;font-size:18px" style-focus="outline:2px solid var(--pb-green);outline-offset:2px">Salvar nota de campo</button>
       <button type="button" onClick="{{ m.n.cancelar }}" class="btn-ghost" style="min-height:48px;width:100%;box-sizing:border-box;border-radius:0;font-family:var(--font-body);font-size:17px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 14px;text-align:center;line-height:1.2" style-focus="outline:2px solid var(--pb-green);outline-offset:2px">Cancelar</button>
-      <p style="margin:0;font-size:15px;line-height:1.45;color:var(--pb-text-2);text-wrap:pretty">A nota fica pendente na passagem. Depois, em “Notas”, revise com o Chat Petrobras, edite e aprove — o texto aprovado entra no bloco de destino.</p>
+      <p style="margin:0;font-size:15px;line-height:1.45;color:var(--pb-text-2);text-wrap:pretty">A nota fica pendente na passagem. Depois, em “Notas”, revise com o Assistente, edite e aprove — o texto aprovado entra no bloco de destino.</p>
     </div>
     </sc-if>
 
@@ -2026,12 +2038,13 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
     <!-- Arquivo -->
     <sc-if value="{{ m.isArquivo }}" hint-placeholder-val="{{ false }}">
     <div data-screen-label="Campo · Arquivo" style="padding:0 16px 24px;max-width:760px;width:100%;margin:0 auto;box-sizing:border-box;display:flex;flex-direction:column;gap:12px">
-      <p style="margin:0;font-size:15px;line-height:1.45;color:var(--pb-text-2)">{{ m.a.resumo }}</p>
-      <sc-if value="{{ m.a.vazio }}" hint-placeholder-val="{{ true }}"><div style="border:1px solid var(--pb-line);padding:28px 20px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;color:var(--pb-text-2)"><rect width="20" height="5" x="2" y="3" rx="1"></rect><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path><path d="M10 12h4"></path></svg><span style="font-size:18px;font-weight:700">Nenhuma passagem emitida neste aparelho.</span></div></sc-if>
+      <input class="input" type="search" value="{{ m.a.busca }}" onChange="{{ m.a.setBusca }}" aria-label="Buscar no arquivo" placeholder="Código, posto, nome ou TAG" enterKeyHint="search" style="width:100%;box-sizing:border-box;border:1.5px solid var(--pb-field);border-radius:0">
+      <div style="display:flex;align-items:center;gap:12px;justify-content:space-between"><p style="margin:0;font-size:15px;line-height:1.45;color:var(--pb-text-2)">{{ m.a.resumo }}</p><sc-if value="{{ m.a.filtrado }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ m.a.limpar }}" class="btn-ghost" style="flex:none;min-height:44px;padding:0 12px;border-radius:0;font-family:var(--font-body);font-size:15px;font-weight:700;cursor:pointer">Limpar</button></sc-if></div>
+      <sc-if value="{{ m.a.vazio }}" hint-placeholder-val="{{ true }}"><div style="border:1px solid var(--pb-line);padding:28px 20px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;color:var(--pb-text-2)"><rect width="20" height="5" x="2" y="3" rx="1"></rect><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path><path d="M10 12h4"></path></svg><span style="font-size:18px;font-weight:700">{{ m.a.vazioTxt }}</span></div></sc-if>
       <div style="display:flex;flex-direction:column;border-top:1px solid var(--pb-line)">
         <sc-for list="{{ m.a.itens }}" as="a" hint-placeholder-count="0">
           <button type="button" onClick="{{ a.abrir }}" style="min-height:56px;width:100%;display:flex;align-items:center;gap:12px;padding:8px 4px 8px 0;border:0;border-bottom:1px solid var(--pb-line);background:transparent;color:var(--pb-text);font-family:var(--font-body);font-size:17px;text-align:left;cursor:pointer;min-height:72px" style-hover="background:var(--pb-line-2)" style-focus="outline:2px solid var(--pb-green);outline-offset:2px">
-            <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:15px;font-weight:700;color:var(--pb-green-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ a.codigo }}</span><span style="font-size:16px">{{ a.titulo }}</span><span style="font-size:13px;color:var(--pb-text-2)">{{ a.periodo }}</span></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;color:var(--pb-field)"><path d="m9 18 6-6-6-6"></path></svg>
+            <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:15px;font-weight:700;color:var(--pb-green-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ a.codigo }}</span><span style="font-size:16px">{{ a.titulo }}</span><sc-if value="{{ a.exemplo }}" hint-placeholder-val="{{ false }}"><span style="align-self:flex-start;font-size:12px;font-weight:700;padding:1px 6px;background:var(--pb-line-2)">Exemplo</span></sc-if><span style="font-size:13px;color:var(--pb-text-2)">{{ a.periodo }}</span></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;color:var(--pb-field)"><path d="m9 18 6-6-6-6"></path></svg>
           </button>
         </sc-for>
       </div>
@@ -2147,7 +2160,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
     <div class="dialog-backdrop" style="position:fixed;inset:0;z-index:410;display:flex;align-items:center;justify-content:center;padding:var(--space-6)">
       <div class="dialog blueprint" role="dialog" aria-modal="true" style="max-width:720px;width:100%;max-height:88vh;overflow-y:auto;overflow-x:hidden;padding:var(--space-6);background:var(--color-bg)">
         <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-        <div style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--pb-text-2)">Chat Petrobras · revisão assistida</div>
+        <div style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--pb-text-2)">Assistente · revisão de texto</div>
         <div class="dialog-title" style="font-family:var(--font-heading);font-size:22px;line-height:1.1;margin-top:4px">{{ revTitle }}</div>
         <div style="margin-top:var(--space-4);border:1px solid var(--color-divider);padding:var(--space-3)">
           <div style="font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:var(--pb-text-2);margin-bottom:4px">Texto digitado</div>
@@ -2158,10 +2171,13 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
         </sc-if>
         <sc-if value="{{ revReady }}" hint-placeholder-val="{{ false }}">
           <div style="margin-top:var(--space-3);border:1px solid var(--color-accent-700);padding:var(--space-3)">
+            <div style="font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:4px">O que mudou · {{ revDiffResumo }}</div>
+            <div style="font-size:13.5px;line-height:1.6;white-space:pre-wrap;text-wrap:pretty;margin-bottom:var(--space-3)"><sc-for list="{{ revDiff }}" as="d" hint-placeholder-count="0"><span style="background:{{ d.bg }};text-decoration:{{ d.deco }};color:{{ d.cor }}">{{ d.t }}</span></sc-for></div>
             <div style="font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:4px">Texto revisado — edite se necessário</div>
             <textarea class="input" style="min-height:130px;line-height:1.5" value="{{ revNovo }}" onChange="{{ setRevNovo }}"></textarea>
           </div>
           <div style="margin-top:var(--space-3)">
+            <sc-if value="{{ revTemFaltas }}" hint-placeholder-val="{{ false }}"><div style="border:1.5px solid var(--pb-orange);padding:var(--space-3);margin-bottom:var(--space-3)"><div style="font-size:12px;letter-spacing:0.06em;text-transform:uppercase;font-weight:700;margin-bottom:4px">Falta informar</div><ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px"><sc-for list="{{ revFaltas }}" as="f" hint-placeholder-count="0"><li style="font-size:13.5px;line-height:1.45">{{ f }}</li></sc-for></ul><div style="font-size:12px;line-height:1.45;color:var(--pb-text-2);margin-top:6px">Complete no texto acima, se tiver a informação — o Assistente não inventa dados.</div></div></sc-if>
             <div style="font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:var(--pb-text-2);margin-bottom:4px">Apontamentos de contexto e conformidade</div>
             <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:5px">
               <sc-for list="{{ revNotas }}" as="n" hint-placeholder-count="2">
@@ -2695,7 +2711,7 @@ class Component extends DCLogic {
     view: 'menu', arquivo: [], vendo: null, incluir: null, decl: null, desv: null, previewOficial: false, iniciar: null, iniciando: false,
     mob: false, mv: 'inicio', mStack: [], mSid: '', mPid: '', mRid: '', mNota: null, mFiltro: 'pendente', mEdit: null, mRec: false, mScanMsg: '', mScanManual: '', mTool: 'pen', mBusy: {}, mArqVendo: '',
     sol: false, noite: false, temaManual: false, hap: true, wake: true, ptt: '', pttCapt: false, modoForcado: '', mStore: '',
-    fBusca: '', fPosto: '', fTipo: '', fDe: '', fAte: '', fOrdem: 'recentes', dbuf: {}, rascDe: '', rascPara: '' };
+    fBusca: '', fPosto: '', fTipo: '', fDe: '', fAte: '', fOrdem: 'recentes', fOrig: '', dbuf: {}, rascDe: '', rascPara: '' };
 
   GRUPOS = ['Grupo 1', 'Grupo 2', 'Grupo 3', 'Grupo 4', 'Grupo 5', 'Não aplicável'];
 
@@ -3548,12 +3564,12 @@ class Component extends DCLogic {
     var on = (this.state.aiOn || {})[chave] !== false;
     var txt = String(get() || '').trim();
     return {
-      aiLabel: 'Assistência Chat Petrobras:',
-      aiState: on ? 'On' : 'Off',
-      aiOnFlag: on,
-      aiStateColor: on ? 'var(--color-accent-700)' : 'color-mix(in srgb, var(--color-text) 50%, transparent)',
+      aiLabel: 'Assistente',
+      aiState: on ? 'Ligado' : 'Desligado',
+      aiOnFlag: on, aiKnob: on ? 'flex-end' : 'flex-start',
+      aiStateColor: on ? 'var(--color-accent-700)' : 'var(--pb-field)',
       aiBg: on ? 'var(--color-accent-200)' : 'transparent',
-      aiTitle: 'Revisão assistida pelo Chat Petrobras, a ferramenta de IA oficial da companhia: quando ligada, o texto digitado é revisado na gramática e avaliado quanto a contexto, rastreabilidade e conformidade com as boas práticas da indústria (IOGP) e as exigências regulatórias da ANP. O texto revisado é sempre apresentado para sua releitura e confirmação antes de substituir o original.',
+      aiTitle: (on ? 'Assistente ligado. ' : 'Assistente desligado. ') + 'Revisão de texto pelo Chat Petrobras, a ferramenta de IA oficial da companhia: quando ligado, o texto digitado é revisado na gramática e avaliado quanto a contexto, rastreabilidade e conformidade com as boas práticas da indústria (IOGP) e as exigências regulatórias da ANP. O texto revisado é sempre apresentado para sua releitura e confirmação antes de substituir o original.',
       aiShowRun: on && txt.length > 0,
       aiToggle: function () {
         var m = Object.assign({}, self.state.aiOn || {});
@@ -3603,45 +3619,87 @@ class Component extends DCLogic {
     clearTimeout(this._revT);
     var meu = ++this._revSeq;
     this._revSeq = meu;
-    this.revisarIA(orig, '').then(function (r) {
+    this.revisarIA(orig, this.destinoRev(chave)).then(function (r) {
       if (self._revSeq !== meu || !self.state.rev) return;
-      self.setState({ rev: { chave: chave, orig: orig, novo: r.texto, notas: r.notas, loading: false, ok: false, set: set } });
+      self.setState({ rev: { chave: chave, orig: orig, novo: r.texto, notas: r.notas, faltas: r.faltas || [], loading: false, ok: false, set: set } });
     });
   }
   _revSeq = 0;
 
   // Revisão assistida: usa o Chat Petrobras (aqui representado pelo assistente disponível na página); sem ele, cai na revisão local.
+  destinoRev(chave) { var k = String(chave || '').split('/')[0]; return (this._secTit || {})[k] || ''; }
   revisarIA(texto, destino) {
     var self = this, sim = this.revisaoSimulada(texto);
     var api = (typeof window !== 'undefined' && window.claude && typeof window.claude.complete === 'function') ? window.claude : null;
     if (!api) return new Promise(function (res) { setTimeout(function () { res(sim); }, 700); });
-    var sistema = 'Você é o revisor de texto do Chat Petrobras para passagens de serviço de operação offshore (' + this.unidade() + ', campo de Búzios, procedimento PE-3BUZ-00130). '
+    var sistema = 'Você é o Assistente de revisão de texto (Chat Petrobras) para passagens de serviço de operação offshore (' + this.unidade() + ', campo de Búzios, procedimento PE-3BUZ-00130). '
       + 'Reescreva a nota do operador como texto final para UM campo do relatório: português técnico, impessoal, objetivo, frases curtas, voz factual; padrão IOGP 456 (shift handover). '
+      + 'Corrija ortografia, gramática, concordância e pontuação; escreva horários no formato 00:00 e mantenha as unidades de engenharia (bar, kgf/cm², °C, m³/d, %). '
       + 'Formato: texto corrido em 1 a 3 frases (até ~450 caracteres), sem títulos, sem markdown, sem listas, sem cabeçalho de relatório e sem repetir o nome do campo. '
       + 'Preserve exatamente TAGs, números, unidades, horários, nomes e siglas; não invente fatos nem acrescente suposições; remova linguagem incerta ("acho", "parece") mantendo só o fato observado. '
-      + 'Se faltar informação essencial (local/TAG, horário, condição atual ou ação esperada de quem assume), termine com uma linha iniciando por "Complementar:" listando o que falta. '
+      + 'Se faltar informação essencial (local/TAG, horário, condição atual ou ação esperada de quem assume), termine com UMA linha iniciando por "Complementar:" listando o que falta, separado por ponto e vírgula. '
       + (destino ? 'Destino do texto no relatório: ' + destino + '. ' : '') + 'Responda apenas com o texto final, sem comentários.';
     return api.complete({ system: sistema, messages: [{ role: 'user', content: String(texto) }], max_tokens: 700 })
       .then(function (out) {
         var t = String(out || '').trim().replace(/\*\*/g, '').replace(/^#+\s*/gm, '').replace(/^\s*[-—]{3,}\s*$/gm, '').replace(/\n{3,}/g, '\n\n').trim();
-        if (!t) return sim;
-        var notas = ['Revisado pelo Chat Petrobras — releia e confirme antes de aplicar.'];
-        if (/^Complementar:/mi.test(t)) notas.push('A revisão apontou informações a complementar (linha "Complementar").');
-        return { texto: t, notas: notas.concat(sim.notas.slice(1)) };
+        var sep = self.separarFaltas(t);
+        if (!sep.texto) return sim;
+        var notas = ['Revisado pelo Assistente (Chat Petrobras) — releia e confirme antes de aplicar.'].concat(sim.notas.filter(function (n, i) { return i > 0 && n.indexOf('Falta informar:') !== 0; }));
+        if (sep.faltas.length) notas.push('Falta informar: ' + sep.faltas.join('; ') + '.');
+        return { texto: sep.texto, notas: notas, faltas: sep.faltas };
       })
-      .catch(function () { return Object.assign({}, sim, { notas: ['Chat Petrobras indisponível no momento — revisão local aplicada.'].concat(sim.notas) }); });
+      .catch(function () { return Object.assign({}, sim, { notas: ['Assistente indisponível no momento — revisão local aplicada.'].concat(sim.notas) }); });
+  }
+  // A linha "Complementar:" é orientação para quem escreve: sai do texto que vai ao relatório e vira a lista "Falta informar".
+  separarFaltas(t) {
+    var faltas = [];
+    var linhas = String(t || '').split('\n').filter(function (l) {
+      var m = /^\s*Complementar\s*:\s*(.*)$/i.exec(l); if (!m) return true;
+      m[1].split(/\s*;\s*/).forEach(function (x) { x = x.replace(/[.\s]+$/, '').trim(); if (x) faltas.push(x.charAt(0).toUpperCase() + x.slice(1)); });
+      return false;
+    });
+    return { texto: linhas.join('\n').trim(), faltas: faltas };
   }
 
   revisaoSimulada(t) {
-    var s = String(t).replace(/\s+/g, ' ').trim();
+    var s = String(t).replace(/\s+/g, ' ').trim(), s0 = s;
+    s = s.replace(/\s+([,.;:!?])/g, '$1')
+      .replace(/([,;:!?])(?=[A-Za-zÀ-ÿ])/g, '$1 ')
+      .replace(/\.(?=[A-Za-zÀ-ÿ]{2})/g, '. ')
+      .replace(/\b([A-Za-zÀ-ÿ]{2,})\s+\1\b/gi, '$1')
+      .replace(/(\d)\s*(hrs|hs|hr)\b\.?/gi, '$1 h')
+      .replace(/\b(\d{1,2})h(\d{2})\b/g, '$1:$2')
+      .replace(/([.!?]\s+)([a-zà-ÿ])/g, function (m, p1, p2) { return p1 + p2.toUpperCase(); });
     s = s.charAt(0).toUpperCase() + s.slice(1);
-    if (!/[.!?]$/.test(s)) s += '.';
-    var notas = ['Gramática, pontuação e concordância ajustadas; mantida a voz factual da passagem de serviço.'];
-    if (!/\d/.test(s)) notas.push('Rastreabilidade (IOGP 456 — shift handover): acrescente horário, valor medido ou TAG do equipamento.');
-    if (!/(monitor|verific|acompanh|execut|isol|comunic|inspecion|bloque|normaliz)/i.test(s)) notas.push('Declare de forma explícita a ação esperada de quem assume o turno.');
+    if (s && !/[.!?]$/.test(s)) s += '.';
+    var notas = [s.replace(/\.$/, '') !== s0.replace(/\.$/, '') ? 'Pontuação, espaçamento, repetições e horários padronizados; mantida a voz factual da passagem de serviço.' : 'Sem ajustes de forma necessários; mantida a voz factual da passagem de serviço.'];
+    var faltas = [];
+    if (!/\d/.test(s)) faltas.push('Horário, valor medido ou TAG do equipamento (rastreabilidade IOGP 456)');
+    if (!/(monitor|verific|acompanh|execut|isol|comunic|inspecion|bloque|normaliz|aguard|manter|mantid|liberar|liberad|substitu|corrig|ajust|abrir|fechar|drenar|alinhar)/i.test(s)) faltas.push('Ação esperada de quem assume o turno');
     if (/(vazamento|incêndio|incendio|fogo|gás|gas|h2s|derrame|óleo ao mar|oleo ao mar|descarte)/i.test(s)) notas.push('Evento com potencial de segurança ou ambiental: confirme o registro de anomalia e a comunicação exigida pela regulamentação da ANP (SGSO).');
     if (/(acho|parece|talvez|mais ou menos|acredito)/i.test(s)) notas.push('Linguagem incerta identificada — registre apenas o fato observado ou indique a fonte da informação.');
-    return { texto: s, notas: notas };
+    if (faltas.length) notas.push('Falta informar: ' + faltas.join('; ') + '.');
+    return { texto: s, notas: notas, faltas: faltas };
+  }
+
+  // Diferença palavra a palavra entre o texto digitado e o revisado (para o operador ver o que a revisão mudou).
+  diffPalavras(a, b) {
+    var A = String(a || '').match(/\S+\s*/g) || [], B = String(b || '').match(/\S+\s*/g) || [];
+    var n = A.length, m = B.length, out = [];
+    var seg = function (tx, k) { var last = out[out.length - 1]; if (last && last.k === k) { last.t += tx; return; } out.push({ k: k, t: tx }); };
+    if (n * m > 160000) { seg(B.join(''), 'ins'); }
+    else {
+      var eq = function (x, y) { return x.trim() === y.trim(); };
+      var L = []; for (var i = 0; i <= n; i++) { L.push(new Array(m + 1).fill(0)); }
+      for (i = n - 1; i >= 0; i--) for (var j = m - 1; j >= 0; j--) L[i][j] = eq(A[i], B[j]) ? L[i + 1][j + 1] + 1 : Math.max(L[i + 1][j], L[i][j + 1]);
+      i = 0; j = 0;
+      while (i < n && j < m) { if (eq(A[i], B[j])) { seg(B[j], 'eq'); i++; j++; } else if (L[i + 1][j] >= L[i][j + 1]) { seg(A[i], 'del'); i++; } else { seg(B[j], 'ins'); j++; } }
+      while (i < n) { seg(A[i], 'del'); i++; }
+      while (j < m) { seg(B[j], 'ins'); j++; }
+    }
+    var mud = 0;
+    out.forEach(function (o) { if (o.k !== 'eq') mud += (o.t.match(/\S+/g) || []).length; });
+    return { mud: mud, segs: out.map(function (o) { return { t: o.t, bg: o.k === 'ins' ? 'var(--color-accent-200)' : 'transparent', deco: o.k === 'del' ? 'line-through' : 'none', cor: o.k === 'del' ? 'var(--pb-text-2)' : 'inherit' }; }) };
   }
 
   agoraISO() {
@@ -5130,6 +5188,43 @@ class Component extends DCLogic {
   }
 
   // ---------- utilidades ----------
+  normBusca(s) { return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); }
+  // Texto de busca de uma passagem arquivada: só valores (sem chaves JSON, imagens ou aspas escapadas), sem acento, em cache.
+  textoBusca(a) {
+    var k = a.id + '|' + (a.emitido || '') + '|' + (a.log ? a.log.length : 0); this._busC = this._busC || {};
+    if (this._busC[k] != null) return this._busC[k];
+    var partes = [a.codigo || '', a.tipo === 'Turma' ? 'turma semanal' : 'turno', this.fmtDT(a.header.inicio), this.fmtDT(a.header.fim), a.exemplo ? 'exemplo' : ''];
+    var walk = function (v, d) {
+      if (v == null || d > 8) return;
+      if (typeof v === 'string') { if (v.length < 6000 && v.indexOf('data:') !== 0 && v.indexOf('blob:') !== 0) partes.push(v); return; }
+      if (typeof v === 'number') { partes.push(String(v)); return; }
+      if (Array.isArray(v)) { v.forEach(function (x) { walk(x, d + 1); }); return; }
+      if (typeof v === 'object') Object.keys(v).forEach(function (k2) { if (k2 !== 'img' && k2 !== 'imgs' && k2 !== 'src' && k2 !== 'mid') walk(v[k2], d + 1); });
+    };
+    walk(a.header, 0); walk(a.store, 0); walk(a.equipe, 0);
+    return (this._busC[k] = this.normBusca(partes.join(' ')));
+  }
+  repArquivo(a) {
+    var k = a.id + '|' + (a.emitido || '') + '|' + (a.log ? a.log.length : 0); this._repC = this._repC || {};
+    if (!this._repC[k]) this._repC[k] = this.buildReport({ tipo: a.tipo, header: a.header, store: a.store, equipe: a.equipe, log: a.log, emitidoEm: a.emitido, emitidoPor: a.porUsuario, codigo: a.codigo });
+    return this._repC[k];
+  }
+  atalhosPeriodo() {
+    var self = this, hoje = new Date(), d = function (n) { return self.dataLocal(new Date(hoje.getTime() - n * 86400000)); };
+    var mes = this.dataLocal(new Date(hoje.getFullYear(), hoje.getMonth(), 1));
+    return [['Todos', '', ''], ['Hoje', d(0), d(0)], ['Últimos 7 dias', d(6), d(0)], ['Últimos 30 dias', d(29), d(0)], ['Este mês', mes, d(0)]].map(function (q) {
+      var ativo = (self.state.fDe || '') === q[1] && (self.state.fAte || '') === q[2];
+      return { label: q[0], ativo: ativo, borda: ativo ? 'var(--color-accent-700)' : 'var(--color-divider)', bg: ativo ? 'var(--color-accent-200)' : 'transparent',
+        set: function () { var db = Object.assign({}, self.state.dbuf); delete db['f/de']; delete db['f/ate']; self.setState({ fDe: q[1], fAte: q[2], dbuf: db }); } };
+    });
+  }
+  usoLocalTxt() {
+    var tot = 0, bz = 0;
+    try { for (var i = 0; i < window.localStorage.length; i++) { var k = window.localStorage.key(i) || '', v = window.localStorage.getItem(k) || ''; var n = k.length + v.length; tot += n; if (k.indexOf('bz') === 0) bz += n; } } catch (e) { return 'uso indisponível'; }
+    var mb = function (c) { return (Math.max(0, c) / 1048576).toFixed(1).replace('.', ','); };
+    return mb(tot) + ' MB em uso de cerca de 5 MB (' + mb(bz) + ' MB deste sistema, ' + mb(tot - bz) + ' MB de outros) · livre ≈ ' + mb(5242880 - tot) + ' MB';
+  }
+  exAviso(ok, msg) { this._exRes = { ok: ok, msg: msg }; this.flash(msg); }
   fmtDT(v) {
     if (!v) return '—';
     var p = String(v).split('T');
@@ -6237,7 +6332,7 @@ class Component extends DCLogic {
       avisoAtivo: !!this.avisoAtivo(), avisoTexto: (this.avisoAtivo() || {}).texto || '',
       goForm: function () { self.sincronizarDoc(); if (self.doc && !self.doc._placeholder) { self.setState({ view: 'form', vendo: null }); window.scrollTo({ top: 0 }); } else { self.setState({ view: 'menu' }); } },
       goHist: function () { self.setState({ view: 'hist', preview: false }); window.scrollTo({ top: 0 }); },
-      histBadge: this.state.arquivo.length ? ' · ' + this.state.arquivo.length : ''
+      histBadge: ''
     });
     if (!this.doc) return Object.assign({ unidade: this.unidade(), savedLabel: '', sections: [], nav: [], issues: [], sistemas: this.SIST, pocos: this.PROD.concat(this.INJ), postos: this.POSTOS, voltarLabel: '', previewDisplay: 'none',
       equipe: [], minhasDeclaracoes: [], chavesOpts: [], equipeVazia: true, equipeTem: false, equipeContagem: '0/0', equipeResumo: '', emitirBloqueado: true,
@@ -6268,6 +6363,7 @@ class Component extends DCLogic {
 
     var RED = 'var(--pb-red)', RFILL = 'color-mix(in srgb, var(--pb-red) 16%, transparent)', RFILL2 = 'color-mix(in srgb, var(--pb-red) 7%, transparent)';
     var sections = secs.map(function (s) {
+      (self._secTit || (self._secTit = {}))[s.key] = s.title;
       var sd = self.doc[tipo][s.key];
       var secAlerta = !!self.state.showIssues && issuesBySec[s.key].length > 0 && !sd.clear;
       var panels = s.panels.map(function (p) {
@@ -6311,8 +6407,8 @@ class Component extends DCLogic {
             var aiD = self.aiCampo(dk + '/2', function () { return r.c[2] || ''; }, function (v) { r.c[2] = v; self.commit(); });
             var aiA = self.aiCampo(dk + '/3', function () { return r.c[3] || ''; }, function (v) { r.c[3] = v; self.commit(); });
             return {
-              aiDescLabel: aiD.aiLabel, aiDescState: aiD.aiState, aiDescStateColor: aiD.aiStateColor, aiDescBg: aiD.aiBg, aiDescTitle: aiD.aiTitle, aiDescShowRun: aiD.aiShowRun, aiDescToggle: aiD.aiToggle, aiDescRun: aiD.aiRun, aiDescBlur: aiD.aiBlur,
-              aiAcaoLabel: aiA.aiLabel, aiAcaoState: aiA.aiState, aiAcaoStateColor: aiA.aiStateColor, aiAcaoBg: aiA.aiBg, aiAcaoTitle: aiA.aiTitle, aiAcaoShowRun: aiA.aiShowRun, aiAcaoToggle: aiA.aiToggle, aiAcaoRun: aiA.aiRun, aiAcaoBlur: aiA.aiBlur,
+              aiDescLabel: aiD.aiLabel, aiDescState: aiD.aiState, aiDescStateColor: aiD.aiStateColor, aiDescBg: aiD.aiBg, aiDescKnob: aiD.aiKnob, aiDescOnFlag: aiD.aiOnFlag, aiDescTitle: aiD.aiTitle, aiDescShowRun: aiD.aiShowRun, aiDescToggle: aiD.aiToggle, aiDescRun: aiD.aiRun, aiDescBlur: aiD.aiBlur,
+              aiAcaoLabel: aiA.aiLabel, aiAcaoState: aiA.aiState, aiAcaoStateColor: aiA.aiStateColor, aiAcaoBg: aiA.aiBg, aiAcaoKnob: aiA.aiKnob, aiAcaoOnFlag: aiA.aiOnFlag, aiAcaoTitle: aiA.aiTitle, aiAcaoShowRun: aiA.aiShowRun, aiAcaoToggle: aiA.aiToggle, aiAcaoRun: aiA.aiRun, aiAcaoBlur: aiA.aiBlur,
               idx: ri + 1,
               locked: travada, aberto: !travada,
               rotulo: origem ? self.origemLabel(origem) : (travada ? 'Registro concluído' : 'Novo registro complementar'),
@@ -6671,26 +6767,31 @@ class Component extends DCLogic {
       ? { tipo: vendo.tipo, header: vendo.header, store: vendo.store, equipe: vendo.equipe, log: vendo.log, emitidoEm: vendo.emitido, emitidoPor: vendo.porUsuario, codigo: vendo.codigo }
       : null;
 
+    var revDif = this.state.rev && !this.state.rev.loading ? this.diffPalavras(this.state.rev.orig, this.state.rev.novo) : { mud: 0, segs: [] };
     var hist = (function () {
       var f = self.state;
-      var termo = f.fBusca.trim().toLowerCase();
-      var itens = self.state.arquivo.filter(function (a) {
-        if (!self.permitePosto(a.header.posto)) return false;
+      var termos = self.normBusca(f.fBusca).split(/\s+/).filter(Boolean);
+      var de = f.fDe || '', ate = f.fAte || '', inv = !!(de && ate && de > ate);
+      if (inv) { var tmp = de; de = ate; ate = tmp; }
+      var permit = self.state.arquivo.filter(function (a) { return a && a.header && self.permitePosto(a.header.posto); });
+      var itens = permit.filter(function (a) {
         if (f.fPosto && a.header.posto !== f.fPosto) return false;
         if (f.fTipo && a.tipo !== f.fTipo) return false;
-        var dia = (a.header.inicio || a.emitido || '').slice(0, 10);
-        if (f.fDe && dia < f.fDe) return false;
-        if (f.fAte && dia > f.fAte) return false;
-        if (termo) {
-          var alvo = (a.codigo || '') + JSON.stringify(a.header) + JSON.stringify(a.store).replace(/data:image[^"]+/g, '');
-          if (alvo.toLowerCase().indexOf(termo) < 0) return false;
-        }
+        if (f.fOrig === 'real' && a.exemplo) return false;
+        if (f.fOrig === 'exemplo' && !a.exemplo) return false;
+        var dia = String(a.header.inicio || a.emitido || '').slice(0, 10);
+        if (de && dia < de) return false;
+        if (ate && dia > ate) return false;
+        if (termos.length) { var alvo = self.textoBusca(a); for (var ti = 0; ti < termos.length; ti++) if (alvo.indexOf(termos[ti]) < 0) return false; }
         return true;
       });
       itens.sort(function (a, b) {
-        var ka = a.header.inicio || a.emitido, kb = b.header.inicio || b.emitido;
-        return f.fOrdem === 'antigas' ? (ka < kb ? -1 : 1) : (ka > kb ? -1 : 1);
+        var ka = String(a.header.inicio || a.emitido || ''), kb = String(b.header.inicio || b.emitido || '');
+        var c = ka < kb ? -1 : ka > kb ? 1 : String(a.codigo || '').localeCompare(String(b.codigo || ''));
+        return f.fOrdem === 'antigas' ? c : -c;
       });
+      var postosH = (self.POSTOS || []).slice();
+      permit.forEach(function (a) { var p = a.header.posto; if (p && postosH.indexOf(p) < 0) postosH.push(p); });
       var mesNome = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
       var grupos = [], mapa = {};
       itens.forEach(function (a) {
@@ -6698,10 +6799,10 @@ class Component extends DCLogic {
         var partes = dia.split('-');
         var label = partes.length === 2 ? mesNome[Number(partes[1]) - 1] + ' de ' + partes[0] : 'Sem data';
         if (!mapa[label]) { mapa[label] = { label: label, itens: [], contagem: '' }; grupos.push(mapa[label]); }
-        var rep = self.buildReport({ tipo: a.tipo, header: a.header, store: a.store, equipe: a.equipe, log: a.log, emitidoEm: a.emitido, emitidoPor: a.porUsuario, codigo: a.codigo });
+        var rep = self.repArquivo(a);
         var comConteudo = rep.blocks.filter(function (b) { return !b.isEmptyDecl; }).length;
         mapa[label].itens.push({
-          codigo: a.codigo || '',
+          codigo: a.codigo || '', exemplo: !!a.exemplo,
           tipoLabel: a.tipo === 'Turma' ? 'Semanal' : 'Turno',
           titulo: (a.header.posto || 'Sem posto') + (a.header.turma ? ' · ' + a.header.turma : ''),
           periodo: self.fmtDT(a.header.inicio) + ' → ' + self.fmtDT(a.header.fim),
@@ -6724,11 +6825,11 @@ class Component extends DCLogic {
         });
       });
       grupos.forEach(function (g) { g.contagem = g.itens.length + (g.itens.length === 1 ? ' passagem' : ' passagens'); });
-      var total = self.state.arquivo.length;
+      var total = permit.length;
       return {
-        itens: itens, grupos: grupos,
+        itens: itens, grupos: grupos, total: total, inv: inv, postos: postosH,
         resumo: total === 0 ? 'Nenhum documento arquivado.'
-          : itens.length === total ? total + ' passagem(ns) arquivada(s) nesta estação.'
+          : itens.length === total ? total + (total === 1 ? ' passagem arquivada.' : ' passagens arquivadas.')
             : itens.length + ' de ' + total + ' passagens correspondem aos filtros.'
       };
     })();
@@ -6854,10 +6955,12 @@ class Component extends DCLogic {
       progressPct: (secs.length ? Math.round(completos / secs.length * 100) : 0) + '%',
       progressTitle: completos + ' de ' + secs.length + ' blocos sem pendências de preenchimento',
       showRev: !!this.state.rev,
-      revTitle: this.state.rev && this.state.rev.loading ? 'Revisando com o Chat Petrobras…' : 'Confirme o texto revisado',
+      revTitle: this.state.rev && this.state.rev.loading ? 'Revisando com o Assistente…' : 'Confirme o texto revisado',
       revOrig: this.state.rev ? this.state.rev.orig : '',
       revNovo: this.state.rev ? this.state.rev.novo : '',
-      revNotas: this.state.rev ? this.state.rev.notas : [],
+      revNotas: this.state.rev ? (this.state.rev.notas || []).filter(function (n) { return String(n).indexOf('Falta informar:') !== 0; }) : [],
+      revFaltas: (this.state.rev && this.state.rev.faltas) || [], revTemFaltas: !!(this.state.rev && !this.state.rev.loading && this.state.rev.faltas && this.state.rev.faltas.length),
+      revDiff: revDif.segs, revDiffResumo: !this.state.rev || this.state.rev.loading ? '' : (revDif.mud ? revDif.mud + (revDif.mud === 1 ? ' palavra alterada' : ' palavras alteradas') + ' (inserções destacadas; remoções riscadas)' : 'sem alterações no texto'),
       revLoading: !!(this.state.rev && this.state.rev.loading),
       revReady: !!(this.state.rev && !this.state.rev.loading),
       revOk: !!(this.state.rev && this.state.rev.ok),
@@ -6925,13 +7028,17 @@ class Component extends DCLogic {
       onPrint: function () { window.print(); },
       histResumo: hist.resumo,
       histVazio: hist.itens.length === 0, histTem: hist.itens.length > 0,
-      histVazioTitulo: this.state.arquivo.length ? 'Nenhuma passagem com esses filtros' : 'Nenhuma passagem arquivada ainda',
+      histVazioTitulo: hist.total ? 'Nenhuma passagem com esses filtros' : 'Nenhuma passagem arquivada ainda',
       histVazioTexto: this.state.arquivo.length
         ? 'Ajuste o posto, o tipo ou o intervalo de datas — ou limpe os filtros para ver todo o arquivo.'
         : 'As passagens são arquivadas automaticamente ao gerar o relatório em PDF ou ao enviar para OneNote e APLAT.',
       histGrupos: hist.grupos,
       fBusca: this.state.fBusca, fPosto: this.state.fPosto, fTipo: this.state.fTipo,
       fOrdem: this.state.fOrdem,
+      fOrig: this.state.fOrig || '', setFOrig: function (e) { self.setState({ fOrig: e.target.value }); },
+      histPostos: hist.postos, histDatasInvertidas: hist.inv,
+      histSemFiltro: !(this.state.fBusca || this.state.fPosto || this.state.fTipo || this.state.fDe || this.state.fAte || this.state.fOrig || this.state.fOrdem !== 'recentes'),
+      histAtalhos: this.atalhosPeriodo(),
       fDeBR: campoFiltroDe.valor, fAteBR: campoFiltroAte.valor,
       setFBusca: function (e) { self.setState({ fBusca: e.target.value }); },
       setFPosto: function (e) { self.setState({ fPosto: e.target.value }); },
@@ -6939,7 +7046,7 @@ class Component extends DCLogic {
       setFDe: campoFiltroDe.onChange, setFAte: campoFiltroAte.onChange,
       fDeBR: campoFiltroDe.valor, fAteBR: campoFiltroAte.valor,
       setFOrdem: function (e) { self.setState({ fOrdem: e.target.value }); },
-      limparFiltros: function () { self.setState({ fBusca: '', fPosto: '', fTipo: '', fDe: '', fAte: '', fOrdem: 'recentes' }); },
+      limparFiltros: function () { var db = Object.assign({}, self.state.dbuf); delete db['f/de']; delete db['f/ate']; self.setState({ fBusca: '', fPosto: '', fTipo: '', fDe: '', fAte: '', fOrig: '', fOrdem: 'recentes', dbuf: db }); },
       vendoArquivo: !!this.state.vendo,
       arquivoLabel: this.state.vendo ? 'Documento arquivado — somente leitura' : '',
       voltarLabel: this.state.vendo ? 'Voltar ao arquivo' : 'Voltar ao formulário',
@@ -7877,9 +7984,14 @@ class Component extends DCLogic {
 
     // Arquivo (lista simplificada)
     if (m.isArquivo) {
-      var hist = ctx.hist || { itens: [], resumo: '' };
-      m.a = { resumo: hist.resumo, vazio: !hist.itens.length, itens: hist.itens.map(function (a) {
-        return { codigo: a.codigo || '', titulo: (a.header.posto || 'Sem posto') + ' · ' + (a.tipo === 'Turma' ? 'Semanal' : 'Turno'), periodo: self.fmtDT(a.header.inicio) + ' → ' + self.fmtDT(a.header.fim),
+      var hist = ctx.hist || { itens: [], resumo: '', total: 0 };
+      var stA = this.state, filtrado = !!(stA.fBusca || stA.fPosto || stA.fTipo || stA.fDe || stA.fAte || stA.fOrig);
+      m.a = { resumo: hist.resumo, vazio: !hist.itens.length, busca: stA.fBusca, filtrado: filtrado,
+        vazioTxt: hist.total ? 'Nenhuma passagem encontrada com essa busca.' : 'Nenhuma passagem emitida ainda.',
+        setBusca: function (e) { self.setState({ fBusca: e.target.value }); },
+        limpar: function () { var db = Object.assign({}, self.state.dbuf); delete db['f/de']; delete db['f/ate']; self.setState({ fBusca: '', fPosto: '', fTipo: '', fDe: '', fAte: '', fOrig: '', dbuf: db }); },
+        itens: hist.itens.map(function (a) {
+        return { codigo: a.codigo || '', exemplo: !!a.exemplo, titulo: (a.header.posto || 'Sem posto') + ' · ' + (a.tipo === 'Turma' ? 'Semanal' : 'Turno'), periodo: self.fmtDT(a.header.inicio) + ' → ' + self.fmtDT(a.header.fim),
           abrir: function () { self.setState({ vendo: a.id, preview: true }); } };
       }) };
     }
@@ -8424,14 +8536,14 @@ class Component extends DCLogic {
   }
   // ---- passagens de exemplo ----
   gerarExemplos(auto) {
-    if (!auto && !this.permite('exemplos')) return;
+    if (!auto && !this.permite('exemplos')) { this.exAviso(false, 'Seu perfil não tem permissão para gerar exemplos.'); return; }
     var self = this;
     this.removerExemplos(true);
     var self0 = this, opsOper = this.usuariosPorAcesso('operador');
     var opsPor = function (posto) { if (posto === 'SUPROD') { var l1 = self0.usuariosPorAcesso('suprod'); return l1.length ? l1 : opsOper; } if (posto === 'COPROD') { var l2 = self0.usuariosPorAcesso('coprod'); return l2.length ? l2 : opsOper; } return opsOper; };
     if (opsOper.length < 3) opsOper = this.USERS.slice();
     var ops = opsOper;
-    if (ops.length < 3) { if (auto) return false; this.flash('Cadastre ao menos 3 operadores para gerar exemplos.'); return; }
+    if (ops.length < 3) { if (auto) return false; this.exAviso(false, 'Cadastre ao menos 3 operadores ativos na unidade para gerar exemplos.'); return; }
     var hoje = new Date(); hoje.setHours(this.horaTroca(), 0, 0, 0); if (hoje.getTime() > Date.now()) hoje = new Date(hoje.getTime() - 86400000);
     var seq = this.lerSeq(), novos = [], prevDoc = this.doc, total = 0;
     try {
@@ -8457,7 +8569,7 @@ class Component extends DCLogic {
       });
       if (w === Math.min(2, nTurmas)) self.exemploAlerta(fontes, 'Turma');
     }
-    } catch (e) { this.doc = prevDoc; this.flash('Falha ao gerar exemplos: ' + (e && e.message)); return; }
+    } catch (e) { this.doc = prevDoc; console.error(e); if (auto) return false; this.exAviso(false, 'Falha ao gerar exemplos: ' + (e && e.message)); return; }
     this.doc = prevDoc;
     this.lsSet(this.SEQ, seq);
     novos.sort(function (a, b) { return a.header.inicio > b.header.inicio ? -1 : 1; });
@@ -8468,11 +8580,12 @@ class Component extends DCLogic {
     // Mantém ~1,4 MB livres para as passagens reais em elaboração (antes os exemplos ocupavam o limite e impediam gravar o rascunho).
     while (cabem > 0 && (!this.persistArquivo(novos.slice(0, cabem).concat(resto)) || !folga())) cabem = Math.max(0, cabem - 4);
     if (!cabem) this.persistArquivo(resto);
-    if (!cabem) { this.flash('Espaço local insuficiente para gravar os exemplos — exclua passagens antigas do arquivo ou esvazie a lixeira.'); return; }
-    if (cabem < novos.length) { total = cabem; lista = novos.slice(0, cabem).concat(resto); this.flash('Espaço do navegador limitado: ' + cabem + ' de ' + novos.length + ' passagens de exemplo gravadas (as mais recentes).'); }
+    if (!cabem) { if (auto) return false; this.exAviso(false, 'Nenhum exemplo foi gravado: espaço do navegador insuficiente — ' + this.usoLocalTxt() + '. Exclua passagens antigas, esvazie a lixeira ou limpe os dados dos outros sistemas abertos neste mesmo endereço (fabriciomartini.github.io).'); return; }
+    if (cabem < novos.length) { total = cabem; lista = novos.slice(0, cabem).concat(resto); this.exAviso(true, 'Espaço do navegador limitado: ' + cabem + ' de ' + novos.length + ' passagens de exemplo gravadas (as mais recentes) — ' + this.usoLocalTxt() + '.'); }
     this.setState({ arquivo: lista });
     this.syslog('exemplos', 'Gerou ' + total + ' passagens de exemplo (' + this.POSTOS_MENU.length + ' postos × 6 turnos + 3 turmas)', 'Marcadas como exemplo; removíveis em um clique.');
-    this.flash(auto ? 'Demonstração: ' + total + ' passagens de exemplo criadas na ' + this.un() + '.' : total + ' passagens de exemplo geradas.');
+    if (auto) this.flash('Demonstração: ' + total + ' passagens de exemplo criadas na ' + this.un() + '.');
+    else if (cabem >= novos.length) this.exAviso(true, total + ' passagens de exemplo geradas. Veja no Arquivo — filtro Origem: Somente exemplos.');
     if (!auto) this.verificarIntegridade();
     return true;
   }
@@ -8843,8 +8956,28 @@ class Component extends DCLogic {
     var exN = this.state.arquivo.filter(function (a) { return a.exemplo; }).length;
     adm.exemplosN = exN; adm.temExemplos = exN > 0; adm.exemplosLabel = exN ? exN + ' passagens de exemplo no arquivo' : 'Nenhuma passagem de exemplo no arquivo';
     adm.exemplosPlano = this.POSTOS_MENU.length + ' postos de operação × (6 turnos + 3 turmas) + SUPROD (6 turnos + 3 turmas) + COPROD (3 turmas) = ' + (this.POSTOS_MENU.length * 9 + 12) + ' passagens emitidas, com todos os blocos preenchidos, composição da equipe, itens reportados ao SUPROD, alerta crítico entre postos, pendências transportadas e registro de ações.';
-    adm.gerarExemplos = function () { if (window.confirm('Gerar ' + (self.POSTOS_MENU.length * 9 + 12) + ' passagens de exemplo? Exemplos anteriores serão substituídos; as passagens reais não são afetadas.')) self.gerarExemplos(); };
-    adm.removerExemplos = function () { if (window.confirm('Remover todas as passagens de exemplo?')) self.removerExemplos(false); };
+    // Confirmação dentro da tela (window.confirm pode ser bloqueado pelo navegador e, nesse caso, nada era gerado).
+    var exD = st.aEx || null, nEx = this.POSTOS_MENU.length * 9 + 12;
+    adm.exConfirmando = !!exD && exD.fase === 'confirmar'; adm.exGerando = !!exD && exD.fase === 'gerando'; adm.exLivre = !adm.exConfirmando;
+    adm.exBtnLabel = adm.exGerando ? (exD.acao === 'remover' ? 'Removendo…' : 'Gerando…') : 'Gerar exemplos';
+    adm.exPergunta = exD && exD.acao === 'remover' ? 'Remover todas as ' + exN + ' passagens de exemplo? As passagens reais não são afetadas.' : 'Gerar ' + nEx + ' passagens de exemplo? Os exemplos anteriores serão substituídos; as passagens reais não são afetadas.';
+    adm.exConfirmarLabel = exD && exD.acao === 'remover' ? 'Remover exemplos' : 'Gerar agora';
+    adm.gerarExemplos = function () { self.setState({ aEx: { fase: 'confirmar', acao: 'gerar' }, aExRes: null }); };
+    adm.removerExemplos = function () { self.setState({ aEx: { fase: 'confirmar', acao: 'remover' }, aExRes: null }); };
+    adm.exCancelar = function () { self.setState({ aEx: null }); };
+    adm.exConfirmar = function () {
+      var acao = (self.state.aEx || {}).acao; self._exRes = null;
+      self.setState({ aEx: { fase: 'gerando', acao: acao } });
+      setTimeout(function () {
+        try {
+          if (acao === 'remover') { var n0 = self.state.arquivo.filter(function (a) { return a.exemplo; }).length; self.removerExemplos(false); self._exRes = { ok: true, msg: n0 ? n0 + ' passagem(ns) de exemplo removida(s).' : 'Não havia exemplos para remover.' }; }
+          else self.gerarExemplos(false);
+        } catch (e) { console.error(e); self._exRes = { ok: false, msg: 'Falha inesperada: ' + (e && e.message) }; }
+        self.setState({ aEx: null, aExRes: self._exRes || { ok: false, msg: 'Nenhuma passagem foi gerada.' } });
+      }, 60);
+    };
+    var exR = st.aExRes; adm.exTemResultado = !!exR; adm.exResultado = exR ? exR.msg : ''; adm.exResCor = exR && exR.ok ? 'var(--color-accent-700)' : 'var(--pb-orange)';
+    adm.exEspaco = tab === 'exemplos' ? 'Armazenamento do navegador: ' + this.usoLocalTxt() + '. O limite é de cerca de 5 MB por endereço, compartilhado entre os sistemas publicados em fabriciomartini.github.io.' : '';
     // Feedback dos usuários
     adm.cards.push({ k: 'Feedback dos usuários', v: String(fbNovosN), sub: fbsAll.length ? 'novo(s) de ' + fbsAll.length + ' recebido(s)' : 'nenhum recebido' });
     adm.podeAvaliarFb = this.permite('feedbackAvaliar'); adm.podeExcluirFb = this.permite('feedbackExcluir');
