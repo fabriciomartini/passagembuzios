@@ -8024,6 +8024,21 @@ class Component extends DCLogic {
     { u: 'ADM83', n: 'Administrador local P-83', f: 'ADMINISTRAÇÃO', un: 'P-83', papel: 'admlocal', senha: 'adm1234' },
     { u: 'ADM80', n: 'Administrador local P-80', f: 'ADMINISTRAÇÃO', un: 'P-80', papel: 'admlocal', senha: 'adm1234' }
   ];
+  // Usuários genéricos por unidade: chave = código do posto (3) + número da unidade (2) + sequência (1). Ex.: CTR831 = Controle · P-83 · nº 1.
+  genericos() {
+    var out = [], est = this.ESTRUTURA_BASE.filter(function (x) { return !x.oculto; }), agora = new Date().toISOString();
+    var FUN = { PROD: 'TÉC. OPERAÇÃO', MAN: 'TÉC. MANUTENÇÃO', EMB: 'TÉC. EMBARCAÇÃO' };
+    this.UNIDADES.forEach(function (un) {
+      var nn = un.replace('P-', '');
+      var add = function (u, n, f, acesso, posto) { out.push({ u: u, n: n, f: f, m: '', un: un, uns: [], acesso: acesso, posto: posto, estV: 2, estOp: 1, papel: 'operador', senha: '1234', ativo: true, gen: 1, criadoEm: agora }); };
+      est.forEach(function (x) {
+        var q = x.nivel === 'exec' ? 3 : x.nivel === 'sup' ? 2 : 1;
+        for (var i = 1; i <= q; i++) add(x.cod + nn + (q > 1 ? i : ''), 'Genérico ' + x.p + (q > 1 ? ' ' + i : '') + ' · ' + un, x.nivel === 'exec' ? (FUN[x.coord] || 'EXECUTANTE') : x.p, 'posto', x.p);
+      });
+      add('GEO' + nn, 'Genérico GEOP · ' + un, 'GEOP', 'geop', '');
+    });
+    return out;
+  }
   usuarios() {
     if (!this._usr) {
       var l = this.lsGet(this.USR, null), agora = new Date().toISOString();
@@ -8032,6 +8047,7 @@ class Component extends DCLogic {
         l = this.USERS_SEED.map(function (x) { return { u: x.u, n: x.n, f: x.f, m: x.m || '', un: 'P-83', uns: x.t ? outras.slice() : [], acesso: x.a || 'posto', posto: x.p || '', estV: 2, estOp: 1, papel: 'operador', senha: '1234', ativo: true, criadoEm: agora }; });
         l.unshift({ u: 'ADMIN', n: 'Administrador do sistema', f: 'ADMINISTRAÇÃO', un: '', uns: [], papel: 'admin', acesso: 'geop', senha: 'admin1234', ativo: true, criadoEm: agora });
         this.DEMO_ADM.forEach(function (x) { l.splice(1, 0, Object.assign({ uns: [], acesso: 'geop', estV: 2, ativo: true, criadoEm: agora }, x)); });
+        l = l.concat(this.genericos());
         this.lsSet(this.USR, l);
       } else {
         // Sincroniza com a planilha de chaves: acrescenta chaves novas e preenche função/acesso de quem ainda não tem.
@@ -8049,6 +8065,7 @@ class Component extends DCLogic {
         });
         l.forEach(function (e) { if (e.estV !== 2) { var MAPA = { suprod: 'SUPROD', coprod: 'COPROD', geplat: 'GEPLAT' }; if ((e.papel || 'operador') !== 'operador') e.acesso = 'geop'; else if (['posto', 'geop', 'eng', 'apoio'].indexOf(e.acesso) < 0) { e.posto = MAPA[e.acesso] || e.posto || ''; e.acesso = 'posto'; } e.estV = 2; mudou = true; } if (e.un === undefined) { e.un = e.papel === 'admin' ? '' : 'P-83'; mudou = true; } if (!Array.isArray(e.uns)) { e.uns = []; mudou = true; } });
         this.DEMO_ADM.forEach(function (x) { if (!porU[x.u]) { l.push(Object.assign({ uns: [], acesso: 'geop', estV: 2, ativo: true, criadoEm: agora }, x)); mudou = true; } });
+        this.genericos().forEach(function (x) { if (!porU[x.u]) { l.push(x); porU[x.u] = x; mudou = true; } });
         if (mudou) this.lsSet(this.USR, l);
       }
       this._usr = l;
