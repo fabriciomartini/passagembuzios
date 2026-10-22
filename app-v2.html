@@ -881,6 +881,8 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
           <div class="field"><label>Categorias dos registros complementares</label><textarea class="input" style="min-height:140px;font-size:13px" value="{{ adm.r.CATEGORIAS }}" onChange="{{ adm.rSet.CATEGORIAS }}"></textarea></div>
           <div class="field"><label>Poços produtores</label><textarea class="input" style="min-height:140px;font-size:13px" value="{{ adm.r.PROD }}" onChange="{{ adm.rSet.PROD }}"></textarea></div>
           <div class="field"><label>Poços injetores</label><textarea class="input" style="min-height:140px;font-size:13px" value="{{ adm.r.INJ }}" onChange="{{ adm.rSet.INJ }}"></textarea></div>
+          <div class="field"><label>Análises químicas · produção</label><textarea class="input" style="min-height:140px;font-size:12.5px;line-height:1.4" value="{{ adm.r.QUIM_PROD }}" onChange="{{ adm.rSet.QUIM_PROD }}"></textarea><span style="font-size:12px;line-height:1.4;color:var(--pb-text-2);text-wrap:pretty">Uma amostra por linha: Tipo de amostra | Periodicidade | Ponto / parâmetro. Periodicidade: Diária, 2× por semana, Semanal, Quinzenal ou Mensal. Mesmo tipo e periodicidade formam um grupo.</span></div>
+          <div class="field"><label>Análises químicas · embarcação</label><textarea class="input" style="min-height:140px;font-size:12.5px;line-height:1.4" value="{{ adm.r.QUIM_EMB }}" onChange="{{ adm.rSet.QUIM_EMB }}"></textarea><span style="font-size:12px;line-height:1.4;color:var(--pb-text-2);text-wrap:pretty">Mesmo formato. Os itens entram no campo “Análises químicas” após “Registros complementares” nas passagens dos postos da coordenação.</span></div>
         </div>
         <h4 style="margin:var(--space-2) 0 0">Sistemas por posto</h4>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:var(--space-4)">
@@ -1253,6 +1255,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                     </sc-if>
                     <sc-if value="{{ p.temDiscs }}" hint-placeholder-val="{{ false }}"><div role="alert" style="padding:8px 12px;border:2px solid var(--pb-red);color:var(--pb-red);font-size:13px;line-height:1.45;text-wrap:pretty">{{ p.discResumo }}</div></sc-if>
                     <sc-if value="{{ p.temDetPend }}" hint-placeholder-val="{{ false }}"><div role="alert" style="padding:8px 12px;border:2px solid var(--pb-red);color:var(--pb-red);font-size:13px;line-height:1.45;text-wrap:pretty">{{ p.detPendResumo }}</div></sc-if>
+                    <sc-if value="{{ p.temPedidoPocos }}" hint-placeholder-val="{{ false }}"><div role="alert" style="padding:8px 12px;border:2px solid var(--pb-red);color:var(--pb-red);font-size:13px;line-height:1.45;text-wrap:pretty">⚠ {{ p.pedidoPocos }}</div></sc-if>
                     <sc-if value="{{ p.temVazioAI }}" hint-placeholder-val="{{ false }}"><div style="padding:var(--space-4);border:1px dashed var(--color-divider);font-size:13px;line-height:1.5;color:var(--pb-text-2);text-wrap:pretty">Nenhum item classificado. Para incluir, acione o botão <strong style="color:var(--color-accent-700)">!</strong> no item do bloco pertinente — ele é replicado aqui automaticamente. Sem itens a destacar, marque “Nada a destacar”.</div></sc-if>
                     <sc-if value="{{ p.podeEplab }}" hint-placeholder-val="{{ false }}">
                       <div style="display:flex;align-items:center;gap:var(--space-3);flex-wrap:wrap;padding:10px 12px;border:1px solid var(--color-divider)">
@@ -1376,7 +1379,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
                                     <button type="button" class="btn btn-ghost" onClick="{{ r.attach }}" title="Anexar foto" aria-label="Anexar foto" style="width:28px;height:28px;padding:0;border-color:var(--color-divider)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path><circle cx="12" cy="13" r="3"></circle></svg></button>
                                   </sc-if>
                                   <sc-if value="{{ r.temConf }}" hint-placeholder-val="{{ false }}">
-                                    <button type="button" class="btn btn-ghost" onClick="{{ r.confToggle }}" title="{{ r.confTip }}" aria-pressed="{{ r.conf }}" aria-label="{{ r.confTip }}" style="width:28px;height:28px;padding:0;justify-content:center;font-size:15px;font-weight:700;border-color:{{ r.confBd }};background:{{ r.confBg }};color:{{ r.confCor }}">{{ r.confLabel }}</button>
+                                    <button type="button" class="btn btn-ghost" onClick="{{ r.confToggle }}" disabled="{{ r.confDis }}" title="{{ r.confTip }}" aria-pressed="{{ r.conf }}" aria-label="{{ r.confTip }}" style="width:28px;height:28px;padding:0;justify-content:center;font-size:15px;font-weight:700;border-color:{{ r.confBd }};background:{{ r.confBg }};color:{{ r.confCor }}">{{ r.confLabel }}</button>
                                   </sc-if>
                                   <sc-if value="{{ r.showConfirm }}" hint-placeholder-val="{{ false }}">
                                     <button type="button" class="btn btn-primary" onClick="{{ r.confirmar }}" title="Concluir item" style="width:28px;height:28px;padding:0">✓</button>
@@ -1786,6 +1789,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
               </sc-if>
               <sc-if value="{{ p.temDiscs }}" hint-placeholder-val="{{ false }}"><div role="alert" style="display:flex;gap:10px;align-items:flex-start;border:2px solid var(--pb-red);padding:10px 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;color:var(--pb-red);margin-top:1px"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg><span style="flex:1;font-size:16px;line-height:1.45;text-wrap:pretty">{{ p.discResumo }}</span></div></sc-if>
               <sc-if value="{{ p.temDetPend }}" hint-placeholder-val="{{ false }}"><div role="alert" style="display:flex;gap:10px;align-items:flex-start;border:2px solid var(--pb-red);padding:10px 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;color:var(--pb-red);margin-top:1px"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg><span style="flex:1;font-size:16px;line-height:1.45;text-wrap:pretty">{{ p.detPendResumo }}</span></div></sc-if>
+              <sc-if value="{{ p.temPedidoPocos }}" hint-placeholder-val="{{ false }}"><div role="alert" style="border:2px solid var(--pb-red);padding:10px 12px;font-size:15px;line-height:1.45;color:var(--pb-red);text-wrap:pretty">⚠ {{ p.pedidoPocos }}</div></sc-if>
               <sc-if value="{{ p.temVazioAI }}" hint-placeholder-val="{{ false }}"><div style="border:1px solid var(--pb-line);border-left:4px solid var(--pb-field);padding:10px 12px;font-size:15px;line-height:1.45;text-wrap:pretty;color:var(--pb-text-2)">Nenhum item classificado. Para incluir, acione o botão <strong style="color:var(--pb-text)">!</strong> no item do bloco pertinente — ele é replicado aqui automaticamente. Sem itens a destacar, marque “Nada a destacar”.</div></sc-if>
               <sc-if value="{{ p.podeEplab }}" hint-placeholder-val="{{ false }}">
                 <button type="button" onClick="{{ p.eplab }}" class="btn-primary" style="min-height:52px;width:100%;box-sizing:border-box;border-radius:0;font-family:var(--font-body);font-size:17px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 14px;text-align:center;line-height:1.2" style-focus="outline:2px solid var(--pb-green);outline-offset:2px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M10 2v7.31"></path><path d="M14 9.3V1.99"></path><path d="M8.5 2h7"></path><path d="M14 9.3a6.5 6.5 0 1 1-4 0"></path><path d="M5.52 16h12.96"></path></svg>Captura EPLab</button>
@@ -1892,7 +1896,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
       </div>
       <div style="display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--pb-line);padding-top:16px">
         <sc-if value="{{ m.l.podeConcluir }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ m.l.concluir }}" class="btn-primary" style="min-height:56px;width:100%;box-sizing:border-box;border-radius:0;font-family:var(--font-body);font-size:17px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 14px;text-align:center;line-height:1.2" style-focus="outline:2px solid var(--pb-green);outline-offset:2px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M20 6 9 17l-5-5"></path></svg>Concluir item</button></sc-if>
-        <sc-if value="{{ m.l.temConf }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ m.l.confToggle }}" aria-pressed="{{ m.l.conf }}" aria-label="{{ m.l.confTip }}" title="{{ m.l.confTip }}" class="btn-secondary" style="min-height:56px;width:100%;box-sizing:border-box;border-radius:0;font-family:var(--font-body);font-size:17px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 14px;text-align:center;line-height:1.2;font-size:26px;background:{{ m.l.confBg }};color:{{ m.l.confCor }}" style-focus="outline:2px solid var(--pb-green);outline-offset:2px">{{ m.l.confLabel }}</button></sc-if>
+        <sc-if value="{{ m.l.temConf }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ m.l.confToggle }}" disabled="{{ m.l.confDis }}" aria-pressed="{{ m.l.conf }}" aria-label="{{ m.l.confTip }}" title="{{ m.l.confTip }}" class="btn-secondary" style="min-height:56px;width:100%;box-sizing:border-box;border-radius:0;font-family:var(--font-body);font-size:17px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 14px;text-align:center;line-height:1.2;font-size:26px;background:{{ m.l.confBg }};color:{{ m.l.confCor }}" style-focus="outline:2px solid var(--pb-green);outline-offset:2px">{{ m.l.confLabel }}</button></sc-if>
         <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
           <sc-if value="{{ m.l.podeAI }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ m.l.aiToggle }}" title="Atenção imediata — replica este item no bloco “Itens de atenção imediata”" aria-label="Classificar como atenção imediata" class="btn-ghost" style="min-height:52px;width:100%;box-sizing:border-box;border-radius:0;font-family:var(--font-body);font-size:17px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 14px;text-align:center;line-height:1.2" style-focus="outline:2px solid var(--pb-green);outline-offset:2px"><span aria-hidden="true" style="font-size:26px;line-height:1">!</span><span style="font-size:15px">Atenção</span></button></sc-if>
           <sc-if value="{{ m.l.aiMarcado }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ m.l.aiToggle }}" aria-pressed="true" aria-label="{{ m.l.aiLabel }}" title="{{ m.l.aiLabel }}" class="" style="min-height:52px;width:100%;box-sizing:border-box;border-radius:0;font-family:var(--font-body);font-size:17px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 14px;text-align:center;line-height:1.2;border:1.5px solid var(--pb-yellow);background:var(--pb-yellow);color:#1d1f20" style-focus="outline:2px solid var(--pb-green);outline-offset:2px"><span aria-hidden="true" style="font-size:26px;line-height:1">!</span><span style="font-size:15px">Atenção</span></button></sc-if>
@@ -2495,6 +2499,13 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
         <div class="dialog-body" style="font-size:14px;line-height:1.5;margin-top:var(--space-3);text-wrap:pretty">{{ declCorpo }}</div>
         <sc-if value="{{ declTemPendencias }}" hint-placeholder-val="{{ false }}">
           <div style="margin-top:var(--space-4);border:1px solid var(--color-accent-700);padding:var(--space-3);font-size:13px;line-height:1.5;text-wrap:pretty">{{ declPendencias }}</div>
+        </sc-if>
+        <sc-if value="{{ declPocos }}" hint-placeholder-val="{{ false }}">
+          <div role="alert" style="margin-top:var(--space-4);border:2px solid var(--pb-red);padding:var(--space-3);display:flex;flex-direction:column;gap:var(--space-2)">
+            <span style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--pb-red);font-weight:700">Situação dos poços · confirme com a sala de controle</span>
+            <span style="font-size:13px;line-height:1.5;text-wrap:pretty">{{ declPocosTxt }}</span>
+            <button type="button" class="btn btn-ghost" onClick="{{ pedirPocos }}" style="align-self:flex-start;min-height:40px;border-color:var(--pb-red);color:var(--pb-red)">{{ pedirPocosLabel }}</button>
+          </div>
         </sc-if>
         <sc-if value="{{ declPasso2 }}" hint-placeholder-val="{{ false }}">
           <label class="radio" style="gap:10px;margin-top:var(--space-4)">
@@ -3100,6 +3111,23 @@ class Component extends DCLogic {
   TANQUES = ['TQ-5115501S — Água destilada BB', 'TQ-5115501P — Água destilada BE', 'TQ-5115502S — Água doce BB', 'TQ-5115502P — Água doce BE', 'TQ-5133501S — Diesel recebimento BB', 'TQ-5133501P — Diesel recebimento BE', 'TQ-5133502S — Diesel serviço BB', 'TQ-5133502P — Diesel serviço BE'];
   LEITURAS = ['Overboard sea water — temperatura de descarte (°C)', 'Produção das UDs (m³)', 'Descarte sewage — totalizador (m³)'];
   ANALISES = [{"t":"Água potável — cloro","per":"Diária","dias":1,"rows":["Header · Cloro livre (mg/L)","Cozinha · Cloro livre (mg/L)"]},{"t":"Água potável — cloro, cor e turbidez","per":"Semanal","dias":7,"rows":["Header · Cloro livre (mg/L)","Header · Cor (uH)","Header · Turbidez (NTU)","Cozinha · Cloro livre (mg/L)","Cozinha · Cor (uH)","Cozinha · Turbidez (NTU)"]},{"t":"Água destilada pós-cloradora","per":"Semanal","dias":7,"rows":["Cloro livre (mg/L)","Cloreto (mg/L)","pH"]},{"t":"Água destilada produzida nas UDs","per":"Semanal","dias":7,"rows":["UD-A · Cloro livre (mg/L)","UD-A · Cloreto (mg/L)","UD-A · pH","UD-A · Ferro (mg/L)","UD-B · Cloro livre (mg/L)","UD-B · Cloreto (mg/L)","UD-B · pH","UD-B · Ferro (mg/L)","UD-C · Cloro livre (mg/L)","UD-C · Cloreto (mg/L)","UD-C · pH","UD-C · Ferro (mg/L)","UD-D · Cloro livre (mg/L)","UD-D · Cloreto (mg/L)","UD-D · pH","UD-D · Ferro (mg/L)","UD-E · Cloro livre (mg/L)","UD-E · Cloreto (mg/L)","UD-E · pH","UD-E · Ferro (mg/L)","UD-F · Cloro livre (mg/L)","UD-F · Cloreto (mg/L)","UD-F · pH","UD-F · Ferro (mg/L)"]},{"t":"Água quente da acomodação — boiler AQA","per":"Semanal","dias":7,"rows":["Cloro livre (mg/L)","Cloreto (mg/L)","pH","Ferro (mg/L)"]},{"t":"Água gelada — AGL","per":"2× por semana","dias":4,"rows":["Nitrito (mg/L)","Cloreto (mg/L)","Salinidade (ppm)","pH"]},{"t":"Água de resfriamento — ARL","per":"2× por semana","dias":4,"rows":["Nitrito (mg/L)","Cloreto (mg/L)","Salinidade (ppm)","pH"]},{"t":"Diesel — teor de água","per":"Mensal","dias":31,"rows":["BCI-A · Karl Fischer (ppm)","BCI-A · Água (% v/v)","BCI-B · Karl Fischer (ppm)","BCI-B · Água (% v/v)","BCI-C · Karl Fischer (ppm)","BCI-C · Água (% v/v)","BCI-D · Karl Fischer (ppm)","BCI-D · Água (% v/v)","ADG · Karl Fischer (ppm)","ADG · Água (% v/v)","EDG · Karl Fischer (ppm)","EDG · Água (% v/v)","HDG-A · Karl Fischer (ppm)","HDG-A · Água (% v/v)","HDG-B · Karl Fischer (ppm)","HDG-B · Água (% v/v)","TQ diesel start air EDG · Karl Fischer (ppm)","TQ diesel start air EDG · Água (% v/v)","TQ diesel start air HDG · Karl Fischer (ppm)","TQ diesel start air HDG · Água (% v/v)","TQ recebimento BB · Karl Fischer (ppm)","TQ recebimento BB · Água (% v/v)","TQ recebimento BE · Karl Fischer (ppm)","TQ recebimento BE · Água (% v/v)","TQ serviço BB · Karl Fischer (ppm)","TQ serviço BB · Água (% v/v)","TQ serviço BE · Karl Fischer (ppm)","TQ serviço BE · Água (% v/v)"]},{"t":"Bilge tank","per":"Semanal","dias":7,"rows":["Sulfeto de hidrogênio — H₂S (ppm)"]},{"t":"Efluentes sanitários — pH e SST","per":"Semanal","dias":7,"rows":["Unidade A · pH","Unidade A · SST (mg/L)","Unidade B · pH","Unidade B · SST (mg/L)"]},{"t":"Efluentes sanitários — DQO e OD","per":"Quinzenal","dias":15,"rows":["Unidade A · DQO entrada (mg/L)","Unidade A · DQO saída (mg/L)","Unidade A · Oxigênio dissolvido (mg/L)","Unidade B · DQO entrada (mg/L)","Unidade B · DQO saída (mg/L)","Unidade B · Oxigênio dissolvido (mg/L)"]}];
+  QUIM_PROD = [{"t":"Óleo — BSW","per":"Diária","dias":1,"rows":["BSW Trem A (% v/v)","BSW Trem B (% v/v)"]},{"t":"Óleo tratado — salinidade","per":"Diária","dias":1,"rows":["Óleo exportado · Salinidade (mg/L NaCl)"]},{"t":"Água de injeção — URS","per":"Diária","dias":1,"rows":["Oxigênio dissolvido (ppb)","Sulfato (mg/L)"]},{"t":"Gás combustível","per":"Semanal","dias":7,"rows":["H₂S (ppm)"]}];
+  QUIM_EMB = [{"t":"Água potável — cloro","per":"Diária","dias":1,"rows":["Header · Cloro livre (mg/L)"]},{"t":"Água de resfriamento — ARL","per":"Semanal","dias":7,"rows":["Nitrito (mg/L)","pH"]},{"t":"Diesel de serviço — teor de água","per":"Mensal","dias":31,"rows":["TQ diesel serviço · Karl Fischer (ppm)"]},{"t":"Óleo lubrificante — turbogeradores","per":"Mensal","dias":31,"rows":["Viscosidade a 40 °C (cSt)","Teor de água (ppm)"]}];
+  PERIODOS = { 'Diária': 1, '2× por semana': 4, 'Semanal': 7, 'Quinzenal': 15, 'Mensal': 31 };
+  quimTexto(l) { var o = []; (l || []).forEach(function (g) { (g.rows || []).forEach(function (r) { o.push(g.t + ' | ' + g.per + ' | ' + r); }); }); return o.join('\n'); }
+  quimLer(t, nome) {
+    var self = this, grupos = [], m = {}, erro = '', pers = Object.keys(this.PERIODOS);
+    String(t || '').split('\n').map(function (x) { return x.trim(); }).filter(Boolean).forEach(function (ln, i) {
+      if (erro) return;
+      var p = ln.split('|').map(function (x) { return x.trim(); });
+      if (p.length < 3 || !p[0] || !p[2]) { erro = nome + ', linha ' + (i + 1) + ': use “Tipo de amostra | Periodicidade | Ponto / parâmetro”.'; return; }
+      var per = pers.filter(function (k) { return k.toLowerCase() === p[1].toLowerCase().replace('2x', '2×'); })[0];
+      if (!per) { erro = nome + ', linha ' + (i + 1) + ': periodicidade “' + p[1] + '” inválida (' + pers.join(', ') + ').'; return; }
+      var k = p[0] + '|' + per; if (!m[k]) { m[k] = { t: p[0], per: per, dias: self.PERIODOS[per], rows: [] }; grupos.push(m[k]); }
+      if (m[k].rows.indexOf(p.slice(2).join(' | ')) < 0) m[k].rows.push(p.slice(2).join(' | '));
+    });
+    return { grupos: grupos, erro: erro };
+  }
   EPLAB_URL = 'EPLab · integração TIC';
   OPC_URL = 'opc.tcp://topside-opc:4840';
   normSt(v) { return v === 'Operacional' ? 'Operando' : v === 'Inoperante' ? 'Indisponível' : (v || ''); }
@@ -3349,12 +3377,20 @@ class Component extends DCLogic {
       ], [], { addable: false, sync: true, herdadoDet: true, req: 'none', title: 'Detalhamento herdado dos postos (Indisponível / Manutenção / Limitado)' })]) : [])
     };
 
+    var pocosRecebe = !ehControle, pCol = function (terc, opts) {
+      var cs = [c('Poço', 'label'), c('Status', pocosRecebe ? 'label' : 'select', { options: self.ST_POCO, w: pocosRecebe ? '170px' : '230px', req: !pocosRecebe }), c(terc, pocosRecebe ? 'label' : 'select', { options: opts, w: pocosRecebe ? '170px' : '210px', req: !pocosRecebe })];
+      if (pocosRecebe) cs.push(c('Origem — sala de controle', 'label', { w: '30%' }));
+      return cs;
+    };
+    var pExtra = function (tit) { return pocosRecebe ? { title: tit, addable: false, sync: true, pocosHerd: true, req: 'none' } : { title: tit, addable: true, sync: true, confirmar: true, semRemover: true }; };
     var pocos = {
-      num: '6', key: 'pocos', title: 'Poços produtores e injetores',
-      hint: 'Status e alinhamento ao final do período. Os dados vêm da passagem anterior — confira a condição real de cada poço e confirme item a item (☐ Confirmar); alterar o status ou o alinhamento também confirma o poço.',
+      num: '6', key: 'pocos', title: 'Situação dos poços', pocosRecebe: pocosRecebe,
+      hint: pocosRecebe
+        ? 'Somente leitura neste posto: status e alinhamento vêm automaticamente da passagem da sala de controle do mesmo período. Cada poço atualizado ou confirmado (✓) pelo operador do controle chega aqui na hora; poço ainda não confirmado aparece como “Aguardando controle”. Se houver pendência ao concluir, confirme com a sala de controle e solicite a confirmação dos status atuais.'
+        : 'Preenchido somente pela sala de controle: status e alinhamento ao final do período são replicados automaticamente para as passagens do SUPROD, Óleo, Gás e Água em edição neste período. Os dados vêm da passagem anterior — confira a condição real de cada poço e confirme item a item (✓); alterar o status ou o alinhamento também confirma e envia o poço.',
       panels: [
-        fixo('prod', [c('Poço', 'label'), c('Status', 'select', { options: this.ST_POCO, w: '230px', req: true }), c('Alinhamento', 'select', { options: this.ALINH, w: '210px', req: true })], this.PROD, { title: 'Poços produtores', addable: true, sync: true, confirmar: true }),
-        fixo('inj', [c('Poço', 'label'), c('Status', 'select', { options: this.ST_POCO, w: '230px', req: true }), c('Injeção', 'select', { options: ['Água', 'Gás'], w: '210px', req: true })], this.INJ, { title: 'Poços injetores', addable: true, sync: true, confirmar: true })
+        fixo('prod', pCol('Alinhamento', this.ALINH), this.PROD, pExtra('Poços produtores')),
+        fixo('inj', pCol('Injeção', ['Água', 'Gás']), this.INJ, pExtra('Poços injetores'))
       ]
     };
 
@@ -3504,6 +3540,16 @@ class Component extends DCLogic {
           return fixo('q' + i, [c('Ponto / parâmetro', 'label', { w: '26%' }), c('Resultado', 'text', { w: '100px', ph: '0,00' }), c('Data da análise', 'datetime', { w: '150px' }), c('Prazo', 'label', { w: '200px' }), c('Origem', 'label', { w: '190px' })], g.rows, { sync: true, req: 'none', eplab: true, eplabPrim: i === 0, dias: g.dias, per: g.per, title: g.t + ' · ' + g.per });
         }) });
     }
+    var quimBlocos = [], qInfo = this.postoInfo(posto);
+    if (posto && !qInfo.inv && (qInfo.coord === 'PROD' || qInfo.coord === 'EMB') && (qInfo.modelo === 'OP' || qInfo.modelo === 'COPROD')) {
+      var QL = qInfo.coord === 'EMB' ? this.QUIM_EMB : this.QUIM_PROD;
+      if (QL && QL.length) quimBlocos.push({ num: '0', key: 'quimica', hideable: true, title: qInfo.coord === 'EMB' ? 'Análises químicas — inventários e correntes da embarcação' : 'Análises químicas — inventários e correntes da produção',
+        hint: 'Último resultado de cada amostra, com a data da análise. “Captura EPLab” busca os resultados liberados no EPLab; qualquer campo continua editável à mão (falha na captura ou resultado ainda não lançado). O prazo segue a periodicidade de cada amostra: amarelo quando falta menos de ¼ do intervalo, vermelho quando a periodicidade está vencida (diária 24 h, 2× por semana 4 dias, semanal 7, quinzenal 15, mensal 31) — solicite a coleta ao laboratório. Itens e tipos de amostra são mantidos pelo administrador da unidade (Listas de referência).',
+        panels: QL.map(function (g, i) {
+          var pid = 'qc-' + String(g.t).normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^A-Za-z0-9]+/g, '-').toLowerCase();
+          return fixo(pid, [c('Amostra / parâmetro', 'label', { w: '26%' }), c('Resultado', 'text', { w: '100px', ph: '0,00' }), c('Data da análise', 'datetime', { w: '150px' }), c('Prazo', 'label', { w: '200px' }), c('Origem', 'label', { w: '190px' })], g.rows, { sync: true, req: 'none', eplab: true, eplabPrim: i === 0, dias: g.dias, per: g.per, title: g.t + ' · ' + g.per });
+        }) });
+    }
     var modelo = this.postoInfo(posto).modelo, pre = turma ? [atencao, panoA] : [atencao];
     if (posto && modelo === 'A1') return this.renumera(pre.concat([degA1, eventos, anomA1, opcrit, gm, compl, dispA1]));
     if (modelo === 'C1') return this.renumera(pre.concat([anomC1, manut, gmC1, compl]));
@@ -3514,7 +3560,7 @@ class Component extends DCLogic {
     if (ehGestao) { disp.panels = disp.panels.filter(function (p) { return p.herdado || p.herdadoDet; }); disp.hint = 'Sistemas dos quatro postos de operação herdados automaticamente das passagens de cada posto (validadas ou em elaboração).'; }
     else if (b1 && herda.length) { disp.panels = disp.panels.filter(function (p) { return p.herdado || p.herdadoDet; }); disp.hint = 'Sistemas do posto ' + herda.join(', ') + ' herdados automaticamente da passagem de turno do posto (validada ou em elaboração), com status, configuração e última alteração de estado. Alterações aqui exigem justificativa e ficam marcadas como sobrescritas.'; }
     var base = ehGestao ? [composicao, coprodBloco, atencao] : [atencao];
-    if (!turma) return this.renumera(semProd(base.concat([degrad, opcrit, gm, estado, pocos, meio, integ, pts, compl]).concat(invBlocos).concat([disp])));
+    if (!turma) return this.renumera(semProd(base.concat([degrad, opcrit, gm, estado, pocos, meio, integ, pts, compl]).concat(quimBlocos).concat(invBlocos).concat([disp])));
 
     var panorama = {
       num: '1', key: 'panorama', title: 'Panorama consolidado da escala',
@@ -3524,7 +3570,7 @@ class Component extends DCLogic {
         placeholder: 'Desempenho do período, principais eventos, mudanças de cenário e o que a próxima turma encontra ao assumir.'
       }]
     };
-    return this.renumera(semProd(base.concat([panorama, degrad].concat(ehCoprod ? [eventos, anomA1] : []).concat([opcrit, gm, estado, pocos, meio, integ, compl]).concat(invBlocos).concat([disp]))));
+    return this.renumera(semProd(base.concat([panorama, degrad].concat(ehCoprod ? [eventos, anomA1] : []).concat([opcrit, gm, estado, pocos, meio, integ, compl]).concat(quimBlocos).concat(invBlocos).concat([disp]))));
   }
 
   // Monta a composição hierárquica a partir das equipes vinculadas às passagens do período.
@@ -4664,6 +4710,7 @@ class Component extends DCLogic {
     var self = this;
     if (p.herdado) return this.linhasHerdadas(p, s, sd);
     if (p.herdadoDet) return this.detalhamentoHerdado(p, s, sd);
+    if (p.pocosHerd) return this.pocosDoControle(p);
     var labels = p.fixed || [];
     var idx = {};
     labels.forEach(function (l, i) { idx[l] = i; });
@@ -4752,6 +4799,45 @@ class Component extends DCLogic {
       if (sb) { st = sb.status; ult = sb.em ? self.isoLocal(new Date(sb.em)) : ult; }
       return { c: [label, st, ult].concat(p.cfgH ? [src ? (src.c[3] || '—') : '—'] : []).concat([self.origemTexto(f, sb)]), img: null, imgs: [], rid: 'h|' + p.pid + '|' + label, herd: { posto: posto, fonte: f ? f.codigo : '', validado: !!(f && f.validado), rascunho: !!(f && !f.validado), sem: !f, sobre: !!sb } };
     });
+  }
+  // Situação dos poços: postos da produção recebem os dados da passagem da sala de controle do mesmo período.
+  pocosDoControle(p) {
+    var self = this, d = this.doc, f = this.fonteHerdada('Controle', this.tipo(), d.periodoKey, d.header.inicio), mapa = {};
+    var psd = f && f.store && f.store.pocos;
+    ((psd && psd.panels && psd.panels[p.pid]) || []).forEach(function (r) { if (String(r.c[0] || '').trim()) mapa[r.c[0]] = r; });
+    var labels = (p.fixed || []).slice(); Object.keys(mapa).forEach(function (l) { if (labels.indexOf(l) < 0) labels.push(l); });
+    return labels.map(function (label) {
+      var src = mapa[label], conf = !!(src && src.conf && f && f.mesmoPeriodo);
+      var orig = !f ? 'Sem passagem da sala de controle — aguardando' : !f.mesmoPeriodo ? 'Passagem anterior do controle (' + f.codigo + ') — aguardando a do período' : conf ? 'Confirmado às ' + self.fmtHoraISO(src.conf.em).slice(-5) + ' por ' + self.nomeCurto(src.conf.n) + ' · ' + f.codigo : 'Aguardando confirmação do controle · ' + f.codigo;
+      return { c: [label, src ? (src.c[1] || '') : '', src ? (src.c[2] || '') : '', orig], img: null, imgs: [], rid: 'pc|' + p.pid + '|' + label, herd: { posto: 'Controle', pocos: true, fonte: f ? f.codigo : '', validado: conf, rascunho: !conf, sem: !f, conf: conf } };
+    });
+  }
+  pocosPendentes() {
+    var d = this.doc; if (!d || d._placeholder) return 0;
+    var sd = d[this.tipo()] && d[this.tipo()].pocos; if (!sd || !sd.panels) return 0;
+    var s = this.schema(this.tipo()).filter(function (x) { return x.key === 'pocos'; })[0]; if (!s || !s.pocosRecebe) return 0;
+    var n = 0; ['prod', 'inj'].forEach(function (pid) { (sd.panels[pid] || []).forEach(function (r) { if (r.herd && r.herd.pocos && !r.herd.conf) n++; }); });
+    return n;
+  }
+  get POCOS_PED() { return this.nsk('pocos-pedidos-v1'); }
+  pedirConfPocos() {
+    var d = this.doc, eu = this.state.user; if (!d || !eu) return;
+    var l = this.lsGet(this.POCOS_PED, []); l = Array.isArray(l) ? l : [];
+    var c = this.carimbo(), posto = d.header.posto;
+    l = l.filter(function (x) { return !(x.periodoKey === d.periodoKey && x.tipo === d.tipo && x.posto === posto); });
+    l.push({ id: 'pp-' + Date.now().toString(36), periodoKey: d.periodoKey, tipo: d.tipo || this.tipo(), posto: posto, em: c.em, u: c.u, n: c.n });
+    this.lsSet(this.POCOS_PED, l.slice(-60));
+    this.registrar('Solicitou à sala de controle a confirmação da situação dos poços', this.pocosPendentes() + ' poço(s) aguardando');
+    this._pedPocos = d.id; this.commit();
+    this.flash('Solicitação enviada à sala de controle.');
+  }
+  pedidoPocosTxt(sid, p, rows) {
+    var self = this, d = this.doc;
+    if (sid !== 'pocos' || !p.confirmar || !d || d.header.posto !== 'Controle') return '';
+    var l = this.lsGet(this.POCOS_PED, []); l = Array.isArray(l) ? l : [];
+    var pend = l.filter(function (x) { return x.periodoKey === d.periodoKey && x.tipo === (d.tipo || self.tipo()) && rows.some(function (r) { return String(r.c[0] || '').trim() && (!r.conf || String(r.conf.em) < String(x.em)); }); });
+    if (!pend.length) return '';
+    return pend.map(function (x) { return x.posto + ' (' + self.nomeCurto(x.n) + ', ' + self.fmtHoraISO(x.em).slice(-5) + ')'; }).join(' · ') + ' solicitou a confirmação dos status atuais dos poços. Confira a condição real e confirme (✓) cada poço — a confirmação é enviada na hora às passagens da produção.';
   }
   detalhamentoHerdado(p, s, sd) {
     var self = this, tipo = this.tipo(), d = this.doc, out = [], pd = d.header.posto;
@@ -5322,7 +5408,7 @@ class Component extends DCLogic {
   pedirConfGrupo(s, g) {
     if (!this.podeEditar()) { this.flash('Vincule-se à passagem para confirmar.'); return; }
     var self = this, p = (s.panels.filter(function (x) { return x.confirmar && (self.rows(s.key, x.pid) || []).indexOf(g.rows[0]) >= 0; })[0]) || s.panels.filter(function (x) { return x.confirmar; })[0];
-    var todos = g.rows.filter(function (r) { return !r.herd && String(r.c[0] || '').trim() && !r.conf; });
+    var todos = g.rows.filter(function (r) { return !r.herd && String(r.c[0] || '').trim() && !r.conf && !(r.disc && !r.disc.ok); });
     var pend = p ? todos.filter(function (r) { return self.confPronto(p, r); }) : todos;
     if (!pend.length) { if (todos.length) this.flash('Preencha os campos obrigatórios (ex.: status) dos itens do grupo antes de confirmar.'); return; }
     if (pend.length < todos.length) this.flash((todos.length - pend.length) + ' item(ns) sem status ficam de fora da confirmação em bloco.');
@@ -5696,7 +5782,7 @@ class Component extends DCLogic {
     this.setState({ opcV: Date.now() });
   }
   eplabValor(label) {
-    var R = [[/Cloro livre/, 0.2, 2, 2], [/Cor \(/, 1, 10, 0], [/Turbidez/, 0.1, 2, 2], [/Cloreto/, 5, 250, 1], [/pH/, 6.5, 8.5, 2], [/Ferro/, 0.01, 0.3, 3], [/Nitrito/, 300, 1200, 0], [/Salinidade/, 50, 500, 0], [/Fischer/, 50, 500, 0], [/v\/v/, 0.005, 0.05, 3], [/H₂S/, 0, 10, 1], [/SST/, 10, 80, 0], [/DQO entrada/, 300, 800, 0], [/DQO saída/, 50, 150, 0], [/Oxigênio/, 2, 6, 1]];
+    var R = [[/BSW/, 0.1, 0.9, 2], [/NaCl/, 20, 280, 0], [/Oxigênio dissolvido/, 5, 25, 0], [/Sulfato/, 20, 90, 0], [/H₂S/, 1, 15, 1], [/Viscosidade/, 95, 115, 1], [/Teor de água \(ppm\)/, 80, 400, 0], [/Cloro livre/, 0.2, 2, 2], [/Cor \(/, 1, 10, 0], [/Turbidez/, 0.1, 2, 2], [/Cloreto/, 5, 250, 1], [/pH/, 6.5, 8.5, 2], [/Ferro/, 0.01, 0.3, 3], [/Nitrito/, 300, 1200, 0], [/Salinidade/, 50, 500, 0], [/Fischer/, 50, 500, 0], [/v\/v/, 0.005, 0.05, 3], [/H₂S/, 0, 10, 1], [/SST/, 10, 80, 0], [/DQO entrada/, 300, 800, 0], [/DQO saída/, 50, 150, 0], [/Oxigênio/, 2, 6, 1]];
     var m = R.filter(function (x) { return x[0].test(label); })[0] || [null, 0, 10, 2];
     return (m[1] + Math.random() * (m[2] - m[1])).toFixed(m[3]).replace('.', ',');
   }
@@ -6592,7 +6678,7 @@ class Component extends DCLogic {
             temDisc: !!(r.disc && !r.disc.ok), discTip: r.disc ? self.discTexto(r) : '', discVerificar: function () { self.discAbrir(s.key, p.pid, r); },
             temDiscOk: !!(r.disc && r.disc.ok), discOkTip: r.disc ? self.discTexto(r) : '',
             temHerd: !!r.herd, herdCor: r.herd ? (r.herd.sobre ? 'var(--color-accent-700)' : r.herd.rascunho ? 'color-mix(in srgb, var(--color-text) 55%, transparent)' : 'var(--color-accent-700)') : 'transparent',
-            herdTag: r.herd ? (r.herd.sobre ? 'Sobrescrito' : r.herd.rascunho ? 'Não validado' : r.herd.sem ? 'Sem passagem' : 'Validado') : '',
+            herdTag: r.herd ? (r.herd.pocos ? (r.herd.conf ? 'Confirmado · controle' : 'Aguardando controle') : r.herd.sobre ? 'Sobrescrito' : r.herd.rascunho ? 'Não validado' : r.herd.sem ? 'Sem passagem' : 'Validado') : '',
             podeSobrescrever: !!r.herd && !!p.herdado && podeEd, sobrescrever: function () { self.setState({ sobre: { sid: s.key, pid: p.pid, label: r.c[0], status: r.c[1], motivo: '' } }); },
             temSobre: !!(r.herd && r.herd.sobre), tirarSobre: function () { self.removerSobrescrita(s.key, p.pid, r.c[0]); },
             podeAlertar: podeEd && !r.herd && self.filled(p, r) && !alertado, alertar: function () { self.abrirAlerta(s.key, p.pid, r.rid); },
@@ -6627,9 +6713,9 @@ class Component extends DCLogic {
             podeDel: !!p.addable && !(p.semRemover && (String(r.c[0] || '').trim() || !self.permite('usuarios'))),
             temConf: !!p.confirmar && !r.herd && !!String(r.c[0] || '').trim(), conf: !!r.conf,
             confLabel: '✓',
-            confTip: r.conf ? (r.conf.opc ? 'Confirmado via OPC-UA — captura acionada por ' : 'Confirmado por ') + self.fmtCarimbo(r.conf) + ' — clique para desfazer' : 'Confirme que conferiu a condição atual deste item (importada da passagem anterior)',
+            confTip: (r.disc && !r.disc.ok) ? 'Confirmação bloqueada: o status informado diverge do capturado automaticamente — use “Verificar…” para confirmar o status real ou altere o status' : r.conf ? (r.conf.opc ? 'Confirmado via OPC-UA — captura acionada por ' : 'Confirmado por ') + self.fmtCarimbo(r.conf) + ' — clique para desfazer' : 'Confirme que conferiu a condição atual deste item (importada da passagem anterior)',
             confBg: r.conf ? 'var(--color-accent-700)' : 'transparent', confBd: r.conf ? 'var(--color-accent-900)' : (pAlerta ? RED : 'var(--color-divider)'), confCor: r.conf ? '#ffffff' : 'color-mix(in srgb, var(--color-text) 55%, transparent)',
-            confToggle: function () { if (!podeEd) { self.flash('Vincule-se à passagem para confirmar.'); return; } if (r.conf) delete r.conf; else { if (!self.confPronto(p, r)) { self.flash('Preencha os campos obrigatórios (ex.: status) antes de confirmar “' + r.c[0] + '”.'); return; } r.conf = self.carimbo(); if (p.opc) self.discResolver(r, 'conf'); } self.commit(); }
+            confDis: !!(r.disc && !r.disc.ok), confToggle: function () { if (!podeEd) { self.flash('Vincule-se à passagem para confirmar.'); return; } if (r.disc && !r.disc.ok) { self.flash('Discrepância entre o status informado e o capturado — use “Verificar” para confirmar o status real ou altere o status.'); return; } if (r.conf) delete r.conf; else { if (!self.confPronto(p, r)) { self.flash('Preencha os campos obrigatórios (ex.: status) antes de confirmar “' + r.c[0] + '”.'); return; } r.conf = self.carimbo(); if (p.opc) self.discResolver(r, 'conf'); } self.commit(); }
           };
         });
         var prev = p.inherit ? self.prevPend() : [];
@@ -6655,6 +6741,7 @@ class Component extends DCLogic {
         var totalRows = rows.length, ncTotal = rows.filter(function (r) { return (r.c[1] || 'Não comissionado') === 'Não comissionado'; }).length;
         var fechadosAgora = Object.keys(self.state.gFechado || {}).filter(function (k) { return k.indexOf(buscaKey + '/') === 0 && self.state.gFechado[k]; }).length;
         return {
+          pedidoPocos: self.pedidoPocosTxt(s.key, p, rows), temPedidoPocos: !!self.pedidoPocosTxt(s.key, p, rows),
           podeOpc: !!p.opc && podeEd && rows.length > 0, opc: function () { self.opcIniciar(s.key, p.pid); },
           podeEplab: !!p.eplabPrim && podeEd, eplab: function () { self.eplabIniciar(s.key); }, temEplabUlt: !!(p.eplabPrim && sd.eplab), eplabUlt: (p.eplabPrim && sd.eplab) ? 'Última captura ' + self.fmtHoraISO(sd.eplab.em) + ' por ' + self.nomeCurto(sd.eplab.n) + ' — ' + sd.eplab.resumo : '',
           temPrazo: !!p.eplab && rows.some(function (r) { return r._pz === 'venc' || r._pz === 'warn'; }), prazoCor: rows.some(function (r) { return r._pz === 'venc'; }) ? 'var(--pb-red)' : 'var(--pb-orange)', prazoBd: rows.some(function (r) { return r._pz === 'venc'; }) ? 'var(--pb-red)' : 'var(--pb-orange)',
@@ -6912,7 +6999,7 @@ class Component extends DCLogic {
     var concluidos = equipeArr.filter(function (m) { return m.concluido; }).length;
     var bloqueio = this.motivoBloqueio();
     var decl = this.state.decl;
-    var declM = decl ? this.membro(decl.u) : null;
+    var declM = decl ? this.membro(decl.u) : null, pocosPend = declM ? this.pocosPendentes() : 0;
     var declMeu = !!(declM && eu && declM.u === eu.user);
     var inc = this.state.incluir;
     var incReg = null;
@@ -7060,6 +7147,9 @@ class Component extends DCLogic {
         : (declMeu
           ? 'Você declara que terminou de registrar as atividades do seu escopo neste período e que o conteúdo pode ser emitido como parte da passagem de serviço.'
           : 'Você incluiu ' + declM.n + ' (' + declM.u + ') nesta passagem com a justificativa já registrada. Ao declarar em nome dele(a), você responde também pelo escopo desse operador.')),
+      declPocos: !!declM && decl.passo === 1 && pocosPend > 0,
+      declPocosTxt: pocosPend + ' poço(s) ainda sem a confirmação da sala de controle neste período. Antes de concluir, confirme com o operador do controle se a situação dos poços está atualizada e solicite que ele confirme (✓) os status atuais — a informação chega a esta passagem automaticamente.',
+      pedirPocos: function () { self.pedirConfPocos(); }, pedirPocosLabel: self._pedPocos === (self.doc && self.doc.id) ? 'Solicitação enviada · reenviar' : 'Solicitar confirmação ao controle',
       declTemPendencias: !!declM && decl.passo === 1 && issues.length > 0,
       declPendencias: 'Ainda há ' + issues.length + ' item(ns) obrigatório(s) pendente(s) no formulário. Você pode declarar a conclusão do seu escopo mesmo assim, mas a emissão só será liberada com tudo preenchido.',
       declCheckLabel: !declM ? '' : (declMeu ? 'Confirmo que concluí o preenchimento do meu escopo e concordo com a emissão da passagem.' : 'Confirmo, em nome de ' + self.nomeCurto(declM.n) + ', a conclusão do preenchimento e a emissão da passagem.'),
@@ -7806,6 +7896,7 @@ class Component extends DCLogic {
         var itemizavel = !!p.addable && !p.fixed;
           var depAtiva = !p.dep || self.depActive(sec.key, p);
           return {
+            pedidoPocos: self.pedidoPocosTxt(sec.key, p, rows), temPedidoPocos: !!self.pedidoPocosTxt(sec.key, p, rows),
             podeOpc: !!p.opc && pode && rows.length > 0, opc: function () { self.opcIniciar(sec.key, p.pid); },
             podeEplab: !!p.eplabPrim && pode, eplab: function () { self.eplabIniciar(sec.key); },
             temPrazo: !!p.eplab && rows.some(function (r) { return r._pz === 'venc' || r._pz === 'warn'; }), prazoResumo: !p.eplab ? '' : self.prazoResumo(rows, p), prazoBd: rows.some(function (r) { return r._pz === 'venc'; }) ? 'var(--pb-red)' : 'var(--pb-orange)',
@@ -7857,8 +7948,8 @@ class Component extends DCLogic {
         temVinc: !!r.vinc, vincLabel: r.vinc ? 'Vinculado ao bloco “' + r.vinc.titulo + '” — o conteúdo acompanha o registro de origem; aqui só a prioridade é editável.' : '',
         rotulo: (pan.title || sec.title), locked: travada && !r.vinc, podeConcluir: itemiz && !travada && self.filled(p, r), podeRemover: !!p.addable && !(p.semRemover && String(r.c[0] || '').trim()), podeFotos: true,
         temConf: !!p.confirmar && !r.herd && !!String(r.c[0] || '').trim(), conf: !!r.conf, confBg: r.conf ? 'var(--color-accent-700)' : 'transparent',
-        confLabel: '✓', confTip: r.conf ? 'Condição confirmada — tocar para desfazer' : 'Confirmar a condição deste item', confCor: r.conf ? '#ffffff' : 'inherit',
-        confToggle: function () { if (!pode) { self.flash('Vincule-se à passagem para confirmar.'); return; } if (r.conf) delete r.conf; else { if (!self.confPronto(p, r)) { self.flash('Preencha os campos obrigatórios antes de confirmar.'); return; } r.conf = self.carimbo(); if (p.opc) self.discResolver(r, 'conf'); } self.commit(); self.vibrar(15); },
+        confLabel: '✓', confTip: (r.disc && !r.disc.ok) ? 'Bloqueado: status informado diverge do capturado — registre a verificação ou altere o status' : r.conf ? 'Condição confirmada — tocar para desfazer' : 'Confirmar a condição deste item', confCor: r.conf ? '#ffffff' : 'inherit',
+        confDis: !!(r.disc && !r.disc.ok), confToggle: function () { if (!pode) { self.flash('Vincule-se à passagem para confirmar.'); return; } if (r.disc && !r.disc.ok) { self.flash('Discrepância entre o status informado e o capturado — use “Verificar” para confirmar o status real ou altere o status.'); return; } if (r.conf) delete r.conf; else { if (!self.confPronto(p, r)) { self.flash('Preencha os campos obrigatórios antes de confirmar.'); return; } r.conf = self.carimbo(); if (p.opc) self.discResolver(r, 'conf'); } self.commit(); self.vibrar(15); },
         concluir: function () { r.ok = true; r.autor = self.carimbo(); rows2.splice(ri, 1); rows2.push(r); if (!rows2.some(function (x) { return !x.ok; })) rows2.unshift(self.blank(p)); if (!(sec.key === 'integridade' && p.pid === 'des' && self.enviarCompulsorio('integridade', 'des', r))) self.commit(); self.vibrar(25); self.backM(); },
         editar: function () { r.ok = false; self.commit(); },
         remover: function () { self.confirmar({ titulo: 'Remover este item?', rotulo: pan.title || sec.title, ctx: String(r.c[0] || '').trim() || 'Item sem preenchimento', ok: 'Remover item', nativo: 'Remover este item?' }, function () { (r.imgs || []).forEach(function (im) { if (im.mid) self.midiaDel(im.mid); }); rows2.splice(ri, 1); if (!rows2.length) rows2.push(self.blank(p)); if (itemiz && !rows2.some(function (x) { return !x.ok; })) rows2.unshift(self.blank(p)); self.commit(); self.backM(); }); },
@@ -8275,7 +8366,7 @@ class Component extends DCLogic {
         this.POSTOS_MENU.concat(this.POSTOS_LISTA_MAN).forEach(function (p) { if (!porPosto[p]) porPosto[p] = []; });
         this.SIST_POSTO = porPosto;
       }
-      this.REF_PADRAO = JSON.parse(JSON.stringify({ POSTOS_MENU: this.POSTOS_MENU, SIST_POSTO: this.SIST_POSTO, PROD: this.PROD, INJ: this.INJ, CATEGORIAS: this.CATEGORIAS }));
+      this.REF_PADRAO = JSON.parse(JSON.stringify({ POSTOS_MENU: this.POSTOS_MENU, SIST_POSTO: this.SIST_POSTO, PROD: this.PROD, INJ: this.INJ, CATEGORIAS: this.CATEGORIAS, QUIM_PROD: this.QUIM_PROD, QUIM_EMB: this.QUIM_EMB }));
     }
     var r = this.lsGet(this.REF, null);
     Object.keys(this.REF_PADRAO).forEach(function (k) { self[k] = JSON.parse(JSON.stringify(r && r[k] ? r[k] : self.REF_PADRAO[k])); });
@@ -8748,8 +8839,11 @@ class Component extends DCLogic {
             else if (p.pid === 'tq') rows.push(row(p, [lab, rnd(8) ? 'Alinhado' : 'Não alinhado', String(40 + rnd(400)) + ',' + rnd(10), '']));
             else if (p.pid === 'lt') rows.push(row(p, [lab, String(100 + rnd(9000)) + ',' + rnd(10), '']));
             else if (sec.key === 'ambiente') rows.push(li === 0 ? row(p, [lab, String(8 + rnd(14)), 'Dentro do limite', 'Referência: 29 mg/L (média mensal) · amostra das ' + ts(0.4).slice(-5)]) : row(p, [lab, String(34 + rnd(6)), 'Dentro do limite', 'Limite 40 °C']));
+            else if (p.eplab) { var dq = ts(0.15 + rnd(60) / 100); rows.push(row(p, [lab, self.eplabValor(lab), dq, '', 'EPLab · AM-' + dq.slice(0, 4) + '-' + (100000 + rnd(899999))])); }
             else rows.push(row(p, [lab]));
           });
+          if (p.pocosHerd) { var fcx = (fontes || {})['Controle'], mpx = {}; ((fcx && fcx.store.pocos && fcx.store.pocos.panels[p.pid]) || []).forEach(function (r) { mpx[r.c[0]] = r; }); rows.forEach(function (r) { var s0 = mpx[r.c[0]]; if (s0) { r.c[1] = s0.c[1]; r.c[2] = s0.c[2]; } r.c[3] = 'Confirmado pela sala de controle' + (fcx ? ' · ' + fcx.codigo : ''); r.herd = { posto: 'Controle', pocos: true, validado: true, conf: true }; }); }
+          if (!p.pocosHerd && p.confirmar && (p.pid === 'prod' || p.pid === 'inj')) rows.forEach(function (r) { r.conf = r.autor; });
         } else {
           var qtd = { atencao: 1 + rnd(3), degradacao: rnd(3) === 0 ? 0 : 1, operacoes: 1 + rnd(2), gm: rnd(2), estado: 1 + rnd(2), det: 0, des: 0, pts: 1 + rnd(3), pendencias: 0, eventos: rnd(2), anomalias: rnd(3) === 0 ? 1 : 0, manutencoes: 1 + rnd(2), alt: rnd(2) }[sec.key === 'disponibilidade' || sec.key === 'integridade' || sec.key === 'dispa1' ? p.pid : sec.key];
           if (qtd == null) qtd = 1;
@@ -9008,11 +9102,11 @@ class Component extends DCLogic {
     };
 
     // Referências
-    var re = st.aRefs || null, rAtual = { POSTOS_MENU: this.POSTOS_MENU.join('\n'), PROD: this.PROD.join('\n'), INJ: this.INJ.join('\n'), CATEGORIAS: this.CATEGORIAS.join('\n') };
+    var re = st.aRefs || null, rAtual = { POSTOS_MENU: this.POSTOS_MENU.join('\n'), PROD: this.PROD.join('\n'), INJ: this.INJ.join('\n'), CATEGORIAS: this.CATEGORIAS.join('\n'), QUIM_PROD: this.quimTexto(this.QUIM_PROD), QUIM_EMB: this.quimTexto(this.QUIM_EMB) };
     this.POSTOS_MENU.concat(this.POSTOS_LISTA_MAN).forEach(function (p) { rAtual['SP_' + p] = (self.SIST_POSTO[p] || []).join('\n'); });
     adm.r = re || rAtual; adm.rAlterado = !!re;
     var setR = function (k) { return function (e) { var base = self.state.aRefs || rAtual; self.setState({ aRefs: Object.assign({}, base, { [k]: e.target.value }) }); }; };
-    adm.rSet = { POSTOS_MENU: setR('POSTOS_MENU'), PROD: setR('PROD'), INJ: setR('INJ'), CATEGORIAS: setR('CATEGORIAS') };
+    adm.rSet = { POSTOS_MENU: setR('POSTOS_MENU'), PROD: setR('PROD'), INJ: setR('INJ'), CATEGORIAS: setR('CATEGORIAS'), QUIM_PROD: setR('QUIM_PROD'), QUIM_EMB: setR('QUIM_EMB') };
     adm.rPostos = this.POSTOS_MENU.concat(this.POSTOS_LISTA_MAN).map(function (p) { return { posto: p, valor: (re || rAtual)['SP_' + p] || '', set: setR('SP_' + p), n: String(((re || rAtual)['SP_' + p] || '').split('\n').filter(Boolean).length) + ' equipamentos · formato “TAG — Nome”, um por linha (planilha SSOP)' }; });
     var linhas = function (t) { return String(t || '').split('\n').map(function (x) { return x.trim(); }).filter(Boolean); };
     adm.rCancelar = function () { self.setState({ aRefs: null }); };
@@ -9020,7 +9114,9 @@ class Component extends DCLogic {
       var v = self.state.aRefs; if (!v) return;
       var postos = linhas(v.POSTOS_MENU); if (!postos.length) { self.flash('Informe ao menos um posto.'); return; }
       var sp = {}; postos.concat(self.POSTOS_LISTA_MAN).forEach(function (p) { sp[p] = linhas(v['SP_' + p] !== undefined ? v['SP_' + p] : (self.SIST_POSTO[p] || []).join('\n')); });
-      var novo = { POSTOS_MENU: postos, SIST_POSTO: sp, PROD: linhas(v.PROD), INJ: linhas(v.INJ), CATEGORIAS: linhas(v.CATEGORIAS) };
+      var qp = self.quimLer(v.QUIM_PROD, 'Análises químicas da produção'), qe = self.quimLer(v.QUIM_EMB, 'Análises químicas da embarcação');
+      if (qp.erro || qe.erro) { self.flash(qp.erro || qe.erro); return; }
+      var novo = { POSTOS_MENU: postos, SIST_POSTO: sp, PROD: linhas(v.PROD), INJ: linhas(v.INJ), CATEGORIAS: linhas(v.CATEGORIAS), QUIM_PROD: qp.grupos, QUIM_EMB: qe.grupos };
       self.lsSet(self.REF, novo); self.aplicarRefs();
       self.syslog('referencias', 'Alterou listas de referência', postos.length + ' postos · ' + novo.PROD.length + ' produtores · ' + novo.INJ.length + ' injetores · ' + novo.CATEGORIAS.length + ' categorias');
       self.setState({ aRefs: null }); self.flash('Referências salvas.');
