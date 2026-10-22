@@ -117,7 +117,7 @@
   }
 
   function puxar(inicial) {
-    var q = '?select=k,v,atualizado&order=atualizado.asc&limit=500' + (cursor ? '&atualizado=gt.' + encodeURIComponent(cursor) : '');
+    var q = '?select=k,v,atualizado&k=like.' + encodeURIComponent('bz-*') + '&order=atualizado.asc&limit=500' + (cursor ? '&atualizado=gt.' + encodeURIComponent(cursor) : '');
     return req('GET', q).then(function (rows) {
       rows = rows || []; var mud = [];
       rows.forEach(function (r) {
@@ -176,6 +176,11 @@
     pronto: pronto,
     aoMudar: function (fn) { ouvintes.push(fn); },
     sincronizar: function () { return enviar().then(function () { return puxar(); }); },
+    // Linhas só na nuvem (prefixo bzx-): lidas e gravadas sob demanda, nunca copiadas para o localStorage.
+    lerPrefixo: function (p) { return req('GET', '?select=k,v&k=like.' + encodeURIComponent(p + '*')); },
+    gravarLinhas: function (rows) {
+      return (rows || []).reduce(function (pr, r) { return pr.then(function () { return req('POST', '?on_conflict=k', [{ k: r.k, v: r.v, autor: CID }], { Prefer: 'resolution=merge-duplicates,return=minimal' }); }); }, Promise.resolve());
+    },
     estado: function () { return { estado: estado, pendentes: Object.keys(fila).length, erro: erro }; }
   };
 })();

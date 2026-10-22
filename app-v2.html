@@ -919,7 +919,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
       </sc-if>
 
       <sc-if value="{{ adm.isExemplos }}" hint-placeholder-val="{{ false }}">
-        <div><h3 style="margin:0">Passagens de exemplo</h3><p style="margin:2px 0 0;font-size:13px;color:var(--pb-text-2);text-wrap:pretty">Dados fictícios para demonstrar e treinar o uso do sistema. Ficam marcados como “exemplo” e podem ser removidos de uma vez, sem afetar passagens reais.</p></div>
+        <div><h3 style="margin:0">Passagens de exemplo</h3><p style="margin:2px 0 0;font-size:13px;color:var(--pb-text-2);text-wrap:pretty">Dados fictícios para demonstrar e treinar o uso do sistema, gravados na nuvem e compartilhados com todos os usuários da unidade. Ficam marcados como “exemplo” e podem ser removidos de uma vez, sem afetar passagens reais.</p></div>
         <div class="blueprint" style="padding:var(--space-6);display:flex;flex-direction:column;gap:var(--space-4)"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
           <div style="font-family:var(--font-heading);font-size:22px">{{ adm.exemplosLabel }}</div>
           <p style="margin:0;font-size:13.5px;line-height:1.5;text-wrap:pretty">{{ adm.exemplosPlano }}</p>
@@ -927,7 +927,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
           <sc-if value="{{ adm.exLivre }}" hint-placeholder-val="{{ true }}"><div style="display:flex;gap:var(--space-3);flex-wrap:wrap"><button type="button" class="btn btn-primary" onClick="{{ adm.gerarExemplos }}" disabled="{{ adm.exGerando }}">{{ adm.exBtnLabel }}</button><sc-if value="{{ adm.temExemplos }}" hint-placeholder-val="{{ false }}"><button type="button" class="btn btn-ghost" onClick="{{ adm.removerExemplos }}" disabled="{{ adm.exGerando }}" style="border-color:var(--color-divider)">Remover todos os exemplos</button></sc-if></div></sc-if>
           <sc-if value="{{ adm.exTemResultado }}" hint-placeholder-val="{{ false }}"><div role="status" style="border:1.5px solid {{ adm.exResCor }};padding:var(--space-3) var(--space-4);font-size:14px;line-height:1.5;text-wrap:pretty">{{ adm.exResultado }}</div></sc-if>
           <p style="margin:0;font-size:12px;line-height:1.5;color:var(--pb-text-2);text-wrap:pretty">{{ adm.exEspaco }}</p>
-          <p style="margin:0;font-size:12px;line-height:1.5;color:var(--pb-text-2)">Os exemplos aparecem no Arquivo dos operadores e podem ser reabertos aqui para treinar o fluxo de correção.</p>
+          <p style="margin:0;font-size:12px;line-height:1.5;color:var(--pb-text-2)">Os exemplos aparecem no Arquivo dos usuários e podem ser reabertos aqui para treinar o fluxo de correção.</p>
         </div>
       </sc-if>
     </main>
@@ -3725,15 +3725,14 @@ class Component extends DCLogic {
   // ---------- dados ----------
   nuvemIniciar() {
     var self = this;
-    var carregar = window.bzNuvem ? Promise.resolve() : new Promise(function (res) { var s = document.createElement('script'); s.src = './nuvem.js'; s.onload = res; s.onerror = res; document.head.appendChild(s); });
+    var carregar = window.bzNuvem ? Promise.resolve() : new Promise(function (res) { var s = document.createElement('script'); s.src = './nuvem.js?v=20261022d'; s.onload = res; s.onerror = res; document.head.appendChild(s); });
     return carregar.then(function () { if (!window.bzNuvem) return; window.bzNuvem.aoMudar(function (ks) { self.nuvemAtualizou(ks); }); return window.bzNuvem.pronto; });
   }
   nuvemAtualizou() {
     this._usr = null; this._param = null; this._abertas = null;
     try { this.aplicarRefs(); } catch (e) { /* ignora */ }
     try { this.recarregarDocAberto(); } catch (e) { /* ignora */ }
-    var arq = this.lsGet(this.ARQ, []); arq = Array.isArray(arq) ? arq.filter(function (a) { return a && a.store && a.header; }) : [];
-    this.setState({ arquivo: arq, tick: (this.state.tick || 0) + 1 });
+    this.setState({ arquivo: this.comExemplos(this.lsGet(this.ARQ, [])), tick: (this.state.tick || 0) + 1 });
   }
 
   // A passagem aberta na tela é substituída pela versão gravada (já mesclada com as edições dos demais membros):
@@ -3821,8 +3820,8 @@ class Component extends DCLogic {
   liberarEspaco() {
     var n = 0;
     try { for (var i = window.localStorage.length - 1; i >= 0; i--) { var k = window.localStorage.key(i); if (k && k.indexOf('bzn-base:') === 0) { window.localStorage.removeItem(k); n++; } } } catch (e) { /* ignora */ }
-    var arq = this.state.arquivo || [], semEx = arq.filter(function (a) { return !a.exemplo; });
-    if (semEx.length !== arq.length && this.persistArquivo(semEx)) { this.state.arquivo = semEx; this.setState({ arquivo: semEx }); n++; }
+    var loc = this.lsGet(this.ARQ, []); loc = Array.isArray(loc) ? loc : []; var semEx = loc.filter(function (a) { return a && !a.exemplo; });
+    if (semEx.length !== loc.length) { try { window.localStorage.setItem(this.ARQ, JSON.stringify(semEx)); n++; } catch (e) { /* ignora */ } }
     return n;
   }
   gravarAbertasSeguro(l, doc) {
@@ -3901,6 +3900,7 @@ class Component extends DCLogic {
     var arq = [];
     try { arq = JSON.parse(window.localStorage.getItem(this.ARQ) || '[]'); } catch (e) { arq = []; }
     if (Array.isArray(arq) && arq.length) this.setState({ arquivo: arq.filter(function (a) { return a && a.store && a.header; }) });
+    setTimeout(function () { self.carregarExemplos(); }, 500);
     // Em campo, retoma automaticamente a passagem em que o operador estava (evita reabrir pelo Início a cada desbloqueio do aparelho).
     if (this.state.user && !this.state.user.un) { this.setState({ user: this.state.user }); return; }
     var retomar = null;
@@ -4541,7 +4541,10 @@ class Component extends DCLogic {
       var lb = selfU.lsGet(kb, []); if (Array.isArray(lb)) selfU.lsSet(kb, lb.filter(function (d) { return !d.exemplo; }));
       try { window.localStorage.removeItem(selfU.nsk('demo-seed-v1', u2)); } catch (e) { /* ignora */ }
     });
-    if (!this.lsGet(this.nsk('demo-seed-v1'), '')) { this.state.arquivo = arq; if (this.gerarExemplos(true)) { arq = this.state.arquivo; this.recarregarAbertas(); } this.lsSet(this.nsk('demo-seed-v1'), new Date().toISOString()); }
+    // Exemplos passaram para a base da nuvem: descarta, uma vez, as cópias locais antigas (libera o armazenamento do navegador).
+    if (!this.lsGet(this.nsk('ex-migr-v1'), '')) { if (arq.some(function (a) { return a.exemplo; })) { arq = arq.filter(function (a) { return !a.exemplo; }); try { window.localStorage.setItem(this.ARQ, JSON.stringify(arq)); } catch (e) { /* ignora */ } } this.lsSet(this.nsk('ex-migr-v1'), new Date().toISOString()); }
+    arq = this.comExemplos(arq);
+    setTimeout(function () { selfU.carregarExemplos(); }, 0);
     var base = { user: sess, arquivo: arq, loginPass: '', loginErro: '', preview: false, vendo: null, send: null, iniciar: null, iniciando: false, mv: 'inicio', mStack: [], aUsrForm: null, aDlg: null };
     if ((sess.papel || 'operador') !== 'operador') { this.syslog('acesso', 'Entrou na administração · ' + un, this.papelLabel(sess.papel)); this.purgarLixeira(); this.setState(Object.assign(base, { view: 'admin', aTab: 'painel' })); this.verificarIntegridade(); return; }
     this.setState(Object.assign(base, { view: 'menu' }));
@@ -6008,8 +6011,52 @@ class Component extends DCLogic {
   }
 
   persistArquivo(lista) {
-    try { window.localStorage.setItem(this.ARQ, JSON.stringify(lista)); return true; }
+    // Exemplos da nuvem não são gravados no navegador; um exemplo retirado do arquivo (reaberto/excluído) fica oculto para todos.
+    var c = this._exN, carregado = !!c && c.un === this.un(), cm = {}, pres = {};
+    if (carregado) c.docs.forEach(function (a) { cm[a.id] = a; });
+    var loc = (lista || []).filter(function (a) { if (a) pres[a.id] = 1; return a && !(a.exemplo && carregado && cm[a.id] === a); });
+    if (carregado) {
+      var oc = this.lsGet(this.EXOC, []); oc = Array.isArray(oc) ? oc.slice() : []; var n0 = oc.length;
+      c.docs.forEach(function (a) { if (!pres[a.id] && oc.indexOf(a.id) < 0) oc.push(a.id); });
+      if (oc.length !== n0) this.lsSet(this.EXOC, oc);
+    }
+    try { window.localStorage.setItem(this.ARQ, JSON.stringify(loc)); return true; }
     catch (e) { return false; }
+  }
+  // ---- exemplos na base compartilhada (nuvem): linhas bzx-ex-v1:<unidade>:<código do posto>, fora do armazenamento do navegador ----
+  exPrefixo(un) { return 'bzx-ex-v1:' + (un || this.un()) + ':'; }
+  get EXOC() { return this.nsk('ex-ocultos-v1'); }
+  exCache() { var c = this._exN; return c && c.un === this.un() ? c.docs : []; }
+  comExemplos(arq) {
+    var loc = (Array.isArray(arq) ? arq : []).filter(function (a) { return a && a.store && a.header; }), ids = {};
+    loc.forEach(function (a) { ids[a.id] = 1; });
+    var oc = this.lsGet(this.EXOC, []), om = {}; (Array.isArray(oc) ? oc : []).forEach(function (i) { om[i] = 1; });
+    var ex = this.exCache().filter(function (a) { return !ids[a.id] && !om[a.id]; });
+    if (!ex.length) return loc;
+    var q = function (a) { return a.emitido || (a.header && a.header.fim) || ''; };
+    return loc.concat(ex).sort(function (a, b) { var x = q(a), y = q(b); return x < y ? 1 : x > y ? -1 : 0; });
+  }
+  nuvemApi() {
+    var t0 = Date.now();
+    return new Promise(function (res) { (function esp() { if (window.bzNuvem && window.bzNuvem.lerPrefixo) return res(window.bzNuvem); if (Date.now() - t0 > 12000) return res(null); setTimeout(esp, 250); })(); });
+  }
+  carregarExemplos(forcar) {
+    var self = this, eu = this.state.user; if (!eu || !eu.un) return Promise.resolve(false);
+    var un = this.un(); if (!forcar && this._exCarregando === un) return Promise.resolve(false);
+    this._exCarregando = un; this.setState({ exStatus: 'carregando' });
+    return this.nuvemApi().then(function (nv) {
+      if (!nv) throw new Error('nuvem indisponível');
+      return nv.lerPrefixo(self.exPrefixo(un));
+    }).then(function (rows) {
+      self._exCarregando = null; if (self.un() !== un) return false;
+      var docs = []; (rows || []).forEach(function (r) { try { var l = JSON.parse(r.v || '[]'); if (Array.isArray(l)) docs = docs.concat(l.filter(function (a) { return a && a.store && a.header; })); } catch (e) { /* ignora */ } });
+      self._exN = { un: un, docs: docs, linhas: (rows || []).length, em: new Date().toISOString() };
+      self.setState({ arquivo: self.comExemplos(self.lsGet(self.ARQ, [])), exStatus: 'ok' });
+      // Primeira entrada na unidade: ninguém gerou ainda — cria o conjunto padrão na nuvem.
+      self._exSeed = self._exSeed || {};
+      if (!(rows || []).length && !self._exSeed[un]) { self._exSeed[un] = 1; return self.gerarExemplos(true); }
+      return true;
+    }).catch(function (e) { self._exCarregando = null; console.warn('[exemplos]', e); self.setState({ exStatus: 'erro' }); return false; });
   }
 
   srcDe(entrada) {
@@ -8545,73 +8592,86 @@ class Component extends DCLogic {
     this._usr = null; this._param = null; this._abertas = null; this.aplicarRefs();
     var meu = this.usuarios().filter(function (x) { return x.u === eu.user; })[0];
     if (!meu) { this.usuarios().unshift({ u: eu.user, n: eu.nome, f: eu.funcao, papel: eu.papel, senha: 'admin1234', ativo: true, criadoEm: new Date().toISOString() }); this.gravarUsuarios(); }
-    var arq = this.lsGet(this.ARQ, []);
-    this.setState({ arquivo: Array.isArray(arq) ? arq.filter(function (a) { return a && a.store && a.header; }) : [], aImport: null });
+    this.setState({ arquivo: this.comExemplos(this.lsGet(this.ARQ, [])), aImport: null });
     this.syslog('backup', 'Restaurou backup', imp.nome + ' (gerado em ' + this.fmtHoraISO(imp.geradoEm, true) + ' por ' + imp.por + ')');
     this.flash('Backup restaurado.');
     this.verificarIntegridade();
   }
   // ---- passagens de exemplo ----
-  gerarExemplos(auto) {
-    if (!auto && !this.permite('exemplos')) { this.exAviso(false, 'Seu perfil não tem permissão para gerar exemplos.'); return; }
-    var self = this;
-    this.removerExemplos(true);
-    var self0 = this, opsOper = this.usuariosPorAcesso('operador');
-    var opsPor = function (posto) { if (posto === 'SUPROD') { var l1 = self0.usuariosPorAcesso('suprod'); return l1.length ? l1 : opsOper; } if (posto === 'COPROD') { var l2 = self0.usuariosPorAcesso('coprod'); return l2.length ? l2 : opsOper; } return opsOper; };
-    if (opsOper.length < 3) opsOper = this.USERS.slice();
-    var ops = opsOper;
-    if (ops.length < 3) { if (auto) return false; this.exAviso(false, 'Cadastre ao menos 3 operadores ativos na unidade para gerar exemplos.'); return; }
+  EX_POR_POSTO = 5;
+  exemplosResumo() {
+    var est = this.estrutura().filter(function (x) { return !x.oculto; }), n = this.EX_POR_POSTO;
+    var nT = est.filter(function (x) { return (x.tipos || []).indexOf('Turno') >= 0; }).length, nM = est.filter(function (x) { return (x.tipos || []).indexOf('Turma') >= 0; }).length;
+    return { postos: est.length, turno: nT, turma: nM, total: (nT + nM) * n };
+  }
+  montarExemplos() {
+    var self = this, est = this.estrutura().filter(function (x) { return !x.oculto; }), N = this.EX_POR_POSTO;
+    var geral = this.USERS.slice();
+    if (geral.length < 3) return { ok: false, msg: 'Cadastre ao menos 3 usuários ativos na unidade para gerar exemplos.' };
+    var opsPor = function (p) { var l = self.usuariosDoPosto(p); return l.length ? l : geral; };
+    var rank = function (x) { return x.nivel === 'exec' ? (x.p === 'Controle' ? 1 : 0) : x.nivel === 'sup' ? 2 : x.nivel === 'coord' ? 3 : 4; };
+    var ordem = est.slice().sort(function (a, b) { return rank(a) - rank(b); });
+    var idx = {}; est.forEach(function (x, i) { idx[x.p] = i; });
     var hoje = new Date(); hoje.setHours(this.horaTroca(), 0, 0, 0); if (hoje.getTime() > Date.now()) hoje = new Date(hoje.getTime() - 86400000);
-    var seq = this.lerSeq(), novos = [], prevDoc = this.doc, total = 0;
+    var seq = this.lerSeq(), novos = [], prevDoc = this.doc, pends = {};
+    var prodFontes = function (f) { var o = {}; Object.keys(f).forEach(function (p) { if (self.postoInfo(p).coord === 'PROD') o[p] = f[p]; }); return o; };
     try {
-    var ordem = this.POSTOS_MENU.filter(function (p) { return p !== 'Controle'; }).concat(this.POSTOS_MENU.indexOf('Controle') >= 0 ? ['Controle'] : []).concat(['SUPROD']);
-    var ordemTurma = ordem.concat(['COPROD']);
-    var pends = {}, fontes = {};
-    var nTurnos = auto ? 3 : 6, nTurmas = auto ? 1 : 3;
-    for (var k = nTurnos; k >= 1; k--) {
-      var per = self.turnoDe(new Date(hoje.getTime() - k * 12 * 3600000 + 3600000));
-      fontes = {};
-      ordem.forEach(function (posto) {
-        var pi = Math.max(0, self.POSTOS_MENU.indexOf(posto)) + (posto === 'SUPROD' ? 4 : 0);
-        var r = self.exemploDoc('Turno', posto, per, pi, nTurnos - k, opsPor(posto), seq, pends[posto] || [], fontes); pends[posto] = r.pend; fontes[posto] = r.doc; novos.push(r.doc); total++;
+      ['Turno', 'Turma'].forEach(function (tipo) {
+        for (var k = N; k >= 1; k--) {
+          var per = tipo === 'Turno' ? self.turnoDe(new Date(hoje.getTime() - k * 12 * 3600000 + 3600000)) : self.semanaDe(new Date(hoje.getTime() - k * 7 * 86400000 + 3600000));
+          var fontes = {};
+          ordem.forEach(function (x) {
+            if ((x.tipos || []).indexOf(tipo) < 0) return;
+            var pk = tipo + '|' + x.p;
+            var r = self.exemploDoc(tipo, x.p, per, idx[x.p], N - k, opsPor(x.p), seq, pends[pk] || [], fontes);
+            pends[pk] = r.pend; fontes[x.p] = r.doc; novos.push(r.doc);
+          });
+          if (k === Math.min(3, N)) self.exemploAlerta(prodFontes(fontes), tipo);
+        }
       });
-      if (k === Math.min(3, nTurnos)) self.exemploAlerta(fontes, 'Turno');
-    }
-    for (var w = nTurmas; w >= 1; w--) {
-      var per2 = self.semanaDe(new Date(hoje.getTime() - w * 7 * 86400000 + 3600000));
-      fontes = {};
-      ordemTurma.forEach(function (posto) {
-        var pi = Math.max(0, self.POSTOS_MENU.indexOf(posto)) + (posto === 'SUPROD' ? 4 : posto === 'COPROD' ? 5 : 0);
-        var r2 = self.exemploDoc('Turma', posto, per2, pi, nTurmas - w, opsPor(posto), seq, pends[posto] || [], fontes); fontes[posto] = r2.doc; novos.push(r2.doc); total++;
-      });
-      if (w === Math.min(2, nTurmas)) self.exemploAlerta(fontes, 'Turma');
-    }
-    } catch (e) { this.doc = prevDoc; console.error(e); if (auto) return false; this.exAviso(false, 'Falha ao gerar exemplos: ' + (e && e.message)); return; }
+    } catch (e) { this.doc = prevDoc; console.error(e); return { ok: false, msg: 'Falha ao gerar exemplos: ' + (e && e.message) }; }
     this.doc = prevDoc;
-    this.lsSet(this.SEQ, seq);
     novos.sort(function (a, b) { return a.header.inicio > b.header.inicio ? -1 : 1; });
-    var lista = novos.concat(this.state.arquivo.filter(function (a) { return !a.exemplo; }));
-    // Limite de ~5 MB por site no navegador: se não couber tudo, grava os exemplos mais recentes que couberem.
-    var resto = this.state.arquivo.filter(function (a) { return !a.exemplo; }), cabem = novos.length;
-    var folga = function () { try { window.localStorage.setItem('bzn-sonda', new Array(700001).join('x')); window.localStorage.removeItem('bzn-sonda'); return true; } catch (e) { try { window.localStorage.removeItem('bzn-sonda'); } catch (e2) { /* ignora */ } return false; } };
-    // Mantém ~1,4 MB livres para as passagens reais em elaboração (antes os exemplos ocupavam o limite e impediam gravar o rascunho).
-    while (cabem > 0 && (!this.persistArquivo(novos.slice(0, cabem).concat(resto)) || !folga())) cabem = Math.max(0, cabem - 4);
-    if (!cabem) this.persistArquivo(resto);
-    if (!cabem) { if (auto) return false; this.exAviso(false, 'Nenhum exemplo foi gravado: espaço do navegador insuficiente — ' + this.usoLocalTxt() + '. Exclua passagens antigas, esvazie a lixeira ou limpe os dados dos outros sistemas abertos neste mesmo endereço (fabriciomartini.github.io).'); return; }
-    if (cabem < novos.length) { total = cabem; lista = novos.slice(0, cabem).concat(resto); this.exAviso(true, 'Espaço do navegador limitado: ' + cabem + ' de ' + novos.length + ' passagens de exemplo gravadas (as mais recentes) — ' + this.usoLocalTxt() + '.'); }
-    this.setState({ arquivo: lista });
-    this.syslog('exemplos', 'Gerou ' + total + ' passagens de exemplo (' + this.POSTOS_MENU.length + ' postos × 6 turnos + 3 turmas)', 'Marcadas como exemplo; removíveis em um clique.');
-    if (auto) this.flash('Demonstração: ' + total + ' passagens de exemplo criadas na ' + this.un() + '.');
-    else if (cabem >= novos.length) this.exAviso(true, total + ' passagens de exemplo geradas. Veja no Arquivo — filtro Origem: Somente exemplos.');
-    if (!auto) this.verificarIntegridade();
-    return true;
+    return { ok: true, docs: novos, seq: seq, est: est };
+  }
+  gerarExemplos(auto) {
+    if (!auto && !this.permite('exemplos')) { this.exAviso(false, 'Seu perfil não tem permissão para gerar exemplos.'); return Promise.resolve(false); }
+    var self = this, un = this.un();
+    return this.nuvemApi().then(function (nv) {
+      if (!nv || !nv.gravarLinhas) { if (!auto) self.exAviso(false, 'Sem conexão com a nuvem: os exemplos ficam só na base compartilhada. Verifique a internet e tente de novo.'); return false; }
+      var r = self.montarExemplos();
+      if (!r.ok) { if (!auto) self.exAviso(false, r.msg); return false; }
+      var por = {}; r.docs.forEach(function (d) { var c = self.POSTO_COD[d.header.posto] || 'GEN'; (por[c] = por[c] || []).push(d); });
+      var cods = {}; r.est.forEach(function (x) { cods[x.cod] = 1; }); Object.keys(por).forEach(function (c) { cods[c] = 1; });
+      (self._exN && self._exN.un === un ? self._exN.docs : []).forEach(function (d) { cods[self.POSTO_COD[d.header.posto] || 'GEN'] = 1; });
+      var linhas = Object.keys(cods).map(function (c) { return { k: self.exPrefixo(un) + c, v: JSON.stringify(por[c] || []) }; });
+      return nv.gravarLinhas(linhas).then(function () {
+        self.lsSet(self.SEQ, r.seq);
+        self._exN = { un: un, docs: r.docs, linhas: linhas.length, em: new Date().toISOString() };
+        self.lsSet(self.EXOC, []);
+        self.setState({ arquivo: self.comExemplos(self.lsGet(self.ARQ, [])) });
+        var rs = self.exemplosResumo();
+        self.syslog('exemplos', 'Gerou ' + r.docs.length + ' passagens de exemplo na nuvem (' + rs.postos + ' postos × ' + self.EX_POR_POSTO + ' turnos e/ou turmas)', 'Base compartilhada: visíveis a todos os usuários da ' + un + '.');
+        if (auto) self.flash('Demonstração: ' + r.docs.length + ' passagens de exemplo criadas na ' + un + '.');
+        else { self.exAviso(true, r.docs.length + ' passagens de exemplo gravadas na nuvem — todos os usuários da ' + un + ' as veem no Arquivo (filtro Origem: Somente exemplos).'); self.verificarIntegridade(); }
+        return true;
+      });
+    }).catch(function (e) { console.error(e); if (!auto) self.exAviso(false, 'Falha ao gravar os exemplos na nuvem: ' + (e && e.message)); return false; });
   }
   removerExemplos(silencioso) {
-    var self = this, lista = this.state.arquivo.filter(function (a) { return !a.exemplo; }), n = this.state.arquivo.length - lista.length;
-    this.state.arquivo.filter(function (a) { return a.exemplo; }).forEach(function (a) { self.apagarMidiaDe(a); });
+    var self = this, un = this.un(), n = this.exCache().length;
+    var loc = this.lsGet(this.ARQ, []); loc = Array.isArray(loc) ? loc : []; var semEx = loc.filter(function (a) { return a && !a.exemplo; }); n += loc.length - semEx.length;
     var l = this.recarregarAbertas(), l2 = l.filter(function (d) { return !d.exemplo; }); if (l2.length !== l.length) { this.gravarAbertas(l2); this._abertas = null; n += l.length - l2.length; }
-    if (n) { this.persistArquivo(lista); this.setState({ arquivo: lista }); }
-    if (!silencioso) { this.syslog('exemplos', 'Removeu ' + n + ' passagem(ns) de exemplo', ''); this.flash(n ? n + ' exemplo(s) removido(s).' : 'Não há exemplos para remover.'); }
+    return this.nuvemApi().then(function (nv) {
+      if (!nv || !nv.gravarLinhas) throw new Error('sem conexão com a nuvem');
+      return nv.lerPrefixo(self.exPrefixo(un)).then(function (rows) { return nv.gravarLinhas((rows || []).map(function (r) { return { k: r.k, v: '[]' }; })); });
+    }).then(function () {
+      try { window.localStorage.setItem(self.ARQ, JSON.stringify(semEx)); } catch (e) { /* ignora */ }
+      self._exN = { un: un, docs: [], linhas: 0, em: new Date().toISOString() }; self.lsSet(self.EXOC, []);
+      self.setState({ arquivo: self.comExemplos(semEx) });
+      if (!silencioso) { self.syslog('exemplos', 'Removeu ' + n + ' passagem(ns) de exemplo da nuvem', un); self.exAviso(true, n ? n + ' passagem(ns) de exemplo removida(s) para todos os usuários da ' + un + '.' : 'Não havia exemplos para remover.'); }
+      return true;
+    }).catch(function (e) { if (!silencioso) self.exAviso(false, 'Falha ao remover os exemplos da nuvem: ' + (e && e.message)); return false; });
   }
   // Um alerta crítico de exemplo: o primeiro item de atenção do Óleo vai aos registros complementares dos demais postos do mesmo período.
   exemploAlerta(fontes, tipo) {
@@ -8632,9 +8692,9 @@ class Component extends DCLogic {
     var self = this, semente = pi * 97 + idx * 13 + (tipo === 'Turma' ? 41 : 0);
     var rnd = function (n) { semente = (semente * 9301 + 49297) % 233280; return Math.floor(semente / 233280 * n); };
     var pick = function (arr) { return arr[rnd(arr.length)]; };
-    var tags = (this.SIST_POSTO[posto] || this.PRINC).slice(), tag = function () { return pick(tags); }, tagCurta = function () { return tag().split(' - ')[0].split(' — ')[0].trim(); };
+    var tags = ((this.SIST_POSTO[posto] || []).length ? this.SIST_POSTO[posto] : this.PRINC).slice(), tag = function () { return pick(tags); }, tagCurta = function () { return tag().split(' - ')[0].split(' — ')[0].trim(); };
     var turma = 'Grupo ' + (1 + ((pi + idx) % 5));
-    var eqN = self.ehGestao(posto) ? 1 : 2 + rnd(2), eq = [], base = (pi * 3 + idx * 2) % ops.length;
+    var eqN = (self.ehGestao(posto) || self.postoInfo(posto).nivel !== 'exec') ? 1 : Math.max(1, Math.min(ops.length, 2 + rnd(2))), eq = [], base = (pi * 3 + idx * 2) % ops.length;
     for (var i = 0; i < eqN; i++) eq.push(ops[(base + i) % ops.length]);
     var prox = [], pb = (base + eqN) % ops.length; for (var j = 0; j < 2; j++) prox.push(ops[(pb + j) % ops.length].n);
     var ini = per.inicio, fim = per.fim, tIni = ini.getTime();
@@ -8685,11 +8745,13 @@ class Component extends DCLogic {
             else if (p.pid === 'prod') rows.push(row(p, [lab, rnd(10) < 8 ? 'Aberto' : pick(['Fechado', 'Restringido']), pick(self.ALINH.slice(0, 3))]));
             else if (p.pid === 'inj') rows.push(row(p, [lab, rnd(10) < 8 ? 'Aberto' : 'Fechado', rnd(2) ? 'Água' : 'Gás']));
             else if (p.pid === 'sub') rows.push(row(p, [lab, li === 3 && rnd(3) === 0 ? 'Sim' : 'Nada a relatar']));
+            else if (p.pid === 'tq') rows.push(row(p, [lab, rnd(8) ? 'Alinhado' : 'Não alinhado', String(40 + rnd(400)) + ',' + rnd(10), '']));
+            else if (p.pid === 'lt') rows.push(row(p, [lab, String(100 + rnd(9000)) + ',' + rnd(10), '']));
             else if (sec.key === 'ambiente') rows.push(li === 0 ? row(p, [lab, String(8 + rnd(14)), 'Dentro do limite', 'Referência: 29 mg/L (média mensal) · amostra das ' + ts(0.4).slice(-5)]) : row(p, [lab, String(34 + rnd(6)), 'Dentro do limite', 'Limite 40 °C']));
             else rows.push(row(p, [lab]));
           });
         } else {
-          var qtd = { atencao: 1 + rnd(3), degradacao: rnd(3) === 0 ? 0 : 1, operacoes: 1 + rnd(2), gm: rnd(2), estado: 1 + rnd(2), det: 0, des: 0, pts: 1 + rnd(3), pendencias: 0, eventos: 0, anomalias: 0, manutencoes: 0, dispa1: 0 }[sec.key === 'disponibilidade' || sec.key === 'integridade' ? p.pid : sec.key];
+          var qtd = { atencao: 1 + rnd(3), degradacao: rnd(3) === 0 ? 0 : 1, operacoes: 1 + rnd(2), gm: rnd(2), estado: 1 + rnd(2), det: 0, des: 0, pts: 1 + rnd(3), pendencias: 0, eventos: rnd(2), anomalias: rnd(3) === 0 ? 1 : 0, manutencoes: 1 + rnd(2), alt: rnd(2) }[sec.key === 'disponibilidade' || sec.key === 'integridade' || sec.key === 'dispa1' ? p.pid : sec.key];
           if (qtd == null) qtd = 1;
           if (p.pid === 'det') { var stRows = store[sec.key] && store[sec.key].panels.st ? store[sec.key].panels.st.filter(function (r) { return ['Indisponível', 'Manutenção', 'Limitado'].indexOf(r.c[1]) >= 0; }) : []; stRows.forEach(function (r) { rows.push(row(p, B.det(r.c[0], r.c[2]), true)); }); }
           else if (p.pid === 'des') { var subSim = store[sec.key] && store[sec.key].panels.sub ? store[sec.key].panels.sub.filter(function (r) { return r.c[1] === 'Sim'; }) : []; subSim.forEach(function () { rows.push(row(p, B.des(), true)); }); }
@@ -8697,7 +8759,7 @@ class Component extends DCLogic {
             (pendAnt || []).forEach(function (pv) { var cp = pv.slice(); if (rnd(4) === 0) cp[5] = 'NORMALIZADO'; else if (rnd(2)) cp[5] = 'EM TRATAMENTO'; rows.push(row(p, cp, true)); });
             if (rnd(3) > 0 || !(pendAnt || []).length) { novaPend = B.pend(codigo); rows.push(row(p, novaPend, true)); }
           }
-          else for (var q = 0; q < qtd; q++) rows.push(row(p, B[sec.key] ? B[sec.key]() : [], true));
+          else for (var q = 0; q < qtd; q++) rows.push(row(p, B[sec.key] ? B[sec.key]((p.cols || []).length) : [], true));
           if (self.ehGestao(posto) && sec.key === 'atencao' && fontes) { Object.keys(fontes).forEach(function (pst) { var fd = fontes[pst]; if (!fd || self.ehGestao(pst) && posto === 'SUPROD') return; var at = fd.store && fd.store.atencao && fd.store.atencao.panels.p ? fd.store.atencao.panels.p.filter(function (x) { return x.ok; })[0] : null; if (!at || rnd(2)) return; var q0 = fd.equipe[0]; var rr = row(p, at.c.slice(), true); rr.origem = { tipo: 'reporte', codigo: fd.codigo, posto: pst, sid: 'atencao', pid: 'p', rid: at.rid, em: at.autor.em, u: q0.u, n: q0.n }; at.reportado = { em: at.autor.em, u: q0.u, n: q0.n, sig: self.rowSig(at), destino: posto }; rows.push(rr); }); }
           if (p.addable) rows.unshift(self.blank(p));
         }
@@ -8754,6 +8816,16 @@ class Component extends DCLogic {
       ]); },
       det: function (sist, desde) { return [sist, desde || ts(0.1), pick(['Manutenção preventiva programada.', 'Falha no selo mecânico.', 'Aguardando sobressalente.']), nm() + ' · equipamento reserva em operação.', ts(0.9)]; },
       des: function () { return [pick(['D', 'E']), tag(), pick(['Override de intertravamento de alta pressão mantido para teste.', 'CAP não reinstalado após inspeção.', 'Bloqueio mecânico removido para manutenção e ainda não reinstalado.']), pick(['Pendente', 'Reportado']), nm()]; },
+      eventos: function () { return pick([
+        ['Vistoria da Marinha (NORMAM)', 'Vistoria', pick(['Prevista', 'Ocorrido']), ts(0.6).slice(0, 10), 'Sem não conformidades até o momento; acompanhar relatório final.'],
+        ['Auditoria interna de SMS', 'Auditoria interna', pick(['Em andamento', 'Ocorrido']), ts(0.4).slice(0, 10), 'Duas observações de housekeeping no módulo M-' + (10 + rnd(8)) + '; plano de ação com prazo de 15 dias.'],
+        ['Visita técnica da gerência de ativo', 'Administrativo', 'Previsto', ts(0.9).slice(0, 10), '']
+      ]); },
+      anomalias: function (nc) { var t = tag(); return nc >= 5
+        ? [t, pick(['Outra anomalia relevante', 'Incidente de alto potencial']), pick(['Trinca superficial identificada em inspeção visual do suporte.', 'Perda de contenção de óleo lubrificante (≈ 2 L) contida em bandeja.', 'Desarme indevido durante teste funcional.']), pick(['Área isolada e equipamento retirado de operação; inspeção complementar solicitada.', 'Limpeza realizada e vedação substituída; acompanhamento na próxima ronda.']), nm()]
+        : [pick(['Desarme indevido do ' + t + ' durante teste funcional.', 'Perda de contenção de óleo lubrificante (≈ 2 L) no ' + t + ', contida em bandeja.']), pick(['Outra anomalia relevante', 'Incidente de alto potencial']), 'Restrita ao equipamento; sem impacto à produção ou às pessoas.', 'RTA ' + (2026) + '-' + String(1000 + rnd(8000))]; },
+      manutencoes: function () { var t = tag(); return [t, nm(), pick(['Em andamento', 'Interrompida', 'Prevista']), pick(['Troca de selo mecânico — bomba desmontada, aguardando montagem do novo selo.', 'Calibração do transmissor — 2 de 4 pontos concluídos.', 'Inspeção de painel elétrico — termografia concluída, reaperto pendente.', 'Substituição de rolamento — alinhamento a laser pendente.']), pick(['Não energizar sem liberação da Elétrica; bloqueio LOTO aplicado.', 'Manter equipamento reserva em linha até o teste de partida.', 'Conferir torque dos parafusos antes de retornar à operação.']), pt()]; },
+      dispa1: function () { return [tag(), pick(['Em manutenção', 'Limitado', 'Inoperante']), ts(0.2), pick(['Falha no selo mecânico; equipamento reserva em operação.', 'Aguardando sobressalente; carga reduzida a 70 %.', 'Manutenção preventiva programada.']), ts(0.95)]; },
       pts: function () { return [pt(), tag(), pick(['Troca de gaxeta de válvula', 'Pintura industrial', 'Inspeção de espessura por ultrassom', 'Substituição de junta de flange', 'Calibração de transmissor']), pick(['Contratada de manutenção', 'Manutenção própria', 'Inspeção']), ts(0.95), pick(['Supervisor de operação', 'Técnico de operação — ' + posto])]; },
       pend: function (cod) { return [String(100 + rnd(900)), ts(0.2).slice(0, 10), pick(['Reparo definitivo do vazamento na flange do ' + tag() + '.', 'Substituição do transmissor de nível do ' + tag() + '.', 'Reinstalação do CAP após inspeção no ' + tag() + '.', 'Teste funcional completo da ' + tag() + ' após intervenção.']), nm(), resp(), 'EM ABERTO']; },
       compl: function () { return pick([
@@ -8970,14 +9042,14 @@ class Component extends DCLogic {
     adm.sessoesVazio = !adm.sessoes.length;
 
     // Exemplos
-    var exN = this.state.arquivo.filter(function (a) { return a.exemplo; }).length;
-    adm.exemplosN = exN; adm.temExemplos = exN > 0; adm.exemplosLabel = exN ? exN + ' passagens de exemplo no arquivo' : 'Nenhuma passagem de exemplo no arquivo';
-    adm.exemplosPlano = this.POSTOS_MENU.length + ' postos de operação × (6 turnos + 3 turmas) + SUPROD (6 turnos + 3 turmas) + COPROD (3 turmas) = ' + (this.POSTOS_MENU.length * 9 + 12) + ' passagens emitidas, com todos os blocos preenchidos, composição da equipe, itens reportados ao SUPROD, alerta crítico entre postos, pendências transportadas e registro de ações.';
-    // Confirmação dentro da tela (window.confirm pode ser bloqueado pelo navegador e, nesse caso, nada era gerado).
-    var exD = st.aEx || null, nEx = this.POSTOS_MENU.length * 9 + 12;
+    var exN = this.state.arquivo.filter(function (a) { return a.exemplo; }).length, exRs = this.exemplosResumo(), exSt = st.exStatus || '';
+    adm.exemplosN = exN; adm.temExemplos = exN > 0 || this.exCache().length > 0;
+    adm.exemplosLabel = exSt === 'carregando' && !exN ? 'Consultando a nuvem…' : (exN ? exN + ' passagens de exemplo na nuvem · ' + this.un() : 'Nenhuma passagem de exemplo na ' + this.un());
+    adm.exemplosPlano = exRs.postos + ' postos da estrutura × ' + this.EX_POR_POSTO + ' passagens de cada tipo que o posto elabora (' + exRs.turno + ' postos com turno e ' + exRs.turma + ' com turma) = ' + exRs.total + ' passagens emitidas, com os blocos de cada modelo preenchidos, equipe vinculada pelos usuários do posto, itens reportados ao supervisor, alerta crítico entre postos, pendências transportadas e registro de ações.';
+    var exD = st.aEx || null, nEx = exRs.total;
     adm.exConfirmando = !!exD && exD.fase === 'confirmar'; adm.exGerando = !!exD && exD.fase === 'gerando'; adm.exLivre = !adm.exConfirmando;
-    adm.exBtnLabel = adm.exGerando ? (exD.acao === 'remover' ? 'Removendo…' : 'Gerando…') : 'Gerar exemplos';
-    adm.exPergunta = exD && exD.acao === 'remover' ? 'Remover todas as ' + exN + ' passagens de exemplo? As passagens reais não são afetadas.' : 'Gerar ' + nEx + ' passagens de exemplo? Os exemplos anteriores serão substituídos; as passagens reais não são afetadas.';
+    adm.exBtnLabel = adm.exGerando ? (exD.acao === 'remover' ? 'Removendo da nuvem…' : 'Gerando e enviando à nuvem…') : 'Gerar exemplos';
+    adm.exPergunta = exD && exD.acao === 'remover' ? 'Remover as ' + exN + ' passagens de exemplo da ' + this.un() + ' para todos os usuários? As passagens reais não são afetadas.' : 'Gerar ' + nEx + ' passagens de exemplo na nuvem? Os exemplos anteriores da ' + this.un() + ' serão substituídos para todos os usuários; as passagens reais não são afetadas.';
     adm.exConfirmarLabel = exD && exD.acao === 'remover' ? 'Remover exemplos' : 'Gerar agora';
     adm.gerarExemplos = function () { self.setState({ aEx: { fase: 'confirmar', acao: 'gerar' }, aExRes: null }); };
     adm.removerExemplos = function () { self.setState({ aEx: { fase: 'confirmar', acao: 'remover' }, aExRes: null }); };
@@ -8986,15 +9058,15 @@ class Component extends DCLogic {
       var acao = (self.state.aEx || {}).acao; self._exRes = null;
       self.setState({ aEx: { fase: 'gerando', acao: acao } });
       setTimeout(function () {
-        try {
-          if (acao === 'remover') { var n0 = self.state.arquivo.filter(function (a) { return a.exemplo; }).length; self.removerExemplos(false); self._exRes = { ok: true, msg: n0 ? n0 + ' passagem(ns) de exemplo removida(s).' : 'Não havia exemplos para remover.' }; }
-          else self.gerarExemplos(false);
-        } catch (e) { console.error(e); self._exRes = { ok: false, msg: 'Falha inesperada: ' + (e && e.message) }; }
-        self.setState({ aEx: null, aExRes: self._exRes || { ok: false, msg: 'Nenhuma passagem foi gerada.' } });
+        var fim = function () { self.setState({ aEx: null, aExRes: self._exRes || { ok: false, msg: 'Nenhuma passagem foi gerada.' } }); };
+        var pr;
+        try { pr = acao === 'remover' ? self.removerExemplos(false) : self.gerarExemplos(false); } catch (e) { console.error(e); self._exRes = { ok: false, msg: 'Falha inesperada: ' + (e && e.message) }; }
+        Promise.resolve(pr).then(fim, function (e) { self._exRes = { ok: false, msg: 'Falha inesperada: ' + (e && e.message) }; fim(); });
       }, 60);
     };
     var exR = st.aExRes; adm.exTemResultado = !!exR; adm.exResultado = exR ? exR.msg : ''; adm.exResCor = exR && exR.ok ? 'var(--color-accent-700)' : 'var(--pb-orange)';
-    adm.exEspaco = tab === 'exemplos' ? 'Armazenamento do navegador: ' + this.usoLocalTxt() + '. O limite é de cerca de 5 MB por endereço, compartilhado entre os sistemas publicados em fabriciomartini.github.io.' : '';
+    adm.exEspaco = tab === 'exemplos' ? (exSt === 'erro' ? 'Não foi possível consultar a nuvem agora — verifique a conexão. ' : '') + 'Os exemplos ficam na base compartilhada da nuvem, separados por unidade: todos os usuários de teste da ' + this.un() + ' veem o mesmo conjunto no Arquivo e na busca, sem ocupar o armazenamento do navegador. Exemplo reaberto ou excluído deixa de aparecer para todos.' : '';
+    adm.exRecarregar = function () { self.carregarExemplos(true); };
     // Feedback dos usuários
     adm.cards.push({ k: 'Feedback dos usuários', v: String(fbNovosN), sub: fbsAll.length ? 'novo(s) de ' + fbsAll.length + ' recebido(s)' : 'nenhum recebido' });
     adm.podeAvaliarFb = this.permite('feedbackAvaliar'); adm.podeExcluirFb = this.permite('feedbackExcluir');
