@@ -52,6 +52,8 @@
       return out;
     }
     if (obj(l) && obj(r)) {
+      // Sem cópia-base (ex.: recarga com envio pendente de chave grande): o registro atualizado por último prevalece.
+      if (b === undefined && l.atualizadoEm && r.atualizadoEm && l.atualizadoEm !== r.atualizadoEm) return r.atualizadoEm > l.atualizadoEm ? r : l;
       var b2 = obj(b) ? b : {}, o = {}, ks = {};
       [l, r, b2].forEach(function (m) { for (var k in m) ks[k] = 1; });
       for (var k in ks) { var v = merge3(b2[k], l[k], r[k]); if (v !== undefined) o[k] = v; }

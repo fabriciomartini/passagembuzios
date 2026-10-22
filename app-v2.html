@@ -3771,7 +3771,7 @@ class Component extends DCLogic {
   // ---------- dados ----------
   nuvemIniciar() {
     var self = this;
-    var carregar = window.bzNuvem ? Promise.resolve() : new Promise(function (res) { var s = document.createElement('script'); s.src = './nuvem.js?v=20261022d'; s.onload = res; s.onerror = res; document.head.appendChild(s); });
+    var carregar = window.bzNuvem ? Promise.resolve() : new Promise(function (res) { var s = document.createElement('script'); s.src = './nuvem.js?v=20261022e'; s.onload = res; s.onerror = res; document.head.appendChild(s); });
     return carregar.then(function () { if (!window.bzNuvem) return; window.bzNuvem.aoMudar(function (ks) { self.nuvemAtualizou(ks); }); return window.bzNuvem.pronto; });
   }
   nuvemAtualizou() {
@@ -4186,14 +4186,14 @@ class Component extends DCLogic {
     this.gravarAbertas(this.abertas());
   }
   progressoDoc(d) {
-    var prev = this.doc, self = this; this.doc = d;
+    var prev = this.doc, self = this; this.doc = JSON.parse(JSON.stringify(d)); this._progresso = true;
     try {
       this.ensure();
       var secs = this.schema(d.tipo || 'Turno'), ok = 0;
       secs.forEach(function (s) { if (!self.checkSection(s).length) ok++; });
       return { pct: secs.length ? Math.round(ok * 100 / secs.length) : 0, label: ok + '/' + secs.length + ' blocos' };
     } catch (e) { return { pct: 0, label: '' }; }
-    finally { this.doc = prev; }
+    finally { this.doc = prev; this._progresso = false; }
   }
   menuVals() {
     var self = this, eu = this.state.user, now = new Date();
@@ -4668,11 +4668,12 @@ class Component extends DCLogic {
       });
       if (s.amb) (sd.panels.p || []).forEach(function (r) { self.avaliarAmb(r); });
     });
-    if (this.doc.id && !this.doc._placeholder) {
+    if (this.doc.id && !this.doc._placeholder && !this._progresso) {
       this.consumirAlertas();
       this.consumirReportes();
       Object.keys(store).forEach(function (k) { var sd = store[k]; if (!sd || !sd.panels) return; Object.keys(sd.panels).forEach(function (pid) { (sd.panels[pid] || []).forEach(function (r) { if (r && !r.rid) r.rid = self.novoRid(); }); }); });
       if (!this._snaps[this.doc.id]) this.tirarSnap();
+      if (h.posto === 'Controle' && this.doc.status !== 'emitida' && (this.doc.equipe || []).some(function (m) { return self.state.user && m.u === self.state.user.user; })) this.publicarPocos(this.doc);
     }
   }
 
@@ -4801,10 +4802,29 @@ class Component extends DCLogic {
     });
   }
   // Situação dos poços: postos da produção recebem os dados da passagem da sala de controle do mesmo período.
+  // Canal leve e dedicado (chave própria na nuvem): a sala de controle publica a situação dos poços a cada gravação;
+  // os postos receptores leem daqui, sem depender da mescla da lista completa de passagens em elaboração.
+  get POCOS_PUB() { return this.nsk('pocos-controle-v1'); }
+  publicarPocos(d) {
+    if (!d || d._placeholder || !d.id || (d.header && d.header.posto) !== 'Controle') return;
+    var tipo = d.tipo || (d.header && d.header.tipo) || 'Turno', sd = d[tipo] && d[tipo].pocos; if (!sd || !sd.panels) return;
+    var lin = function (pid) { return (sd.panels[pid] || []).filter(function (r) { return String(r.c[0] || '').trim(); }).map(function (r) { return { c: [r.c[0] || '', r.c[1] || '', r.c[2] || ''], conf: r.conf ? { em: r.conf.em, u: r.conf.u, n: r.conf.n } : null }; }); };
+    var m = this.lsGet(this.POCOS_PUB, {}); if (!m || typeof m !== 'object' || Array.isArray(m)) m = {};
+    var k = tipo + '|' + d.periodoKey, novo = { codigo: d.codigo || d.id, inicio: d.header.inicio || '', status: d.status || 'aberta', prod: lin('prod'), inj: lin('inj') };
+    var ant = m[k]; if (ant && JSON.stringify(Object.assign({}, ant, { em: '' })) === JSON.stringify(Object.assign({}, novo, { em: '' }))) return;
+    novo.em = new Date().toISOString(); m[k] = novo;
+    var ks = Object.keys(m).sort(function (a, b) { return String(m[a].em) < String(m[b].em) ? 1 : -1; }); ks.slice(40).forEach(function (x) { delete m[x]; });
+    this.lsSet(this.POCOS_PUB, m);
+  }
   pocosDoControle(p) {
-    var self = this, d = this.doc, f = this.fonteHerdada('Controle', this.tipo(), d.periodoKey, d.header.inicio), mapa = {};
-    var psd = f && f.store && f.store.pocos;
-    ((psd && psd.panels && psd.panels[p.pid]) || []).forEach(function (r) { if (String(r.c[0] || '').trim()) mapa[r.c[0]] = r; });
+    var self = this, d = this.doc, mapa = {}, f = null;
+    var pub = this.lsGet(this.POCOS_PUB, {}), pk = pub && pub[this.tipo() + '|' + d.periodoKey];
+    if (pk) { f = { codigo: pk.codigo, mesmoPeriodo: true, validado: pk.status === 'emitida' }; (pk[p.pid] || []).forEach(function (r) { if (String(r.c[0] || '').trim()) mapa[r.c[0]] = r; }); }
+    else {
+      f = this.fonteHerdada('Controle', this.tipo(), d.periodoKey, d.header.inicio);
+      var psd = f && f.store && f.store.pocos;
+      ((psd && psd.panels && psd.panels[p.pid]) || []).forEach(function (r) { if (String(r.c[0] || '').trim()) mapa[r.c[0]] = r; });
+    }
     var labels = (p.fixed || []).slice(); Object.keys(mapa).forEach(function (l) { if (labels.indexOf(l) < 0) labels.push(l); });
     return labels.map(function (label) {
       var src = mapa[label], conf = !!(src && src.conf && f && f.mesmoPeriodo);
@@ -5129,6 +5149,7 @@ class Component extends DCLogic {
       for (var k = 0; k < l.length; k++) if (l[k].id === this.doc.id) { i = k; break; }
       if (i >= 0) l[i] = this.doc; else l.unshift(this.doc);
       var gravou = this.gravarAbertasSeguro(l, this.doc);
+      this.publicarPocos(this.doc);
       this.espelharRascunho(this.doc, false, !gravou);
       this.tirarSnap();
     }
