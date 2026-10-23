@@ -12,9 +12,10 @@ O endereço principal https://fabriciomartini.github.io/passagembuzios/ (`index.
 
 Primeira publicação: Settings → Pages → Source: *Deploy from a branch* → `main` / `(root)` → Save.
 
-## Chaves de teste
-- Operador P-83: RTWC / 1234 · SUPROD P-83: M37R / 1234 · demais usuários da P-83: chave / 1234
-- Multiunidade (todas as unidades): URPQ, F8CK, URSS / 1234
+## Chaves de teste (genéricas)
+- Sem cadastro nominal nesta etapa: apenas chaves genéricas por posto e unidade, senha 1234.
+- Formato: código do posto + número da unidade (+ sequência nos postos executantes). Ex.: CTR831 (Controle · P-83 · nº 1), OLE832, SUP831, COP83, GEO83.
+- Códigos: GPL, COP, SUP, CTR, OLE, GAS, AGU, COM, SMC, OME, MEC, SEI, OEL, ELE, INS, AUT, COE, SEM, CEM, CVS, TLT · GEO (GEOP).
 - Administrador local: ADM80 (P-80), ADM83 (P-83) / adm1234
 - ADM do sistema: ADMIN / admin1234
 

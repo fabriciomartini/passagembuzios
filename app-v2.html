@@ -186,7 +186,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
   </div>
   <form onSubmit="{{ onLogin }}" style="position:relative;margin:22px 16px 20px;background:#ffffff;color:#1d1f20;padding:20px 18px;border-top:6px solid #008542;display:flex;flex-direction:column;gap:12px">
     <h2 style="margin:0;font-size:22px;line-height:1.15;font-weight:700;color:#1d1f20">Acesso ao sistema</h2>
-    <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:15px;font-weight:700">Chave</span><input value="{{ loginUser }}" onChange="{{ setLoginUser }}" autoComplete="username" autoCapitalize="characters" autoCorrect="off" spellCheck="{{ false }}" enterKeyHint="next" inputMode="text" placeholder="URPQ" maxLength="{{ 8 }}" style="width:100%;box-sizing:border-box;border-radius:0;background:#ffffff;color:#1d1f20;padding:0 14px;font-family:var(--font-body);outline:none;border:1px solid #75787b;min-height:56px;font-size:22px;letter-spacing:0.12em;text-transform:uppercase" style-focus="outline:2px solid #fdc82f;outline-offset:0"></label>
+    <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:15px;font-weight:700">Chave</span><input value="{{ loginUser }}" onChange="{{ setLoginUser }}" autoComplete="username" autoCapitalize="characters" autoCorrect="off" spellCheck="{{ false }}" enterKeyHint="next" inputMode="text" placeholder="CTR831" maxLength="{{ 8 }}" style="width:100%;box-sizing:border-box;border-radius:0;background:#ffffff;color:#1d1f20;padding:0 14px;font-family:var(--font-body);outline:none;border:1px solid #75787b;min-height:56px;font-size:22px;letter-spacing:0.12em;text-transform:uppercase" style-focus="outline:2px solid #fdc82f;outline-offset:0"></label>
     <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:15px;font-weight:700">Senha</span><input type="password" value="{{ loginPass }}" onChange="{{ setLoginPass }}" autoComplete="current-password" enterKeyHint="go" style="width:100%;box-sizing:border-box;border-radius:0;background:#ffffff;color:#1d1f20;padding:0 14px;font-family:var(--font-body);outline:none;border:1px solid #75787b;min-height:56px;font-size:20px" style-focus="outline:2px solid #fdc82f;outline-offset:0"></label>
     <sc-if value="{{ loginErro }}" hint-placeholder-val="{{ false }}"><div role="alert" style="display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.4;font-weight:700"><span aria-hidden="true" style="flex:none;width:22px;height:22px;background:#ed8b00;color:#1d1f20;display:flex;align-items:center;justify-content:center;font-weight:800">!</span><span>{{ loginErro }}</span></div></sc-if>
     <label style="display:flex;align-items:center;gap:12px;min-height:44px;font-size:16px">
@@ -228,7 +228,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
       <form onSubmit="{{ onLogin }}" style="background:#ffffff;color:#1d1f20;padding:34px;border-top:6px solid #008542;box-shadow:0 18px 50px rgba(0,0,0,.35);display:flex;flex-direction:column;gap:14px">
         <h2 style="margin:0;font-size:24px;line-height:1.15;font-weight:700;color:#1d1f20">Acesso ao sistema</h2>
         <p style="margin:-6px 0 2px;font-size:15px;line-height:1.45;color:#5f6265;text-wrap:pretty">Entre com sua chave para iniciar ou retomar uma passagem.</p>
-        <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:700">Chave</span><input value="{{ loginUser }}" onChange="{{ setLoginUser }}" autoComplete="username" placeholder="URPQ" maxLength="{{ 8 }}" style="width:100%;box-sizing:border-box;border-radius:0;background:#ffffff;color:#1d1f20;padding:0 14px;font-family:var(--font-body);outline:none;border:1px solid #75787b;min-height:52px;font-size:20px;text-transform:uppercase;letter-spacing:0.12em" style-focus="outline:2px solid #fdc82f;outline-offset:0"></label>
+        <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:700">Chave</span><input value="{{ loginUser }}" onChange="{{ setLoginUser }}" autoComplete="username" placeholder="CTR831" maxLength="{{ 8 }}" style="width:100%;box-sizing:border-box;border-radius:0;background:#ffffff;color:#1d1f20;padding:0 14px;font-family:var(--font-body);outline:none;border:1px solid #75787b;min-height:52px;font-size:20px;text-transform:uppercase;letter-spacing:0.12em" style-focus="outline:2px solid #fdc82f;outline-offset:0"></label>
         <label style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:700">Senha</span><input type="password" value="{{ loginPass }}" onChange="{{ setLoginPass }}" autoComplete="current-password" style="width:100%;box-sizing:border-box;border-radius:0;background:#ffffff;color:#1d1f20;padding:0 14px;font-family:var(--font-body);outline:none;border:1px solid #75787b;min-height:52px;font-size:20px" style-focus="outline:2px solid #fdc82f;outline-offset:0"></label>
         <sc-if value="{{ loginErro }}" hint-placeholder-val="{{ false }}"><div role="alert" style="display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.4;font-weight:700"><span aria-hidden="true" style="flex:none;width:22px;height:22px;background:#ed8b00;color:#1d1f20;display:flex;align-items:center;justify-content:center;font-weight:800">!</span><span>{{ loginErro }}</span></div></sc-if>
         <label style="display:flex;align-items:center;gap:10px;min-height:40px;font-size:15px;cursor:pointer">
@@ -2265,7 +2265,7 @@ html[data-noite="1"] ::selection{background:color-mix(in srgb, var(--color-accen
         <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
         <div class="dialog-title" style="font-family:var(--font-heading);font-size:22px;line-height:1.1">Incluir outro operador na passagem</div>
         <div class="dialog-body" style="font-size:14px;line-height:1.5;margin-top:var(--space-3);text-wrap:pretty">Use apenas quando o operador não puder vincular-se por conta própria. A inclusão fica registrada em seu nome, com a justificativa, e você também responderá pela declaração de conclusão dele.</div>
-        <div class="field" style="margin-top:var(--space-4)"><label>Operador (chave ou nome)</label><input class="input" value="{{ incChave }}" onChange="{{ setIncChave }}" list="dl-chaves" placeholder="ex.: URPQ" autoFocus="{{ true }}"></div>
+        <div class="field" style="margin-top:var(--space-4)"><label>Operador (chave ou nome)</label><input class="input" value="{{ incChave }}" onChange="{{ setIncChave }}" list="dl-chaves" placeholder="ex.: OLE831" autoFocus="{{ true }}"></div>
         <div style="font-size:12.5px;margin-top:6px;color:var(--pb-text-2)">{{ incInfo }}</div>
         <div class="field" style="margin-top:var(--space-4)"><label>Justificativa da inclusão *</label><textarea class="input" style="min-height:84px;line-height:1.5" value="{{ incMotivo }}" onChange="{{ setIncMotivo }}" placeholder="Por que este operador não se vinculou por conta própria? Ex.: em campo desde o início do turno, sem acesso à estação."></textarea></div>
         <div class="dialog-actions" style="flex-wrap:wrap;display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6)">
@@ -2736,192 +2736,8 @@ class Component extends DCLogic {
   get ARQ() { return this.nsk('arquivo-v1'); }
 
   SESSION = 'bz-sessao-v1';
-  // Cadastro-semente (lotação P-83): planilha "Equipe P83" — função, matrícula, nome, chave; acesso e posto derivados da função.
-  USERS_SEED = [
-    { u: 'JMU9', n: 'Marcelo Lemos Soares', f: 'GEOP', m: '1381373', a: 'geop', p: '' },
-    { u: 'BH1E', n: 'Breno Martins dos Santos', f: 'GEPLAT', m: '2511551', a: 'posto', p: 'GEPLAT' },
-    { u: 'FMB1', n: 'Cláudio Oliveira da Costa', f: 'GEPLAT', m: '1354567', a: 'posto', p: 'GEPLAT' },
-    { u: 'CXLT', n: 'Guilherme Schmidt', f: 'GEPLAT', m: '9627279', a: 'posto', p: 'GEPLAT' },
-    { u: 'U3PE', n: 'Bernardo Rocha Bordeira', f: 'ENG ELETRICISTA', m: '9927344', a: 'eng', p: '' },
-    { u: 'U3PX', n: 'Douglas Jardim da Silva', f: 'ENG MECANICO', m: '9924747', a: 'eng', p: '' },
-    { u: 'BETN', n: 'Lucas Freire Pacheco', f: 'ENG PETRÓLEO', m: '9886879', a: 'eng', p: '' },
-    { u: 'B5QM', n: 'Nayara Eloy Granato Costa', f: 'ENG PROCESSAMENTO', m: '2403970', a: 'eng', p: '' },
-    { u: 'DVNZ', n: 'Julia Boechat Celani Zwirman', f: 'ENG PROCESSAMENTO', m: '4604628', a: 'eng', p: '' },
-    { u: 'FETX', n: 'Raphael Vasquez Fernandes', f: 'ENG PETRÓLEO', m: '4609094', a: 'eng', p: '' },
-    { u: 'URGU', n: 'Rodrigo da Cunha Mangelli', f: 'ENG PETRÓLEO', m: '9609483', a: 'eng', p: '' },
-    { u: 'AJP2', n: 'Daiane Gomes Mota', f: 'GESTÃO', m: '', a: 'apoio', p: '' },
-    { u: 'D2HS', n: 'Gilcilene Bastos', f: 'GESTÃO', m: '', a: 'apoio', p: '' },
-    { u: 'EK5H', n: 'Filipe Nascimento Belmont', f: 'COEMB', m: '9739609', a: 'posto', p: 'COEMB' },
-    { u: 'UPDJ', n: 'Leandro de Avelar Ramalho', f: 'COEMB', m: '9766347', a: 'posto', p: 'COEMB' },
-    { u: 'U4XE', n: 'Rodrigo Cardoso Hespanhol', f: 'COEMB', m: '2477958', a: 'posto', p: 'COEMB' },
-    { u: 'YMOF', n: 'Wilson Esguersoni Martins', f: 'COEMB', m: '8554212', a: 'posto', p: 'COEMB' },
-    { u: 'DXWY', n: 'Gabriel Alberto Roppa', f: 'COEMB', m: '4604917', a: 'posto', p: 'COEMB' },
-    { u: 'B1S8', n: 'Daniel Pinheiro Teixeira', f: 'SUEMB', m: '2501268', a: 'posto', p: 'SUEMB' },
-    { u: 'YRAJ', n: 'Fabio da Silva Sales', f: 'SUEMB', m: '9612727', a: 'posto', p: 'SUEMB' },
-    { u: 'MCD1', n: 'Rodrigo da Silva Cariello', f: 'SUEMB', m: '2530805', a: 'posto', p: 'SUEMB' },
-    { u: 'LNIG', n: 'Sergio Eduardo Pinho Barra', f: 'SUEMB', m: '1391354', a: 'posto', p: 'SUEMB' },
-    { u: 'NS0U', n: 'André Facadio Santos', f: 'SUEMB', m: '9783762', a: 'posto', p: 'SUEMB' },
-    { u: 'NSY3', n: 'Afrânio Silva do Nascimento', f: 'TÉC. ESTABILIDADE', m: '9769000', a: 'posto', p: 'Controle Embarcação' },
-    { u: 'BTKP', n: 'Alexandre da Silva Fagundes', f: 'TÉC. ESTABILIDADE', m: '2549290', a: 'posto', p: 'Controle Embarcação' },
-    { u: 'FWDE', n: 'Alexandre Vitor Santos Mascarenhas', f: 'TÉC. ESTABILIDADE', m: '4612373', a: 'posto', p: 'Controle Embarcação' },
-    { u: 'B1WH', n: 'Caio Silva Mello', f: 'TÉC. ESTABILIDADE', m: '2503919', a: 'posto', p: 'Controle Embarcação' },
-    { u: 'F8TR', n: 'Diogo Santos Silva Da Costa', f: 'TÉC. ESTABILIDADE', m: '4607960', a: 'posto', p: 'Controle Embarcação' },
-    { u: 'XDZY', n: 'Felipe Duarte Ferreira', f: 'TÉC. ESTABILIDADE', m: '9730154', a: 'posto', p: 'Controle Embarcação' },
-    { u: 'U36Q', n: 'Gabriel Duarte Pinheiro', f: 'TÉC. ESTABILIDADE', m: '9905630', a: 'posto', p: 'Controle Embarcação' },
-    { u: 'G7KE', n: 'Igor Ribeiro da Silva Bonilha', f: 'TÉC. ESTABILIDADE', m: '4613449', a: 'posto', p: 'Controle Embarcação' },
-    { u: 'NA2O', n: 'Marcelo Evangelista Costa', f: 'TÉC. ESTABILIDADE', m: '9905524', a: 'posto', p: 'Controle Embarcação' },
-    { u: 'K5KA', n: 'Marcos Antônio Borges de Moraes', f: 'TÉC. ESTABILIDADE', m: '2484060', a: 'posto', p: 'Controle Embarcação' },
-    { u: 'NS27', n: 'Paula Neves Testi', f: 'TÉC. ESTABILIDADE', m: '9782083', a: 'posto', p: 'Controle Embarcação' },
-    { u: 'N7G5', n: 'Rafael Sedov de Souza Chaves', f: 'TÉC. ESTABILIDADE', m: '2456822', a: 'posto', p: 'Controle Embarcação' },
-    { u: 'F955', n: 'Stefan Pereira da Silva', f: 'TÉC. ESTABILIDADE', m: '4608144', a: 'posto', p: 'Controle Embarcação' },
-    { u: 'F941', n: 'Thiago Henrique Garutti', f: 'TÉC. ESTABILIDADE', m: '4608161', a: 'posto', p: 'Controle Embarcação' },
-    { u: 'NSZD', n: 'Vonibaldo Marino Bremenkamp', f: 'TÉC. ESTABILIDADE', m: '9768734', a: 'posto', p: 'Controle Embarcação' },
-    { u: 'FW8J', n: 'Alayna Marcia Garcia Conceiçao', f: 'TLT', m: '4612133', a: 'posto', p: 'TLT' },
-    { u: 'SDX7', n: 'Diego Santos de Oliveira', f: 'TLT', m: '9851671', a: 'posto', p: 'TLT' },
-    { u: 'GFOS', n: 'Fábio Costa Daflon', f: 'TLT', m: '4614158', a: 'posto', p: 'TLT' },
-    { u: 'AT7D', n: 'Gustavo Henrique de Oliveira Miranda', f: 'TLT', m: '2499232', a: 'posto', p: 'TLT' },
-    { u: 'NSYD', n: 'Eduardo Silvério Alves', f: 'COMAN', m: '9769282', a: 'posto', p: 'COMAN' },
-    { u: 'TFBN', n: 'Mauro Streisky', f: 'COMAN', m: '9908225', a: 'posto', p: 'COMAN' },
-    { u: 'U4OB', n: 'Ronaldo Finkler', f: 'COMAN', m: '2427421', a: 'posto', p: 'COMAN' },
-    { u: 'XD6O', n: 'Leandro Cordeiro Antunes', f: 'COMAN', m: '9767958', a: 'posto', p: 'COMAN' },
-    { u: 'WVY4', n: 'Alexandre Januário Santos', f: 'SUEIN', m: '9825284', a: 'posto', p: 'SUEIN' },
-    { u: 'FRCF', n: 'Anderson Marcos Basílio', f: 'SUEIN', m: '9611976', a: 'posto', p: 'SUEIN' },
-    { u: 'RWEU', n: 'Gutemberg Saraiva de Araújo', f: 'SUEIN', m: '1389008', a: 'posto', p: 'SUEIN' },
-    { u: 'YT3I', n: 'Marco Nunes Hoffmann', f: 'SUEIN', m: '9861314', a: 'posto', p: 'SUEIN' },
-    { u: 'NVBN', n: 'Rafael dos Santos Lima Hohl', f: 'SUEIN', m: '9611859', a: 'posto', p: 'SUEIN' },
-    { u: 'RLG3', n: 'Alexandre Muniz da Silva Silveira', f: 'TM ELÉTRICA', m: '9611061', a: 'posto', p: 'Manutenção Elétrica' },
-    { u: 'MGKJ', n: 'André Neves Calasans', f: 'TM ELÉTRICA', m: '9730001', a: 'posto', p: 'Manutenção Elétrica' },
-    { u: 'E8FU', n: 'Carlos Alberto da Rocha Oliveira Filho', f: 'TM ELÉTRICA', m: '2469829', a: 'posto', p: 'Manutenção Elétrica' },
-    { u: 'MAEV', n: 'Eduardo Oliveira de Almeida', f: 'TM ELÉTRICA', m: '9769269', a: 'posto', p: 'Manutenção Elétrica' },
-    { u: 'NVR7', n: 'Eriton de Oliveira Santos', f: 'TM ELÉTRICA', m: '9827517', a: 'posto', p: 'Manutenção Elétrica' },
-    { u: 'F9SG', n: 'Gabriel Giacomini Moura', f: 'TM ELÉTRICA', m: '4608457', a: 'posto', p: 'Manutenção Elétrica' },
-    { u: 'F8ML', n: 'Izabela Cristina de Souza Carvalho', f: 'TM ELÉTRICA', m: '2448729', a: 'posto', p: 'Manutenção Elétrica' },
-    { u: 'URJ1', n: 'Julio Cesar Assis de Souza', f: 'TM ELÉTRICA', m: '9618399', a: 'posto', p: 'Manutenção Elétrica' },
-    { u: 'RT3W', n: 'Leonardo Garcia Higino', f: 'TM ELÉTRICA', m: '9618467', a: 'posto', p: 'Manutenção Elétrica' },
-    { u: 'NSXY', n: 'Leonardo José Rossi de Oliveira', f: 'TM ELÉTRICA', m: '9769429', a: 'posto', p: 'Manutenção Elétrica' },
-    { u: 'L1MJ', n: 'Marcelo José Nogueira', f: 'TM ELÉTRICA', m: '2439905', a: 'posto', p: 'Manutenção Elétrica' },
-    { u: 'WUYB', n: 'Marcelo Ribeiro Dias (Bahia)', f: 'TM ELÉTRICA', m: '9679160', a: 'posto', p: 'Manutenção Elétrica' },
-    { u: 'S229', n: 'Márcio de Queiroz Santa Marta', f: 'TM ELÉTRICA', m: '2421674', a: 'posto', p: 'Manutenção Elétrica' },
-    { u: 'RHGI', n: 'Rafael Aguiar Chaves', f: 'TM ELÉTRICA', m: '9729641', a: 'posto', p: 'Manutenção Elétrica' },
-    { u: 'MOP3', n: 'Renato Henriques de Oliveira (Renatinho)', f: 'TM ELÉTRICA', m: '9729616', a: 'posto', p: 'Manutenção Elétrica' },
-    { u: 'GFM3', n: 'Vladimir César Caminha Junior', f: 'TM ELÉTRICA', m: '4614411', a: 'posto', p: 'Manutenção Elétrica' },
-    { u: 'GFAA', n: 'João Vitor Vieira dos Santos', f: 'TM ELÉTRICA', m: '', a: 'posto', p: 'Manutenção Elétrica' },
-    { u: 'GFCS', n: 'Wesley da Cunha Carvalho', f: 'TM ELÉTRICA', m: '4614330', a: 'posto', p: 'Manutenção Elétrica' },
-    { u: 'N5VI', n: 'Adriano Lúcio de Lima', f: 'TM INSTRUMENTAÇÃO', m: '2441138', a: 'posto', p: 'Manutenção Instrumentação' },
-    { u: 'URFA', n: 'Carlos Alexandre Gomes Barroso', f: 'TM INSTRUMENTAÇÃO', m: '01388560', a: 'posto', p: 'Manutenção Instrumentação' },
-    { u: 'LPLK', n: 'Erike Vasconcelos Ramos Mota', f: 'TM INSTRUMENTAÇÃO', m: '9767530', a: 'posto', p: 'Manutenção Instrumentação' },
-    { u: 'PDSO', n: 'Gleucima da Costa', f: 'TM INSTRUMENTAÇÃO', m: '9673862', a: 'posto', p: 'Manutenção Instrumentação' },
-    { u: 'RLJS', n: 'Jailson da Silva Machado', f: 'TM INSTRUMENTAÇÃO', m: '9650690', a: 'posto', p: 'Manutenção Instrumentação' },
-    { u: 'EKID', n: 'Jorge Luiz Gomes Júnior', f: 'TM INSTRUMENTAÇÃO', m: '0222665', a: 'posto', p: 'Manutenção Instrumentação' },
-    { u: 'FW6C', n: 'Jose Carlos Mendonça Santana', f: 'TM INSTRUMENTAÇÃO', m: '4612318', a: 'posto', p: 'Manutenção Instrumentação' },
-    { u: 'YRO5', n: 'Jovani Monteiro do Carmo', f: 'TM INSTRUMENTAÇÃO', m: '9642627', a: 'posto', p: 'Manutenção Instrumentação' },
-    { u: 'LMIN', n: 'Marcelo dos Santos Silva (Marrento)', f: 'TM INSTRUMENTAÇÃO', m: '1384406', a: 'posto', p: 'Manutenção Instrumentação' },
-    { u: 'B2NK', n: 'Marcus Vinicius Garcia Martins Junior', f: 'TM INSTRUMENTAÇÃO', m: '2505427', a: 'posto', p: 'Manutenção Instrumentação' },
-    { u: 'FW9S', n: 'Pedro Henrique Marques dos Santos', f: 'TM INSTRUMENTAÇÃO', m: '4612195', a: 'posto', p: 'Manutenção Instrumentação' },
-    { u: 'WU3X', n: 'Renato César dos Reis Filho', f: 'TM INSTRUMENTAÇÃO', m: '9691124', a: 'posto', p: 'Manutenção Instrumentação' },
-    { u: 'PD0U', n: 'Rodrigo Pinheiro Alves', f: 'TM INSTRUMENTAÇÃO', m: '9685086', a: 'posto', p: 'Manutenção Instrumentação' },
-    { u: 'WV48', n: 'Rômulo de Oliveira Santana', f: 'TM INSTRUMENTAÇÃO', m: '9927196', a: 'posto', p: 'Manutenção Instrumentação' },
-    { u: 'KEFZ', n: 'Wendson Correia Santos', f: 'TM INSTRUMENTAÇÃO', m: '1879833', a: 'posto', p: 'Manutenção Instrumentação' },
-    { u: 'B25O', n: 'Yuri Santos De Barros', f: 'TM INSTRUMENTAÇÃO', m: '2529333', a: 'posto', p: 'Manutenção Instrumentação' },
-    { u: 'NVMJ', n: 'Adamson Campos Silva', f: 'TM AUTOMAÇÃO', m: '9815703', a: 'posto', p: 'Manutenção Automação' },
-    { u: 'GMBD', n: 'Alberto Alvares Cabral', f: 'TM AUTOMAÇÃO', m: '1387470', a: 'posto', p: 'Manutenção Automação' },
-    { u: 'URFB', n: 'Carlos Eduardo de Macena Tinoco', f: 'TM AUTOMAÇÃO', m: '1388571', a: 'posto', p: 'Manutenção Automação' },
-    { u: 'KAZZ', n: 'Josevaldo dos Santos Feitoza', f: 'TM AUTOMAÇÃO', m: '1872752', a: 'posto', p: 'Manutenção Automação' },
-    { u: 'FMKI', n: 'Sérgio Ferreira Pinto (Serginho)', f: 'TM AUTOMAÇÃO', m: '1333511', a: 'posto', p: 'Manutenção Automação' },
-    { u: 'SLDR', n: 'Alano Fiuza de Santana', f: 'SUMEC', m: '9770312', a: 'posto', p: 'SUMEC' },
-    { u: 'NSAZ', n: 'Eduardo Jacob de Santana', f: 'SUMEC', m: '9612696', a: 'posto', p: 'SUMEC' },
-    { u: 'FRD9', n: 'Fábio Fernandes Ferreira', f: 'SUMEC', m: '9618627', a: 'posto', p: 'SUMEC' },
-    { u: 'MG0B', n: 'Jorge Antonio Ferreira de Siqueira', f: 'SUMEC', m: '9820196', a: 'posto', p: 'SUMEC' },
-    { u: 'WV8P', n: 'Mateus Rodrigues Souza de Azevedo', f: 'SUMEC', m: '2433913', a: 'posto', p: 'SUMEC' },
-    { u: 'E112', n: 'Alan Romnei de Andrade Resende', f: 'TM MECÂNICA', m: '9857245', a: 'posto', p: 'Manutenção Mecânica' },
-    { u: 'WMFR', n: 'Anderson Barbosa de Paula', f: 'TM MECÂNICA', m: '1369507', a: 'posto', p: 'Manutenção Mecânica' },
-    { u: 'GF4B', n: 'Arley Farias da Silva', f: 'TM MECÂNICA', m: '4614630', a: 'posto', p: 'Manutenção Mecânica' },
-    { u: 'URYV', n: 'André Luiz de Souza', f: 'TM MECÂNICA', m: '9681500', a: 'posto', p: 'Manutenção Mecânica' },
-    { u: 'ASDU', n: 'Carlos Eduardo Latance', f: 'TM MECÂNICA', m: '9652055', a: 'posto', p: 'Manutenção Mecânica' },
-    { u: 'PL7B', n: 'Celso Ricardo dos Santos', f: 'TM MECÂNICA', m: '2476612', a: 'posto', p: 'Manutenção Mecânica' },
-    { u: 'URP3', n: 'Claudio Adriano da Cunha', f: 'TM MECÂNICA', m: '9644749', a: 'posto', p: 'Manutenção Mecânica' },
-    { u: 'GFPN', n: 'Dijon Soares da Silva', f: 'TM MECÂNICA', m: '4614512', a: 'posto', p: 'Manutenção Mecânica' },
-    { u: 'URNN', n: 'Eliaro Beltrame Pereira', f: 'TM MECÂNICA', m: '9634130', a: 'posto', p: 'Manutenção Mecânica' },
-    { u: 'GFDQ', n: 'Everton Messias Antenor', f: 'TM MECÂNICA', m: '4614625', a: 'posto', p: 'Manutenção Mecânica' },
-    { u: 'PDBP', n: 'Felipe Gonelli Fernandes', f: 'TM MECÂNICA', m: '9612790', a: 'posto', p: 'Manutenção Mecânica' },
-    { u: 'PDEK', n: 'Flávio Renato Gerloff de Queiroz', f: 'TM MECÂNICA', m: '9612360', a: 'posto', p: 'Manutenção Mecânica' },
-    { u: 'FN3R', n: 'Irvin Weslley Oliveira de Barros', f: 'TM MECÂNICA', m: '4612096', a: 'posto', p: 'Manutenção Mecânica' },
-    { u: 'URUG', n: 'Ivan de Medeiros Aguiar', f: 'TM MECÂNICA', m: '9661967', a: 'posto', p: 'Manutenção Mecânica' },
-    { u: 'WV8V', n: 'João Paulo da Silva Figueiredo', f: 'TM MECÂNICA', m: '2434055', a: 'posto', p: 'Manutenção Mecânica' },
-    { u: 'KE6R', n: 'Jonatan Ilídio da Silva', f: 'TM MECÂNICA', m: '2458540', a: 'posto', p: 'Manutenção Mecânica' },
-    { u: 'FVU9', n: 'Leandro Peterson Bento', f: 'TM MECÂNICA', m: '4612125', a: 'posto', p: 'Manutenção Mecânica' },
-    { u: 'MCW5', n: 'Leonardo Gaiao Brault de Miranda', f: 'TM MECÂNICA', m: '2462540', a: 'posto', p: 'Manutenção Mecânica' },
-    { u: 'YR1R', n: 'Luiz Fabiano de Souza Oliveira', f: 'TM MECÂNICA', m: '9688574', a: 'posto', p: 'Manutenção Mecânica' },
-    { u: 'XDDH', n: 'Lusimar Barros Gomes Junior', f: 'TM MECÂNICA', m: '9618990', a: 'posto', p: 'Manutenção Mecânica' },
-    { u: 'A1QB', n: 'Maximina Giron', f: 'TM MECÂNICA', m: '2438435', a: 'posto', p: 'Manutenção Mecânica' },
-    { u: 'URVX', n: 'Rafael Rodrigues Cardoso', f: 'TM MECÂNICA', m: '9663150', a: 'posto', p: 'Manutenção Mecânica' },
-    { u: 'GGA5', n: 'Wanderson Duraes Fialho', f: 'TM MECÂNICA', m: '4615025', a: 'posto', p: 'Manutenção Mecânica' },
-    { u: 'GG20', n: 'Naerta Eliza Dias Creton Damasceno', f: 'TÉCNICO DE SUPRIMENTO', m: '4614800', a: 'apoio', p: '' },
-    { u: 'U4IC', n: 'Camila Viana Frasao Beiral', f: 'COPROD', m: '2424664', a: 'posto', p: 'COPROD' },
-    { u: 'CX1A', n: 'Fabio Feo Junqueira Cardoso', f: 'COPROD', m: '9631940', a: 'posto', p: 'COPROD' },
-    { u: 'URPQ', n: 'Fabricio da Graça Martini Quintas', f: 'COPROD', m: '9643323', a: 'posto', p: 'COPROD', t: 1 },
-    { u: 'BHQ1', n: 'Vinicius Tarouquella da Silva Rocha', f: 'COPROD', m: '2494771', a: 'posto', p: 'COPROD' },
-    { u: 'M37R', n: 'Bruno de Oliveira Samel Moraes', f: 'SUPROD', m: '2407108', a: 'posto', p: 'SUPROD' },
-    { u: 'NA1Y', n: 'Hygor Augusto Lorencini', f: 'SUPROD', m: '9904877', a: 'posto', p: 'SUPROD' },
-    { u: 'FRA2', n: 'Jefferson Fraga de Jesus', f: 'SUPROD', m: '9610586', a: 'posto', p: 'SUPROD' },
-    { u: 'KB1O', n: 'Marcell Mendes Santos Silva', f: 'SUPROD', m: '9908876', a: 'posto', p: 'SUPROD' },
-    { u: 'UREQ', n: 'Paulo Cesar de Castilha', f: 'SUPROD', m: '0909346', a: 'posto', p: 'SUPROD' },
-    { u: 'RTWC', n: 'Adriana Pereira Silva', f: 'TÉC. OPERAÇÃO', m: '9610758', a: 'posto', p: 'Controle' },
-    { u: 'XBWR', n: 'Carlos Edson Lima', f: 'TÉC. OPERAÇÃO', m: '9906717', a: 'posto', p: 'Controle' },
-    { u: 'DAJF', n: 'Carlos Gustavo Bessa de Mello Vianna', f: 'TÉC. OPERAÇÃO', m: '9684700', a: 'posto', p: 'Controle' },
-    { u: 'NS1R', n: 'Flavio Faria de Oliveira', f: 'TÉC. OPERAÇÃO', m: '9780827', a: 'posto', p: 'Controle' },
-    { u: 'F8CK', n: 'Gabriel Junca e Meireles', f: 'TÉC. OPERAÇÃO', m: '9842662', a: 'posto', p: 'Controle', t: 1 },
-    { u: 'BE94', n: 'Leonardo Lopes Bezerra', f: 'TÉC. OPERAÇÃO', m: '9876340', a: 'posto', p: 'Controle' },
-    { u: 'RV0N', n: 'Livio Rodrigues Rocha', f: 'TÉC. OPERAÇÃO', m: '9719010', a: 'posto', p: 'Controle' },
-    { u: 'URSS', n: 'Rafael Matias de Barros', f: 'TÉC. OPERAÇÃO', m: '9660922', a: 'posto', p: 'Controle', t: 1 },
-    { u: 'LPZH', n: 'Sidne Pena Magalhães', f: 'TÉC. OPERAÇÃO', m: '9815205', a: 'posto', p: 'Controle' },
-    { u: 'FN2K', n: 'Andressa Aparecida Ribeiro Sanches', f: 'TÉC. OPERAÇÃO', m: '4612822', a: 'posto', p: 'Óleo' },
-    { u: 'FW0R', n: 'Douglas Arthur Coutinho Ribeiro', f: 'TÉC. OPERAÇÃO', m: '4612868', a: 'posto', p: 'Óleo' },
-    { u: 'WS3M', n: 'Edcarlos Freire dos Santos', f: 'TÉC. OPERAÇÃO', m: '9775553', a: 'posto', p: 'Óleo' },
-    { u: 'NS1H', n: 'Estevao Nogueira da Silva Amaro', f: 'TÉC. OPERAÇÃO', m: '9782280', a: 'posto', p: 'Óleo' },
-    { u: 'WXVG', n: 'Fernando Brandao de Sousa', f: 'TÉC. OPERAÇÃO', m: '334362', a: 'posto', p: 'Óleo' },
-    { u: 'M37H', n: 'Francisco José Rangel Ribeiro', f: 'TÉC. OPERAÇÃO', m: '2406820', a: 'posto', p: 'Óleo' },
-    { u: 'F08F', n: 'Gabriel Calixto Maciel', f: 'TÉC. OPERAÇÃO', m: '4612316', a: 'posto', p: 'Óleo' },
-    { u: 'FW1V', n: 'Gustavo Donadia Nascimento', f: 'TÉC. OPERAÇÃO', m: '4612363', a: 'posto', p: 'Óleo' },
-    { u: 'DAJU', n: 'Herbert de Jesus Mattos da Costa', f: 'TÉC. OPERAÇÃO', m: '9684342', a: 'posto', p: 'Óleo' },
-    { u: 'FW4D', n: 'Lara Soares Monte', f: 'TÉC. OPERAÇÃO', m: '4612718', a: 'posto', p: 'Óleo' },
-    { u: 'WU9W', n: 'Luis Eduardo dos Santos Mota', f: 'TÉC. OPERAÇÃO', m: '9720462', a: 'posto', p: 'Óleo' },
-    { u: 'RTNM', n: 'Marcio Andre Alves de Menezes', f: 'TÉC. OPERAÇÃO', m: '1391305', a: 'posto', p: 'Óleo' },
-    { u: 'NA2L', n: 'Marcos Antônio Sobreira Júnior', f: 'TÉC. OPERAÇÃO', m: '9906902', a: 'posto', p: 'Óleo' },
-    { u: 'FVV9', n: 'Marcos Ribeiro Costa', f: 'TÉC. OPERAÇÃO', m: '4612310', a: 'posto', p: 'Óleo' },
-    { u: 'M37Q', n: 'Paulo Armindo Manhaes Junior', f: 'TÉC. OPERAÇÃO', m: '2406984', a: 'posto', p: 'Óleo' },
-    { u: 'FVZ9', n: 'Thiago da Cunha Rocha Devesa de Miranda', f: 'TÉC. OPERAÇÃO', m: '4612689', a: 'posto', p: 'Óleo' },
-    { u: 'S7AK', n: 'Aurelio Ferreira de Melo', f: 'TÉC. OPERAÇÃO', m: '9920110', a: 'posto', p: 'Gás' },
-    { u: 'FWEC', n: 'Breno Oliveira De Sousa Ramos', f: 'TÉC. OPERAÇÃO', m: '4612565', a: 'posto', p: 'Gás' },
-    { u: 'CNWT', n: 'Bruno Duarte Moreira', f: 'TÉC. OPERAÇÃO', m: '9647280', a: 'posto', p: 'Gás' },
-    { u: 'FVXU', n: 'Christian Costa Paes', f: 'TÉC. OPERAÇÃO', m: '4612780', a: 'posto', p: 'Gás' },
-    { u: 'FWAZ', n: 'Daniele Da Silva Pereira', f: 'TÉC. OPERAÇÃO', m: '4612227', a: 'posto', p: 'Gás' },
-    { u: 'FW8D', n: 'Fabricio Leonardo Delamare', f: 'TÉC. OPERAÇÃO', m: '4612534', a: 'posto', p: 'Gás' },
-    { u: 'FW0F', n: 'Igor Foti De Andrade', f: 'TÉC. OPERAÇÃO', m: '4612690', a: 'posto', p: 'Gás' },
-    { u: 'WTK2', n: 'Júlio Anderson de Santana Peralva', f: 'TÉC. OPERAÇÃO', m: '9859080', a: 'posto', p: 'Gás' },
-    { u: 'NSYK', n: 'Leandro Matias de Assis', f: 'TÉC. OPERAÇÃO', m: '9769990', a: 'posto', p: 'Gás' },
-    { u: 'M37Z', n: 'Marcio de Barros Rodrigues Albino', f: 'TÉC. OPERAÇÃO', m: '2407956', a: 'posto', p: 'Gás' },
-    { u: 'RMNF', n: 'Marcos Estevao Chagas', f: 'TÉC. OPERAÇÃO', m: '1382474', a: 'posto', p: 'Gás' },
-    { u: 'FW1B', n: 'Marcus Vinicius De Souza Muniz Dos Santos', f: 'TÉC. OPERAÇÃO', m: '4612367', a: 'posto', p: 'Gás' },
-    { u: 'FVUJ', n: 'Mariana Camacho Lima', f: 'TÉC. OPERAÇÃO', m: '4612501', a: 'posto', p: 'Gás' },
-    { u: 'URI2', n: 'Paulo Cesar Cardoso', f: 'TÉC. OPERAÇÃO', m: '9611990', a: 'posto', p: 'Gás' },
-    { u: 'NVPM', n: 'Welington Nalon Itaborahy', f: 'TÉC. OPERAÇÃO', m: '9814386', a: 'posto', p: 'Gás' },
-    { u: 'FW5G', n: 'Alexandre de Araujo Godoy', f: 'TÉC. OPERAÇÃO', m: '4612877', a: 'posto', p: 'Água' },
-    { u: 'DAGD', n: 'Fabio da Silva Martins', f: 'TÉC. OPERAÇÃO', m: '9683892', a: 'posto', p: 'Água' },
-    { u: 'FWDG', n: 'Fabio Henrique da Costa', f: 'TÉC. OPERAÇÃO', m: '4612716', a: 'posto', p: 'Água' },
-    { u: 'AS4D', n: 'Felipe Borges Muller', f: 'TÉC. OPERAÇÃO', m: '9838323', a: 'posto', p: 'Água' },
-    { u: 'B0X1', n: 'Felipe Silva Gratival', f: 'TÉC. OPERAÇÃO', m: '2529308', a: 'posto', p: 'Água' },
-    { u: 'AS4K', n: 'George Lenfers', f: 'TÉC. OPERAÇÃO', m: '9836852', a: 'posto', p: 'Água' },
-    { u: 'FW4S', n: 'Izabella Rose Silva', f: 'TÉC. OPERAÇÃO', m: '4612858', a: 'posto', p: 'Água' },
-    { u: 'ATJC', n: 'Jacqueline Lins de Souza Orico', f: 'TÉC. OPERAÇÃO', m: '2550539', a: 'posto', p: 'Água' },
-    { u: 'XDNB', n: 'João Carlos Fernandes Gonçalves', f: 'TÉC. OPERAÇÃO', m: '9642676', a: 'posto', p: 'Água' },
-    { u: 'URON', n: 'José Barbosa Júnior', f: 'TÉC. OPERAÇÃO', m: '9642295', a: 'posto', p: 'Água' },
-    { u: 'FW7G', n: 'Manuel Nascimento Fernandes Neto', f: 'TÉC. OPERAÇÃO', m: '4612551', a: 'posto', p: 'Água' },
-    { u: 'FRF2', n: 'Rogério Luiz de Matos Rocha', f: 'TÉC. OPERAÇÃO', m: '9642707', a: 'posto', p: 'Água' },
-    { u: 'FVY9', n: 'Tiago Heliodoro Fonseca', f: 'TÉC. OPERAÇÃO', m: '4612616', a: 'posto', p: 'Água' },
-    { u: 'FWIK', n: 'Vagner Santos de Jesus', f: 'TÉC. OPERAÇÃO', m: '4612863', a: 'posto', p: 'Água' },
-    { u: 'URYS', n: 'Welington da Silva Araujo', f: 'TÉC. OPERAÇÃO', m: '9681002', a: 'posto', p: 'Água' }
-  ];
+  // Etapa de testes: sem cadastro nominal. Só chaves genéricas por posto/unidade (genericos()), ADMIN e administradores locais.
+  USERS_SEED = [];
   USERS_REMOVIDOS = [];
 
 
@@ -8227,6 +8043,10 @@ class Component extends DCLogic {
         this.genericos().forEach(function (x) { if (!porU[x.u]) { l.push(x); porU[x.u] = x; mudou = true; } });
         if (mudou) this.lsSet(this.USR, l);
       }
+      // Remove chaves reais (nominais) do cadastro: mantém genéricos, ADMIN, administradores locais e usuários cadastrados pelo administrador (cadAdm).
+      var demoU = this.DEMO_ADM.map(function (x) { return x.u; }), antes = l.length;
+      l = l.filter(function (x) { if (!x || x.gen || x.u === 'ADMIN' || demoU.indexOf(x.u) >= 0) return true; return !!x.cadAdm; });
+      if (l.length !== antes) this.lsSet(this.USR, l);
       this._usr = l;
     }
     return this._usr;
@@ -8525,7 +8345,7 @@ class Component extends DCLogic {
       if (existente) return 'Já existe um usuário com a chave ' + u + '.';
       var senha = String(f.senha || '');
       if (senha.length < 4) return 'A senha inicial precisa de ao menos 4 caracteres.';
-      lista.push({ u: u, n: n, f: fu, un: lot, uns: ehAdmSis ? extras : [], papel: papel, acesso: f.acesso || 'posto', posto: (f.acesso || 'posto') === 'posto' ? (f.posto || '') : '', estV: 2, senha: senha, ativo: true, criadoEm: new Date().toISOString(), trocar: !!f.trocar });
+      lista.push({ cadAdm: 1, u: u, n: n, f: fu, un: lot, uns: ehAdmSis ? extras : [], papel: papel, acesso: f.acesso || 'posto', posto: (f.acesso || 'posto') === 'posto' ? (f.posto || '') : '', estV: 2, senha: senha, ativo: true, criadoEm: new Date().toISOString(), trocar: !!f.trocar });
       this.gravarUsuarios();
       this.syslog('usuario', 'Criou o usuário ' + u + ' — ' + n, this.papelLabel(papel) + (lot ? ' · lotação ' + lot : '') + (fu ? ' · ' + fu : ''));
       return '';
